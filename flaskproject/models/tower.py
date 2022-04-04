@@ -1,4 +1,3 @@
-from ast import For
 from ..extensions import db
 from sqlalchemy.orm import relationship
 from sqlalchemy import ForeignKey
@@ -9,5 +8,11 @@ class Tower(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     tower_number = db.Column(db.String(5), nullable=False)
     jobsite_id = db.Column(db.Integer, ForeignKey('job_site.id'))
-    chem_id = relationship('Chemical')
-    mat_id = relationship("Material")
+    storagelocation_id = db.Column(db.Integer, ForeignKey('storage_location.id'))
+
+    #relationshiops
+    # team_id = relationship('Team', back_populates='tower')
+    jobsite = relationship('JobSite', backref='towers')
+    storage_location = relationship('StorageLocation', backref='location')
+    # chem_id = relationship('Chemical', back_populates='tower_chems')
+    # mat_id = relationship("Material", back_populates='tower_mats')

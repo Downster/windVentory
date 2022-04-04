@@ -4,19 +4,11 @@ from sqlalchemy import ForeignKey
 from flask_login import UserMixin
 
 
-#Join table for user sites
-user_sites = db.Table('user_site',
-        db.Column('user_id', db.Integer, ForeignKey('user.id'), primary_key=True),
-        db.Column('site_id', db.Integer, ForeignKey('job_site.id'), primary_key=True)
-    )
-
-
-
-#Join table for user teame
-user_teams = db.Table('user_team', 
-        db.Column('user_id', db.Integer, ForeignKey('user.id')),
-        db.Column('team_id', db.Integer, ForeignKey('team.id')))
-
+user_Teams = db.Table(
+    'user_Team',
+    db.Column('user_id', db.Integer, ForeignKey('user.id'), primary_key=True),
+    db.Column('team_id', db.Integer, ForeignKey('team.id'), primary_key=True),
+    db.Column('team_lead', db.Boolean, nullable=False))
 
 
 
@@ -26,34 +18,28 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(120), unique=True, nullable=False)
     first_name = db.Column(db.String(50), nullable=False)
     last_name = db.Column(db.String(50), nullable=False)
-    hashed_password = db.Column(db.String(20), nullable=False)
-    phone_number = db.Column(db.String(10), nullable=False)
-    team_lead = db.Column(db.Boolean, nullable=False)
-    job_site = relationship('JobSite', secondary=user_sites, backref='members')
-    teams = relationship('Team', secondary=user_teams, backref='teammates')
+    password = db.Column(db.String(20), nullable=False)
+    phone_number = db.Column(db.String(15), nullable=False)
+    image = db.Column(db.String(255))
+    online = db.Column(db.Boolean, default=False)
+
+    teams = db.relationship('Team', back_populates='team_members', secondary=user_Teams)
 
 
-
-#Job site model
-class JobSite(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    team= relationship('Team')
-    connex= relationship('Connex', uselist=False)
-    teams = relationship('Team', backref='job_site')
-    towers = relationship('Tower', backref='job_site')
-    name= db.Column(db.String, nullable=False)
-    state = db.Column(db.String, nullable=False)
-    country = db.Column(db.String, nullable=False)
-    teams = db.Column(db.Integer, nullable=False)
-    client = db.Column(db.String, nullable=False)
-
-
-
-
-
-#Team model
 class Team(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    jobsite_id = db.Column(db.Integer, ForeignKey('job_site.id'))
-    jobsite = relationship('JobSite')
+    tower_id = db.Column(db.Integer, ForeignKey('tower.id'))
+    lead_id = db.Column(db.Integer, ForeignKey('user.id'), nullable=False)
+    jobsite_id = db.Column(db.Integer, ForeignKey('job_site.id'), nullable=False)
     job_type = db.Column(db.String, nullable=False)
+
+
+    #relationships
+    tower = relationship('Tower', backref='team_id')
+    team_lead = relationship('User', backref='lead_id')
+    team_members = relationship('User', back_populates='teams', secondary=user_Teams)
+    jobsite = relationship('JobSite', backref='team_jobsite')
+
+    
+
+

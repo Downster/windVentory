@@ -1,14 +1,18 @@
 from ..extensions import db
+from sqlalchemy.orm import relationship
 from sqlalchemy import ForeignKey
 
-
-#Material model - Material belongs to one connex or one tower, towers or connex's can have many 
-#                   materials
 class Material(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    connex_inventory = db.Column(db.Integer, ForeignKey('connex.id'))
-    tower_inventory = db.Column(db.Integer, ForeignKey('tower.id'))
-    name = db.Column(db.String(50), nullable=False)
-    type = db.Column(db.String(50), nullable=False)
-    quantity = db.Column(db.Integer, nullable=False)
-    unit = db.Column(db.String(50))
+    class_id = db.Column(db.Integer, ForeignKey('material_class.id'))
+    storage_id = db.Column(db.Integer, ForeignKey('storage_location.id'))
+    name = db.Column(db.String, nullable=False)
+    quantity = db.Column(db.String, nullable=False)
+    unit = db.Column(db.String, nullable=False)
+    
+
+    #relationships
+    Material_class = relationship('MaterialClass', backref='mat_class')
+    storage_location = relationship('StorageLocation', backref='storage_location')
+
+    
