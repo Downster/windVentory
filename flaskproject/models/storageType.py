@@ -5,7 +5,6 @@ from sqlalchemy import ForeignKey
 class StorageType(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     type = db.Column(db.String, nullable=False)
-    name = db.Column(db.String, nullable=False)
     
 
     #relationships

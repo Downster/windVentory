@@ -5,6 +5,7 @@ from .api.main import main
 from .api.user_routes import user_routes
 from .api.team_routes import team_routes
 from .api.auth_routes import auth_routes
+from .api.event_routes import event_routes
 from flask_admin.contrib.sqla import ModelView
 from .models.connex import Connex
 from .models.material import Material
@@ -45,9 +46,10 @@ def create_app():
     
     #register blueprints here
     app.register_blueprint(main)
-    app.register_blueprint(user_routes, url_prefix='/api/users')
-    app.register_blueprint(team_routes, url_prefix='/api/teams')
-    app.register_blueprint(auth_routes, url_prefix='/api/auth')
+    app.register_blueprint(user_routes, url_prefix='/users')
+    app.register_blueprint(team_routes, url_prefix='/teams')
+    app.register_blueprint(auth_routes, url_prefix='/auth')
+    # app.register_blueprint(auth_routes, url_prefix='/api/events')
 
 
     #add admin views here

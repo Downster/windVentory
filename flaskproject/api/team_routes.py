@@ -2,13 +2,14 @@ from flask import Blueprint
 from flask_login import login_required, login_user
 
 from ..extensions import db
-from ..models.user import User
+from ..models.user import Team, User
 
 team_routes = Blueprint('teams', __name__)
 
 @team_routes.route('/')
 def users():
-    pass
+    teams = Team.query.all()
+    return {'teams': [team.to_dict() for team in teams]}
 
 
 @team_routes.route('/', methods=['POST'])
