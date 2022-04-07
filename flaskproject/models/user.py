@@ -76,9 +76,9 @@ class Team(db.Model):
             'lead_id': self.lead_id,
             'jobsite_id': self.jobsite_id,
             'job_type': self.job_type,
-            'team_members': [user.to_dict() for user in self.team_members]
+            'team_members': [user.to_dict() for user in self.team_members],
             # 'member_ids': [user for user in self.team_members],
-            # 'team_lead': self.team_lead,
+            'team_lead': self.team_lead.to_dict()
             # 'team_lead_id': [user.id for user in self.team_lead],
         }
 

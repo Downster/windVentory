@@ -16,3 +16,17 @@ class Tower(db.Model):
     storage_location = relationship('StorageLocation', backref='location')
     # chem_id = relationship('Chemical', back_populates='tower_chems')
     # mat_id = relationship("Material", back_populates='tower_mats')
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'towerNumber': self.tower_number,
+            'jobsite_id' : self.jobsite_id,
+            'storagelocation_id' : self.storagelocation_id,
+
+    }
+
+    def jobsite_to_dict(self):
+        return {
+            'jobsite' : [site.to_dict() for site in self.jobsite]
+        }
