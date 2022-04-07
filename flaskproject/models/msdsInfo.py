@@ -10,3 +10,11 @@ class msdsInfo(db.Model):
 
     #relationships
     material = relationship('Material', backref='msds')
+
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'mat_id': self.mat_id,
+            'msds_link': self.msds_link,
+        }

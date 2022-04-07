@@ -16,3 +16,14 @@ class JoinNotification(db.Model):
     user = relationship('User', backref='user_join')
     team = relationship('Team', backref='team_join')
 
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'team_id': self.team_id,
+            'seen': self.seen,
+            'created_at': self.created_at,
+            'message': self.message
+        }
+

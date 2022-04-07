@@ -4,10 +4,18 @@ from sqlalchemy import ForeignKey
 
 class MaterialClass(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    material_Class = db.Column(db.String, nullable=False)
+    material_class = db.Column(db.String, nullable=False)
     material_subClass = db.Column(db.String, nullable=False)
     
 
     #relationships
+
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'materialClass': self.material_class,
+            'materialSubclass': self.material_subClass,
+        }
     
     

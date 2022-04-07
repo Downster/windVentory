@@ -15,4 +15,16 @@ class Material(db.Model):
     Material_class = relationship('MaterialClass', backref='mat_class')
     storage_location = relationship('StorageLocation', backref='storage_location')
 
+
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'class_id': self.class_id,
+            'storage_id': self.storage_id,
+            'name': self.name,
+            'quantity': self.quantity,
+            'unit': self.unit,
+        }
+
     

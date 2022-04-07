@@ -9,5 +9,11 @@ class StorageType(db.Model):
 
     #relationships
 
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'type': self.type,
+        }
+
 
     

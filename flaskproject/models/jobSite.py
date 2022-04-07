@@ -15,6 +15,17 @@ class JobSite(db.Model):
 
     #relationships
     # towers = relationship('Tower', back_populates='jobsite')
-    # teams = relationship('Team', back_populates='team_jobsite')
+    teams_site = relationship('Team', back_populates='team_jobsite')
     # site_connex = relationship('Connex', back_populates='jobsite')
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'state': self.state,
+            'country': self.country,
+            'teams': self.teams,
+            'client': self.client,
+            'currentTeams': [team.to_dict() for team in self.teams],
+        }
 

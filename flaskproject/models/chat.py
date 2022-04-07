@@ -1,17 +1,27 @@
 from ..extensions import db
 from sqlalchemy.orm import relationship
 from sqlalchemy import ForeignKey
+from datetime import datetime
 
 
 class Chat(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, ForeignKey('user.id'))
-    team_id = db.Column(db.Integer, ForeignKey('team.id'))
-    jobsite_id = db.Column(db.Integer, ForeignKey('job_site.id'))
-    job_type = db.Column(db.String, nullable=False)
+    room_id = db.Column(db.Integer, ForeignKey('room.id'))
+    message = db.Column(db.String(500), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow())
 
 
     #relationships
-    user = relationship('User', backref="user_chat")
-    team = relationship('Team', backref="team_chat")
-    jobsite = relationship('JobSite', backref='jobsite_chat')
+    user = db.relationship('User', back_populates='chats')
+    room = db.relationship('Room', back_populates='chats')
+
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'room_id': self.room_id,
+            'message': self.message,
+            'created_at': self.created_at
+        }

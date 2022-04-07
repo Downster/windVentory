@@ -12,3 +12,12 @@ class Note(db.Model):
     #relationships
     user = relationship('User', backref='user_note')
     team = relationship('Team', backref='team_note')
+
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'team_id': self.team_id,
+            'note': self.note_text,
+        }

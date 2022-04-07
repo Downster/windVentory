@@ -19,13 +19,13 @@ seed_commands = AppGroup('seed')
 def seed():
     seed_storage_type()
     seed_storage_location()
-    # seed_users()
-    # seed_events()
-    # seed_teams()
-    # seed_towers()
-    # seed_sites()
-    # seed_connex()
-    # seed_notes()
+    seed_users()
+    seed_events()
+    seed_teams()
+    seed_towers()
+    seed_sites()
+    seed_connex()
+    seed_notes()
     # Add other seed functions here
 
 

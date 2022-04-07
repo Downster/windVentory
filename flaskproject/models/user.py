@@ -2,6 +2,7 @@ from ..extensions import db
 from sqlalchemy.orm import relationship
 from sqlalchemy import ForeignKey
 from flask_login import UserMixin
+from .room import active_participants
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
@@ -25,7 +26,10 @@ class User(db.Model, UserMixin):
     online = db.Column(db.Boolean, default=False)
 
     #relationships
+    rooms = db.relationship('Room', back_populates='user')
+    chats = db.relationship('Chat', back_populates='user')
     teams = db.relationship('Team', back_populates='team_members', secondary=user_Teams)
+    current_room = db.relationship('Room', back_populates='active_users', secondary=active_participants)
 
     @property
     def password(self):
@@ -67,7 +71,8 @@ class Team(db.Model):
     tower = relationship('Tower', backref='team_id')
     team_lead = relationship('User', backref='lead_id')
     team_members = relationship('User', back_populates='teams', secondary=user_Teams)
-    jobsite = relationship('JobSite', backref='team_jobsite')
+    team_jobsite = relationship('JobSite', back_populates='teams_site')
+    rooms = db.relationship('Room', back_populates='team', cascade="all, delete")
 
     def to_dict(self):
         return {
@@ -77,9 +82,7 @@ class Team(db.Model):
             'jobsite_id': self.jobsite_id,
             'job_type': self.job_type,
             'team_members': [user.to_dict() for user in self.team_members],
-            # 'member_ids': [user for user in self.team_members],
             'team_lead': self.team_lead.to_dict()
-            # 'team_lead_id': [user.id for user in self.team_lead],
         }
 
     

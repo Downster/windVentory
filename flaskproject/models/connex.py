@@ -14,3 +14,10 @@ class Connex(db.Model):
     # chem_id = relationship('Chemical', back_populates="connex_chems")
     # mat_id = relationship('Material', back_populates="connex_mats")
     jobsite= relationship('JobSite', backref='site_connex')
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'jobsite_id': self.jobsite_id,
+        }

@@ -12,4 +12,11 @@ class StorageLocation(db.Model):
     storage_type = relationship('StorageType', backref='type_storage')
     jobsite = relationship('JobSite', backref='jobsite_storage')
 
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'storageType_id': self.storagetype_id,
+            'jobsite_id': self.jobsite_id,
+        }
+
 

@@ -17,4 +17,15 @@ class Event(db.Model):
     users = relationship('User', backref='event_users')
     team = relationship('Team', backref='event_team')
 
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'team_id': self.team_id,
+            'summary': self.summary,
+            'description': self.description,
+            'start_time': self.start_time,
+            'end_time': self.end_time
+        }
+
 
