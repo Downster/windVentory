@@ -1,7 +1,7 @@
 from flask import Blueprint, request
 from flask_login import current_user
 from ..models import db, Room, Chat, User
-from app.forms import RoomForm
+
 
 def validation_errors_to_error_messages(validation_errors):
     """

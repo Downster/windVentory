@@ -45,7 +45,6 @@ def create_app():
 
     
     #register blueprints here
-    app.register_blueprint(main)
     app.register_blueprint(user_routes, url_prefix='/users')
     app.register_blueprint(team_routes, url_prefix='/teams')
     app.register_blueprint(auth_routes, url_prefix='/auth')
