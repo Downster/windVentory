@@ -21,15 +21,17 @@ class User(db.Model):
     last_name = db.Column(db.String(50), nullable=False)
     password = db.Column(db.String(100), nullable=False)
     phone_number = db.Column(db.String(15), nullable=False)
+    jobsite_id = db.Column(db.Integer, ForeignKey('job_site.id'))
     image = db.Column(db.String(255))
+    team_lead = db.Column(db.Boolean, default=False)
     online = db.Column(db.Boolean, default=False)
 
     #relationships
-    rooms = db.relationship('Room', back_populates='user')
-    chats = db.relationship('Chat', back_populates='user')
-    teams = db.relationship('Team', back_populates='team_members', secondary=user_Teams)
-    current_room = db.relationship('Room', back_populates='active_users', secondary=active_participants)
-
+    rooms = relationship('Room', back_populates='user')
+    chats = relationship('Chat', back_populates='user')
+    teams = relationship('Team', back_populates='team_members', secondary=user_Teams)
+    current_room = relationship('Room', back_populates='active_users', secondary=active_participants)
+    user_jobsite = relationship('JobSite', back_populates='users_site')
 
     def check_password(self, password):
         return check_password_hash(self.password, password)
@@ -43,7 +45,8 @@ class User(db.Model):
             'phoneNumber' : self.phone_number,
             'email': self.email,
             'image': self.image,
-            'online': self.online
+            'online': self.online,
+            'jobsite_id': self.jobsite_id
         }
 
     def team_to_dict(self):
@@ -65,7 +68,7 @@ class Team(db.Model):
     team_lead = relationship('User', backref='lead_id')
     team_members = relationship('User', back_populates='teams', secondary=user_Teams)
     team_jobsite = relationship('JobSite', back_populates='teams_site')
-    rooms = db.relationship('Room', back_populates='team', cascade="all, delete")
+    rooms = relationship('Room', back_populates='team', cascade="all, delete")
 
     def to_dict(self):
         return {

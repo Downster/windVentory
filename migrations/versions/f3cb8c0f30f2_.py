@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: c671fe44b21c
+Revision ID: f3cb8c0f30f2
 Revises: 
-Create Date: 2022-04-10 14:51:18.162546
+Create Date: 2022-04-10 15:51:21.261540
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'c671fe44b21c'
+revision = 'f3cb8c0f30f2'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -38,20 +38,6 @@ def upgrade():
     sa.Column('type', sa.String(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_table('user',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('public_id', sa.String(length=50), nullable=True),
-    sa.Column('email', sa.String(length=120), nullable=False),
-    sa.Column('first_name', sa.String(length=50), nullable=False),
-    sa.Column('last_name', sa.String(length=50), nullable=False),
-    sa.Column('password', sa.String(length=100), nullable=False),
-    sa.Column('phone_number', sa.String(length=15), nullable=False),
-    sa.Column('image', sa.String(length=255), nullable=True),
-    sa.Column('online', sa.Boolean(), nullable=True),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('email'),
-    sa.UniqueConstraint('public_id')
-    )
     op.create_table('connex',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(), nullable=True),
@@ -68,6 +54,23 @@ def upgrade():
     sa.ForeignKeyConstraint(['jobsite_id'], ['job_site.id'], ),
     sa.ForeignKeyConstraint(['storagetype_id'], ['storage_type.id'], ),
     sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('user',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('public_id', sa.String(length=50), nullable=True),
+    sa.Column('email', sa.String(length=120), nullable=False),
+    sa.Column('first_name', sa.String(length=50), nullable=False),
+    sa.Column('last_name', sa.String(length=50), nullable=False),
+    sa.Column('password', sa.String(length=100), nullable=False),
+    sa.Column('phone_number', sa.String(length=15), nullable=False),
+    sa.Column('jobsite_id', sa.Integer(), nullable=True),
+    sa.Column('image', sa.String(length=255), nullable=True),
+    sa.Column('team_lead', sa.Boolean(), nullable=True),
+    sa.Column('online', sa.Boolean(), nullable=True),
+    sa.ForeignKeyConstraint(['jobsite_id'], ['job_site.id'], ),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('email'),
+    sa.UniqueConstraint('public_id')
     )
     op.create_table('material',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -190,9 +193,9 @@ def downgrade():
     op.drop_table('msds_info')
     op.drop_table('tower')
     op.drop_table('material')
+    op.drop_table('user')
     op.drop_table('storage_location')
     op.drop_table('connex')
-    op.drop_table('user')
     op.drop_table('storage_type')
     op.drop_table('material_class')
     op.drop_table('job_site')

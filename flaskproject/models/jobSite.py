@@ -1,7 +1,6 @@
 from ..extensions import db
 from sqlalchemy.orm import relationship
 from sqlalchemy import ForeignKey
-from flask_login import UserMixin
 
 
 #Job site model
@@ -16,6 +15,7 @@ class JobSite(db.Model):
     #relationships
     # towers = relationship('Tower', back_populates='jobsite')
     teams_site = relationship('Team', back_populates='team_jobsite')
+    users_site = relationship('User', back_populates='user_jobsite')
     # site_connex = relationship('Connex', back_populates='jobsite')
 
     def to_dict(self):
@@ -27,5 +27,10 @@ class JobSite(db.Model):
             'teams': self.teams,
             'client': self.client,
             'currentTeams': [team.to_dict() for team in self.teams_site],
+        }
+
+    def teams_to_dict(self):
+        return {
+            'currentTeams': [team.to_dict() for team in self.teams_site]
         }
 
