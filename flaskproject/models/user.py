@@ -1,7 +1,6 @@
 from ..extensions import db
 from sqlalchemy.orm import relationship
 from sqlalchemy import ForeignKey
-from flask_login import UserMixin
 from .room import active_participants
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -10,12 +9,11 @@ user_Teams = db.Table(
     'user_Team',
     db.Column('user_id', db.Integer, ForeignKey('user.id'), primary_key=True),
     db.Column('team_id', db.Integer, ForeignKey('team.id'), primary_key=True),
-    db.Column('team_lead', db.Boolean, nullable=False))
-
+)
 
 
 #User model
-class User(db.Model, UserMixin):
+class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     public_id = db.Column(db.String(50), unique=True)
     email = db.Column(db.String(120), unique=True, nullable=False)

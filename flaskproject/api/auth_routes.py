@@ -19,7 +19,6 @@ def token_required(f):
 
         if 'x-access-token' in request.headers:
             token = request.headers['x-access-token']
-            print(token)
         
 
         if not token:
@@ -27,7 +26,7 @@ def token_required(f):
 
         try:
             data = jwt.decode(token, os.environ.get("SECRET_KEY"), algorithms="HS256")
-            current_user = User.query.filter_by(public_id=data['public_id'])
+            current_user = User.query.filter_by(public_id=data['public_id']).first()
         except:
             return jsonify({'message': "Token is invalid"}), 401
         

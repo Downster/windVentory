@@ -26,6 +26,6 @@ class JobSite(db.Model):
             'country': self.country,
             'teams': self.teams,
             'client': self.client,
-            'currentTeams': [team.to_dict() for team in self.teams],
+            'currentTeams': [team.to_dict() for team in self.teams_site],
         }
 

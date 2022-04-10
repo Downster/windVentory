@@ -1,8 +1,9 @@
-from flask import Blueprint
+from flask import Blueprint, jsonify, request
 from flask_login import login_required, login_user
 
+from .auth_routes import token_required
 from ..extensions import db
-from ..models.user import Team, User
+from ..models.user import Team, User, user_Teams
 
 team_routes = Blueprint('teams', __name__)
 
@@ -13,13 +14,21 @@ def users():
 
 
 @team_routes.route('/', methods=['POST'])
-def create_team():
-    pass
+@token_required
+def create_team(current_user):
+    data = request.get_json()
+
+    new_team = Team(team_lead_id=current_user.id, tower_id=data.tower_id, jobsite_id=data.jobsite_id, storagelocation_id=data.storagelocation_id)
+    db.session.add(new_team)
+    db.session.commit()
+    
 
 
 @team_routes.route('/<int:teamId>')
-def get_Team(teamId):
-    pass
+@token_required
+def get_Team(current_user, teamId):
+    team = Team.query.get(int(teamId))
+    return {'team': team.to_dict()}
 
 
 
@@ -40,8 +49,16 @@ def add_to_team(teamId):
 
 
 @team_routes.route('/<int:teamId>', methods=['PATCH'])
-def join_team(teamId):
-    pass
+@token_required
+def join_team(current_user, teamId):
+    #get if they are a lead or not from the request
+    user = User.query.get(current_user.id)
+    team = Team.query.get(int(teamId))
+    team.team_members.append(user)
+    db.session.commit()    
+
+    return jsonify({'message': 'Joined team'})
+
 
 
 
