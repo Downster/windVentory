@@ -17,10 +17,11 @@ user_Teams = db.Table(
 #User model
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
+    public_id = db.Column(db.String(50), unique=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     first_name = db.Column(db.String(50), nullable=False)
     last_name = db.Column(db.String(50), nullable=False)
-    password = db.Column(db.String(20), nullable=False)
+    password = db.Column(db.String(100), nullable=False)
     phone_number = db.Column(db.String(15), nullable=False)
     image = db.Column(db.String(255))
     online = db.Column(db.Boolean, default=False)
@@ -31,13 +32,6 @@ class User(db.Model, UserMixin):
     teams = db.relationship('Team', back_populates='team_members', secondary=user_Teams)
     current_room = db.relationship('Room', back_populates='active_users', secondary=active_participants)
 
-    @property
-    def password(self):
-        return self.hashed_password
-
-    @password.setter
-    def password(self, password):
-        self.hashed_password = generate_password_hash(password)
 
     def check_password(self, password):
         return check_password_hash(self.password, password)
@@ -45,6 +39,7 @@ class User(db.Model, UserMixin):
     def to_dict(self):
         return {
             'id': self.id,
+            'public_id': self.public_id,
             'firstName': self.first_name,
             'lastName' : self.last_name,
             'phoneNumber' : self.phone_number,

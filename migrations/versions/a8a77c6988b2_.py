@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 1e3709a66f7e
+Revision ID: a8a77c6988b2
 Revises: 
-Create Date: 2022-04-07 14:51:14.224370
+Create Date: 2022-04-10 12:49:20.073068
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '1e3709a66f7e'
+revision = 'a8a77c6988b2'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -40,14 +40,17 @@ def upgrade():
     )
     op.create_table('user',
     sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('public_id', sa.String(length=50), nullable=True),
     sa.Column('email', sa.String(length=120), nullable=False),
     sa.Column('first_name', sa.String(length=50), nullable=False),
     sa.Column('last_name', sa.String(length=50), nullable=False),
+    sa.Column('password', sa.String(length=100), nullable=False),
     sa.Column('phone_number', sa.String(length=15), nullable=False),
     sa.Column('image', sa.String(length=255), nullable=True),
     sa.Column('online', sa.Boolean(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('email')
+    sa.UniqueConstraint('email'),
+    sa.UniqueConstraint('public_id')
     )
     op.create_table('connex',
     sa.Column('id', sa.Integer(), nullable=False),
