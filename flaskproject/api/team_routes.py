@@ -21,6 +21,7 @@ def all_teams():
 @token_required
 def create_team(current_user):
 
+    #add logic to determine role
     if not current_user.team_lead:
         return jsonify({'message': 'You must be a team lead to create a team'})
     data = request.get_json()
@@ -44,6 +45,7 @@ def get_Team(current_user, teamId):
 @token_required
 def delete_team(current_user, teamId):
 
+    #add logic to determine role
     if not current_user.team_lead:
         return jsonify({'message': 'You must be a team lead to delete a team'})
 

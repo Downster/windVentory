@@ -54,7 +54,7 @@ def get_site_members(current_user, jobsite_id):
     print(users)
 
     if not users:
-        return jsonify({'message': "Jobsite doesn't exist"})
+        return jsonify({'message': "Jobsite doesn't have any users"})
 
     #return userdata here 
 
@@ -66,7 +66,7 @@ def get_site_towers(current_user, jobsite_id):
     print(towers)
 
     if not towers:
-        return jsonify({'message': "Jobsite doesn't exist"})
+        return jsonify({'message': "Jobsite doesn't have any towers"})
 
     return ""
 
