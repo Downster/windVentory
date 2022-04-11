@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 1e3709a66f7e
+Revision ID: 3d30e6ae5a24
 Revises: 
-Create Date: 2022-04-07 14:51:14.224370
+Create Date: 2022-04-10 17:45:08.983114
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '1e3709a66f7e'
+revision = '3d30e6ae5a24'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -38,17 +38,6 @@ def upgrade():
     sa.Column('type', sa.String(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_table('user',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('email', sa.String(length=120), nullable=False),
-    sa.Column('first_name', sa.String(length=50), nullable=False),
-    sa.Column('last_name', sa.String(length=50), nullable=False),
-    sa.Column('phone_number', sa.String(length=15), nullable=False),
-    sa.Column('image', sa.String(length=255), nullable=True),
-    sa.Column('online', sa.Boolean(), nullable=True),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('email')
-    )
     op.create_table('connex',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(), nullable=True),
@@ -65,6 +54,23 @@ def upgrade():
     sa.ForeignKeyConstraint(['jobsite_id'], ['job_site.id'], ),
     sa.ForeignKeyConstraint(['storagetype_id'], ['storage_type.id'], ),
     sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('user',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('public_id', sa.String(length=50), nullable=True),
+    sa.Column('email', sa.String(length=120), nullable=False),
+    sa.Column('first_name', sa.String(length=50), nullable=False),
+    sa.Column('last_name', sa.String(length=50), nullable=False),
+    sa.Column('password', sa.String(length=100), nullable=False),
+    sa.Column('phone_number', sa.String(length=15), nullable=False),
+    sa.Column('jobsite_id', sa.Integer(), nullable=True),
+    sa.Column('image', sa.String(length=255), nullable=True),
+    sa.Column('team_lead', sa.Boolean(), nullable=True),
+    sa.Column('online', sa.Boolean(), nullable=True),
+    sa.ForeignKeyConstraint(['jobsite_id'], ['job_site.id'], ),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('email'),
+    sa.UniqueConstraint('public_id')
     )
     op.create_table('material',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -104,6 +110,17 @@ def upgrade():
     sa.ForeignKeyConstraint(['tower_id'], ['tower.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_table('Note',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('user_id', sa.Integer(), nullable=False),
+    sa.Column('team_id', sa.Integer(), nullable=True),
+    sa.Column('jobsite_id', sa.Integer(), nullable=True),
+    sa.Column('note_text', sa.String(), nullable=False),
+    sa.ForeignKeyConstraint(['jobsite_id'], ['job_site.id'], ),
+    sa.ForeignKeyConstraint(['team_id'], ['team.id'], ),
+    sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
     op.create_table('event',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
@@ -127,15 +144,6 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_table('note',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('user_id', sa.Integer(), nullable=True),
-    sa.Column('team_id', sa.Integer(), nullable=True),
-    sa.Column('note_text', sa.String(), nullable=False),
-    sa.ForeignKeyConstraint(['team_id'], ['team.id'], ),
-    sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
-    sa.PrimaryKeyConstraint('id')
-    )
     op.create_table('room',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
@@ -150,7 +158,6 @@ def upgrade():
     op.create_table('user_Team',
     sa.Column('user_id', sa.Integer(), nullable=False),
     sa.Column('team_id', sa.Integer(), nullable=False),
-    sa.Column('team_lead', sa.Boolean(), nullable=False),
     sa.ForeignKeyConstraint(['team_id'], ['team.id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('user_id', 'team_id')
@@ -181,16 +188,16 @@ def downgrade():
     op.drop_table('active_participant')
     op.drop_table('user_Team')
     op.drop_table('room')
-    op.drop_table('note')
     op.drop_table('join_notification')
     op.drop_table('event')
+    op.drop_table('Note')
     op.drop_table('team')
     op.drop_table('msds_info')
     op.drop_table('tower')
     op.drop_table('material')
+    op.drop_table('user')
     op.drop_table('storage_location')
     op.drop_table('connex')
-    op.drop_table('user')
     op.drop_table('storage_type')
     op.drop_table('material_class')
     op.drop_table('job_site')

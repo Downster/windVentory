@@ -1,31 +1,57 @@
-from flask import Blueprint
+import json
+from flask import Blueprint, jsonify, request
 from flask_login import login_required, login_user
 
+from .auth_routes import token_required
 from ..extensions import db
-from ..models.user import Team, User
+from ..models.user import Team, User, user_Teams
 
 team_routes = Blueprint('teams', __name__)
 
+
+#Get all teams route
 @team_routes.route('/')
-def users():
+def all_teams():
     teams = Team.query.all()
     return {'teams': [team.to_dict() for team in teams]}
 
 
+#Create team route -- add functionality - can only create team if team lead
 @team_routes.route('/', methods=['POST'])
-def create_team():
-    pass
+@token_required
+def create_team(current_user):
+
+    if not current_user.team_lead:
+        return jsonify({'message': 'You must be a team lead to create a team'})
+    data = request.get_json()
+
+    new_team = Team(team_lead_id=current_user.id, tower_id=data.tower_id, jobsite_id=data.jobsite_id, storagelocation_id=data.storagelocation_id)
+    db.session.add(new_team)
+    db.session.commit()
+    
 
 
+#Get team details route
 @team_routes.route('/<int:teamId>')
-def get_Team(teamId):
-    pass
+@token_required
+def get_Team(current_user, teamId):
+    team = Team.query.get(int(teamId))
+    return jsonify({'team': team.to_dict()})
 
 
-
+#Delete team route - can only be done if team lead
 @team_routes.route('/<int:teamId>', methods=['DELETE'])
-def delete_team(teamId):
-    pass
+@token_required
+def delete_team(current_user, teamId):
+
+    if not current_user.team_lead:
+        return jsonify({'message': 'You must be a team lead to delete a team'})
+
+    team = Team.query.get(int(teamId))
+    db.session.delete(team)
+    db.session.commit()
+
+    return jsonify({'message': 'team deleted'})
 
 
 
@@ -34,43 +60,14 @@ def edit_team(teamId):
     pass
 
 
-@team_routes.route('/<int:teamId>/add', methods=['PATCH'])
-def add_to_team(teamId):
-    pass
-
-
+#Join team route
 @team_routes.route('/<int:teamId>', methods=['PATCH'])
-def join_team(teamId):
-    pass
+@token_required
+def join_team(current_user, teamId):
+    user = User.query.get(current_user.id)
+    team = Team.query.get(int(teamId))
+    team.team_members.append(user)
+    db.session.commit()    
 
+    return jsonify({'message': 'Joined team'})
 
-
-@team_routes.route('/join', methods=['PATCH'])
-def request_to_join_group():
-    pass
-
-
-@team_routes.route('/<int:teamId>/leave', methods=['PATCH'])
-def leave_group(teamId):
-    pass
-
-
-@team_routes.route('/<int:teamId>/remove/<int:userId>', methods=['PATCH'])
-def remove_from_team(groupId, userId):
-    pass
-
-@team_routes.route('/<int:teamId>/sites')
-def get_sites(teamId):
-    pass
-
-
-
-@team_routes.route('/<int:teamId>/notes')
-def get_notes(teamId):
-    pass
-
-
-
-@team_routes.route('/<int:teamId>/events')
-def get_events(teamId):
-    pass

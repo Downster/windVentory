@@ -1,11 +1,11 @@
 import imp
 from flask import Flask
 from .extensions import db, migrate, login_manager, admin
-from .api.main import main
 from .api.user_routes import user_routes
 from .api.team_routes import team_routes
 from .api.auth_routes import auth_routes
 from .api.event_routes import event_routes
+from .api.job_sites import jobsite_routes
 from flask_admin.contrib.sqla import ModelView
 from .models.connex import Connex
 from .models.material import Material
@@ -14,6 +14,7 @@ from .models.events import Event
 from .models.joinNotification import JoinNotification
 from .models.materialClass import MaterialClass
 from .models.msdsInfo import msdsInfo
+import os
 from .models.notes import Note
 from .models.storageLocation import StorageLocation
 from .models.storageType import StorageType
@@ -21,12 +22,14 @@ from .models.tower import Tower
 from .models.user import User, Team, user_Teams
 from .models.jobSite import JobSite
 from .seeds import seed_commands
+from dotenv import load_dotenv, find_dotenv
 
 def create_app():
     #app configuration
     app = Flask(__name__)
+    load_dotenv(find_dotenv())
+    app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
-    app.config['SECRET_KEY'] = 'mysecret'
 
     # Tell flask about our seed commands
     app.cli.add_command(seed_commands)
@@ -48,6 +51,7 @@ def create_app():
     app.register_blueprint(user_routes, url_prefix='/users')
     app.register_blueprint(team_routes, url_prefix='/teams')
     app.register_blueprint(auth_routes, url_prefix='/auth')
+    app.register_blueprint(jobsite_routes, url_prefix='/jobsites')
     # app.register_blueprint(auth_routes, url_prefix='/api/events')
 
 
