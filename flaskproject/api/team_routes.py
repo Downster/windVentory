@@ -1,10 +1,8 @@
 import json
 from flask import Blueprint, jsonify, request
-from flask_login import login_required, login_user
-
 from .auth_routes import token_required
 from ..extensions import db
-from ..models.user import Team, User, user_Teams
+from ..models.user import Team, User
 
 team_routes = Blueprint('teams', __name__)
 
