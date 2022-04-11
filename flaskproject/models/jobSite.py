@@ -13,10 +13,11 @@ class JobSite(db.Model):
     client = db.Column(db.String, nullable=False)
 
     #relationships
-    # towers = relationship('Tower', back_populates='jobsite')
+    towers = relationship('Tower', back_populates='jobsite')
     teams_site = relationship('Team', back_populates='team_jobsite')
     users_site = relationship('User', back_populates='user_jobsite')
-    # site_connex = relationship('Connex', back_populates='jobsite')
+    site_connex = relationship('Connex', back_populates='jobsite')
+    site_notes = relationship('Note', back_populates='jobsite')
 
     def to_dict(self):
         return {
@@ -33,4 +34,5 @@ class JobSite(db.Model):
         return {
             'currentTeams': [team.to_dict() for team in self.teams_site]
         }
+    
 

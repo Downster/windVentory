@@ -12,7 +12,7 @@ class Tower(db.Model):
 
     #relationshiops
     # team_id = relationship('Team', back_populates='tower')
-    jobsite = relationship('JobSite', backref='towers')
+    jobsite = relationship('JobSite', back_populates='towers')
     storage_location = relationship('StorageLocation', backref='location')
     # chem_id = relationship('Chemical', back_populates='tower_chems')
     # mat_id = relationship("Material", back_populates='tower_mats')

@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: f3cb8c0f30f2
+Revision ID: 3d30e6ae5a24
 Revises: 
-Create Date: 2022-04-10 15:51:21.261540
+Create Date: 2022-04-10 17:45:08.983114
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'f3cb8c0f30f2'
+revision = '3d30e6ae5a24'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -110,6 +110,17 @@ def upgrade():
     sa.ForeignKeyConstraint(['tower_id'], ['tower.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_table('Note',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('user_id', sa.Integer(), nullable=False),
+    sa.Column('team_id', sa.Integer(), nullable=True),
+    sa.Column('jobsite_id', sa.Integer(), nullable=True),
+    sa.Column('note_text', sa.String(), nullable=False),
+    sa.ForeignKeyConstraint(['jobsite_id'], ['job_site.id'], ),
+    sa.ForeignKeyConstraint(['team_id'], ['team.id'], ),
+    sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
     op.create_table('event',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
@@ -129,15 +140,6 @@ def upgrade():
     sa.Column('seen', sa.Boolean(), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=False),
     sa.Column('message', sa.String(), nullable=False),
-    sa.ForeignKeyConstraint(['team_id'], ['team.id'], ),
-    sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
-    sa.PrimaryKeyConstraint('id')
-    )
-    op.create_table('note',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('user_id', sa.Integer(), nullable=True),
-    sa.Column('team_id', sa.Integer(), nullable=True),
-    sa.Column('note_text', sa.String(), nullable=False),
     sa.ForeignKeyConstraint(['team_id'], ['team.id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')
@@ -186,9 +188,9 @@ def downgrade():
     op.drop_table('active_participant')
     op.drop_table('user_Team')
     op.drop_table('room')
-    op.drop_table('note')
     op.drop_table('join_notification')
     op.drop_table('event')
+    op.drop_table('Note')
     op.drop_table('team')
     op.drop_table('msds_info')
     op.drop_table('tower')

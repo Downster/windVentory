@@ -1,4 +1,7 @@
 from flask import Blueprint, jsonify, request
+
+from ..models import Tower
+from ..models import Note
 from .auth_routes import token_required
 from ..models import JobSite, User
 from ..extensions import db
@@ -41,3 +44,37 @@ def get_site_teams(current_user, jobsite_id):
         return jsonify({'message': "Jobsite doesn't exist"})
 
     return jobsite.teams_to_dict()
+
+
+@jobsite_routes.route('/<int:jobsite_id>/members')
+@token_required
+def get_site_members(current_user, jobsite_id):
+    users = User.query.filter_by(jobsite_id=jobsite_id).all()
+    print(users)
+
+    if not users:
+        return jsonify({'message': "Jobsite doesn't exist"})
+
+    #return userdata here 
+
+@jobsite_routes.route('/<int:jobsite_id>/towers')
+@token_required
+def get_site_towers(current_user, jobsite_id):
+    towers = Tower.query.filter_by(jobsite_id=jobsite_id).all()
+    print(towers)
+
+    if not towers:
+        return jsonify({'message': "Jobsite doesn't exist"})
+
+    return ""
+
+@jobsite_routes.route('/<int:jobsite_id>/notes')
+@token_required
+def get_site_notes(current_user, jobsite_id):
+    notes = Note.query.filter_by(jobsite_id=jobsite_id).all()
+    print(notes)
+
+    if not notes:
+        return jsonify({'message': "Notes don't exist fot this jobsite"})
+
+    return ""
