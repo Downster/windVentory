@@ -1,4 +1,4 @@
-import imp
+import os
 from flask import Flask
 from .extensions import db, migrate, login_manager, admin
 from .api.user_routes import user_routes
@@ -7,20 +7,7 @@ from .api.auth_routes import auth_routes
 from .api.event_routes import event_routes
 from .api.job_sites import jobsite_routes
 from flask_admin.contrib.sqla import ModelView
-from .models.connex import Connex
-from .models.material import Material
-from .models.chat import Chat
-from .models.events import Event
-from .models.joinNotification import JoinNotification
-from .models.materialClass import MaterialClass
-from .models.msdsInfo import msdsInfo
-import os
-from .models.notes import Note
-from .models.storageLocation import StorageLocation
-from .models.storageType import StorageType
-from .models.tower import Tower
-from .models.user import User, Team, user_Teams
-from .models.jobSite import JobSite
+from .models import db
 from .seeds import seed_commands
 from dotenv import load_dotenv, find_dotenv
 
@@ -44,7 +31,7 @@ def create_app():
     # Setup user loader
     @login_manager.user_loader
     def load_user(user_id):
-        return User.query.get(int(user_id))
+        return db.User.query.get(int(user_id))
 
     
     #register blueprints here
@@ -56,20 +43,20 @@ def create_app():
 
 
     #add admin views here
-    admin.add_view(ModelView(Chat, db.session))
-    admin.add_view(ModelView(Event, db.session))
-    admin.add_view(ModelView(JoinNotification, db.session))
-    admin.add_view(ModelView(MaterialClass, db.session))
-    admin.add_view(ModelView(msdsInfo, db.session))
-    admin.add_view(ModelView(Note, db.session))
-    admin.add_view(ModelView(StorageLocation, db.session))
-    admin.add_view(ModelView(StorageType, db.session))
-    admin.add_view(ModelView(Material, db.session))
-    admin.add_view(ModelView(Team, db.session))
-    admin.add_view(ModelView(Connex, db.session))
-    admin.add_view(ModelView(JobSite, db.session))
-    admin.add_view(ModelView(Tower, db.session))
-    admin.add_view(ModelView(User, db.session))
+    admin.add_view(ModelView(db.Chat, db.session))
+    admin.add_view(ModelView(db.Event, db.session))
+    admin.add_view(ModelView(db.JoinNotification, db.session))
+    admin.add_view(ModelView(db.MaterialClass, db.session))
+    admin.add_view(ModelView(db.msdsInfo, db.session))
+    admin.add_view(ModelView(db.Note, db.session))
+    admin.add_view(ModelView(db.StorageLocation, db.session))
+    admin.add_view(ModelView(db.StorageType, db.session))
+    admin.add_view(ModelView(db.Material, db.session))
+    admin.add_view(ModelView(db.Team, db.session))
+    admin.add_view(ModelView(db.Connex, db.session))
+    admin.add_view(ModelView(db.JobSite, db.session))
+    admin.add_view(ModelView(db.Tower, db.session))
+    admin.add_view(ModelView(db.User, db.session))
     # admin.add_view(ModelView(user_Teams, db.session))
 
     return app
