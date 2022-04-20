@@ -4,9 +4,8 @@ from ..extensions import db
 import uuid
 
 
-# Adds a demo user, you can add other users here if you want
 def seed_users():
-    # image='https://fionacapstonebucket.s3.us-west-1.amazonaws.com/defaults/c203d7ca558d417b9aea8cd102ae32cf.jpg'
+   
     brendan = User(
         public_id=str(uuid.uuid4()), email='imbrandan@gmail.com', first_name='Brendan', last_name='Downing', password=generate_password_hash('password', method='sha256'), phone_number='408-916-6314', image='https://fionacapstonebucket.s3.us-west-1.amazonaws.com/defaults/09fb955ae10c4aff9708b4d6293fd1d8.png')
     karis = User(

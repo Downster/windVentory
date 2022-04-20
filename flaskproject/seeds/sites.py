@@ -2,9 +2,8 @@ from flaskproject.models import JobSite
 from ..extensions import db
 
 
-# Adds a demo user, you can add other users here if you want
 def seed_sites():
-    # image='https://fionacapstonebucket.s3.us-west-1.amazonaws.com/defaults/c203d7ca558d417b9aea8cd102ae32cf.jpg'
+   
     Shiloh = JobSite(
         name="Shiloh",state ='CA',country ='USA',teams =3, client = 'EDF')
     Sheldon = JobSite(

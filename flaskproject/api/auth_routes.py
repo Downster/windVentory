@@ -59,7 +59,7 @@ def login():
 
 @auth_routes.route('/logout')
 @token_required
-def logout(current_user):
+def logout():
     pass
 
 

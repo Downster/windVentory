@@ -2,9 +2,9 @@ from flaskproject.models import Note
 from ..extensions import db
 
 
-# Adds a demo user, you can add other users here if you want
+
 def seed_notes():
-    # image='https://fionacapstonebucket.s3.us-west-1.amazonaws.com/defaults/c203d7ca558d417b9aea8cd102ae32cf.jpg'
+   
     Note1 = Note(
             user_id=1, team_id=1, note_text='Grab fiberglass from connex')
     Note2 = Note(
