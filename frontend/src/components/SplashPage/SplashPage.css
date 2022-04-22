@@ -1,4 +1,27 @@
+button{
+    width: 50%;
+}
+button:hover {
+    filter: invert(100%);
+    box-shadow: 2px 5px 5px rgba(255,255,255,0.4);
+}
+
 .splash-page-container{
     display: flex;
     justify-content: space-around;
+}
+.input-field{
+    padding-left: 20px;
+    width: 75%;
+    height: 45px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 16px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+.button-div{
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }

@@ -30,70 +30,73 @@ function SignupForm({ setSignup }) {
         return setErrors(['Confirm Password field must be the same as the Password field']);
     };
 
+    const changeSignup = (e) => {
+        e.preventDefault();
+        setSignup(false);
+
+    }
+
     return (
         <div className="signup-container">
             <form onSubmit={handleSubmit} className='sign-up-form'>
+                <h3>Sign up for windVentory</h3>
                 <ul>
                     {errors.map((error, idx) => <li key={idx}>{error}</li>)}
                 </ul>
-                <label>
-                    Email
-                    <input
-                        type="text"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
-                </label>
-                <label>
-                    First Name
-                    <input
-                        type="text"
-                        value={firstName}
-                        onChange={(e) => setFirstName(e.target.value)}
-                        required
-                    />
-                </label>
-                <label>
-                    Last Name
-                    <input
-                        type="text"
-                        value={lastName}
-                        onChange={(e) => setLastName(e.target.value)}
-                        required
-                    />
-                </label>
-                <label>
-                    Phone Number
-                    <input
-                        type="text"
-                        value={phoneNumber}
-                        onChange={(e) => setPhoneNumber(e.target.value)}
-                        required
-                    />
-                </label>
-                <label>
-                    Password
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                </label>
-                <label>
-                    Confirm Password
-                    <input
-                        type="password"
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        required
-                    />
-                </label>
-                <button type="submit">Sign Up</button>
+                <input
+                    type="text"
+                    className="input-field"
+                    value={email}
+                    placeholder='Email'
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                />
+                <input
+                    type="text"
+                    className="input-field"
+                    value={firstName}
+                    placeholder='First Name'
+                    onChange={(e) => setFirstName(e.target.value)}
+                    required
+                />
+                <input
+                    type="text"
+                    className="input-field"
+                    value={lastName}
+                    placeholder='Last Name'
+                    onChange={(e) => setLastName(e.target.value)}
+                    required
+                />
+                <input
+                    type="text"
+                    className="input-field"
+                    value={phoneNumber}
+                    placeholder='Phone Number'
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                    required
+                />
+                <input
+                    className="input-field"
+                    type="password"
+                    value={password}
+                    placeholder='Password'
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                />
+                <input
+                    className="input-field"
+                    type="password"
+                    placeholder="Confirm Password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    required
+                />
+                <div className="button-div">
+                    <button type="submit" className='signup-button'>Sign Up</button>
+                    <button onClick={changeSignup} className='back-to-login-button'>Back to Login!</button >
+                </div>
             </form>
-            <button onClick={() => setSignup(false)} >Back to Login!</button >
-        </div>
+        </div >
 
 
     );
