@@ -1,1 +1,18 @@
 /* TODO Add site wide styles */
+*{
+    font-family: "Righteous", cursive;
+}
+
+
+body{
+    background-image: url('./components/SplashPage/images/wind.jpeg');
+    background-repeat: no-repeat;
+    background-size: auto;
+    background-color: rgba(230,231,233,255);
+    
+}
+
+.intro-header {
+    font-family: "Righteous", cursive;
+    font-size: 40pt;
+  }
