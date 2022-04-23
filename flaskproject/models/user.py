@@ -1,3 +1,4 @@
+from email.policy import default
 from ..extensions import db
 from sqlalchemy.orm import relationship
 from sqlalchemy import ForeignKey
@@ -28,7 +29,7 @@ class User(db.Model):
     password = db.Column(db.String(100), nullable=False)
     phone_number = db.Column(db.String(15), nullable=False)
     jobsite_id = db.Column(db.Integer, ForeignKey('job_site.id'))
-    image = db.Column(db.String(255))
+    image = db.Column(db.String(255), default='https://windventory.s3.amazonaws.com/73e0e9c55dd04ba284e933cfa4d9c07a.png')
     online = db.Column(db.Boolean, default=False)
 
     #relationships
