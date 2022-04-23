@@ -8,9 +8,10 @@ team_routes = Blueprint('teams', __name__)
 
 
 #Get all teams route
-@team_routes.route('/')
-def all_teams():
-    teams = Team.query.all()
+@team_routes.route('')
+@token_required
+def all_teams(current_user):
+    teams = current_user.teams
     return {'teams': [team.to_dict() for team in teams]}
 
 

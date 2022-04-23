@@ -34,7 +34,7 @@ function LoginForm({ setSignup }) {
 
     return (
         <div className='login-container' >
-            <h3>Login to windVentory</h3>
+            <h3 className='login-header'>Login to windVentory</h3>
             <form onSubmit={handleSubmit} className='splash-form'>
                 <ul>
                     {errors.map((error, idx) => <li key={idx}>{error}</li>)}

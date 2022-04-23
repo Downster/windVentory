@@ -17,12 +17,12 @@ const removeUser = () => {
     };
 };
 
-// export const restoreUser = () => async dispatch => {
-//     const response = await csrfFetch('/auth/');
-//     const data = await response.json();
-//     dispatch(setUser(data.user));
-//     return response;
-// };
+export const restoreUser = () => async (dispatch) => {
+    const response = await csrfFetch('/auth/restore');
+    const data = await response.json();
+    dispatch(setUser(data.user));
+    return response;
+};
 
 export const login = (user) => async (dispatch) => {
     const { username, password } = user;

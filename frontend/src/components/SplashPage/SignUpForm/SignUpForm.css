@@ -6,6 +6,13 @@
     align-items: center;
 }
 
+.sign-up-header{
+    margin-top: 20px;
+    font-family: "Righteous", cursive;
+    font-size: 22pt;
+    color: #4F5B73;
+}
+
 .signup-container{
     margin-top: 10%;
     display: flex;
@@ -13,7 +20,7 @@
     align-items: center;
     width: 500px;
     height: 600px;
-    background-color: aliceblue;
+    background-color: #A9C2F4;
     border-radius: 7px;
     border: none;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;

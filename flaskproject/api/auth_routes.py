@@ -48,7 +48,6 @@ def validation_errors_to_error_messages(validation_errors):
 @auth_routes.route('/login', methods=['POST'])
 def login():
     auth = request.json
-    print(auth['username'])
 
     if not auth or not auth['username'] or not auth['password']:
         return make_response('Could not verify', 401)
@@ -69,6 +68,11 @@ def login():
     return make_response('Could not verify', 401,)
 
 
+
+@auth_routes.route('/restore')
+@token_required
+def restore(current_user):
+    return jsonify({'user': current_user.to_dict()})
 
 
 @auth_routes.route('/logout', methods=['DELETE'])

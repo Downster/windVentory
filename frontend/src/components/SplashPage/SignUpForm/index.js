@@ -39,7 +39,7 @@ function SignupForm({ setSignup }) {
     return (
         <div className="signup-container">
             <form onSubmit={handleSubmit} className='sign-up-form'>
-                <h3>Sign up for windVentory</h3>
+                <h3 className="sign-up-header">Sign up for windVentory</h3>
                 <ul>
                     {errors.map((error, idx) => <li key={idx}>{error}</li>)}
                 </ul>

@@ -7,16 +7,15 @@ export async function csrfFetch(url, options = {}) {
     // if the options.method is not 'GET', then set the "Content-Type" header to
     // "application/json", and set the "XSRF-TOKEN" header to the value of the 
     // "XSRF-TOKEN" cookie
+    if (localStorage.getItem('x-access-token')) {
+        options.headers['x-access-token'] = localStorage.getItem('x-access-token')
+    }
     if (options.method.toUpperCase() !== 'GET') {
         options.headers['Content-Type'] =
             options.headers['Content-Type'] || 'application/json';
-        if (localStorage.getItem('x-access-token')) {
-            options.headers['x-access-token'] = localStorage.getItem('x-access-token')
-        }
     }
     // call the default window's fetch with the url and the options passed in
     const res = await window.fetch(url, options);
-
     // if the response status code is 400 or above, then throw an error with the
     // error being the response
     if (res.status >= 400) throw res;
