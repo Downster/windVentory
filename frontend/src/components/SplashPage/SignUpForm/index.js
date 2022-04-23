@@ -13,6 +13,7 @@ function SignupForm({ setSignup }) {
     const [phoneNumber, setPhoneNumber] = useState('')
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [image, setImage] = useState(null);
     const [errors, setErrors] = useState([]);
 
     if (sessionUser) return <Redirect to="/" />;
@@ -20,8 +21,15 @@ function SignupForm({ setSignup }) {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (password === confirmPassword) {
+            const formData = new FormData()
+            formData.append('email', email)
+            formData.append('firstName', firstName)
+            formData.append('lastName', lastName)
+            formData.append('phoneNumber', phoneNumber)
+            formData.append('password', password)
+            formData.append('image', image)
             setErrors([]);
-            return dispatch(sessionActions.signup({ email, firstName, lastName, phoneNumber, password }))
+            return dispatch(sessionActions.signup(formData))
                 .catch(async (res) => {
                     const data = await res.json();
                     if (data && data.errors) setErrors(data.errors);
@@ -35,6 +43,11 @@ function SignupForm({ setSignup }) {
         setSignup(false);
 
     }
+
+    const updateImage = (e) => {
+        const file = e.target.files[0];
+        setImage(file);
+    };
 
     return (
         <div className="signup-container">
@@ -90,6 +103,10 @@ function SignupForm({ setSignup }) {
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     required
+                />
+                <input
+                    type='file'
+                    onChange={updateImage}
                 />
                 <div className="button-div">
                     <button type="submit" className='signup-button'>Sign Up</button>

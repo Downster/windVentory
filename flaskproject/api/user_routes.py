@@ -31,6 +31,7 @@ def user(current_user, public_id):
 @user_routes.route('', methods=['POST'])
 def create_user():
     data = request.get_json()
+    print(data)
     
     hashed_password = generate_password_hash(data['password'], method='sha256')
 

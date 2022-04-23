@@ -3,6 +3,7 @@ import { csrfFetch } from './csrf';
 
 const SET_USER = 'session/setUser';
 const REMOVE_USER = 'session/removeUser';
+const UPDATE_USER = "session/UPDATE_USER";
 
 const setUser = (user) => {
     return {
@@ -16,6 +17,11 @@ const removeUser = () => {
         type: REMOVE_USER,
     };
 };
+
+const updateUser = (user) => ({
+    type: UPDATE_USER,
+    user,
+});
 
 export const restoreUser = () => async (dispatch) => {
     const response = await csrfFetch('/auth/restore');
@@ -39,6 +45,20 @@ export const login = (user) => async (dispatch) => {
     return response;
 };
 
+export const updateUserImage = (formData, id) => async (dispatch) => {
+    const res = await fetch(`/api/users/${id}`, {
+        method: "PUT",
+        body: formData,
+    });
+    const data = await res.json();
+    if (res.ok) {
+        dispatch(updateUser(data));
+    } else
+        return {
+            errors: ["Something went wrong, please try again"],
+        };
+};
+
 const initialState = { user: null };
 
 const sessionReducer = (state = initialState, action) => {
@@ -52,18 +72,19 @@ const sessionReducer = (state = initialState, action) => {
             newState = Object.assign({}, state);
             newState.user = null;
             return newState;
+        case UPDATE_USER:
+            return { user: action.user };
+
         default:
             return state;
     }
 };
 
-export const signup = (user) => async (dispatch) => {
-    const { email, firstName, lastName, phoneNumber, password } = user;
-    const response = await csrfFetch("/auth/signup", {
+export const signup = (formData) => async (dispatch) => {
+
+    const response = await fetch("/auth/signup", {
         method: "POST",
-        body: JSON.stringify({
-            email, firstName, lastName, phoneNumber, password
-        }),
+        body: formData
     });
     const data = await response.json();
     localStorage.setItem('x-access-token', data.token)

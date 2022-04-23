@@ -1,4 +1,6 @@
-import json
+from email.mime import image
+from ..awsS3 import (
+    upload_file_to_s3, allowed_file, get_unique_filename)
 from flask import Blueprint, request, jsonify, make_response
 from werkzeug.security import check_password_hash, generate_password_hash
 from functools import wraps
@@ -83,10 +85,22 @@ def logout(current_user):
 
 @auth_routes.route('/signup', methods=['POST'])
 def sign_up():
+    
 
     form = SignUpForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     hashed_password = generate_password_hash(form.data['password'], method='sha256')
+    image = form["image"].data
+    if not allowed_file(image.filename):
+        return {"errors": "file type not allowed"}, 400
+    image.filename = get_unique_filename(image.filename)
+    upload = upload_file_to_s3(image)
+    print(upload)
+
+    if "url" not in upload:
+        return upload, 400
+
+    url = upload["url"]
     if form.validate_on_submit():
         user = User(
             public_id = str(uuid.uuid4()),
@@ -95,6 +109,8 @@ def sign_up():
             last_name = form.data['lastName'],
             phone_number = form.data['phoneNumber'],
             password=hashed_password,
+            image=url,
+            
         )
         db.session.add(user)
         db.session.commit()
