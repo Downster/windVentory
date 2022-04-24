@@ -5,7 +5,7 @@ import './Dashboard.css'
 
 
 
-const Dashboard = ({ user }) => {
+const Dashboard = () => {
 
 
     return (
