@@ -2,9 +2,8 @@ from flaskproject.models import Tower
 from ..extensions import db
 
 
-# Adds a demo user, you can add other users here if you want
+
 def seed_towers():
-    # image='https://fionacapstonebucket.s3.us-west-1.amazonaws.com/defaults/c203d7ca558d417b9aea8cd102ae32cf.jpg'
     E26 = Tower(
             tower_number="E26", jobsite_id=1)
     F22 = Tower(

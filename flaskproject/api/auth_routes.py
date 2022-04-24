@@ -1,12 +1,14 @@
-import json
+from email.mime import image
+from ..awsS3 import (
+    upload_file_to_s3, allowed_file, get_unique_filename)
 from flask import Blueprint, request, jsonify, make_response
-from werkzeug.security import check_password_hash
-from flask_login import login_required, login_user
+from werkzeug.security import check_password_hash, generate_password_hash
 from functools import wraps
 import os
 import jwt
+import uuid
 import datetime
-
+from ..forms.signup import SignUpForm
 from ..extensions import db
 from ..models.user import User
 
@@ -34,38 +36,88 @@ def token_required(f):
     
     return decorated
 
+def validation_errors_to_error_messages(validation_errors):
+    """
+    Turns validation errors into an error message for frontend
+    """
+    errorMessages = []
+    for field in validation_errors:
+        for error in validation_errors[field]:
+            errorMessages.append(f'{field}:{error}')
+    return errorMessages
 
-@auth_routes.route('/login')
+
+@auth_routes.route('/login', methods=['POST'])
 def login():
-    auth = request.authorization
+    auth = request.json
 
-    if not auth or not auth.username or not auth.password:
-        return make_response('Could not verify', 401, {'WWW-Authenticate' : 'Basic realm="Login required!'})
+    if not auth or not auth['username'] or not auth['password']:
+        return make_response('Could not verify', 401)
 
-    user = User.query.filter_by(email=auth.username).first()
+    user = User.query.filter_by(email=auth['username']).first()
+    print(user)
 
     if not user:
-        return make_response('Could not verify', 401, {'WWW-Authenticate' : 'Basic realm="Login required!'})
+        return make_response('Could not verify', 401)
 
-    if check_password_hash(user.password, auth.password):
+    if check_password_hash(user.password, auth['password']):
         token = jwt.encode({'public_id': user.public_id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=200)}, os.environ.get("SECRET_KEY"), algorithm="HS256")
 
-        return jsonify({"token": token})
+        return jsonify({
+            "user": user.to_dict(),
+            "token": token})
     
-    return make_response('Could not verify', 401, {'WWW-Authenticate' : 'Basic realm="Login required!'})
+    return make_response('Could not verify', 401,)
 
 
 
+@auth_routes.route('/restore')
+@token_required
+def restore(current_user):
+    return jsonify({'user': current_user.to_dict()})
 
-@auth_routes.route('/logout')
+
+@auth_routes.route('/logout', methods=['DELETE'])
 @token_required
 def logout(current_user):
-    pass
+    return jsonify({'message': 'logged out'})
 
 
 @auth_routes.route('/signup', methods=['POST'])
 def sign_up():
-    pass
+
+    form = SignUpForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    hashed_password = generate_password_hash(form.data['password'], method='sha256')
+    image = form["image"].data
+    if not allowed_file(image.filename):
+        return {"errors": "file type not allowed"}, 400
+    image.filename = get_unique_filename(image.filename)
+    upload = upload_file_to_s3(image)
+
+    if "url" not in upload:
+        return upload, 400
+
+    url = upload["url"]
+    if form.validate_on_submit():
+        user = User(
+            public_id = str(uuid.uuid4()),
+            email=form.data['email'],
+            first_name = form.data['firstName'],
+            last_name = form.data['lastName'],
+            phone_number = form.data['phoneNumber'],
+            password=hashed_password,
+            image=url,
+            
+        )
+        db.session.add(user)
+        db.session.commit()
+        token = jwt.encode({'public_id': user.public_id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=200)}, os.environ.get("SECRET_KEY"), algorithm="HS256")
+        return jsonify({
+            'user': user.to_dict(),
+            'token' : token
+        })
+    return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 @auth_routes.route('/unauthorized')
 def unauthorized():

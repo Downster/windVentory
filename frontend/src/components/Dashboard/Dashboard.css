@@ -1,0 +1,10 @@
+.app-container{
+    display: flex;
+    height: 100%;
+}
+
+.left-menu{
+    height: 100%;
+    width: 15%;
+    background-color: #A9C2F4;
+}

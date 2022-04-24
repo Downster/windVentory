@@ -2,9 +2,9 @@ from flaskproject.models import Connex
 from ..extensions import db
 
 
-# Adds a demo user, you can add other users here if you want
+
 def seed_connex():
-    # image='https://fionacapstonebucket.s3.us-west-1.amazonaws.com/defaults/c203d7ca558d417b9aea8cd102ae32cf.jpg'
+   
     Connex1 = Connex(
             name="Spurs Connex", jobsite_id=3)
     Connex2 = Connex(

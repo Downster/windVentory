@@ -11,6 +11,7 @@ from .room import Room, active_participants
 from .storageLocation import StorageLocation
 from .storageType import StorageType
 from .tower import Tower
-from .user import User, Team, user_Teams
+from .user import User, Team, user_Teams, Role, user_Role
+
 
 

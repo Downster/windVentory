@@ -9,12 +9,11 @@ from .storageType import seed_storage_type
 from .storageLocation import seed_storage_location
 from .users import seed_users, undo_users
 
-# Creates a seed group to hold our commands
-# So we can type `flask seed --help`
+
 seed_commands = AppGroup('seed')
 
 
-# Creates the `flask seed all` command
+
 @seed_commands.command('all')
 def seed():
     seed_storage_type()

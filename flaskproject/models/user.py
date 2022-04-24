@@ -1,3 +1,4 @@
+from email.policy import default
 from ..extensions import db
 from sqlalchemy.orm import relationship
 from sqlalchemy import ForeignKey
@@ -11,6 +12,12 @@ user_Teams = db.Table(
     db.Column('team_id', db.Integer, ForeignKey('team.id'), primary_key=True),
 )
 
+user_Role = db.Table(
+    'user_Role',
+    db.Column('user_id', db.Integer, ForeignKey('user.id'), primary_key=True),
+    db.Column('role_id', db.Integer, ForeignKey('role.id'), primary_key=True)
+)
+
 
 #User model
 class User(db.Model):
@@ -22,8 +29,7 @@ class User(db.Model):
     password = db.Column(db.String(100), nullable=False)
     phone_number = db.Column(db.String(15), nullable=False)
     jobsite_id = db.Column(db.Integer, ForeignKey('job_site.id'))
-    image = db.Column(db.String(255))
-    team_lead = db.Column(db.Boolean, default=False)
+    image = db.Column(db.String(255), default='https://windventory.s3.amazonaws.com/73e0e9c55dd04ba284e933cfa4d9c07a.png')
     online = db.Column(db.Boolean, default=False)
 
     #relationships
@@ -32,6 +38,7 @@ class User(db.Model):
     teams = relationship('Team', back_populates='team_members', secondary=user_Teams)
     current_room = relationship('Room', back_populates='active_users', secondary=active_participants)
     user_jobsite = relationship('JobSite', back_populates='users_site')
+    role = relationship('Role', back_populates='users', secondary=user_Role)
 
     def check_password(self, password):
         return check_password_hash(self.password, password)
@@ -81,6 +88,13 @@ class Team(db.Model):
             'team_lead': self.team_lead.to_dict()
         }
 
+class Role(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, nullable=False)
+
+    
+    #relationships
+    users = relationship('User', back_populates='role', secondary=user_Role)
     
 
 

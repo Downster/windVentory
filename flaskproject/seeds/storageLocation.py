@@ -2,7 +2,6 @@ from flaskproject.models import StorageLocation
 from ..extensions import db
 
 
-# Adds a demo user, you can add other users here if you want
 def seed_storage_location():
     #storageType_id = 1 === Tower 
     #storageType_id = 2 === Connex

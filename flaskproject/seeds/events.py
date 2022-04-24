@@ -4,9 +4,9 @@ from datetime import date
 from ..extensions import db
 
 
-# Adds a demo user, you can add other users here if you want
+
 def seed_events():
-    # image='https://fionacapstonebucket.s3.us-west-1.amazonaws.com/defaults/c203d7ca558d417b9aea8cd102ae32cf.jpg'
+   
     Event1 = Event(
             user_id=1, team_id=1, summary='Grab fiberglass from connex', description='Grab another roll of biax from the connex', start_time=date.today(), end_time=date.today())
     Event2 = Event(

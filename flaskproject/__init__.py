@@ -1,5 +1,7 @@
-import imp
-from flask import Flask
+import os
+from flask_wtf.csrf import CSRFProtect, generate_csrf
+from flask_cors import CORS
+from flask import Flask, request, session, redirect
 from .extensions import db, migrate, login_manager, admin
 from .api.user_routes import user_routes
 from .api.team_routes import team_routes
@@ -7,20 +9,7 @@ from .api.auth_routes import auth_routes
 from .api.event_routes import event_routes
 from .api.job_sites import jobsite_routes
 from flask_admin.contrib.sqla import ModelView
-from .models.connex import Connex
-from .models.material import Material
-from .models.chat import Chat
-from .models.events import Event
-from .models.joinNotification import JoinNotification
-from .models.materialClass import MaterialClass
-from .models.msdsInfo import msdsInfo
-import os
-from .models.notes import Note
-from .models.storageLocation import StorageLocation
-from .models.storageType import StorageType
-from .models.tower import Tower
-from .models.user import User, Team, user_Teams
-from .models.jobSite import JobSite
+from .models import User
 from .seeds import seed_commands
 from dotenv import load_dotenv, find_dotenv
 
@@ -30,7 +19,7 @@ def create_app():
     load_dotenv(find_dotenv())
     app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
-
+    CORS(app)
     # Tell flask about our seed commands
     app.cli.add_command(seed_commands)
 
@@ -53,23 +42,26 @@ def create_app():
     app.register_blueprint(auth_routes, url_prefix='/auth')
     app.register_blueprint(jobsite_routes, url_prefix='/jobsites')
     # app.register_blueprint(auth_routes, url_prefix='/api/events')
+    @app.before_request
+    def https_redirect():
+        if os.environ.get('FLASK_ENV') == 'production':
+            if request.headers.get('X-Forwarded-Proto') == 'http':
+                url = request.url.replace('http://', 'https://', 1)
+                code = 301
+                return redirect(url, code=code)
 
 
-    #add admin views here
-    admin.add_view(ModelView(Chat, db.session))
-    admin.add_view(ModelView(Event, db.session))
-    admin.add_view(ModelView(JoinNotification, db.session))
-    admin.add_view(ModelView(MaterialClass, db.session))
-    admin.add_view(ModelView(msdsInfo, db.session))
-    admin.add_view(ModelView(Note, db.session))
-    admin.add_view(ModelView(StorageLocation, db.session))
-    admin.add_view(ModelView(StorageType, db.session))
-    admin.add_view(ModelView(Material, db.session))
-    admin.add_view(ModelView(Team, db.session))
-    admin.add_view(ModelView(Connex, db.session))
-    admin.add_view(ModelView(JobSite, db.session))
-    admin.add_view(ModelView(Tower, db.session))
-    admin.add_view(ModelView(User, db.session))
-    # admin.add_view(ModelView(user_Teams, db.session))
+
+    @app.after_request
+    def inject_csrf_token(response):
+        response.set_cookie(
+            'csrf_token',
+            generate_csrf(),
+            secure=True if os.environ.get('FLASK_ENV') == 'production' else False,
+            samesite='Strict' if os.environ.get(
+                'FLASK_ENV') == 'production' else None,
+            httponly=True)
+        return response
+
 
     return app

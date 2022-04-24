@@ -1,18 +1,17 @@
 import json
 from flask import Blueprint, jsonify, request
-from flask_login import login_required, login_user
-
 from .auth_routes import token_required
 from ..extensions import db
-from ..models.user import Team, User, user_Teams
+from ..models.user import Team, User
 
 team_routes = Blueprint('teams', __name__)
 
 
 #Get all teams route
-@team_routes.route('/')
-def all_teams():
-    teams = Team.query.all()
+@team_routes.route('')
+@token_required
+def all_teams(current_user):
+    teams = current_user.teams
     return {'teams': [team.to_dict() for team in teams]}
 
 
@@ -21,6 +20,7 @@ def all_teams():
 @token_required
 def create_team(current_user):
 
+    #add logic to determine role
     if not current_user.team_lead:
         return jsonify({'message': 'You must be a team lead to create a team'})
     data = request.get_json()
@@ -44,6 +44,7 @@ def get_Team(current_user, teamId):
 @token_required
 def delete_team(current_user, teamId):
 
+    #add logic to determine role
     if not current_user.team_lead:
         return jsonify({'message': 'You must be a team lead to delete a team'})
 

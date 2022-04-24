@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 3d30e6ae5a24
+Revision ID: 4c515f36b680
 Revises: 
-Create Date: 2022-04-10 17:45:08.983114
+Create Date: 2022-04-23 11:53:01.429543
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '3d30e6ae5a24'
+revision = '4c515f36b680'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -31,6 +31,11 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('material_class', sa.String(), nullable=False),
     sa.Column('material_subClass', sa.String(), nullable=False),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('role',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('name', sa.String(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('storage_type',
@@ -65,7 +70,6 @@ def upgrade():
     sa.Column('phone_number', sa.String(length=15), nullable=False),
     sa.Column('jobsite_id', sa.Integer(), nullable=True),
     sa.Column('image', sa.String(length=255), nullable=True),
-    sa.Column('team_lead', sa.Boolean(), nullable=True),
     sa.Column('online', sa.Boolean(), nullable=True),
     sa.ForeignKeyConstraint(['jobsite_id'], ['job_site.id'], ),
     sa.PrimaryKeyConstraint('id'),
@@ -91,6 +95,13 @@ def upgrade():
     sa.ForeignKeyConstraint(['jobsite_id'], ['job_site.id'], ),
     sa.ForeignKeyConstraint(['storagelocation_id'], ['storage_location.id'], ),
     sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('user_Role',
+    sa.Column('user_id', sa.Integer(), nullable=False),
+    sa.Column('role_id', sa.Integer(), nullable=False),
+    sa.ForeignKeyConstraint(['role_id'], ['role.id'], ),
+    sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
+    sa.PrimaryKeyConstraint('user_id', 'role_id')
     )
     op.create_table('msds_info',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -193,12 +204,14 @@ def downgrade():
     op.drop_table('Note')
     op.drop_table('team')
     op.drop_table('msds_info')
+    op.drop_table('user_Role')
     op.drop_table('tower')
     op.drop_table('material')
     op.drop_table('user')
     op.drop_table('storage_location')
     op.drop_table('connex')
     op.drop_table('storage_type')
+    op.drop_table('role')
     op.drop_table('material_class')
     op.drop_table('job_site')
     # ### end Alembic commands ###
