@@ -1,11 +1,11 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import sessionReducer from './session';
-import jobsites from './jobsites';
+import jobsiteReducer from './jobsites';
 
 const rootReducer = combineReducers({
     session: sessionReducer,
-    jobsites
+    jobsites: jobsiteReducer
 });
 
 let enhancer;
