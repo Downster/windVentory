@@ -182,9 +182,8 @@ const updateSingleJobsite = (state, action) => {
     return newState;
 };
 
-const initialState = {};
 
-const jobsites = (state = initialState, action) => {
+const jobsiteReducer = (state = {}, action) => {
     switch (action.type) {
         case LOAD_JOBSITES: {
             const loadJobsites = {};
@@ -216,4 +215,4 @@ const jobsites = (state = initialState, action) => {
     };
 };
 
-export default jobsites;
+export default jobsiteReducer;

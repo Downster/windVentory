@@ -6,6 +6,8 @@ const AppBody = () => {
     const sessionUser = useSelector(state => state.session.user)
     const currentJobsite = useSelector(state => state.jobsites)
     const jobSiteObject = Object.entries(currentJobsite)
+
+
     useEffect(() => {
         if (!sessionUser.jobsite_id) {
             dispatch(siteOptions.getJobsites())
