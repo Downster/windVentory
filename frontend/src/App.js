@@ -32,6 +32,9 @@ function App() {
           <Route path='/'>
             {sessionUser ? <Dashboard user={sessionUser} /> : <SplashPage />}
           </Route>
+          <Rotue path='jobsites/:jobsiteId'>
+
+          </Rotue>
         </Switch>
       </BrowserRouter>
     </>

@@ -1,11 +1,12 @@
 import { useSelector, useDispatch } from "react-redux"
 import { useEffect, useState } from "react";
 import * as siteOptions from "../../../store/jobsites"
+import JobSiteCard from "../JobSiteCard";
 const AppBody = () => {
     const dispatch = useDispatch();
     const sessionUser = useSelector(state => state.session.user)
     const currentJobsite = useSelector(state => state.jobsites)
-    const jobSiteObject = Object.entries(currentJobsite)
+    const jobSiteObject = Object.values(currentJobsite)
 
 
     useEffect(() => {
@@ -18,16 +19,12 @@ const AppBody = () => {
     }, [dispatch])
 
     return (
-        < div className="here" >
+        < div className="app-body" >
             {!jobSiteObject.length && <h1>Loading</h1>}
-            {jobSiteObject && jobSiteObject.map((jobsite) => {
-                return (
-                    <div>
-                        <h1>{jobsite[1].name}</h1>
-                        <h1>{jobsite[1].client}</h1>
-                    </div>
-                )
-            })}
+            {jobSiteObject && jobSiteObject.map((jobsite) => (
+                <JobSiteCard jobsite={jobsite} />
+            )
+            )}
         </div >
     )
 }
