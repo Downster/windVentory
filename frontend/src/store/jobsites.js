@@ -3,7 +3,7 @@ import { tokenFetch } from "./csrf";
 const LOAD_JOBSITES = 'jobsites/LOAD_JOBSITES';
 const CREATE_JOBSITE = 'jobsites/CREATE_JOBSITE';
 const REMOVE_JOBSITE = 'jobsites/REMOVE_JOBSITE';
-const ADD_TO_JOBSITE = 'jobsites/ADD_TO_JOBSITE';
+const JOIN_JOBSITE = 'jobsites/JOIN_JOBSITE';
 const EDIT_JOBSITE = 'jobsites/EDIT_JOBSITE';
 const LOAD_JOBSITE = 'jobsite/LOAD_JOBSITE';
 const LEAVE_JOBSITE = 'jobsite/LEAVE_JOBSITE';
@@ -29,8 +29,8 @@ const edit = (jobsite) => ({
     jobsite
 });
 
-const addToJobsite = (jobsite) => ({
-    type: ADD_TO_JOBSITE,
+const joinJobsite = (jobsite) => ({
+    type: JOIN_JOBSITE,
     jobsite
 });
 
@@ -128,7 +128,7 @@ export const editJobsite = (formData, jobsiteId) => async (dispatch) => {
 };
 
 export const addUserToJobsite = (jobsiteId, email) => async (dispatch) => {
-    const res = await fetch(`/jobsites/${jobsiteId}/add`, {
+    const res = await tokenFetch(`/jobsites/${jobsiteId}/add`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
@@ -138,7 +138,7 @@ export const addUserToJobsite = (jobsiteId, email) => async (dispatch) => {
 
     if (res.ok) {
         const data = await res.json();
-        dispatch(addToJobsite(data));
+        dispatch(joinJobsite(data));
         return null;
     } else if (res.status < 500) {
         const data = await res.json();
@@ -182,21 +182,18 @@ const updateSingleJobsite = (state, action) => {
     return newState;
 };
 
+const initialState = { sites: {}, userSites: {} }
 
-const jobsiteReducer = (state = {}, action) => {
+const jobsiteReducer = (state = initialState, action) => {
+    const newState = { ...state };
     switch (action.type) {
         case LOAD_JOBSITES: {
-            const loadJobsites = {};
             action.jobsites.forEach(jobsite => {
-                loadJobsites[jobsite.id] = jobsite;
+                newState.sites[jobsite.id] = jobsite;
             });
-            return {
-                ...loadJobsites
-            };
+            return newState
         }
-
         case REMOVE_JOBSITE: {
-            const newState = { ...state };
             delete newState[action.jobsite.id];
             return newState;
         }
@@ -205,7 +202,9 @@ const jobsiteReducer = (state = {}, action) => {
         case LOAD_JOBSITE:
         case CREATE_JOBSITE:
         case EDIT_JOBSITE:
-        case ADD_TO_JOBSITE:
+        case JOIN_JOBSITE:
+            newState.userSites[action.jobsite.id] = action.jobsite
+            return newState
         case LEAVE_JOBSITE: {
             return updateSingleJobsite(state, action);
         }
