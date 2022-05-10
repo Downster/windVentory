@@ -3,9 +3,7 @@ import { tokenFetch } from "./csrf";
 const LOAD_JOBSITES = 'jobsites/LOAD_JOBSITES';
 const CREATE_JOBSITE = 'jobsites/CREATE_JOBSITE';
 const REMOVE_JOBSITE = 'jobsites/REMOVE_JOBSITE';
-const ADD_TO_JOBSITE = 'jobsites/ADD_TO_JOBSITE';
 const EDIT_JOBSITE = 'jobsites/EDIT_JOBSITE';
-const LOAD_JOBSITE = 'jobsite/LOAD_JOBSITE';
 const LEAVE_JOBSITE = 'jobsite/LEAVE_JOBSITE';
 
 
@@ -29,16 +27,7 @@ const edit = (jobsite) => ({
     jobsite
 });
 
-const addToJobsite = (jobsite) => ({
-    type: ADD_TO_JOBSITE,
-    jobsite
-});
 
-
-const loadJobsite = (jobsite) => ({
-    type: LOAD_JOBSITE,
-    jobsite
-});
 
 const leaveJobsite = (jobsite) => ({
     type: LEAVE_JOBSITE,
@@ -54,17 +43,6 @@ export const getJobsites = () => async (dispatch) => {
         };
         console.log(data)
         dispatch(loadJobsites(data.Jobsites));
-    };
-};
-
-export const getJobsite = (jobsiteId) => async (dispatch) => {
-    const res = await tokenFetch(`/jobsites/${jobsiteId}`);
-    if (res.ok) {
-        const data = await res.json();
-        if (data.errors) {
-            return data;
-        };
-        dispatch(loadJobsite(data));
     };
 };
 
@@ -127,28 +105,6 @@ export const editJobsite = (formData, jobsiteId) => async (dispatch) => {
     };
 };
 
-export const addUserToJobsite = (jobsiteId, email) => async (dispatch) => {
-    const res = await fetch(`/jobsites/${jobsiteId}/add`, {
-        method: 'PATCH',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ jobsite_id: jobsiteId, email })
-    });
-
-    if (res.ok) {
-        const data = await res.json();
-        dispatch(addToJobsite(data));
-        return null;
-    } else if (res.status < 500) {
-        const data = await res.json();
-        if (data.errors) {
-            return data.errors;
-        };
-    } else {
-        return { 'ERROR': 'An error occurred. Please try again.' }
-    };
-};
 
 
 
@@ -182,30 +138,24 @@ const updateSingleJobsite = (state, action) => {
     return newState;
 };
 
+const initialState = {}
 
-const jobsiteReducer = (state = {}, action) => {
+const jobsiteReducer = (state = initialState, action) => {
+    const newState = { ...state };
     switch (action.type) {
         case LOAD_JOBSITES: {
-            const loadJobsites = {};
             action.jobsites.forEach(jobsite => {
-                loadJobsites[jobsite.id] = jobsite;
+                newState[jobsite.id] = jobsite;
             });
-            return {
-                ...loadJobsites
-            };
+            return newState
         }
-
         case REMOVE_JOBSITE: {
-            const newState = { ...state };
             delete newState[action.jobsite.id];
             return newState;
         }
-
-
-        case LOAD_JOBSITE:
         case CREATE_JOBSITE:
         case EDIT_JOBSITE:
-        case ADD_TO_JOBSITE:
+            return newState
         case LEAVE_JOBSITE: {
             return updateSingleJobsite(state, action);
         }

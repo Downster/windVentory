@@ -8,3 +8,10 @@
     width: 15%;
     background-color: #A9C2F4;
 }
+
+.app-body{
+    display: flex;
+    gap: 20px;
+    padding-top: 20px;
+    padding-left: 20px;
+}
