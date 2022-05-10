@@ -1,27 +1,30 @@
 // frontend/src/store/session.js
+import { async } from 'regenerator-runtime';
 import { tokenFetch } from './csrf';
 
-const SET_USER = 'session/setUser';
-const REMOVE_USER = 'session/removeUser';
-const UPDATE_USER = "session/UPDATE_USER";
+const SET_USER = 'session/SET_USER';
+const REMOVE_USER = 'session/REMOVE_USER';
+const UPDATE_USER = 'session/UPDATE_USER';
+const SET_JOBSITE = 'session/SET_JOBSITE'
 
-const setUser = (user) => {
-    return {
-        type: SET_USER,
-        payload: user,
-    };
-};
+const setUser = (user) => ({
+    type: SET_USER,
+    user,
+});
 
-const removeUser = () => {
-    return {
-        type: REMOVE_USER,
-    };
-};
+const removeUser = () => ({
+    type: REMOVE_USER,
+});
 
 const updateUser = (user) => ({
     type: UPDATE_USER,
     user,
 });
+
+const setJobsite = (jobsiteId) => ({
+    type: SET_JOBSITE,
+    jobsiteId
+})
 
 export const restoreUser = () => async (dispatch) => {
     const response = await tokenFetch('/auth/restore');
@@ -45,6 +48,26 @@ export const login = (user) => async (dispatch) => {
     return response;
 };
 
+export const setUserJobsite = (jobsiteId) => async (dispatch) => {
+    const res = await tokenFetch(`/jobsites/${jobsiteId}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ jobsite_id: jobsiteId })
+    });
+
+    if (res.ok) {
+        const jobsiteId = await res.json()
+        console.log(jobsiteId)
+        dispatch(setJobsite(jobsiteId))
+    } else {
+        const errors = res.json()
+        return errors
+    }
+
+}
+
 export const updateUserImage = (formData, id) => async (dispatch) => {
     const res = await fetch(`/api/users/${id}`, {
         method: "PUT",
@@ -57,27 +80,6 @@ export const updateUserImage = (formData, id) => async (dispatch) => {
         return {
             errors: ["Something went wrong, please try again"],
         };
-};
-
-const initialState = { user: null };
-
-const sessionReducer = (state = initialState, action) => {
-    let newState;
-    switch (action.type) {
-        case SET_USER:
-            newState = Object.assign({}, state);
-            newState.user = action.payload;
-            return newState;
-        case REMOVE_USER:
-            newState = Object.assign({}, state);
-            newState.user = null;
-            return newState;
-        case UPDATE_USER:
-            return { user: action.user };
-
-        default:
-            return state;
-    }
 };
 
 export const signup = (formData) => async (dispatch) => {
@@ -100,5 +102,27 @@ export const logout = () => async (dispatch) => {
     localStorage.removeItem('x-access-token')
     return response;
 };
+
+
+const initialState = { user: null };
+
+const sessionReducer = (state = initialState, action) => {
+    const newState = { ...state }
+    switch (action.type) {
+        case SET_USER:
+            newState.user = action.user;
+            return newState;
+        case REMOVE_USER:
+            newState.user = null;
+            return newState;
+        case UPDATE_USER:
+            return newState.user = action.user
+        case SET_JOBSITE:
+            return newState.user.jobsite = action.user.jobsite_id
+        default:
+            return state;
+    }
+};
+
 
 export default sessionReducer;

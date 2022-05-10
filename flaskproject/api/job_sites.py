@@ -33,7 +33,7 @@ def join_site(current_user, jobsite_id):
 
     db.session.commit()
     
-    return jsonify({'message': "Jobsite Joined"})
+    return jsonify({jobsite_id})
 
 #Show teams at a jobsite
 @jobsite_routes.route('/<int:jobsite_id>/teams')
