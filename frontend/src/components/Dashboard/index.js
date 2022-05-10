@@ -10,12 +10,13 @@ const Dashboard = () => {
 
     return (
         <>
-            <Navaigation />
-            <div className='app-container'>
-                <LeftMenu />
-                <AppBody />
+            <div className='whole-page-container'>
+                <Navaigation />
+                <div className='app-container'>
+                    <LeftMenu />
+                    <AppBody />
+                </div>
             </div>
-
         </>
     )
 }

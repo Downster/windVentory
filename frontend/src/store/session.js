@@ -1,5 +1,4 @@
 // frontend/src/store/session.js
-import { async } from 'regenerator-runtime';
 import { tokenFetch } from './csrf';
 
 const SET_USER = 'session/SET_USER';
