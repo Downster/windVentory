@@ -2,9 +2,8 @@ from flask import Blueprint, request, jsonify
 from .auth_routes import token_required
 from werkzeug.security import generate_password_hash, check_password_hash
 import uuid
-
 from ..extensions import db
-from ..models.user import User
+from ..models.user import User, user_Role
 
 user_routes = Blueprint('users', __name__)
 
@@ -26,6 +25,13 @@ def user(current_user, public_id):
 
 
     return user.to_dict()
+
+@user_routes.route('/<user_id>/role')
+@token_required
+def user_role(current_user, user_id):
+    
+    user = User.query.filter_by(id=user_id).first()
+    return jsonify(user.role_to_dict())
 
 
 @user_routes.route('', methods=['POST'])

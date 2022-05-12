@@ -38,7 +38,7 @@ class User(db.Model):
     teams = relationship('Team', back_populates='team_members', secondary=user_Teams)
     current_room = relationship('Room', back_populates='active_users', secondary=active_participants)
     user_jobsite = relationship('JobSite', back_populates='users_site')
-    role = relationship('Role', back_populates='users', secondary=user_Role)
+    roles = relationship('Role', back_populates='users', secondary=user_Role)
 
     def check_password(self, password):
         return check_password_hash(self.password, password)
@@ -53,12 +53,17 @@ class User(db.Model):
             'email': self.email,
             'image': self.image,
             'online': self.online,
-            'jobsite_id': self.jobsite_id
+            'jobsite_id': self.jobsite_id,
+            'role': [role.to_name() for role in self.roles]
         }
 
     def team_to_dict(self):
         return {
             'team': [team.to_dict() for team in self.teams]
+        }
+    def role_to_dict(self):
+        return {
+            'role': role.to_name() for role in self.roles
         }
 
 
@@ -94,7 +99,10 @@ class Role(db.Model):
 
     
     #relationships
-    users = relationship('User', back_populates='role', secondary=user_Role)
+    users = relationship('User', back_populates='roles', secondary=user_Role)
+
+    def to_name(self):
+        return self.name
     
 
 

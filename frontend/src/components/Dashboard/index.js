@@ -1,21 +1,26 @@
 import LeftMenu from './LeftMenu'
 import Navaigation from './Navigation'
-import AppBody from './AppBody'
+import Jobsite from './Jobsite'
+import { Switch, Route } from 'react-router-dom'
 import './Dashboard.css'
 
 
 
 const Dashboard = () => {
 
-
     return (
         <>
-            <div className='whole-page-container'>
-                <Navaigation />
-                <div className='app-container'>
-                    <LeftMenu />
-                    <AppBody />
-                </div>
+            <Navaigation />
+            <div className='app-container'>
+                <LeftMenu />
+                <Switch>
+                    <Route exact path='/'>
+                        <Jobsite />
+                    </Route>
+                    <Route path='/jobsite/:jobsiteId'>
+
+                    </Route>
+                </Switch>
             </div>
         </>
     )
