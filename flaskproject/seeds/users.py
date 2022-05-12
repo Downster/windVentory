@@ -20,7 +20,8 @@ def seed_users():
         public_id=str(uuid.uuid4()), email='cthreadgill@gmail.com', first_name='Chris', last_name='Threadgill', password=generate_password_hash('password567', method='sha256'), phone_number='508-761-2443')
     celeste = User (
         public_id=str(uuid.uuid4()), email='cwinterton@gmail.com', first_name='Celesta', last_name='Winterton', password=generate_password_hash('password678', method='sha256'), phone_number='615-744-3351')
-    
+    admin = User (
+        public_id=str(uuid.uuid4()), email='admin@admin.com', first_name='Admin', last_name='Joe', password=generate_password_hash('password', method='sha256'), phone_number='666-666-6666')
 
     
     db.session.add(brendan)
@@ -30,6 +31,7 @@ def seed_users():
     db.session.add(darren)
     db.session.add(chris)
     db.session.add(celeste)
+    db.session.add(admin)
     
     db.session.commit()
 

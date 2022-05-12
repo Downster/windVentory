@@ -26,10 +26,14 @@ const setJobsite = (jobsiteId) => ({
 })
 
 export const restoreUser = () => async (dispatch) => {
-    const response = await tokenFetch('/auth/restore');
-    const data = await response.json();
-    dispatch(setUser(data.user));
-    return response;
+    const res = await tokenFetch('/auth/restore');
+    const data = await res.json();
+    if (res.ok) {
+        dispatch(setUser(data.user));
+        return res;
+    } else {
+        localStorage.removeItem('x-access-token', data.token)
+    }
 };
 
 export const login = (user) => async (dispatch) => {

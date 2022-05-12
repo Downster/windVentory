@@ -1,5 +1,4 @@
 from flask import Blueprint, jsonify, request
-
 from ..models import Tower
 from ..models import Note
 from .auth_routes import token_required
@@ -33,7 +32,7 @@ def join_site(current_user, jobsite_id):
 
     db.session.commit()
     
-    return jsonify({jobsite_id})
+    return
 
 #Show teams at a jobsite
 @jobsite_routes.route('/<int:jobsite_id>/teams')

@@ -1,5 +1,6 @@
 from flask.cli import AppGroup
 from .connexs import seed_connex
+from .roles import seed_roles
 from .notes import seed_notes
 from .sites import seed_sites
 from .teams import seed_teams
@@ -25,6 +26,7 @@ def seed():
     seed_sites()
     seed_connex()
     seed_notes()
+    seed_roles()
     # Add other seed functions here
 
 

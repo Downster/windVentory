@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import * as siteOptions from "../../../store/jobsites"
 import { loadUserJobsite } from "../../../store/currentSite";
 import AllSites from "../AllSites";
-const AppBody = () => {
+const Jobsite = () => {
     const dispatch = useDispatch();
     const sessionUser = useSelector(state => state.session.user)
 
@@ -22,4 +22,4 @@ const AppBody = () => {
     )
 }
 
-export default AppBody
+export default Jobsite
