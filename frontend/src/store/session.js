@@ -1,10 +1,10 @@
-// frontend/src/store/session.js
 import { tokenFetch } from './csrf';
 
 const SET_USER = 'session/SET_USER';
 const REMOVE_USER = 'session/REMOVE_USER';
 const UPDATE_USER = 'session/UPDATE_USER';
 const SET_JOBSITE = 'session/SET_JOBSITE'
+const SET_TEAM = 'session/SET_TEAM'
 
 const setUser = (user) => ({
     type: SET_USER,
@@ -24,6 +24,12 @@ const setJobsite = (jobsiteId) => ({
     type: SET_JOBSITE,
     jobsiteId
 })
+
+const setTeam = (team) => ({
+    type: SET_TEAM,
+    team
+})
+
 
 export const restoreUser = () => async (dispatch) => {
     const res = await tokenFetch('/auth/restore');
@@ -71,6 +77,24 @@ export const setUserJobsite = (jobsiteId) => async (dispatch) => {
         return errors
     }
 
+}
+
+export const setUserTeam = (teamId) => async (dispatch) => {
+    const res = await tokenFetch(`/teams/${teamId}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ team_id: teamId })
+    });
+
+    if (res.ok) {
+        const team = await res.json()
+        dispatch(setTeam(team))
+    } else {
+        const errors = res.json()
+        return errors
+    }
 }
 
 export const updateUserImage = (formData, id) => async (dispatch) => {
@@ -124,6 +148,9 @@ const sessionReducer = (state = initialState, action) => {
             return newState.user = action.user
         case SET_JOBSITE:
             newState.user.jobsite_id = action.jobsiteId.id
+            return newState
+        case SET_TEAM:
+            newState.user.teams = action.team
             return newState
         default:
             return state;

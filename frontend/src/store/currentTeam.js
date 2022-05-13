@@ -1,0 +1,43 @@
+const SET_TEAM = 'currentTeam/SET_TEAM'
+const GET_TEAM = 'currentTeam/GET_TEAM'
+
+export const setTeam = (team) => ({
+    type: SET_TEAM,
+    team
+})
+
+const getTeam = (team) => ({
+    type: GET_TEAM,
+    team
+})
+
+export const fetchUserTeam = (user) => async (dispatch) => {
+    if (user.teams[0]) {
+        console.log('here')
+        dispatch(getTeam(user.teams[0]))
+    }
+}
+
+
+
+
+
+
+
+const initialState = {}
+
+const currentTeamReducer = (state = initialState, action) => {
+    const newState = { ...state };
+    switch (action.type) {
+        case SET_TEAM:
+            newState[action.team.id] = action.team
+            return newState
+        case GET_TEAM:
+            newState[action.team.id] = action.team
+            return newState
+        default:
+            return state
+    }
+}
+
+export default currentTeamReducer

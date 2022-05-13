@@ -54,17 +54,30 @@ class User(db.Model):
             'image': self.image,
             'online': self.online,
             'jobsite_id': self.jobsite_id,
-            'role': [role.to_name() for role in self.roles]
+            'role': [role.to_name() for role in self.roles],
+            'teams': [team.to_dict() for team in self.teams]
+        }
+    def to_team_dict(self):
+        return {
+            'id': self.id,
+            'public_id': self.public_id,
+            'firstName': self.first_name,
+            'lastName' : self.last_name,
+            'phoneNumber' : self.phone_number,
+            'email': self.email,
+            'jobsite_id': self.jobsite_id,
+        }
+    def to_role(self):
+        return {
+            role.to_name() for role in self.roles
+        }
+    def to_name(self):
+        return {
+            'id': self.id,
+            'firstName': self.first_name,
+            'lastName' : self.last_name,
         }
 
-    def team_to_dict(self):
-        return {
-            'team': [team.to_dict() for team in self.teams]
-        }
-    def role_to_dict(self):
-        return {
-            'role': role.to_name() for role in self.roles
-        }
 
 
 class Team(db.Model):
@@ -89,8 +102,8 @@ class Team(db.Model):
             'lead_id': self.lead_id,
             'jobsite_id': self.jobsite_id,
             'job_type': self.job_type,
-            'team_members': [user.to_dict() for user in self.team_members],
-            'team_lead': self.team_lead.to_dict()
+            'team_lead': self.team_lead.to_team_dict(),
+            'team_members': [member.to_team_dict() for member in self.team_members]
         }
 
 class Role(db.Model):

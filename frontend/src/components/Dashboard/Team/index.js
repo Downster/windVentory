@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { useEffect, useState } from "react";
 import { useHistory } from 'react-router-dom'
 import { fetchTeams } from "../../../store/siteTeams";
-import AllSites from "../AllSites";
+import UserTeam from "../UserTeam";
 import SiteTeams from "../SiteTeams";
 const Team = () => {
     const history = useHistory();
@@ -15,8 +15,7 @@ const Team = () => {
     }, [dispatch, sessionUser])
 
     return (
-        <>
-            <SiteTeams />
+        <> {(sessionUser.teams ? <UserTeam /> : <SiteTeams />)}
         </>
     )
 }

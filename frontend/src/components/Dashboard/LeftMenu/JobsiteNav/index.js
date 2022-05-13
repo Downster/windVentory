@@ -14,6 +14,7 @@ const JobSiteNav = ({ isMember, isAdmin, siteId }) => {
 
                     <NavLink to={`/jobsite/${siteId}/inventory`}><li className="jobsite-item">Inventory</li></NavLink>
                     <li className="jobsite-item">Weather</li>
+                    <li className="jobsite-item">Teams</li>
                     <li className="jobsite-item">Members</li>
                     <li className="jobsite-item">Leave Jobsite <i className="fas fa-minus"></i></li>
                 </>

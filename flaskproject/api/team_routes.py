@@ -3,15 +3,26 @@ from flask import Blueprint, jsonify, request
 from .auth_routes import token_required
 from ..extensions import db
 from ..models.user import Team, User
+from ..forms import CreateTeamForm
 
 team_routes = Blueprint('teams', __name__)
 
+def validation_errors_to_error_messages(validation_errors):
+    """
+    Turns validation errors into an error message for frontend
+    """
+    errorMessages = []
+    for field in validation_errors:
+        for error in validation_errors[field]:
+            errorMessages.append(f'{field}:{error}')
+    return errorMessages
+
 
 #Get all teams route
-@team_routes.route('')
+@team_routes.route('/')
 @token_required
 def all_teams(current_user):
-    teams = current_user.teams
+    teams = Team.query.all()
     return {'teams': [team.to_dict() for team in teams]}
 
 
@@ -19,15 +30,24 @@ def all_teams(current_user):
 @team_routes.route('/', methods=['POST'])
 @token_required
 def create_team(current_user):
-
+    form  = CreateTeamForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
     #add logic to determine role
-    if not current_user.team_lead:
-        return jsonify({'message': 'You must be a team lead to create a team'})
-    data = request.get_json()
-
-    new_team = Team(team_lead_id=current_user.id, tower_id=data.tower_id, jobsite_id=data.jobsite_id, storagelocation_id=data.storagelocation_id)
-    db.session.add(new_team)
-    db.session.commit()
+    if current_user.to_role() == {'Admin'} or current_user.to_role() =={'Lead'} or current_user.to_role() == {'Supervisor'}:
+        if form.validate_on_submit():
+            team = Team (
+                lead_id=form['lead_id'].data,
+                jobsite_id = form['jobsite_id'].data,
+                job_type = form['job_type'].data,
+            )
+            db.session.add(team)
+            db.session.commit()
+            return jsonify({
+                'team': team.to_dict(),
+            })
+    else :
+        return {"errors": "Unauthorized"}, 401
+    return {'errors': validation_errors_to_error_messages(form.errors)}, 401
     
 
 
@@ -44,15 +64,14 @@ def get_Team(current_user, teamId):
 @token_required
 def delete_team(current_user, teamId):
 
-    #add logic to determine role
-    if not current_user.team_lead:
-        return jsonify({'message': 'You must be a team lead to delete a team'})
+    if current_user.to_role() == {'Admin'} or current_user.to_role() =={'Lead'} or current_user.to_role() == {'Supervisor'}:
 
-    team = Team.query.get(int(teamId))
-    db.session.delete(team)
-    db.session.commit()
-
-    return jsonify({'message': 'team deleted'})
+        team = Team.query.get(int(teamId))
+        db.session.delete(team)
+        db.session.commit()
+        return jsonify({'team': teamId})
+    else:
+        return {"errors": "Unauthorized"}, 401
 
 
 
@@ -65,10 +84,11 @@ def edit_team(teamId):
 @team_routes.route('/<int:teamId>', methods=['PATCH'])
 @token_required
 def join_team(current_user, teamId):
+    print(teamId)
     user = User.query.get(current_user.id)
     team = Team.query.get(int(teamId))
     team.team_members.append(user)
     db.session.commit()    
 
-    return jsonify({'message': 'Joined team'})
+    return jsonify({'team': team.to_dict()})
 

@@ -7,12 +7,22 @@ from ..models.user import User, user_Role
 
 user_routes = Blueprint('users', __name__)
 
+
+#Get all users
 @user_routes.route('')
 @token_required
 def users(current_user):
     users = User.query.all()
     return {'users': [user.to_dict() for user in users]}
 
+
+#Get all users who are team leads
+@user_routes.route('/leads')
+@token_required
+def get_leads(current_user):
+    users = User.query.all()
+    leads = [user for user in users if user.to_role() == {'Lead'} or user.to_role() == {'Supervisor'}]
+    return jsonify({'leads' : [lead.to_name() for lead in leads]})
 
 
 @user_routes.route('/<public_id>')

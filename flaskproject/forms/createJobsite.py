@@ -15,7 +15,7 @@ def jobsite_exists(form, field):
 
 
 class CreateSiteForm(FlaskForm):
-    siteName = StringField('siteName', validators=[DataRequired(), Length(min=3, max=40, message='Jobsite must be between 3 and 40 characters')])
+    siteName = StringField('siteName', validators=[DataRequired(), jobsite_exists, Length(min=3, max=40, message='Jobsite must be between 3 and 40 characters')])
     state = StringField('state', validators=[DataRequired()])
     client = StringField('client', validators=[DataRequired(), Length(min=3, max=60, message="Client name must be beweeen 3 and 60 characters")])
     image = FileField('image')
