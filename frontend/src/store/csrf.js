@@ -3,19 +3,16 @@ export async function tokenFetch(url, options = {}) {
     options.method = options.method || 'GET';
     // set options.headers to an empty object if there is no headers
     options.headers = options.headers || {};
-
     // if the options.method is not 'GET', then set the "Content-Type" header to
     // "application/json", and set the "XSRF-TOKEN" header to the value of the 
     // "XSRF-TOKEN" cookie
     if (localStorage.getItem('x-access-token')) {
         options.headers['x-access-token'] = localStorage.getItem('x-access-token')
     }
-    if (options.method.toUpperCase() !== 'GET') {
-        options.headers['Content-Type'] =
-            options.headers['Content-Type'] || 'application/json';
-    }
     // call the default window's fetch with the url and the options passed in
     const res = await window.fetch(url, options);
+
+    console.log(res)
     // if the response status code is 400 or above, then throw an error with the
     // error being the response
 

@@ -3,11 +3,13 @@ import thunk from 'redux-thunk';
 import sessionReducer from './session';
 import jobsiteReducer from './jobsites';
 import currentSiteReducer from './currentSite';
+import siteTeamsReducer from './siteTeams';
 
 const rootReducer = combineReducers({
     session: sessionReducer,
     jobsites: jobsiteReducer,
-    currentSite: currentSiteReducer
+    currentSite: currentSiteReducer,
+    siteTeams: siteTeamsReducer
 });
 
 let enhancer;

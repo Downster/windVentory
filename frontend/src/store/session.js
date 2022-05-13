@@ -40,6 +40,9 @@ export const login = (user) => async (dispatch) => {
     const { username, password } = user;
     const response = await tokenFetch('/auth/login', {
         method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
         body: JSON.stringify({
             username,
             password,
@@ -52,7 +55,7 @@ export const login = (user) => async (dispatch) => {
 };
 
 export const setUserJobsite = (jobsiteId) => async (dispatch) => {
-    const res = await tokenFetch(`/jobsites/${jobsiteId}`, {
+    const res = await tokenFetch(`/jobsites/${jobsiteId}/join`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
@@ -62,7 +65,6 @@ export const setUserJobsite = (jobsiteId) => async (dispatch) => {
 
     if (res.ok) {
         const jobsiteId = await res.json()
-        console.log(jobsiteId)
         dispatch(setJobsite(jobsiteId))
     } else {
         const errors = res.json()
@@ -121,7 +123,8 @@ const sessionReducer = (state = initialState, action) => {
         case UPDATE_USER:
             return newState.user = action.user
         case SET_JOBSITE:
-            return newState.user.jobsite = action.user.jobsite_id
+            newState.user.jobsite_id = action.jobsiteId.id
+            return newState
         default:
             return state;
     }

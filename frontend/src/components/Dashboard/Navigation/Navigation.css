@@ -10,3 +10,8 @@
     width: 100px;
 
 }
+
+.profile-div{
+    height: fit-content;
+    z-index: 100;
+}

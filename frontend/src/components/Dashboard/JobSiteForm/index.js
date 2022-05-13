@@ -2,18 +2,19 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import states from "../../../utils/states";
+import { createJobsite, editJobsite, getJobsites } from "../../../store/jobsites";
 
-const CreateJobsiteForm = ({ setShowModal }) => {
+const CreateJobsiteForm = ({ setShowModal, edit, siteId }) => {
     const history = useHistory();
     const location = useLocation();
+    const jobsite = useSelector(state => state.jobsites[siteId])
     const [errors, setErrors] = useState({});
-    const [siteName, setSiteName] = useState("");
-    const [client, setClient] = useState('')
-    const [state, setState] = useState('');
+    const [siteName, setSiteName] = useState((edit) ? jobsite.name : '');
+    const [client, setClient] = useState((edit) ? jobsite.client : '')
+    const [state, setState] = useState((edit) ? jobsite.state : '');
     const [image, setImage] = useState(null);
     const [imageLoading, setImageLoading] = useState(false);
     const user = useSelector(state => state.session.user);
-
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -27,24 +28,28 @@ const CreateJobsiteForm = ({ setShowModal }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const errors = {};
-        if (!siteName.length) errors['group_name'] = 'This field is required.';
-        if (Object.values(errors).length) return setErrors(errors);
-
+        let errors;
         const formData = new FormData();
-        formData.append('site_name', siteName);
+        formData.append('siteName', siteName);
         formData.append('state', state);
         formData.append('client', client);
         if (image) {
-            formData.append('group_image', image);
+            formData.append('image', image);
             setImageLoading(true);
         }
-
+        if (edit) {
+            errors = await dispatch(editJobsite(formData, jobsite.id))
+        } else {
+            errors = await dispatch(createJobsite(formData));
+        }
         setImageLoading(false);
 
-        setShowModal(false);
+        if (errors) {
+            console.log(errors)
+        }
 
-        if (location.pathname !== '/') history.push('/');
+
+        setShowModal(false);
     };
 
     const handleCancelClick = async (e) => {
@@ -114,7 +119,7 @@ const CreateJobsiteForm = ({ setShowModal }) => {
                         {errors.site_name ? `${errors.site_name}` : ""}
                     </div>
                 </div>
-                <button disabled={Object.keys(errors).length > 0} id='create-jobsite' type="submit">Create Jobsite</button>
+                <button disabled={Object.keys(errors).length > 0} id='create-jobsite' type="submit">{(edit) ? 'Edit Jobsite' : 'Create Jobsite'}</button>
                 <button className='cancel-btn' onClick={handleCancelClick}>Cancel</button>
             </div>
 
