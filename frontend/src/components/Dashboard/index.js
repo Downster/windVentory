@@ -4,11 +4,31 @@ import Jobsite from './Jobsite'
 import AllSites from './AllSites'
 import Team from './Team'
 import { Switch, Route } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import './Dashboard.css'
+import AllTeams from './AllTeams'
+import { loadUserJobsite } from '../../store/currentSite'
+import { loadAllTeams } from '../../store/allTeams'
+import { useEffect } from 'react'
+import { getJobsites } from '../../store/jobsites'
+import { fetchTeams } from '../../store/siteTeams'
+import { fetchUserTeam } from '../../store/currentTeam'
 
 
 
 const Dashboard = () => {
+    const dispatch = useDispatch()
+    const user = useSelector(state => state.session.user)
+
+    useEffect(() => {
+        if (user.jobsite_id) {
+            dispatch(loadUserJobsite(user.jobsite_id))
+            dispatch(fetchTeams(user.jobsite_id))
+        }
+        dispatch(loadAllTeams())
+        dispatch(getJobsites())
+        dispatch(fetchUserTeam(user))
+    }, [dispatch])
 
     return (
         <>
@@ -28,11 +48,17 @@ const Dashboard = () => {
                     <Route exact path='/jobsite/:jobsiteId/teams'>
                         <Team />
                     </Route>
+                    <Route exact path='/team/:teamId'>
+                        <Team />
+                    </Route>
+                    <Route exact path='/team/:teamId/inventory'>
+                        <Team />
+                    </Route>
                     <Route path='/admin/jobsites'>
                         <AllSites adminPanel={true} />
                     </Route>
                     <Route path='/admin/teams'>
-                        <h1>Admin Teams Panel</h1>
+                        <AllTeams />
                     </Route>
                     <Route path='/admin/users'>
                         <h1>Admin User Panel</h1>
