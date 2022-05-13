@@ -1,5 +1,3 @@
-
-
 import { useState, useEffect } from "react";
 import { Modal } from "../../../context/Modal";
 import CreateJobsiteForm from "../JobSiteForm";

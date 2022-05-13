@@ -85,7 +85,6 @@ def logout(current_user):
 
 @auth_routes.route('/signup', methods=['POST'])
 def sign_up():
-
     form = SignUpForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     hashed_password = generate_password_hash(form.data['password'], method='sha256')

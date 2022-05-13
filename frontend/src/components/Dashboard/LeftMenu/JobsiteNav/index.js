@@ -1,23 +1,25 @@
 import CreateJobSiteModal from "../../CreateJobSiteModal"
+import { NavLink } from "react-router-dom"
 
 
 
-
-const JobSiteNav = ({ isMember, isAdmin }) => {
+const JobSiteNav = ({ isMember, isAdmin, siteId }) => {
 
     return (
-        <ul className="left-menu-list">
-            {isMember ? <li className="jobsite-nav-title">My Jobsite</li> : <li className="jobsite-nav-title">Jobsites</li>}
-            {isAdmin && <CreateJobSiteModal />}
+        <>
+            {isMember ?
+                <NavLink to={`/jobsite/${siteId}`} ><li className="jobsite-nav-title">My Jobsite</li></NavLink> : <li className="jobsite-nav-title">Jobsites</li>}
             {isMember &&
                 <>
-                    <li className="jobsite-item">Inventory</li>
-                    <li className="jobsite-item">Chat</li>
+
+                    <NavLink to={`/jobsite/${siteId}/inventory`}><li className="jobsite-item">Inventory</li></NavLink>
                     <li className="jobsite-item">Weather</li>
                     <li className="jobsite-item">Members</li>
+                    <li className="jobsite-item">Leave Jobsite <i className="fas fa-minus"></i></li>
                 </>
             }
-        </ul>
+        </>
+
     )
 }
 

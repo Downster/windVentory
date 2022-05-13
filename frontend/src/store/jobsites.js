@@ -47,15 +47,15 @@ export const getJobsites = () => async (dispatch) => {
 };
 
 export const createJobsite = (formData) => async (dispatch) => {
-    const res = await fetch(`/jobsites/`, {
+    const res = await tokenFetch(`/jobsites/`, {
         method: 'POST',
         body: formData,
     });
 
     if (res.ok) {
         const data = await res.json();
+        console.log(data)
         dispatch(create(data));
-        return null;
     } else if (res.status < 500) {
         const data = await res.json();
         if (data.errors) {
@@ -67,7 +67,7 @@ export const createJobsite = (formData) => async (dispatch) => {
 };
 
 export const deleteJobsite = (jobsiteId) => async (dispatch) => {
-    const res = await fetch(`/jobsites/${jobsiteId}`, {
+    const res = await tokenFetch(`/jobsites/${jobsiteId}`, {
         method: 'DELETE'
     });
 
@@ -86,15 +86,14 @@ export const deleteJobsite = (jobsiteId) => async (dispatch) => {
 }
 
 export const editJobsite = (formData, jobsiteId) => async (dispatch) => {
-    const res = await fetch(`/jobsites/${jobsiteId}`, {
-        method: 'PUT',
+    const res = await tokenFetch(`/jobsites/${jobsiteId}`, {
+        method: 'PATCH',
         body: formData,
     });
 
     if (res.ok) {
         const data = await res.json();
-        dispatch(edit(data));
-        return null;
+        dispatch(edit(data.jobsite));
     } else if (res.status < 500) {
         const data = await res.json();
         if (data.errors) {
@@ -109,7 +108,7 @@ export const editJobsite = (formData, jobsiteId) => async (dispatch) => {
 
 
 export const leaveCurrentJobsite = (jobsiteId) => async (dispatch) => {
-    const res = await fetch(`/groups/${jobsiteId}/leave`, {
+    const res = await tokenFetch(`/groups/${jobsiteId}/leave`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
@@ -154,7 +153,10 @@ const jobsiteReducer = (state = initialState, action) => {
             return newState;
         }
         case CREATE_JOBSITE:
+            newState[action.jobsite.site.id] = action.jobsite.site
+            return newState
         case EDIT_JOBSITE:
+            newState[action.jobsite.id] = action.jobsite
             return newState
         case LEAVE_JOBSITE: {
             return updateSingleJobsite(state, action);
