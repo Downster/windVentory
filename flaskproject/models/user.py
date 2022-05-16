@@ -46,7 +46,6 @@ class User(db.Model):
     def to_dict(self):
         return {
             'id': self.id,
-            'public_id': self.public_id,
             'firstName': self.first_name,
             'lastName' : self.last_name,
             'phoneNumber' : self.phone_number,
@@ -60,7 +59,6 @@ class User(db.Model):
     def to_team_dict(self):
         return {
             'id': self.id,
-            'public_id': self.public_id,
             'firstName': self.first_name,
             'lastName' : self.last_name,
             'phoneNumber' : self.phone_number,

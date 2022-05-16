@@ -10,7 +10,6 @@ const getTeams = (teams) => ({
 export const fetchTeams = (jobsiteId) => async (dispatch) => {
     const res = await tokenFetch(`/jobsites/${jobsiteId}/teams`);
     const data = await res.json();
-    console.log(data)
     if (res.ok) {
         dispatch(getTeams(data.currentTeams));
     } else {

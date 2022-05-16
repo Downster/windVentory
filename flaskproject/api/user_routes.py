@@ -51,16 +51,16 @@ def create_user():
     
     hashed_password = generate_password_hash(data['password'], method='sha256')
 
-    new_user = User(public_id=str(uuid.uuid4()), email=data['email'], first_name=data['first_name'], last_name=data['last_name'], password=hashed_password, phone_number=data['phone_number'], image=data['image'] )
+    new_user = User(email=data['email'], first_name=data['first_name'], last_name=data['last_name'], password=hashed_password, phone_number=data['phone_number'], image=data['image'] )
     db.session.add(new_user)
     db.session.commit()
     return jsonify({'message' : 'New user created'})
 
 
 
-@user_routes.route('/<public_id>', methods=['DELETE'])
-def delete_user(public_id):
-    user = User.query.filter_by(public_id=public_id).first()
+@user_routes.route('/<id>', methods=['DELETE'])
+def delete_user(id):
+    user = User.query.filter_by(id=id).first()
 
     if not user:
         return jsonify({'message': 'user does not exist'})
