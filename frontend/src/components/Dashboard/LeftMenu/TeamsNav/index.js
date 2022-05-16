@@ -9,7 +9,7 @@ const TeamsNav = ({ siteId }) => {
 
     return (
         <>
-            {(userTeam) ? <NavLink to={`/team/${userTeam[0].id}`}><li className="teams-nav-title"> My Team</li></NavLink> : <NavLink to={`/jobsite/${siteId}/teams`}><li className="teams-nav-title">Teams</li></NavLink>}
+            {(userTeam.length) ? <NavLink to={`/team/${userTeam[0].id}`}><li className="teams-nav-title"> My Team</li></NavLink> : <NavLink to={`/jobsite/${siteId}/teams`}><li className="teams-nav-title">Teams</li></NavLink>}
             <li className="jobsite-item">Inventory</li>
             <li className="jobsite-item">Members</li>
             <li className="jobsite-item">Chat</li>

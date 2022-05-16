@@ -28,7 +28,7 @@ def token_required(f):
 
         try:
             data = jwt.decode(token, os.environ.get("SECRET_KEY"), algorithms="HS256")
-            current_user = User.query.filter_by(public_id=data['public_id']).first()
+            current_user = User.query.filter_by(id=data['id']).first()
         except:
             return jsonify({'message': "Token is invalid"}), 401
         
@@ -61,7 +61,7 @@ def login():
         return make_response('Could not verify', 401)
 
     if check_password_hash(user.password, auth['password']):
-        token = jwt.encode({'public_id': user.public_id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=200)}, os.environ.get("SECRET_KEY"), algorithm="HS256")
+        token = jwt.encode({'id': user.id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=200)}, os.environ.get("SECRET_KEY"), algorithm="HS256")
 
         return jsonify({
             "user": user.to_dict(),
@@ -100,7 +100,6 @@ def sign_up():
     url = upload["url"]
     if form.validate_on_submit():
         user = User(
-            public_id = str(uuid.uuid4()),
             email=form.data['email'],
             first_name = form.data['firstName'],
             last_name = form.data['lastName'],
@@ -111,7 +110,7 @@ def sign_up():
         )
         db.session.add(user)
         db.session.commit()
-        token = jwt.encode({'public_id': user.public_id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=200)}, os.environ.get("SECRET_KEY"), algorithm="HS256")
+        token = jwt.encode({'id': user.id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=200)}, os.environ.get("SECRET_KEY"), algorithm="HS256")
         return jsonify({
             'user': user.to_dict(),
             'token' : token

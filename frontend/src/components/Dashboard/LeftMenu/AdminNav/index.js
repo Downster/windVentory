@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import { useEffect } from "react"
 import { loadAllTeams } from "../../../../store/allTeams"
+import { loadAllUsers } from "../../../../store/allUsers"
 import CreateTeamModal from "../../CreateTeamModal"
 
 
@@ -11,6 +12,7 @@ const AdminNav = () => {
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(loadAllTeams())
+        dispatch(loadAllUsers())
     })
 
 

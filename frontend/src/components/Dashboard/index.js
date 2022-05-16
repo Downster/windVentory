@@ -2,11 +2,12 @@ import LeftMenu from './LeftMenu'
 import Navaigation from './Navigation'
 import Jobsite from './Jobsite'
 import AllSites from './AllSites'
+import AllUsers from './AllUsers'
+import AllTeams from './AllTeams'
 import Team from './Team'
 import { Switch, Route } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import './Dashboard.css'
-import AllTeams from './AllTeams'
 import { loadUserJobsite } from '../../store/currentSite'
 import { loadAllTeams } from '../../store/allTeams'
 import { useEffect } from 'react'
@@ -61,7 +62,7 @@ const Dashboard = () => {
                         <AllTeams />
                     </Route>
                     <Route path='/admin/users'>
-                        <h1>Admin User Panel</h1>
+                        <AllUsers />
                     </Route>
                 </Switch>
             </div>
