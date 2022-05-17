@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { createNewTeam } from "../../../store/allTeams";
+import { createNewTeam, editTeam } from "../../../store/allTeams";
 import { getJobsites } from "../../../store/jobsites";
 import { loadLeads } from "../../../store/leads";
 
@@ -30,7 +30,7 @@ const TeamForm = ({ setShowModal, edit, teamId }) => {
 
 
         if (edit) {
-            // errors = await dispatch(editJobsite(formData, jobsite.id))
+            errors = await dispatch(editTeam(formData, team.id))
         } else {
             errors = await dispatch(createNewTeam(formData));
         }

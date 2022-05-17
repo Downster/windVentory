@@ -27,7 +27,6 @@ const UserCard = ({ user, admin }) => {
                 {!admin && <button onClick={joinTeam}>View User</button>}
                 {admin && <button>Edit User</button>}
                 {admin && <button onClick={deleteTeam}>Delete User</button>}
-
             </div>
         </div>
     )

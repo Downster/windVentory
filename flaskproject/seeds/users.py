@@ -5,7 +5,6 @@ import uuid
 
 
 def seed_users():
-   
     brendan = User(
         public_id=str(uuid.uuid4()), email='imbrandan@gmail.com', first_name='Brendan', last_name='Downing', password=generate_password_hash('password', method='sha256'), phone_number='408-916-6314')
     karis = User(

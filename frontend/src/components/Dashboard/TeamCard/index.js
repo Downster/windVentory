@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setUserTeam } from '../../../store/session';
 import { removeTeam } from '../../../store/allTeams';
 import { setTeam } from '../../../store/currentTeam';
+import { Modal } from "../../../context/Modal";
+import TeamForm from '../TeamForm';
 
 
 const TeamCard = ({ team, admin }) => {
@@ -25,14 +27,23 @@ const TeamCard = ({ team, admin }) => {
         dispatch(removeTeam(team.id))
     }
 
+    const modifyTeam = () => {
+        setShowModal(true)
+    }
+
 
     return (
         <div className='team-container'>
             <div className="team-card">
                 <h1 className="team-name">{team.team_lead.firstName + " " + team.team_lead.lastName}'s Team</h1>
                 {!admin && <button onClick={joinTeam}>Join Team</button>}
-                {admin && <button>Edit Team</button>}
+                {admin && <button onClick={modifyTeam}>Edit Team</button>}
                 {admin && <button onClick={deleteTeam}>Delete Team</button>}
+                {showModal && (
+                    <Modal onClose={() => setShowModal(false)}>
+                        <TeamForm setShowModal={setShowModal} edit={true} teamId={team.id} />
+                    </Modal>
+                )}
 
             </div>
         </div>
