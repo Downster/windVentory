@@ -65,7 +65,6 @@ def get_Team(current_user, teamId):
 def delete_team(current_user, teamId):
 
     if current_user.to_role() == {'Admin'} or current_user.to_role() =={'Lead'} or current_user.to_role() == {'Supervisor'}:
-
         team = Team.query.get(int(teamId))
         db.session.delete(team)
         db.session.commit()
@@ -76,15 +75,29 @@ def delete_team(current_user, teamId):
 
 
 @team_routes.route('/<int:teamId>', methods=['PUT'])
-def edit_team(teamId):
-    pass
+@token_required
+def edit_team(current_user, teamId):
+    form = CreateTeamForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if current_user.to_role() == {'Admin'} or current_user.to_role() =={'Lead'} or current_user.to_role() == {'Supervisor'}:
+        if form.validate_on_submit():
+            team = Team.query.get(teamId)
+            team.lead_id=form.data['lead_id']
+            team.jobsite_id = form.data['jobsite_id']
+            team.job_type = form.data['job_type']
+            db.session.commit()
+            return jsonify({
+                'team': team.to_dict(),
+            })
+    return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+
 
 
 #Join team route
 @team_routes.route('/<int:teamId>', methods=['PATCH'])
 @token_required
 def join_team(current_user, teamId):
-    print(teamId)
+    
     user = User.query.get(current_user.id)
     team = Team.query.get(int(teamId))
     team.team_members.append(user)

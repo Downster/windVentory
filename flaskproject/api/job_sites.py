@@ -95,7 +95,6 @@ def edit_site(current_user, jobsite_id):
     
     if form.validate_on_submit():
         jobsite = JobSite.query.get(jobsite_id)
-        print(url)
         jobsite.name = form['siteName'].data
         jobsite.state = form['state'].data
         jobsite.client = form['client'].data

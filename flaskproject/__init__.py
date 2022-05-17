@@ -39,7 +39,7 @@ def create_app():
     # app.register_blueprint(auth_routes, url_prefix='/api/events')
     
     
-    app.before_request
+    @app.before_request
     def https_redirect():
         if os.environ.get('FLASK_ENV') == 'production':
             if request.headers.get('X-Forwarded-Proto') == 'http':
@@ -49,7 +49,7 @@ def create_app():
 
 
 
-    app.after_request
+    @app.after_request
     def inject_csrf_token(response):
         response.set_cookie(
             'csrf_token',

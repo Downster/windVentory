@@ -4,6 +4,7 @@ import { tokenFetch } from "./csrf";
 const GET_TEAMS = 'allTeams/GET_TEAMS'
 const CREATE_TEAM = 'allTeams/CREATE_TEAM'
 const DELETE_TEAM = 'allTeams/DELETE_TEAM'
+const EDIT_TEAM = 'allTeams/EDIT_TEAM'
 
 const getTeams = (teams) => ({
     type: GET_TEAMS,
@@ -18,6 +19,11 @@ const createTeam = (team) => ({
 const deleteTeam = (teamId) => ({
     type: DELETE_TEAM,
     teamId
+})
+
+const editOneTeam = (team) => ({
+    type: EDIT_TEAM,
+    team
 })
 
 
@@ -48,6 +54,20 @@ export const createNewTeam = (formData) => async (dispatch) => {
     }
 };
 
+export const editTeam = (formData, teamId) => async (dispatch) => {
+    const res = await tokenFetch(`/teams/${teamId}`, {
+        method: 'PUT',
+        body: formData
+    })
+
+    const team = await res.json();
+    if (res.ok) {
+        dispatch(editOneTeam(team.team));
+    } else {
+        return team
+    }
+};
+
 export const removeTeam = (teamId) => async (dispatch) => {
     const res = await tokenFetch(`/teams/${teamId}`, {
         method: 'DELETE',
@@ -74,6 +94,9 @@ const allTeamsReducer = (state = initialState, action) => {
             }
             return newState
         case CREATE_TEAM:
+            newState[action.team.id] = action.team
+            return newState
+        case EDIT_TEAM:
             newState[action.team.id] = action.team
             return newState
         case DELETE_TEAM:
