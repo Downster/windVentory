@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
+import { createNewUser } from "../../../store/allUsers";
 
 
 function UserForm({ setShowModal, userId, edit }) {
@@ -16,7 +17,7 @@ function UserForm({ setShowModal, userId, edit }) {
     const [errors, setErrors] = useState([]);
 
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (password === confirmPassword) {
             const formData = new FormData()
@@ -25,7 +26,13 @@ function UserForm({ setShowModal, userId, edit }) {
             formData.append('lastName', lastName)
             formData.append('phoneNumber', phoneNumber)
             formData.append('password', password)
+            formData.append('roleId', role)
             setErrors([]);
+            const errors = await dispatch(createNewUser(formData))
+            if (errors) {
+                console.log(errors)
+            }
+            setShowModal(false)
         }
         return setErrors(['Confirm Password field must be the same as the Password field']);
     };

@@ -10,7 +10,7 @@ const getUsers = (users) => ({
     users
 });
 
-const createTeam = (user) => ({
+const createUser = (user) => ({
     type: CREATE_USER,
     user
 })
@@ -34,19 +34,19 @@ export const loadAllUsers = () => async (dispatch) => {
 };
 
 
-// export const createNewTeam = (formData) => async (dispatch) => {
-//     const res = await tokenFetch(`/teams/`, {
-//         method: 'POST',
-//         body: formData,
-//     });
+export const createNewUser = (formData) => async (dispatch) => {
+    const res = await tokenFetch(`/users/new`, {
+        method: 'POST',
+        body: formData,
+    });
 
-//     const team = await res.json();
-//     if (res.ok) {
-//         dispatch(createTeam(team.team));
-//     } else {
-//         return team;
-//     }
-// };
+    const user = await res.json();
+    if (res.ok) {
+        dispatch(createUser(user.user));
+    } else {
+        return user;
+    }
+};
 
 // export const removeTeam = (teamId) => async (dispatch) => {
 //     const res = await tokenFetch(`/teams/${teamId}`, {
@@ -74,7 +74,8 @@ const allUsersReducer = (state = initialState, action) => {
             }
             return newState
         case CREATE_USER:
-
+            newState[action.user.id] = action.user
+            return newState
         case DELETE_USER:
         default:
             return state;
