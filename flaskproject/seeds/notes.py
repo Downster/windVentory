@@ -6,9 +6,9 @@ from ..extensions import db
 def seed_notes():
    
     Note1 = Note(
-            user_id=1, team_id=1, note_text='Grab fiberglass from connex')
+            user_id=1, team_id=4, note_text='Grab fiberglass from connex')
     Note2 = Note(
-            user_id=2, team_id=2, note_text='Grab BP-20 from connex')
+            user_id=2, team_id=5, note_text='Grab BP-20 from connex')
 
     
     db.session.add(Note1)

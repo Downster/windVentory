@@ -8,9 +8,9 @@ from ..extensions import db
 def seed_events():
    
     Event1 = Event(
-            user_id=1, team_id=1, summary='Grab fiberglass from connex', description='Grab another roll of biax from the connex', start_time=date.today(), end_time=date.today())
+            user_id=1, team_id=4, summary='Grab fiberglass from connex', description='Grab another roll of biax from the connex', start_time=date.today(), end_time=date.today())
     Event2 = Event(
-            user_id=2, team_id=2, summary='Grab BP-20 from connex', description='Grab 5 tubes of bp-20 from the connex', start_time=date.today(), end_time=date.today())
+            user_id=2, team_id=5, summary='Grab BP-20 from connex', description='Grab 5 tubes of bp-20 from the connex', start_time=date.today(), end_time=date.today())
 
     
     db.session.add(Event1)
