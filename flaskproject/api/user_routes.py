@@ -3,7 +3,7 @@ from .auth_routes import token_required
 from werkzeug.security import generate_password_hash, check_password_hash
 import uuid
 from ..extensions import db
-from ..models.user import User, user_Role
+from ..models.user import User, Role
 
 user_routes = Blueprint('users', __name__)
 
@@ -43,11 +43,10 @@ def user_role(current_user, user_id):
     user = User.query.filter_by(id=user_id).first()
     return jsonify(user.role_to_dict())
 
-
+#Create user from signup page
 @user_routes.route('', methods=['POST'])
 def create_user():
     data = request.get_json()
-    print(data)
     
     hashed_password = generate_password_hash(data['password'], method='sha256')
 
@@ -57,8 +56,25 @@ def create_user():
     return jsonify({'message' : 'New user created'})
 
 
+#Create user as admin -- requires a token and backend role authentication
+@user_routes.route('/new', methods=['POST'])
+@token_required
+def admin_create_user(current_user, role_id):
+    if current_user.to_role() == {'Admin'}:
+        data = request.get_json()
+        role = Role.query.get(role_id)
+        hashed_password = generate_password_hash(data['password'], method='sha256')
+
+        new_user = User(email=data['email'], first_name=data['first_name'], last_name=data['last_name'], password=hashed_password, phone_number=data['phone_number'], image=data['image'], roles=[role] )
+        db.session.add(new_user)
+        db.session.commit()
+        return jsonify({'user' : new_user.to_dict()})
+    return {'Unauthorized' : 'You must be an admin to add a user'}, 401
+
+
 
 @user_routes.route('/<id>', methods=['DELETE'])
+@token_required
 def delete_user(id):
     user = User.query.filter_by(id=id).first()
 

@@ -5,13 +5,15 @@
 
 .left-menu{
     height: 100%;
-    width: 15%;
+    width: 200px;
+    min-width: 200px;
     background-color: #A9C2F4;
 }
 
 .app-body{
     display: flex;
     gap: 20px;
+    flex-wrap: wrap;
     padding-top: 20px;
     padding-left: 20px;
 }
