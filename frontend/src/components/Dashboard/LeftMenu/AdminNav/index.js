@@ -5,6 +5,7 @@ import { useEffect } from "react"
 import { loadAllTeams } from "../../../../store/allTeams"
 import { loadAllUsers } from "../../../../store/allUsers"
 import CreateTeamModal from "../../CreateTeamModal"
+import CreateUserModal from "../../CreateUserModal"
 
 
 
@@ -24,6 +25,7 @@ const AdminNav = () => {
             <NavLink to='/admin/teams'><li className="admin-nav-title">Manage Teams</li></NavLink>
             <CreateTeamModal />
             <NavLink to='/admin/users'><li className="admin-nav-title">Manage Users</li></NavLink>
+            <CreateUserModal />
         </ul>
     )
 }

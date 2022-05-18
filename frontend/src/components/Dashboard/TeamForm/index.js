@@ -59,9 +59,6 @@ const TeamForm = ({ setShowModal, edit, teamId }) => {
     return (
         <form autoComplete="off" className="team-form-container" onSubmit={handleSubmit}>
             <div className='team-form-input-container'>
-                <div className='form-element-container'>
-
-                </div>
 
                 <div className='form-element-container'>
                     <select
