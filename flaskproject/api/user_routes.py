@@ -4,9 +4,20 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import uuid
 from ..extensions import db
 from ..models.user import User, Role
+from ..forms import CreateUserForm
 
 user_routes = Blueprint('users', __name__)
 
+
+def error_messages(validation_errors):
+    """
+    Turns validation errors into an error message for frontend
+    """
+    errorMessages = []
+    for field in validation_errors:
+        for error in validation_errors[field]:
+            errorMessages.append(f'{field}:{error}')
+    return errorMessages
 
 #Get all users
 @user_routes.route('')
@@ -59,16 +70,27 @@ def create_user():
 #Create user as admin -- requires a token and backend role authentication
 @user_routes.route('/new', methods=['POST'])
 @token_required
-def admin_create_user(current_user, role_id):
+def admin_create_user(current_user):
     if current_user.to_role() == {'Admin'}:
-        data = request.get_json()
-        role = Role.query.get(role_id)
-        hashed_password = generate_password_hash(data['password'], method='sha256')
+        form = CreateUserForm()
+        form['csrf_token'].data = request.cookies['csrf_token']
 
-        new_user = User(email=data['email'], first_name=data['first_name'], last_name=data['last_name'], password=hashed_password, phone_number=data['phone_number'], image=data['image'], roles=[role] )
-        db.session.add(new_user)
-        db.session.commit()
-        return jsonify({'user' : new_user.to_dict()})
+        if form.validate_on_submit():
+            print('here')
+            role = Role.query.get(form.data['roleId'])
+            hashed_password = generate_password_hash(form.data['password'], method='sha256')
+
+            new_user = User(
+                email = form.data['email'], 
+                first_name=form.data['firstName'], 
+                last_name=form.data['lastName'], 
+                password=hashed_password, 
+                phone_number=form.data['phoneNumber'], 
+                roles=[role] )
+            db.session.add(new_user)
+            db.session.commit()
+            return jsonify({'user' : new_user.to_dict()})
+        return {'errors': error_messages(form.errors)}, 401
     return {'Unauthorized' : 'You must be an admin to add a user'}, 401
 
 
