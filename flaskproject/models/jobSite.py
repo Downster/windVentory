@@ -9,7 +9,6 @@ class JobSite(db.Model):
     name= db.Column(db.String, nullable=False)
     state = db.Column(db.String, nullable=False)
     client = db.Column(db.String, nullable=False)
-    image = db.Column(db.String(255), default='https://windventory.s3.amazonaws.com/73e0e9c55dd04ba284e933cfa4d9c07a.png')
 
     #relationships
     towers = relationship('Tower', back_populates='jobsite')

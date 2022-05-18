@@ -18,7 +18,7 @@ def create_app():
     app = Flask(__name__)
     load_dotenv(find_dotenv())
     app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("SQLALCHEMY_DATABASE_URI")
     CORS(app)
     # Tell flask about our seed commands
     app.cli.add_command(seed_commands)

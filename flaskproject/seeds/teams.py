@@ -23,6 +23,8 @@ def seed_teams():
     db.session.add(Team1)
     db.session.add(Team2)
     db.session.add(Team3)
+    db.session.add(Team4)
+    db.session.add(Team5)
     
     db.session.commit()
 

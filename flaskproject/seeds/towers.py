@@ -8,10 +8,13 @@ def seed_towers():
             tower_number="E26", jobsite_id=1)
     F22 = Tower(
             tower_number="F22", jobsite_id=2)
+    E22 = Tower(
+            tower_number="E22", jobsite_id=1)
 
     
     db.session.add(E26)
     db.session.add(F22)
+    db.session.add(E22)
     
     db.session.commit()
 

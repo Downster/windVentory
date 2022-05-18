@@ -7,7 +7,7 @@ from ..forms import CreateTeamForm
 
 team_routes = Blueprint('teams', __name__)
 
-def validation_errors_to_error_messages(validation_errors):
+def error_messages(validation_errors):
     """
     Turns validation errors into an error message for frontend
     """
@@ -47,7 +47,7 @@ def create_team(current_user):
             })
     else :
         return {"errors": "Unauthorized"}, 401
-    return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+    return {'errors': error_messages(form.errors)}, 401
     
 
 

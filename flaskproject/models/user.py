@@ -1,7 +1,7 @@
 from email.policy import default
 from ..extensions import db
 from sqlalchemy.orm import relationship
-from sqlalchemy import ForeignKey
+from sqlalchemy import ForeignKey, null
 from .room import active_participants
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -54,7 +54,7 @@ class User(db.Model):
             'online': self.online,
             'jobsite_id': self.jobsite_id,
             'role': [role.to_name() for role in self.roles],
-            'teams': [team.to_dict() for team in self.teams]
+            'teams': [team.to_dict() for team in self.teams],
         }
     def to_team_dict(self):
         return {

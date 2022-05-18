@@ -11,7 +11,7 @@ from ..forms import CreateSiteForm
 
 jobsite_routes = Blueprint('jobsites', __name__)
 
-def validation_errors_to_error_messages(validation_errors):
+def error_messages(validation_errors):
     """
     Turns validation errors into an error message for frontend
     """
@@ -61,7 +61,7 @@ def create_site(current_user):
         return jsonify({
             'site': site.to_dict(),
         })
-    return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+    return {'errors': error_messages(form.errors)}, 401
 
 #delete jobsite
 @jobsite_routes.route('/<int:jobsite_id>', methods=['DELETE'])
@@ -101,7 +101,7 @@ def edit_site(current_user, jobsite_id):
         jobsite.image= url 
         db.session.commit()
         return jsonify({'jobsite' : jobsite.to_dict()})
-    return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+    return {'errors': error_messages(form.errors)}, 401
 
 
 #Search for specific jobsite
