@@ -76,7 +76,7 @@ def admin_create_user(current_user):
         form['csrf_token'].data = request.cookies['csrf_token']
 
         if form.validate_on_submit():
-            print('here')
+        
             role = Role.query.get(form.data['roleId'])
             hashed_password = generate_password_hash(form.data['password'], method='sha256')
 
@@ -97,8 +97,8 @@ def admin_create_user(current_user):
 
 @user_routes.route('/<id>', methods=['DELETE'])
 @token_required
-def delete_user(id):
-    user = User.query.filter_by(id=id).first()
+def delete_user(current_user, id):
+    user = User.query.get(id)
 
     if not user:
         return jsonify({'message': 'user does not exist'})
@@ -106,5 +106,5 @@ def delete_user(id):
     db.session.delete(user)
     db.session.commit()
 
-    return jsonify({'message': 'User deleted'})
+    return jsonify({'userId': id})
 

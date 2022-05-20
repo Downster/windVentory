@@ -22,13 +22,15 @@ const Dashboard = () => {
     const user = useSelector(state => state.session.user)
 
     useEffect(() => {
-        if (user.jobsite_id) {
-            dispatch(loadUserJobsite(user.jobsite_id))
-            dispatch(fetchTeams(user.jobsite_id))
+        if (user) {
+            if (user.jobsite_id) {
+                dispatch(loadUserJobsite(user.jobsite_id))
+                dispatch(fetchTeams(user.jobsite_id))
+            }
+            dispatch(loadAllTeams())
+            dispatch(getJobsites())
+            dispatch(fetchUserTeam(user))
         }
-        dispatch(loadAllTeams())
-        dispatch(getJobsites())
-        dispatch(fetchUserTeam(user))
     }, [dispatch])
 
     return (
