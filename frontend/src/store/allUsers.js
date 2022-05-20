@@ -1,4 +1,3 @@
-import { async } from "regenerator-runtime";
 import { tokenFetch } from "./csrf";
 
 const GET_USERS = 'allUsers/GET_USERS'
@@ -48,18 +47,18 @@ export const createNewUser = (formData) => async (dispatch) => {
     }
 };
 
-// export const removeTeam = (teamId) => async (dispatch) => {
-//     const res = await tokenFetch(`/teams/${teamId}`, {
-//         method: 'DELETE',
-//     });
+export const removeUser = (userId) => async (dispatch) => {
+    const res = await tokenFetch(`/users/${userId}`, {
+        method: 'DELETE',
+    });
 
-//     const team = await res.json();
-//     if (res.ok) {
-//         dispatch(deleteTeam(team.team));
-//     } else {
-//         return team;
-//     }
-// }
+    const user = await res.json();
+    if (res.ok) {
+        dispatch(deleteUser(user.userId));
+    } else {
+        return user;
+    }
+}
 
 const initialState = {};
 
@@ -77,6 +76,8 @@ const allUsersReducer = (state = initialState, action) => {
             newState[action.user.id] = action.user
             return newState
         case DELETE_USER:
+            delete newState[action.userId]
+            return newState
         default:
             return state;
 

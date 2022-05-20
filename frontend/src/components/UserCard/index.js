@@ -1,6 +1,7 @@
 import { useHistory } from 'react-router-dom'
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
+import { removeUser } from '../../store/allUsers';
 import './userCard.css'
 
 
@@ -11,12 +12,13 @@ const UserCard = ({ user, admin }) => {
     useEffect(() => {
         return () => setShowModal(false);
     }, []);
-
+    console.log(user.id)
     const joinTeam = () => {
 
     }
 
-    const deleteTeam = () => {
+    const deleteUser = () => {
+        dispatch(removeUser(user.id))
     }
 
 
@@ -27,7 +29,7 @@ const UserCard = ({ user, admin }) => {
                 <h1 className="team-name">{user.firstName + " " + user.lastName}</h1>
                 {!admin && <button onClick={joinTeam}>View User</button>}
                 {admin && <button>Edit User</button>}
-                {admin && <button onClick={deleteTeam}>Delete User</button>}
+                {admin && <button onClick={deleteUser}>Delete User</button>}
             </div>
         </div>
     )

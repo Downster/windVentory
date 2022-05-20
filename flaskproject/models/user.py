@@ -1,7 +1,7 @@
 from email.policy import default
 from ..extensions import db
 from sqlalchemy.orm import relationship
-from sqlalchemy import ForeignKey, null
+from sqlalchemy import ForeignKey
 from .room import active_participants
 from werkzeug.security import generate_password_hash, check_password_hash
 

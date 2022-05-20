@@ -26,9 +26,9 @@ function ProfileButton({ user }) {
         return () => document.removeEventListener("click", closeMenu);
     }, [showMenu]);
 
-    const logout = (e) => {
-        e.preventDefault();
-        dispatch(sessionActions.logout());
+    const logout = async () => {
+        const done = await dispatch(sessionActions.logout());
+        history.push('/')
     };
 
     const adminPanel = () => {

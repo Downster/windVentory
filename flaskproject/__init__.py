@@ -8,7 +8,6 @@ from .api.team_routes import team_routes
 from .api.auth_routes import auth_routes
 from .api.event_routes import event_routes
 from .api.job_sites import jobsite_routes
-from flask_admin.contrib.sqla import ModelView
 from .models import User
 from .seeds import seed_commands
 from dotenv import load_dotenv, find_dotenv
