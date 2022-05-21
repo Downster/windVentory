@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 9472134d7a3f
+Revision ID: 7e6cc1a331c0
 Revises: 
-Create Date: 2022-05-18 10:15:17.333673
+Create Date: 2022-05-20 15:18:02.313670
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '9472134d7a3f'
+revision = '7e6cc1a331c0'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -23,6 +23,7 @@ def upgrade():
     sa.Column('name', sa.String(), nullable=False),
     sa.Column('state', sa.String(), nullable=False),
     sa.Column('client', sa.String(), nullable=False),
+    sa.Column('image', sa.String(length=255), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('material_class',
@@ -60,7 +61,6 @@ def upgrade():
     )
     op.create_table('user',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('public_id', sa.String(length=50), nullable=True),
     sa.Column('email', sa.String(length=120), nullable=False),
     sa.Column('first_name', sa.String(length=50), nullable=False),
     sa.Column('last_name', sa.String(length=50), nullable=False),
@@ -71,8 +71,7 @@ def upgrade():
     sa.Column('online', sa.Boolean(), nullable=True),
     sa.ForeignKeyConstraint(['jobsite_id'], ['job_site.id'], ),
     sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('email'),
-    sa.UniqueConstraint('public_id')
+    sa.UniqueConstraint('email')
     )
     op.create_table('material',
     sa.Column('id', sa.Integer(), nullable=False),

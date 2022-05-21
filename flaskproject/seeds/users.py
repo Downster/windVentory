@@ -1,7 +1,6 @@
 from flaskproject.models import User, Role
 from werkzeug.security import generate_password_hash
 from ..extensions import db
-import uuid
 
 
 def seed_users():
@@ -50,5 +49,5 @@ def seed_users():
 # resets the auto incrementing primary key, CASCADE deletes any
 # dependent entities
 def undo_users():
-    db.session.execute('TRUNCATE users RESET IDENTITY CASCADE;')
+    db.session.execute('TRUNCATE user RESTART IDENTITY CASCADE;')
     db.session.commit()

@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
 import { createNewUser } from "../../../store/allUsers";
+import roleToNum from "../../../utils/roleToNum";
 
 
-function UserForm({ setShowModal, userId, edit }) {
+function UserForm({ setShowModal, user, edit }) {
     const dispatch = useDispatch();
     const sessionUser = useSelector((state) => state.session.user);
-    const [email, setEmail] = useState("");
-    const [role, setRole] = useState('')
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('')
-    const [phoneNumber, setPhoneNumber] = useState('')
+    const [email, setEmail] = useState((edit) ? user.email : "");
+    const [role, setRole] = useState((edit) ? roleToNum(user.role[0]) : 1)
+    const [firstName, setFirstName] = useState((edit) ? user.firstName : '');
+    const [lastName, setLastName] = useState((edit) ? user.lastName : '')
+    const [phoneNumber, setPhoneNumber] = useState((edit) ? user.phoneNumber : '')
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [errors, setErrors] = useState([]);
@@ -112,7 +112,7 @@ function UserForm({ setShowModal, userId, edit }) {
                         required
                     />
                 </div>
-                <div className="form-element-container">
+                {!edit && <div className="form-element-container">
                     <input
                         className="input-field"
                         type="password"
@@ -122,7 +122,8 @@ function UserForm({ setShowModal, userId, edit }) {
                         required
                     />
                 </div>
-                <div className="form-element-container">
+                }
+                {!edit && <div className="form-element-container">
                     <input
                         className="input-field"
                         type="password"
@@ -132,8 +133,9 @@ function UserForm({ setShowModal, userId, edit }) {
                         required
                     />
                 </div>
+                }
                 <div className="button-div">
-                    <button type="submit" className='signup-button'>Create User</button>
+                    <button type="submit" className='signup-button'>{(edit) ? 'Edit user' : 'Create User'}</button>
                 </div>
             </div>
         </form>
