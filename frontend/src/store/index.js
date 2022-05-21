@@ -3,7 +3,6 @@ import thunk from 'redux-thunk';
 import sessionReducer from './session';
 import jobsiteReducer from './jobsites';
 import currentSiteReducer from './currentSite';
-import siteTeamsReducer from './siteTeams';
 import allTeamsReducer from './allTeams';
 import leadsReducer from './leads';
 import currentTeamReducer from './currentTeam';
@@ -14,7 +13,6 @@ const rootReducer = combineReducers({
     jobsites: jobsiteReducer,
     currentSite: currentSiteReducer,
     currentTeam: currentTeamReducer,
-    siteTeams: siteTeamsReducer,
     allTeams: allTeamsReducer,
     leads: leadsReducer,
     allUsers: allUsersReducer

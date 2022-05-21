@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useHistory } from 'react-router-dom'
 import { loadUserJobsite } from "../../../store/currentSite";
 import AllSites from "../AllSites";
-import { fetchTeams } from "../../../store/siteTeams";
+import { fetchTeams } from "../../../store/currentSite";
 const Jobsite = () => {
     const dispatch = useDispatch();
     const history = useHistory()

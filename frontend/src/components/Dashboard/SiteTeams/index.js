@@ -5,10 +5,10 @@ import TeamCard from "../TeamCard"
 
 const SiteTeams = () => {
     const dispatch = useDispatch()
-    const teams = useSelector(state => state.siteTeams)
+    const teams = useSelector(state => state.currentSite.teams)
     const user = useSelector(state => state.session.user)
     const teamsObject = Object.values(teams)
-    console.log(teamsObject)
+
 
     useEffect(() => {
     }, [dispatch])

@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { setUserJobsite } from '../../../store/session'
 import { deleteJobsite, editJobsite } from '../../../store/jobsites'
-import { fetchTeams } from '../../../store/siteTeams';
+import { fetchTeams } from '../../../store/currentSite';
 import CreateJobsiteForm from '../JobSiteForm';
 
 

@@ -1,4 +1,5 @@
-import json
+import requests
+import os
 from flask import Blueprint, jsonify, request
 from ..models import Tower
 from ..models import Note
@@ -114,6 +115,20 @@ def edit_site(current_user, jobsite_id):
 def get_site(current_user, jobsite_id):
     site = JobSite.query.get(int(jobsite_id))
     return site.to_dict()
+
+
+
+@jobsite_routes.route('/<int:jobsite_id>/weather')
+@token_required
+def get_site_weather(current_user, jobsite_id):
+    site = JobSite.query.get(jobsite_id)
+    latitude = site.latitude
+    longitude = site.longitude
+    key = os.environ.get('OPENWEATHER_API_KEY')
+
+    response = requests.get(
+    f'https://api.openweathermap.org/data/2.5/weather?lat={latitude}&lon={longitude}&appid={key}')
+    return jsonify(response)
 
 
 
