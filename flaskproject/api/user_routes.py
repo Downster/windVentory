@@ -54,18 +54,6 @@ def user_role(current_user, user_id):
     user = User.query.filter_by(id=user_id).first()
     return jsonify(user.role_to_dict())
 
-#Create user from signup page
-@user_routes.route('', methods=['POST'])
-def create_user():
-    data = request.get_json()
-    
-    hashed_password = generate_password_hash(data['password'], method='sha256')
-
-    new_user = User(email=data['email'], first_name=data['first_name'], last_name=data['last_name'], password=hashed_password, phone_number=data['phone_number'], image=data['image'] )
-    db.session.add(new_user)
-    db.session.commit()
-    return jsonify({'message' : 'New user created'})
-
 
 #Create user as admin -- requires a token and backend role authentication
 @user_routes.route('/new', methods=['POST'])
