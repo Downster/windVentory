@@ -28,6 +28,8 @@ class JobSite(db.Model):
             'state': self.state,
             'client': self.client,
             'image': self.image,
+            'latitude': self.latitude,
+            'longitude': self.longitude,
             'currentTeams': [team.to_dict() for team in self.teams_site],
         }
 

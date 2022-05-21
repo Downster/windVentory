@@ -13,9 +13,10 @@ import { useParams } from 'react-router'
 import { loadAllTeams } from '../../store/allTeams'
 import { useEffect } from 'react'
 import { getJobsites } from '../../store/jobsites'
-import { fetchTeams } from '../../store/siteTeams'
+import { fetchTeams } from '../../store/currentSite'
 import { fetchUserTeam } from '../../store/currentTeam'
 import JobSiteCard from './JobSiteCard'
+import SiteWeather from './SiteWeather'
 
 
 
@@ -52,6 +53,9 @@ const Dashboard = () => {
                     </Route>
                     <Route exact path='/jobsite/:jobsiteId/teams'>
                         <Team />
+                    </Route>
+                    <Route exact path='/jobsite/:jobsiteId/weather'>
+                        <SiteWeather />
                     </Route>
                     <Route exact path='/team/:teamId'>
                         <Team />

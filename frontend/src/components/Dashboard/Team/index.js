@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux"
 import { useEffect, useState } from "react";
 import { useHistory } from 'react-router-dom'
-import { fetchTeams } from "../../../store/siteTeams";
+import { fetchTeams } from "../../../store/currentSite";
 import UserTeam from "../UserTeam";
 import SiteTeams from "../SiteTeams";
 const Team = () => {
