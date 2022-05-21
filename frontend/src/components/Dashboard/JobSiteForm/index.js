@@ -13,6 +13,8 @@ const CreateJobsiteForm = ({ setShowModal, edit, siteId }) => {
     const [client, setClient] = useState((edit) ? jobsite.client : '')
     const [state, setState] = useState((edit) ? jobsite.state : '');
     const [image, setImage] = useState(null);
+    const [latitude, setLatitude] = useState(null)
+    const [longitude, setLongitude] = useState(null)
     const [imageLoading, setImageLoading] = useState(false);
     const user = useSelector(state => state.session.user);
     const dispatch = useDispatch();
@@ -33,6 +35,8 @@ const CreateJobsiteForm = ({ setShowModal, edit, siteId }) => {
         formData.append('siteName', siteName);
         formData.append('state', state);
         formData.append('client', client);
+        formData.append('latitude', latitude)
+        formData.append('longitude', longitude)
         if (image) {
             formData.append('image', image);
             setImageLoading(true);
@@ -118,6 +122,26 @@ const CreateJobsiteForm = ({ setShowModal, edit, siteId }) => {
                     <div className='errors-container'>
                         {errors.site_name ? `${errors.site_name}` : ""}
                     </div>
+                </div>
+                <div className='form-element-container'>
+                    <input
+                        name="latitude"
+                        type="number"
+                        step='0.0001'
+                        placeholder="Latitude"
+                        value={latitude}
+                        onChange={(e) => setLatitude(e.target.value)}
+                    />
+                </div>
+                <div className='form-element-container'>
+                    <input
+                        name="longitude"
+                        type="number"
+                        step='0.0001'
+                        placeholder="Longitude"
+                        value={longitude}
+                        onChange={(e) => setLongitude(e.target.value)}
+                    />
                 </div>
                 <button disabled={Object.keys(errors).length > 0} id='create-jobsite' type="submit">{(edit) ? 'Edit Jobsite' : 'Create Jobsite'}</button>
                 <button className='cancel-btn' onClick={handleCancelClick}>Cancel</button>

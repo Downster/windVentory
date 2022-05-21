@@ -5,13 +5,13 @@ from ..extensions import db
 def seed_sites():
    
     Shiloh = JobSite(
-        name="Shiloh",state ='CA', client = 'EDF')
+        name="Shiloh",state ='CA', client = 'EDF', latitude=38.1550, longitude=-121.7336)
     Sheldon = JobSite(
-        name="Sheldon",state ='NY', client = 'EDF')
+        name="Sheldon",state ='NY', client = 'EDF', latitude=38.1550, longitude=-121.7336)
     Spurs1 = JobSite(
-        name="Spinning Spurs",state ='CA', client = 'EDF')
+        name="Spinning Spurs",state ='CA', client = 'EDF', latitude=38.1550, longitude=-121.7336)
     Cridge = JobSite(
-        name="California Ridge",state ='CA', client = 'EDF')
+        name="California Ridge",state ='CA', client = 'EDF', latitude=38.1550, longitude=-121.7336)
 
     
     db.session.add(Shiloh)
