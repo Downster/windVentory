@@ -54,6 +54,8 @@ def create_site(current_user):
             name=form['siteName'].data,
             state = form['state'].data,
             client = form['client'].data,
+            latitude = form.data['latitude'],
+            longitude = form.data['longitude'],
             image=url, 
         )
         db.session.add(site)
@@ -98,6 +100,8 @@ def edit_site(current_user, jobsite_id):
         jobsite.name = form['siteName'].data
         jobsite.state = form['state'].data
         jobsite.client = form['client'].data
+        jobsite.latitude = form.data['latitude'],
+        jobsite.longitude = form.data['longitude'],
         jobsite.image= url 
         db.session.commit()
         return jsonify({'jobsite' : jobsite.to_dict()})
