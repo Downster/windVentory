@@ -1,10 +1,9 @@
 from flask import Blueprint, request, jsonify
 from .auth_routes import token_required
 from werkzeug.security import generate_password_hash, check_password_hash
-import uuid
 from ..extensions import db
 from ..models.user import User, Role
-from ..forms import CreateUserForm
+from ..forms import CreateUserForm, EditUserForm
 
 user_routes = Blueprint('users', __name__)
 
@@ -36,23 +35,6 @@ def get_leads(current_user):
     return jsonify({'leads' : [lead.to_name() for lead in leads]})
 
 
-@user_routes.route('/<public_id>')
-@token_required
-def user(current_user, public_id):
-    user = User.query.filter_by(public_id=public_id).first()
-
-    if not user:
-        return jsonify({'message': 'user does not exist'})
-
-
-    return user.to_dict()
-
-@user_routes.route('/<user_id>/role')
-@token_required
-def user_role(current_user, user_id):
-    
-    user = User.query.filter_by(id=user_id).first()
-    return jsonify(user.role_to_dict())
 
 
 #Create user as admin -- requires a token and backend role authentication
@@ -82,17 +64,42 @@ def admin_create_user(current_user):
     return {'Unauthorized' : 'You must be an admin to add a user'}, 401
 
 
-
+#Delete a specific user -- requires token and admin privlidges
 @user_routes.route('/<id>', methods=['DELETE'])
 @token_required
-def delete_user(current_user, id):
-    user = User.query.get(id)
+def admin_delete_user(current_user, id):
+    if current_user.to_role() == {'Admin'}:
+        user = User.query.get(id)
 
-    if not user:
-        return jsonify({'message': 'user does not exist'})
+        if not user:
+            return jsonify({'message': 'user does not exist'})
 
-    db.session.delete(user)
-    db.session.commit()
+        db.session.delete(user)
+        db.session.commit()
 
-    return jsonify({'userId': id})
+        return jsonify({'userId': id})
+    return {'Unauthorized' : 'You must be an admin to delete a user'}, 401
+
+#Edit a user -- requires token and admin role
+@user_routes.route('/<id>', methods=['PATCH'])
+@token_required
+def admin_edit_user(current_user, id):
+    if current_user.to_role() == {'Admin'}:
+        form = EditUserForm()
+        form['csrf_token'].data = request.cookies['csrf_token']
+        user = User.query.get(id)
+
+        if not user:
+            return jsonify({'message': 'user does not exist'})
+        if form.validate_on_submit():
+            role = Role.query.get(form.data['roleId'])
+            user.email = form.data['email']
+            user.first_name = form.data['firstName']
+            user.last_name = form.data['lastName']
+            user.phone_number = form.data['phoneNumber']
+            user.roles = [role]
+            db.session.commit()
+            return jsonify({'user': user.to_dict()})
+        return {'errors': error_messages(form.errors)}, 401
+    return {'Unauthorized' : 'You must be an admin to delete a user'}, 401
 
