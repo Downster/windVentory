@@ -9,12 +9,13 @@ import { fetchTeams } from '../../../store/siteTeams';
 import CreateJobsiteForm from '../JobSiteForm';
 
 
-const JobSiteCard = ({ jobsite, adminPanel }) => {
+const JobSiteCard = ({ jobsite, adminPanel, single }) => {
     const history = useHistory()
     const dispatch = useDispatch()
+    const userSite = useSelector(state => state.currentSite)
     const user = useSelector(state => state.session.user)
     const [showModal, setShowModal] = useState(false);
-    const role = user?.role[0]
+
 
     useEffect(() => {
         return () => setShowModal(false);
@@ -35,11 +36,11 @@ const JobSiteCard = ({ jobsite, adminPanel }) => {
     }
     return (
         <div className='jobsite-container'>
-            <div className="jobSite-card">
+            {!single && <div className="jobSite-card">
                 <h1 className="jobsite-name">{jobsite.name}</h1>
                 <h1 className="jobsite-client">{jobsite.client}</h1>
                 <h1 className="jobsite-state">{jobsite.state}</h1>
-                <button onClick={setJobsite}>+</button>
+                {!adminPanel && <button onClick={setJobsite}>+</button>}
                 {adminPanel && <button onClick={modifyJobsite}>Edit</button>}
                 {adminPanel && <button onClick={destroyJobsite}>-</button>}
                 {showModal && (
@@ -49,7 +50,14 @@ const JobSiteCard = ({ jobsite, adminPanel }) => {
                 )}
 
             </div>
-        </div>
+            }
+            {single && userSite && < div className='single-user-site'>
+                <h1 className="jobsite-name">{userSite.name}</h1>
+                <h1 className="jobsite-client">{userSite.client}</h1>
+                <h1 className="jobsite-state">{userSite.state}</h1>
+            </div>
+            }
+        </div >
     )
 }
 

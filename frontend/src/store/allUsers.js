@@ -3,6 +3,7 @@ import { tokenFetch } from "./csrf";
 const GET_USERS = 'allUsers/GET_USERS'
 const CREATE_USER = 'allUsers/CREATE_USERS'
 const DELETE_USER = 'allUsers/DELETE_USERS'
+const EDIT_USER = 'allUsers/EDIT_USER'
 
 const getUsers = (users) => ({
     type: GET_USERS,
@@ -17,6 +18,11 @@ const createUser = (user) => ({
 const deleteUser = (userId) => ({
     type: DELETE_USER,
     userId
+})
+
+const editUser = (user) => ({
+    type: EDIT_USER,
+    user
 })
 
 
@@ -60,6 +66,20 @@ export const removeUser = (userId) => async (dispatch) => {
     }
 }
 
+export const modifyUser = (formData, userId) => async (dispatch) => {
+    const res = await tokenFetch(`/users/${userId}`, {
+        method: 'PATCH',
+        body: formData,
+    });
+
+    const user = await res.json();
+    if (res.ok) {
+        dispatch(editUser(user.user));
+    } else {
+        return user;
+    }
+}
+
 const initialState = {};
 
 const allUsersReducer = (state = initialState, action) => {
@@ -77,6 +97,9 @@ const allUsersReducer = (state = initialState, action) => {
             return newState
         case DELETE_USER:
             delete newState[action.userId]
+            return newState
+        case EDIT_USER:
+            newState[action.user.id] = action.user
             return newState
         default:
             return state;

@@ -9,11 +9,13 @@ import { Switch, Route } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import './Dashboard.css'
 import { loadUserJobsite } from '../../store/currentSite'
+import { useParams } from 'react-router'
 import { loadAllTeams } from '../../store/allTeams'
 import { useEffect } from 'react'
 import { getJobsites } from '../../store/jobsites'
 import { fetchTeams } from '../../store/siteTeams'
 import { fetchUserTeam } from '../../store/currentTeam'
+import JobSiteCard from './JobSiteCard'
 
 
 
@@ -46,7 +48,7 @@ const Dashboard = () => {
                         <h1>User-site-inventory</h1>
                     </Route>
                     <Route exact path='/jobsite/:jobsiteId/'>
-                        <h1>User-site</h1>
+                        <JobSiteCard single={true} />
                     </Route>
                     <Route exact path='/jobsite/:jobsiteId/teams'>
                         <Team />

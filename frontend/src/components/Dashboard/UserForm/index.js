@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createNewUser } from "../../../store/allUsers";
+import { createNewUser, modifyUser } from "../../../store/allUsers";
 import roleToNum from "../../../utils/roleToNum";
 
 
@@ -13,28 +13,33 @@ function UserForm({ setShowModal, user, edit }) {
     const [lastName, setLastName] = useState((edit) ? user.lastName : '')
     const [phoneNumber, setPhoneNumber] = useState((edit) ? user.phoneNumber : '')
     const [password, setPassword] = useState("");
+    const [userId, setUserId] = useState((edit) ? user.id : "")
     const [confirmPassword, setConfirmPassword] = useState("");
     const [errors, setErrors] = useState([]);
 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (password === confirmPassword) {
-            const formData = new FormData()
-            formData.append('email', email)
-            formData.append('firstName', firstName)
-            formData.append('lastName', lastName)
-            formData.append('phoneNumber', phoneNumber)
+        const formData = new FormData()
+        let errors;
+        formData.append('email', email)
+        formData.append('firstName', firstName)
+        formData.append('lastName', lastName)
+        formData.append('phoneNumber', phoneNumber)
+        formData.append('roleId', role)
+        if (!edit && password !== confirmPassword) {
+            return setErrors(['Confirm Password field must be the same as the Password field']);
+        } else if (edit) {
+            formData.append('userId', userId)
+            errors = await dispatch(modifyUser(formData, user.id))
+        } else if (edit && password === confirmPassword) {
             formData.append('password', password)
-            formData.append('roleId', role)
-            setErrors([]);
-            const errors = await dispatch(createNewUser(formData))
-            if (errors) {
-                console.log(errors)
-            }
-            setShowModal(false)
+            errors = await dispatch(createNewUser(formData))
         }
-        return setErrors(['Confirm Password field must be the same as the Password field']);
+        if (errors) {
+            console.log(errors)
+        }
+        setShowModal(false)
     };
 
 
