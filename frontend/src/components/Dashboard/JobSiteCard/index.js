@@ -12,7 +12,7 @@ import CreateJobsiteForm from '../JobSiteForm';
 const JobSiteCard = ({ jobsite, adminPanel, single }) => {
     const history = useHistory()
     const dispatch = useDispatch()
-    const userSite = useSelector(state => state.currentSite)
+    const userSite = useSelector(state => state.currentSite.site)
     const user = useSelector(state => state.session.user)
     const [showModal, setShowModal] = useState(false);
 
