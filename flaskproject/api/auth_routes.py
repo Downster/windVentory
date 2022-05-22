@@ -6,7 +6,6 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from functools import wraps
 import os
 import jwt
-import uuid
 import datetime
 from ..forms.signup import SignUpForm
 from ..extensions import db
