@@ -55,7 +55,8 @@ def login():
         return make_response('Could not verify', 401)
 
     user = User.query.filter_by(email=auth['username']).first()
-    print(user)
+    user.online = True
+    db.session.commit()
 
     if not user:
         return make_response('Could not verify', 401)
@@ -74,12 +75,16 @@ def login():
 @auth_routes.route('/restore')
 @token_required
 def restore(current_user):
+    current_user.online = True
+    db.session.commit()
     return jsonify({'user': current_user.to_dict()})
 
 
 @auth_routes.route('/logout', methods=['DELETE'])
 @token_required
 def logout(current_user):
+    current_user.online = False
+    db.session.commit()
     return jsonify({'message': 'logged out'})
 
 
@@ -106,6 +111,7 @@ def sign_up():
             phone_number = form.data['phoneNumber'],
             password=hashed_password,
             image=url,
+            online=True
             
         )
         db.session.add(user)
