@@ -14,6 +14,13 @@ def error_messages(validation_errors):
 
 room_routes = Blueprint('rooms', __name__)
 
+
+# todo
+#get chatrooms for user jobsite and user team
+
+
+
+
 @room_routes.route('/<int:roomId>')
 @token_required
 def get_room(current_user, roomId):
@@ -31,7 +38,7 @@ def create_room(current_user):
         db.session.add(room)
         db.session.commit()
         return room.to_dict()
-    return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+    return {'errors': error_messages(form.errors)}, 401
 
 
 @room_routes.route('/<int:roomId>', methods=['PATCH'])
@@ -44,7 +51,7 @@ def edit_room(current_user, roomId):
         room.room_name = form.data['room_name']
         db.session.commit()
         return room.to_dict()
-    return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+    return {'errors': error_messages(form.errors)}, 401
 
 
 @room_routes.route('/<int:roomId>', methods=['DELETE'])
