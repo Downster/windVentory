@@ -8,7 +8,7 @@ import Team from './Team'
 import { Switch, Route } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import './Dashboard.css'
-import { loadUserJobsite } from '../../store/currentSite'
+import { fetchWeather, loadUserJobsite } from '../../store/currentSite'
 import { useParams } from 'react-router'
 import { loadAllTeams } from '../../store/allTeams'
 import { useEffect } from 'react'
@@ -17,6 +17,7 @@ import { fetchTeams } from '../../store/currentSite'
 import { fetchUserTeam } from '../../store/currentTeam'
 import JobSiteCard from './JobSiteCard'
 import SiteWeather from './SiteWeather'
+import SiteTeams from './SiteTeams'
 
 
 
@@ -28,6 +29,7 @@ const Dashboard = () => {
         if (user) {
             if (user.jobsite_id) {
                 dispatch(loadUserJobsite(user.jobsite_id))
+                dispatch(fetchWeather(user.jobsite_id))
                 dispatch(fetchTeams(user.jobsite_id))
             }
             dispatch(loadAllTeams())
@@ -52,7 +54,7 @@ const Dashboard = () => {
                         <JobSiteCard single={true} />
                     </Route>
                     <Route exact path='/jobsite/:jobsiteId/teams'>
-                        <Team />
+                        <SiteTeams />
                     </Route>
                     <Route exact path='/jobsite/:jobsiteId/weather'>
                         <SiteWeather />

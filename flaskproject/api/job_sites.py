@@ -128,7 +128,8 @@ def get_site_weather(current_user, jobsite_id):
 
     response = requests.get(
     f'https://api.openweathermap.org/data/2.5/weather?lat={latitude}&lon={longitude}&appid={key}')
-    return jsonify(response)
+
+    return response.json()
 
 
 

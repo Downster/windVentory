@@ -2,6 +2,7 @@ import { tokenFetch } from "./csrf";
 
 const LOAD_JOBSITE = 'currentSite/LOAD_JOBSITE';
 const GET_TEAMS = 'currentSite/GET_TEAMS'
+const GET_WEATHER = 'currentSite/GET_WEATHER'
 
 
 const loadJobsite = (jobsite) => ({
@@ -14,6 +15,11 @@ const getTeams = (teams) => ({
     teams,
 });
 
+const getWeather = (weather) => ({
+    type: GET_WEATHER,
+    weather
+})
+
 export const loadUserJobsite = (jobsiteId) => async (dispatch) => {
     const res = await tokenFetch(`/jobsites/${jobsiteId}`);
     if (res.ok) {
@@ -25,6 +31,16 @@ export const loadUserJobsite = (jobsiteId) => async (dispatch) => {
     };
 };
 
+export const fetchWeather = (jobsiteId) => async (dispatch) => {
+    const res = await tokenFetch(`/jobsites/${jobsiteId}/weather`);
+    const weather = await res.json();
+    if (res.ok) {
+        dispatch(getWeather(weather))
+    } else {
+        return weather
+    }
+}
+
 export const fetchTeams = (jobsiteId) => async (dispatch) => {
     const res = await tokenFetch(`/jobsites/${jobsiteId}/teams`);
     const data = await res.json();
@@ -35,7 +51,7 @@ export const fetchTeams = (jobsiteId) => async (dispatch) => {
     }
 };
 
-const initialState = { site: null, weather: null, teams: {} }
+const initialState = { site: null, currentWeather: null, forecast: null, teams: {} }
 
 const currentSiteReducer = (state = initialState, action) => {
     const newState = { ...state };
@@ -49,6 +65,9 @@ const currentSiteReducer = (state = initialState, action) => {
                     newState.teams[team.id] = team;
                 });
             }
+            return newState
+        case GET_WEATHER:
+            newState.currentWeather = action.weather
             return newState
         default:
             return state

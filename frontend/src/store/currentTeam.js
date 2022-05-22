@@ -24,16 +24,16 @@ export const fetchUserTeam = (user) => async (dispatch) => {
 
 
 
-const initialState = {}
+const initialState = { team: null }
 
 const currentTeamReducer = (state = initialState, action) => {
     const newState = { ...state };
     switch (action.type) {
         case SET_TEAM:
-            newState[action.team.id] = action.team
+            newState.team = action.team
             return newState
         case GET_TEAM:
-            newState[action.team.id] = action.team
+            newState.team = action.team
             return newState
         default:
             return state
