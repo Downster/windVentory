@@ -1,13 +1,11 @@
 from flask import Blueprint, request
 from flask_login import current_user
 from ..models import db, Room, Chat, User
+from ..forms import TeamRoomForm
 from .auth_routes import token_required
 
 
-def validation_errors_to_error_messages(validation_errors):
-    """
-    Simple function that turns the WTForms validation errors into a simple list
-    """
+def error_messages(validation_errors):
     errorMessages = []
     for field in validation_errors:
         for error in validation_errors[field]:
@@ -26,7 +24,7 @@ def get_room(current_user, roomId):
 @room_routes.route('/', methods=['POST'])
 @token_required
 def create_room(current_user):
-    form = RoomForm()
+    form = TeamRoomForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         room = Room(user_id=current_user.get_id(), room_name=form['room_name'].data, group_id=form['group_id'].data)
@@ -39,7 +37,7 @@ def create_room(current_user):
 @room_routes.route('/<int:roomId>', methods=['PATCH'])
 @token_required
 def edit_room(current_user, roomId):
-    form = RoomForm()
+    form = TeamRoomForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         room = Room.query.get(int(roomId))

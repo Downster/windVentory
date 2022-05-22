@@ -1,8 +1,8 @@
 import os
-from flask_wtf.csrf import CSRFProtect, generate_csrf
+from flask_wtf.csrf import generate_csrf
 from flask_cors import CORS
-from flask import Flask, request, session, redirect
-from .extensions import db, migrate, login_manager, admin
+from flask import Flask, request, redirect
+from .extensions import db, migrate, socketio
 from .api.user_routes import user_routes
 from .api.team_routes import team_routes
 from .api.auth_routes import auth_routes
@@ -27,9 +27,9 @@ def create_app():
 
     # Setup all additional flask apps
     db.init_app(app)
-    admin.init_app(app)
-    login_manager.init_app(app)
     migrate.init_app(app, db)
+    socketio.init_app(app)
+
 
 
     
@@ -61,6 +61,9 @@ def create_app():
                 'FLASK_ENV') == 'production' else None,
             httponly=True)
         return response
+
+    if __name__ == '__main__':
+        socketio.run(app)
 
 
     return app
