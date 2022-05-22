@@ -65,6 +65,9 @@ const Dashboard = () => {
                     <Route exact path='/team/:teamId/inventory'>
                         <Team />
                     </Route>
+                    <Route exact path='/chats'>
+                        <h1>Chat rooms</h1>
+                    </Route>
                     <Route path='/admin/jobsites'>
                         <AllSites adminPanel={true} />
                     </Route>

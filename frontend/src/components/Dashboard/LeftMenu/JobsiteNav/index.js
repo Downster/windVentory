@@ -8,7 +8,7 @@ const JobSiteNav = ({ isMember, isAdmin, siteId }) => {
     return (
         <>
             {isMember ?
-                <NavLink to={`/jobsite/${siteId}`} ><li className="jobsite-nav-title">My Jobsite</li></NavLink> : <li className="jobsite-nav-title">Jobsites</li>}
+                <NavLink to={`/jobsite/${siteId}`} ><ul className="jobsite-nav-title">My Jobsite</ul></NavLink> : <ul className="jobsite-nav-title">Jobsites</ul>}
             {isMember &&
                 <>
 

@@ -1,9 +1,6 @@
 from flask_socketio import emit, join_room, leave_room, send
 from extensions import socketio
 
-
-
-
 @socketio.on("chat")
 def handle_chat(data):
     room = data['room']
