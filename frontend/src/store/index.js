@@ -7,6 +7,7 @@ import allTeamsReducer from './allTeams';
 import leadsReducer from './leads';
 import currentTeamReducer from './currentTeam';
 import allUsersReducer from './allUsers';
+import chatRoomsReducer from './chatRoom';
 
 const rootReducer = combineReducers({
     session: sessionReducer,
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
     currentTeam: currentTeamReducer,
     allTeams: allTeamsReducer,
     leads: leadsReducer,
-    allUsers: allUsersReducer
+    allUsers: allUsersReducer,
+    chatRooms: chatRoomsReducer
 });
 
 let enhancer;

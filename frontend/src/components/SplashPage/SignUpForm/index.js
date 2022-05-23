@@ -18,7 +18,7 @@ function SignupForm({ setSignup }) {
 
     if (sessionUser) return <Redirect to="/" />;
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (password === confirmPassword) {
             const formData = new FormData()
@@ -29,11 +29,10 @@ function SignupForm({ setSignup }) {
             formData.append('password', password)
             formData.append('image', image)
             setErrors([]);
-            return dispatch(sessionActions.signup(formData))
-                .catch(async (res) => {
-                    const data = await res.json();
-                    if (data && data.errors) setErrors(data.errors);
-                });
+            const { errors } = await dispatch(sessionActions.signup(formData))
+            if (errors) {
+                setErrors(errors)
+            }
         }
         return setErrors(['Confirm Password field must be the same as the Password field']);
     };

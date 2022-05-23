@@ -3,6 +3,7 @@ import { tokenFetch } from "./csrf";
 const LOAD_ROOMS = 'chatRooms/LOAD_ROOMS';
 const LOAD_ROOM = 'chatRooms/LOAD_ROOM';
 const CREATE_TEAM_ROOM = 'chatRooms/CREATE_TEAM_ROOM';
+const CREATE_SITE_ROOM = 'charRooms/CREATE_SITE_ROOM';
 const DELETE_ROOM = 'chatRooms/DELETE_ROOM';
 const EDIT_ROOM = 'chatRooms/EDIT_ROOM';
 const JOIN_ROOM = 'chatRooms/JOIN_ROOM';
@@ -20,6 +21,11 @@ const loadRoom = (room) => ({
 
 const createTeamRoom = (room) => ({
     type: CREATE_TEAM_ROOM,
+    room
+});
+
+const createSiteRoom = (room) => ({
+    type: CREATE_SITE_ROOM,
     room
 });
 
@@ -57,22 +63,16 @@ export const getChatRoom = (roomId) => async (dispatch) => {
     const res = await fetch(`/api/rooms/${roomId}`);
     const room = await res.json();
     if (res.ok) {
-        dispatch(loadRoom(data));
+        dispatch(loadRoom(room));
     } else {
         return room
     }
 };
 
-export const createTeamChatRoom = (room_name, team_id) => async (dispatch) => {
-    const res = await tokenFetch(`/api/rooms/`, {
+export const createTeamChatRoom = (formData) => async (dispatch) => {
+    const res = await tokenFetch(`/rooms/team`, {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            room_name,
-            team_id
-        })
+        body: formData
     });
 
     const room = await res.json();
@@ -83,15 +83,29 @@ export const createTeamChatRoom = (room_name, team_id) => async (dispatch) => {
     };
 };
 
+export const createSiteChatRoom = (formData) => async (dispatch) => {
+    const res = await tokenFetch(`/rooms/site`, {
+        method: 'POST',
+        body: formData
+    });
+
+    const room = await res.json();
+    if (res.ok) {
+        dispatch(createSiteRoom(room));
+    } else {
+        return room
+    };
+};
+
 const initialState = {
-    teamRooms: null,
-    siteRooms: null
+    teamRooms: {},
+    siteRooms: {}
 };
 
 const chatRoomsReducer = (state = initialState, action) => {
+    const newState = { ...state }
     switch (action.type) {
         case LOAD_ROOMS: {
-            const newState = { ...state }
             const loadRooms = {};
             action.rooms.forEach(room => {
                 loadRooms[room.id] = room;
@@ -104,7 +118,6 @@ const chatRoomsReducer = (state = initialState, action) => {
         }
 
         case DELETE_ROOM: {
-            const newState = { ...state };
             delete newState.rooms[action.room.id];
             delete newState.byGroupId[action.room.group_id][action.room.id];
             return newState;
@@ -112,11 +125,14 @@ const chatRoomsReducer = (state = initialState, action) => {
 
         case LOAD_ROOM:
         case CREATE_TEAM_ROOM:
+            newState.teamRooms[action.room.id] = action.room
+            return newState
+        case CREATE_SITE_ROOM:
+            newState.siteRooms[action.room.id] = action.room
+            return newState
         case EDIT_ROOM:
         case JOIN_ROOM:
-        case LEAVE_ROOM: {
-            return updateSingleRoom(state, action);
-        }
+        case LEAVE_ROOM:
 
         default:
             return state;

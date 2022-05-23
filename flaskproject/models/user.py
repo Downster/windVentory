@@ -2,7 +2,7 @@ from email.policy import default
 from ..extensions import db
 from sqlalchemy.orm import relationship
 from sqlalchemy import ForeignKey
-from .room import active_participants
+from .room import active_members
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
@@ -35,7 +35,7 @@ class User(db.Model):
     rooms = relationship('Room', back_populates='user')
     chats = relationship('Chat', back_populates='user')
     teams = relationship('Team', back_populates='team_members', secondary=user_Teams)
-    current_room = relationship('Room', back_populates='active_users', secondary=active_participants)
+    current_room = relationship('Room', back_populates='active_users', secondary=active_members)
     user_jobsite = relationship('JobSite', back_populates='users_site')
     roles = relationship('Role', back_populates='users', secondary=user_Role)
 

@@ -62,6 +62,7 @@ const TeamForm = ({ setShowModal, edit, teamId }) => {
 
                 <div className='form-element-container'>
                     <select
+                        className="input-field"
                         value={teamLead}
                         onChange={({ target: { value } }) => setTeamLead(value)}
                     >
@@ -78,6 +79,7 @@ const TeamForm = ({ setShowModal, edit, teamId }) => {
 
                 <div className='form-element-container'>
                     <select
+                        className="input-field"
                         value={jobsite}
                         onChange={({ target: { value } }) => setJobsite(value)}
                     >
@@ -93,6 +95,7 @@ const TeamForm = ({ setShowModal, edit, teamId }) => {
                 </div>
                 <div className='form-element-container'>
                     <input
+                        className="input-field"
                         value={jobType}
                         onChange={(e) => setJobtype(e.target.value)}
                         placeholder='Jobtype'></input>

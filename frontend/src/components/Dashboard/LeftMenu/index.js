@@ -16,11 +16,11 @@ const LeftMenu = () => {
     //if a member of a jobsite display My Jobsite with sub menus
     //if a memeber of a team display Teams
     //if a memeber of a team display teams with sub menus
-    // const path = location.pathname;
+    const path = location.pathname;
     // const siteId = path.split('/')[2]
-    // if (isAdmin && path.split('/')[1] === 'admin' && !adminPanel) {
-    //     setAdminPanel(true)
-    // }
+    if (isAdmin && path.split('/')[1] === 'admin' && !adminPanel) {
+        setAdminPanel(true)
+    }
 
     return (
         <>
