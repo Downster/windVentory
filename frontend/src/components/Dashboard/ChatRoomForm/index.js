@@ -16,6 +16,7 @@ function ChatRoomForm({ setShowModal, roomId, team, edit }) {
 
 
     const handleSubmit = async (e) => {
+        console.log('please work')
         e.preventDefault();
         const formData = new FormData()
         let errors;
@@ -51,33 +52,31 @@ function ChatRoomForm({ setShowModal, roomId, team, edit }) {
                         required
                     />
                 </div>
-                <div className="button-div">
-                    <button className='create-room-button' type="submit">{(edit) ? 'Edit user' : 'Create Chat Room'}</button>
+                <div className="chat-room-add-image-container">
+                    <input
+                        id="file-upload"
+                        type="file"
+                        accept="image/*"
+                        onChange={updateImage}
+                    />
+                    <div className="preview-container site">
+                        {image && (
+                            <img
+                                alt="preview"
+                                src={URL.createObjectURL(image)}
+                                className="preview-image site"
+                            ></img>
+                        )}
+                    </div>
+                    <label htmlFor="file-upload">
+                        {imageLoading ?
+                            <i className="fas fa-spinner fa-pulse"></i>
+                            :
+                            <i className="fas fa-image"></i>
+                        }
+                    </label>
                 </div>
-            </div>
-            <div className="chat-room-add-image-container">
-                <input
-                    id="file-upload"
-                    type="file"
-                    accept="image/*"
-                    onChange={updateImage}
-                />
-                <div className="preview-container site">
-                    {image && (
-                        <img
-                            alt="preview"
-                            src={URL.createObjectURL(image)}
-                            className="preview-image site"
-                        ></img>
-                    )}
-                </div>
-                <label htmlFor="file-upload">
-                    {imageLoading ?
-                        <i className="fas fa-spinner fa-pulse"></i>
-                        :
-                        <i className="fas fa-image"></i>
-                    }
-                </label>
+                <button type="submit">Create Chat Room</button>
             </div>
         </form>
     );
