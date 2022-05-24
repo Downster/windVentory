@@ -1,6 +1,4 @@
-
-   FROM node:12 AS build-stage
-
+FROM node:12 AS build-stage
 WORKDIR /frontend
 COPY frontend/. .
 
