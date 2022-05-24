@@ -7,6 +7,7 @@ from .api.user_routes import user_routes
 from .api.team_routes import team_routes
 from .api.auth_routes import auth_routes
 from .api.event_routes import event_routes
+from .api.room_routes import room_routes
 from .api.job_sites import jobsite_routes
 from .models import User
 from .seeds import seed_commands
@@ -38,6 +39,7 @@ def create_app():
     app.register_blueprint(team_routes, url_prefix='/teams')
     app.register_blueprint(auth_routes, url_prefix='/auth')
     app.register_blueprint(jobsite_routes, url_prefix='/jobsites')
+    app.register_blueprint(room_routes, url_prefix='/rooms')
     # app.register_blueprint(auth_routes, url_prefix='/api/events')
     
     

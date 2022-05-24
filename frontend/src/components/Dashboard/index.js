@@ -18,6 +18,7 @@ import { fetchUserTeam } from '../../store/currentTeam'
 import JobSiteCard from './JobSiteCard'
 import SiteWeather from './SiteWeather'
 import SiteTeams from './SiteTeams'
+import { getSiteChatRooms } from '../../store/chatRoom'
 
 
 
@@ -31,6 +32,7 @@ const Dashboard = () => {
                 dispatch(loadUserJobsite(user.jobsite_id))
                 dispatch(fetchWeather(user.jobsite_id))
                 dispatch(fetchTeams(user.jobsite_id))
+                dispatch(getSiteChatRooms(user.jobsite_id))
             }
             dispatch(loadAllTeams())
             dispatch(getJobsites())

@@ -1,6 +1,7 @@
 from flask import Blueprint, request
 from flask_login import current_user
-from ..models import db, Room, Chat, User
+from ..extensions import db
+from ..models import Room, Chat, User
 from ..forms import TeamRoomForm, SiteRoomForm
 from .auth_routes import token_required
 
@@ -21,16 +22,16 @@ room_routes = Blueprint('rooms', __name__)
 
 
 
-@room_routes.route('/<int:roomId>')
+@room_routes.route('/site/<int:siteId>')
 @token_required
-def get_room(current_user, roomId):
-    room = Room.query.get(roomId)
-    return room.to_dict()
+def get_room(current_user, siteId):
+    rooms = Room.query.filter_by(jobsite_id = siteId).all()
+    return {'rooms' : [room.to_dict() for room in rooms]}
 
 
 @room_routes.route('/team', methods=['POST'])
 @token_required
-def create_room(current_user):
+def create_team_room(current_user):
     form = TeamRoomForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
@@ -48,7 +49,7 @@ def create_room(current_user):
 
 @room_routes.route('/site', methods=['POST'])
 @token_required
-def create_room(current_user):
+def create_site_room(current_user):
     form = SiteRoomForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():

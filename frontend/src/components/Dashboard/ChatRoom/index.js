@@ -3,9 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 
-import EditRoomModal from './EditRoomModal';
-import DeleteRoomModal from './DeleteRoomModal';
-
 const ChatRoom = ({ room }) => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.session.user);
@@ -24,7 +21,7 @@ const ChatRoom = ({ room }) => {
                 </div>
             } */}
             <NavLink activeClassName='active'
-                to={`/groups/${room.group_id}/rooms/${room.id}/chat`}>
+                to={`/jobsite/${room.jobsite_id}/rooms/${room.id}/chat`}>
                 <li className='chat-room-container'>
                     <i className="fas fa-door-open"></i>
                     <p className='side-nav-overflow-control'>{room.room_name}</p>

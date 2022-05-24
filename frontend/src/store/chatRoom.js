@@ -1,6 +1,6 @@
 import { tokenFetch } from "./csrf";
 
-const LOAD_ROOMS = 'chatRooms/LOAD_ROOMS';
+const LOAD_SITE_ROOMS = 'chatRooms/LOAD_ROOMS';
 const LOAD_ROOM = 'chatRooms/LOAD_ROOM';
 const CREATE_TEAM_ROOM = 'chatRooms/CREATE_TEAM_ROOM';
 const CREATE_SITE_ROOM = 'charRooms/CREATE_SITE_ROOM';
@@ -9,8 +9,8 @@ const EDIT_ROOM = 'chatRooms/EDIT_ROOM';
 const JOIN_ROOM = 'chatRooms/JOIN_ROOM';
 const LEAVE_ROOM = 'chatRooms/LEAVE_ROOM';
 
-const loadRooms = (rooms) => ({
-    type: LOAD_ROOMS,
+const loadSiteRooms = (rooms) => ({
+    type: LOAD_SITE_ROOMS,
     rooms
 });
 
@@ -49,11 +49,11 @@ const leaveRoom = (room) => ({
     room
 })
 
-export const getChatRooms = (groupId) => async (dispatch) => {
-    const res = await tokenFetch(`/api/groups/${groupId}/rooms`);
+export const getSiteChatRooms = (siteId) => async (dispatch) => {
+    const res = await tokenFetch(`/rooms/site/${siteId}`);
     const rooms = await res.json();
     if (res.ok) {
-        dispatch(loadRooms(rooms.rooms))
+        dispatch(loadSiteRooms(rooms.rooms))
     } else {
         return rooms
     }
@@ -105,17 +105,13 @@ const initialState = {
 const chatRoomsReducer = (state = initialState, action) => {
     const newState = { ...state }
     switch (action.type) {
-        case LOAD_ROOMS: {
-            const loadRooms = {};
-            action.rooms.forEach(room => {
-                loadRooms[room.id] = room;
-            });
-            newState.rooms = { ...loadRooms };
+        case LOAD_SITE_ROOMS:
             if (action.rooms.length) {
-                newState.byGroupId[action.rooms[0].group_id] = { ...loadRooms }
+                action.rooms.forEach(room => {
+                    newState.siteRooms[room.id] = room;
+                });
             }
             return newState;
-        }
 
         case DELETE_ROOM: {
             delete newState.rooms[action.room.id];

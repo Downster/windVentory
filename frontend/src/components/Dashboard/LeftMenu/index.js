@@ -9,6 +9,7 @@ import ChatsNav from "./ChatsNav";
 const LeftMenu = () => {
     const location = useLocation();
     const currentUser = useSelector(state => state.session.user)
+    const siteChats = useSelector(state => state.chatRooms.siteRooms)
     const isAdmin = (currentUser.role[0] === 'Admin' ? true : false)
     const [adminPanel, setAdminPanel] = useState(false)
 
@@ -30,7 +31,7 @@ const LeftMenu = () => {
                         {(currentUser.jobsite_id) ? <JobSiteNav isMember={true} isAdmin={isAdmin} siteId={currentUser.jobsite_id} /> : <JobSiteNav isMember={false} isAdmin={isAdmin} />
                         }
                         {currentUser.jobsite_id && <TeamsNav siteId={currentUser.jobsite_id} />}
-                        {currentUser.jobsite_id && <ChatsNav siteId={currentUser.jobsite_id} />}
+                        {currentUser.jobsite_id && <ChatsNav siteId={currentUser.jobsite_id} siteChats={siteChats} />}
                     </div>
                 </div >
             }

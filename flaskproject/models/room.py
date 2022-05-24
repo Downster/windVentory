@@ -29,7 +29,7 @@ class Room(db.Model):
             'id': self.id,
             'user_id': self.user_id,
             'team_id': self.team_id,
-            'team': self.team.to_dict(),
+            'jobsite_id': self.jobsite_id,
             'image': self.image,
             'room_name': self.room_name,
             'chats': [chat.to_dict() for chat in self.chats],

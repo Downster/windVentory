@@ -20,16 +20,17 @@ function ChatRoomForm({ setShowModal, roomId, team, edit }) {
         e.preventDefault();
         const formData = new FormData()
         let errors;
-        formData.append('name', name)
+        formData.append('room_name', name)
         formData.append('jobsite_id', siteId)
         if (image) {
             formData.append('image', image)
         }
         if (teamId) {
-            errors = dispatch(createTeamChatRoom(formData))
+            errors = await dispatch(createTeamChatRoom(formData))
         } else {
-            errors = dispatch(createSiteChatRoom(formData))
+            errors = await dispatch(createSiteChatRoom(formData))
         }
+        console.log(errors)
         setShowModal(false)
     };
 
