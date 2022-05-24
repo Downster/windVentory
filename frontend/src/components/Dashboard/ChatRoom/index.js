@@ -25,7 +25,7 @@ const ChatRoom = ({ room }) => {
                 <li className='chat-room-container'>
                     <i className="fas fa-door-open"></i>
                     <p className='side-nav-overflow-control'>{room.room_name}</p>
-                    <i className='active-users-num'>[ {room.active_users.length} ]</i>
+                    {/* <i className='active-users-num'>[ {room.active_users.length} ]</i> */}
                 </li>
             </NavLink>
         </div>

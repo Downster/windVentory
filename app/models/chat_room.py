@@ -4,12 +4,12 @@ from sqlalchemy import ForeignKey
 
 active_members = db.Table(
     'active_member',
-    db.Column('room_id', db.Integer, ForeignKey('room.id'), primary_key=True),
+    db.Column('room_id', db.Integer, ForeignKey('chat_room.id'), primary_key=True),
     db.Column('user_id', db.Integer, ForeignKey('user.id'), primary_key=True)
 )
 
-class Room(db.Model):
-    __tablename__ = 'room'
+class ChatRoom(db.Model):
+    __tablename__ = 'chat_room'
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, ForeignKey('user.id'), nullable=False)
@@ -21,7 +21,7 @@ class Room(db.Model):
     user = db.relationship('User', back_populates='rooms', foreign_keys=[user_id])
     team = db.relationship('Team', back_populates='rooms')
     chats = db.relationship('Chat', back_populates='room', cascade="all, delete")
-    active_users = db.relationship('User', back_populates='current_room', secondary=active_members)
+    active_members = db.relationship('User', back_populates='current_room', secondary=active_members)
 
 
     def to_dict(self):
@@ -33,5 +33,5 @@ class Room(db.Model):
             'image': self.image,
             'room_name': self.room_name,
             'chats': [chat.to_dict() for chat in self.chats],
-            'active_users': [user.to_dict() for user in self.active_users]
+            'active_members': [user.to_dict() for user in self.active_members]
         }

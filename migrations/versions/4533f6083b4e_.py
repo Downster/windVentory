@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 3670a17c7c2e
+Revision ID: 4533f6083b4e
 Revises: 
-Create Date: 2022-05-23 17:20:44.540742
+Create Date: 2022-05-24 11:45:05.777936
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '3670a17c7c2e'
+revision = '4533f6083b4e'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -131,6 +131,18 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_table('chat_room',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('user_id', sa.Integer(), nullable=False),
+    sa.Column('team_id', sa.Integer(), nullable=True),
+    sa.Column('jobsite_id', sa.Integer(), nullable=True),
+    sa.Column('room_name', sa.String(length=40), nullable=False),
+    sa.Column('image', sa.String(length=255), nullable=True),
+    sa.ForeignKeyConstraint(['jobsite_id'], ['job_site.id'], ),
+    sa.ForeignKeyConstraint(['team_id'], ['team.id'], ),
+    sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
     op.create_table('event',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
@@ -154,18 +166,6 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_table('room',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('user_id', sa.Integer(), nullable=False),
-    sa.Column('team_id', sa.Integer(), nullable=True),
-    sa.Column('jobsite_id', sa.Integer(), nullable=True),
-    sa.Column('room_name', sa.String(length=40), nullable=False),
-    sa.Column('image', sa.String(length=255), nullable=True),
-    sa.ForeignKeyConstraint(['jobsite_id'], ['job_site.id'], ),
-    sa.ForeignKeyConstraint(['team_id'], ['team.id'], ),
-    sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
-    sa.PrimaryKeyConstraint('id')
-    )
     op.create_table('user_Team',
     sa.Column('user_id', sa.Integer(), nullable=False),
     sa.Column('team_id', sa.Integer(), nullable=False),
@@ -176,7 +176,7 @@ def upgrade():
     op.create_table('active_member',
     sa.Column('room_id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
-    sa.ForeignKeyConstraint(['room_id'], ['room.id'], ),
+    sa.ForeignKeyConstraint(['room_id'], ['chat_room.id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('room_id', 'user_id')
     )
@@ -186,7 +186,7 @@ def upgrade():
     sa.Column('room_id', sa.Integer(), nullable=True),
     sa.Column('message', sa.String(length=500), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=True),
-    sa.ForeignKeyConstraint(['room_id'], ['room.id'], ),
+    sa.ForeignKeyConstraint(['room_id'], ['chat_room.id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
@@ -198,9 +198,9 @@ def downgrade():
     op.drop_table('chat')
     op.drop_table('active_member')
     op.drop_table('user_Team')
-    op.drop_table('room')
     op.drop_table('join_notification')
     op.drop_table('event')
+    op.drop_table('chat_room')
     op.drop_table('Note')
     op.drop_table('team')
     op.drop_table('msds_info')

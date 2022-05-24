@@ -12,13 +12,18 @@ const LeftMenu = () => {
     const siteChats = useSelector(state => state.chatRooms.siteRooms)
     const isAdmin = (currentUser.role[0] === 'Admin' ? true : false)
     const [adminPanel, setAdminPanel] = useState(false)
+    console.log(siteChats)
 
     //if not a member of a jobsite display jobsites
     //if a member of a jobsite display My Jobsite with sub menus
     //if a memeber of a team display Teams
     //if a memeber of a team display teams with sub menus
     const path = location.pathname;
-    // const siteId = path.split('/')[2]
+    const splitpath = path.split('/')
+    let siteId;
+    if (splitpath[1] === 'jobsite' && currentUser.jobsite_id) {
+        siteId = path.split('/')[2]
+    }
     if (isAdmin && path.split('/')[1] === 'admin' && !adminPanel) {
         setAdminPanel(true)
     }
@@ -27,12 +32,12 @@ const LeftMenu = () => {
         <>
             {!adminPanel &&
                 < div className="left-menu" >
-                    <div className="left-menu-list">
-                        {(currentUser.jobsite_id) ? <JobSiteNav isMember={true} isAdmin={isAdmin} siteId={currentUser.jobsite_id} /> : <JobSiteNav isMember={false} isAdmin={isAdmin} />
+                    <ul className="left-menu-list">
+                        {(siteId) ? <JobSiteNav isMember={true} isAdmin={isAdmin} siteId={siteId} /> : <JobSiteNav isMember={false} isAdmin={isAdmin} />
                         }
-                        {currentUser.jobsite_id && <TeamsNav siteId={currentUser.jobsite_id} />}
-                        {currentUser.jobsite_id && <ChatsNav siteId={currentUser.jobsite_id} siteChats={siteChats} />}
-                    </div>
+                        {siteId && <TeamsNav siteId={siteId} />}
+                        {siteId && <ChatsNav siteId={siteId} siteChats={siteChats} />}
+                    </ul>
                 </div >
             }
             {adminPanel &&

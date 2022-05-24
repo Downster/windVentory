@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import { io } from 'socket.io-client';
 
-import './Chat.css';
 
 let socket;
 
@@ -100,8 +99,8 @@ const Chat = () => {
 
     return (
         <>
-            <div className='chat-header-container'>
-                <h2 className='room-name'>Welcome to #{room?.room_name}!</h2>
+            <div className='chat-container'>
+                <h2 className='chat-room-name'>Welcome to #{room?.room_name}!</h2>
                 <div className='active-users-container'>
                     {room?.active_users.map(user => {
                         return (

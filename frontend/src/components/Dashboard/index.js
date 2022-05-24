@@ -26,13 +26,17 @@ const Dashboard = () => {
     const dispatch = useDispatch()
     const user = useSelector(state => state.session.user)
 
+    const getAllUserInfo = async (user) => {
+        await dispatch(loadUserJobsite(user.jobsite_id))
+        await dispatch(fetchWeather(user.jobsite_id))
+        await dispatch(fetchTeams(user.jobsite_id))
+        await dispatch(getSiteChatRooms(user.jobsite_id))
+    }
+
     useEffect(() => {
         if (user) {
             if (user.jobsite_id) {
-                dispatch(loadUserJobsite(user.jobsite_id))
-                dispatch(fetchWeather(user.jobsite_id))
-                dispatch(fetchTeams(user.jobsite_id))
-                dispatch(getSiteChatRooms(user.jobsite_id))
+                getAllUserInfo(user)
             }
             dispatch(loadAllTeams())
             dispatch(getJobsites())

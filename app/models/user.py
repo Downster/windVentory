@@ -2,7 +2,7 @@ from email.policy import default
 from ..extensions import db
 from sqlalchemy.orm import relationship
 from sqlalchemy import ForeignKey
-from .room import active_members
+from .chat_room import active_members
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
@@ -32,10 +32,10 @@ class User(db.Model):
     online = db.Column(db.Boolean, default=False)
 
     #relationships
-    rooms = relationship('Room', back_populates='user')
+    rooms = relationship('ChatRoom', back_populates='user')
     chats = relationship('Chat', back_populates='user')
     teams = relationship('Team', back_populates='team_members', secondary=user_Teams)
-    current_room = relationship('Room', back_populates='active_users', secondary=active_members)
+    current_room = relationship('ChatRoom', back_populates='active_members', secondary=active_members)
     user_jobsite = relationship('JobSite', back_populates='users_site')
     roles = relationship('Role', back_populates='users', secondary=user_Role)
 
@@ -90,7 +90,7 @@ class Team(db.Model):
     team_lead = relationship('User', backref='lead_id')
     team_members = relationship('User', back_populates='teams', secondary=user_Teams)
     team_jobsite = relationship('JobSite', back_populates='teams_site')
-    rooms = relationship('Room', back_populates='team', cascade="all, delete")
+    rooms = relationship('ChatRoom', back_populates='team', cascade="all, delete")
 
     def to_dict(self):
         return {

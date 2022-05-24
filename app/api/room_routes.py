@@ -1,7 +1,7 @@
 from flask import Blueprint, request
 from flask_login import current_user
 from ..extensions import db
-from ..models import Room, Chat, User
+from ..models import ChatRoom, Chat, User
 from ..forms import TeamRoomForm, SiteRoomForm
 from .auth_routes import token_required
 
@@ -25,7 +25,7 @@ room_routes = Blueprint('rooms', __name__)
 @room_routes.route('/site/<int:siteId>')
 @token_required
 def get_room(current_user, siteId):
-    rooms = Room.query.filter_by(jobsite_id = siteId).all()
+    rooms = ChatRoom.query.filter_by(jobsite_id = siteId).all()
     return {'rooms' : [room.to_dict() for room in rooms]}
 
 
@@ -35,7 +35,7 @@ def create_team_room(current_user):
     form = TeamRoomForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
-        room = Room(
+        room = ChatRoom(
             user_id=current_user.id, 
             room_name=form['room_name'].data,
             team_id=form['team_id'].data,
@@ -53,7 +53,7 @@ def create_site_room(current_user):
     form = SiteRoomForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
-        room = Room(
+        room = ChatRoom(
             user_id=current_user.id, 
             room_name=form['room_name'].data,
             jobsite_id=form.data['jobsite_id'],
@@ -71,7 +71,7 @@ def edit_room(current_user, roomId):
     form = TeamRoomForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
-        room = Room.query.get(int(roomId))
+        room = ChatRoom.query.get(int(roomId))
         room.room_name = form.data['room_name']
         db.session.commit()
         return room.to_dict()
@@ -81,7 +81,7 @@ def edit_room(current_user, roomId):
 @room_routes.route('/<int:roomId>', methods=['DELETE'])
 @token_required
 def delete_room(current_user, roomId):
-    room = Room.query.get(roomId)
+    room = ChatRoom.query.get(roomId)
     data = room.to_dict()
     db.session.delete(room)
     db.session.commit()
@@ -98,7 +98,7 @@ def get_chats(current_user, roomId):
 @room_routes.route('/<int:roomId>/join', methods=['PATCH'])
 @token_required
 def join_chatroom(current_user, roomId):
-    room = Room.query.get(roomId)
+    room = ChatRoom.query.get(roomId)
     user = User.query.get(current_user.get_id())
     room.active_users.append(user)
     db.session.commit()
@@ -108,7 +108,7 @@ def join_chatroom(current_user, roomId):
 @room_routes.route('/<int:roomId>/leave', methods=['PATCH'])
 @token_required
 def leave_chatroom(current_user, roomId):
-    room = Room.query.get(roomId)
+    room = ChatRoom.query.get(roomId)
     user = User.query.get(current_user.get_id())
     room.active_users.pop(room.active_users.index(user))
     db.session.commit()

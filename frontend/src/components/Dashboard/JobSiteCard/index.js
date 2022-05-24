@@ -21,9 +21,9 @@ const JobSiteCard = ({ jobsite, adminPanel, single }) => {
         return () => setShowModal(false);
     }, []);
 
-    const setJobsite = () => {
-        dispatch(setUserJobsite(jobsite.id))
-        dispatch(fetchTeams(jobsite.id))
+    const setJobsite = async () => {
+        await dispatch(setUserJobsite(jobsite.id))
+        await dispatch(fetchTeams(jobsite.id))
         history.push(`/jobsite/${jobsite.id}/inventory`)
     }
 
