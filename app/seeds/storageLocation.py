@@ -1,4 +1,4 @@
-from flaskproject.models import StorageLocation
+from app.models import StorageLocation
 from ..extensions import db
 
 

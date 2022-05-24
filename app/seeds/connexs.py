@@ -1,4 +1,4 @@
-from flaskproject.models import Connex
+from app.models import Connex
 from ..extensions import db
 
 
