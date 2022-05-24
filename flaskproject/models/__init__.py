@@ -7,7 +7,7 @@ from .material import Material
 from .materialClass import MaterialClass
 from .msdsInfo import msdsInfo
 from .notes import Note
-from .room import Room, active_participants
+from .room import Room, active_members
 from .storageLocation import StorageLocation
 from .storageType import StorageType
 from .tower import Tower

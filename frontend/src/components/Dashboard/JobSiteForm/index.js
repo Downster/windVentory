@@ -84,6 +84,7 @@ const CreateJobsiteForm = ({ setShowModal, edit, siteId }) => {
             <div className='site-form-input-container'>
                 <div className='form-element-container'>
                     <input
+                        className="input-field"
                         name="site_name"
                         type="text"
                         placeholder="Jobsite Name"
@@ -96,7 +97,7 @@ const CreateJobsiteForm = ({ setShowModal, edit, siteId }) => {
                 </div>
 
                 <div className='form-element-container'>
-                    <select
+                    <select className="input-field"
                         value={state}
                         onChange={({ target: { value } }) => setState(value)}
                     >
@@ -112,7 +113,7 @@ const CreateJobsiteForm = ({ setShowModal, edit, siteId }) => {
                 </div>
 
                 <div className='form-element-container'>
-                    <input
+                    <input className="input-field"
                         name="client"
                         type="text"
                         placeholder="Client Name"
@@ -125,6 +126,7 @@ const CreateJobsiteForm = ({ setShowModal, edit, siteId }) => {
                 </div>
                 <div className='form-element-container'>
                     <input
+                        className="input-field"
                         name="latitude"
                         type="number"
                         step='0.0001'
@@ -135,6 +137,7 @@ const CreateJobsiteForm = ({ setShowModal, edit, siteId }) => {
                 </div>
                 <div className='form-element-container'>
                     <input
+                        className="input-field"
                         name="longitude"
                         type="number"
                         step='0.0001'
