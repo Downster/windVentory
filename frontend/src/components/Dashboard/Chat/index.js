@@ -3,12 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import { io } from 'socket.io-client';
 
-import { getAlbums } from '../../../../../../store/albums';
-import { getChatMessages, createChatMessage } from '../../../../../../store/chats';
-import { getNotes } from '../../../../../../store/notes';
-import { getRooms, joinChatRoom, leaveChatRoom } from '../../../../../../store/rooms';
-import { getGroup } from '../../../../../../store/groups';
-
 import './Chat.css';
 
 let socket;
@@ -50,38 +44,23 @@ const Chat = () => {
 
 
     useEffect(() => {
-        const fetch = async () => {
-            const data = await dispatch(getGroup(groupId));
-            if (data && data.errors) {
-                return history.push('/');
-            }
-            else {
-                dispatch(getRooms(groupId));
-                dispatch(getNotes(groupId));
-                dispatch(getAlbums(groupId));
-                dispatch(getChatMessages(roomId));
-            }
-        };
-        fetch();
-
-        setMessages([]);
-
-        scroll();
+        //load all needed things here
     }, [dispatch, roomId, groupId, history]);
 
     useEffect(() => {
-        const checkAccess = (group) => {
-            if (group.user_ids.includes(user.id)) {
-                return true;
-            }
-            else return false;
-        }
+        // const checkAccess = (group) => {
+        //     if (group.user_ids.includes(user.id)) {
+        //         return true;
+        //     }
+        //     else return false;
+        // }
 
-        if (user && group) {
-            if (!checkAccess(group)) {
-                return history.push('/')
-            }
-        }
+        // if (user && group) {
+        //     if (!checkAccess(group)) {
+        //         return history.push('/')
+        //     }
+        // }
+        //check access here
     }, [group, user, history]);
 
 
