@@ -1,5 +1,5 @@
 from multiprocessing import Event
-from flaskproject.models import Event
+from app.models import Event
 from datetime import date
 from ..extensions import db
 

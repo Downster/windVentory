@@ -10,11 +10,11 @@ const loadMessages = (messages) => ({
 
 const createMessage = (message) => ({
     type: CREATE_MESSAGE,
-    messages
+    message
 });
 
 const removeMessage = (messageID) => ({
-    type: REMOVE_MESSAGE,
+    type: DELETE_MESSAGE,
     messageID
 })
 

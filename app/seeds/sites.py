@@ -1,4 +1,4 @@
-from flaskproject.models import JobSite
+from app.models import JobSite
 from ..extensions import db
 
 

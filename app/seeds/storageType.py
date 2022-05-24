@@ -1,4 +1,4 @@
-from flaskproject.models import StorageType
+from app.models import StorageType
 from ..extensions import db
 
 

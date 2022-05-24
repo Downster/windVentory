@@ -1,4 +1,4 @@
-from flaskproject.models import User, Role
+from app.models import User, Role
 from werkzeug.security import generate_password_hash
 from ..extensions import db
 

@@ -1,4 +1,4 @@
-from flaskproject.models import Team
+from app.models import Team
 from ..extensions import db
 
 
