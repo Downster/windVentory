@@ -12,7 +12,7 @@ from .api.job_sites import jobsite_routes
 from .models import User
 from .seeds import seed_commands
 
-
+#plz wokr
 #app configuration
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
