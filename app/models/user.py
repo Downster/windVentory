@@ -33,7 +33,7 @@ class User(db.Model):
 
     #relationships
     rooms = relationship('ChatRoom', back_populates='user')
-    chats = relationship('Chat', back_populates='user')
+    messages = relationship('Message', back_populates='user')
     teams = relationship('Team', back_populates='team_members', secondary=user_Teams)
     current_room = relationship('ChatRoom', back_populates='active_members', secondary=active_members)
     user_jobsite = relationship('JobSite', back_populates='users_site')
@@ -102,6 +102,7 @@ class Team(db.Model):
             'team_lead': self.team_lead.to_team_dict(),
             'team_members': [member.to_team_dict() for member in self.team_members]
         }
+
 
 class Role(db.Model):
     id = db.Column(db.Integer, primary_key=True)

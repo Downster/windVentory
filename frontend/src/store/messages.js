@@ -1,3 +1,5 @@
+import { tokenFetch } from "./csrf"
+
 const LOAD_MESSAGES = 'messages/LOAD_MESSAGES'
 const CREATE_MESSAGE = 'messages/CREATE_MESSAGE'
 const EDIT_MESSAGE = 'messages/EDIT_MESSAGE'
@@ -22,6 +24,20 @@ const editMessage = (message) => ({
     type: EDIT_MESSAGE,
     message
 })
+
+export const createChatMessage = (roomId, messageBody) => async (dispatch) => {
+    const res = await tokenFetch(`/messages`, {
+        method: 'POST',
+        body: messageBody
+    });
+
+    const message = await res.json();
+    if (res.ok) {
+        dispatch(createMessage(message))
+    } else {
+        return message
+    }
+}
 
 
 

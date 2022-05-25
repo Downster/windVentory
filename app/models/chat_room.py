@@ -20,7 +20,7 @@ class ChatRoom(db.Model):
 
     user = db.relationship('User', back_populates='rooms', foreign_keys=[user_id])
     team = db.relationship('Team', back_populates='rooms')
-    chats = db.relationship('Chat', back_populates='room', cascade="all, delete")
+    messages = db.relationship('Message', back_populates='room', cascade="all, delete")
     active_members = db.relationship('User', back_populates='current_room', secondary=active_members)
 
 

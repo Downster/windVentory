@@ -2,110 +2,108 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import { io } from 'socket.io-client';
+import { joinChatRoom, leaveChatRoom, getSiteChatRooms } from '../../../store/chatRoom'
+import { createChatMessage } from '../../../store/messages'
 
 
 let socket;
 
-const Chat = () => {
-    const { roomId, groupId } = useParams();
+const Chat = ({ jobsite }) => {
+    let chatMessages;
+    let chatRoom;
+    const [messages, setMessages] = useState([]);
+    const [messageBody, setMessageBody] = useState("");
+    const { siteId, roomId } = useParams();
     const dispatch = useDispatch();
     const history = useHistory();
 
-    let chats;
 
     const user = useSelector(state => state.session.user);
-    const rooms = useSelector(state => state.rooms);
-    const room = rooms.rooms[roomId];
-    const groups = useSelector(state => state.groups);
-    const group = groups[groupId]
+    const messageObj = useSelector(state => state.messages);
+    const chatRooms = useSelector(state => state.chatRooms);
+    if (jobsite) {
+        chatRoom = chatRooms.siteRooms[roomId];
+    } else {
+        chatRoom = chatRooms.teamRooms[roomId];
+    }
 
 
-    const chatsObj = useSelector(state => state.chats);
-    if (chatsObj.byRoomId[roomId]) {
-        chats = Object.values(chatsObj.byRoomId[roomId]);
-    };
 
 
-    const [messages, setMessages] = useState([]);
-    const [chatInput, setChatInput] = useState("");
 
-    const updateChatInput = (e) => {
-        setChatInput(e.target.value)
-    };
 
-    const sendChat = (e) => {
+
+    const sendChat = async (e) => {
         e.preventDefault();
-        socket.emit('chat', { user: user.username, msg: chatInput, room: roomId, user_image: user.image, created_at: (new Date()).toLocaleTimeString() });
-        dispatch(createChatMessage(roomId, chatInput));
-        setChatInput("");
+        socket.emit('chat', {
+            user: `${user.firstName} ${user.lastName}`, msg: messageBody, room: roomId, user_image: user.image, created_at: (new Date()).toLocaleTimeString()
+        });
+        await dispatch(createChatMessage(roomId, messageBody));
+        setMessageBody("");
     };
 
 
 
-    useEffect(() => {
-        //load all needed things here
-    }, [dispatch, roomId, groupId, history]);
 
-    useEffect(() => {
-        // const checkAccess = (group) => {
-        //     if (group.user_ids.includes(user.id)) {
-        //         return true;
-        //     }
-        //     else return false;
-        // }
+    // useEffect(() => {
+    //     // const checkAccess = (group) => {
+    //     //     if (group.user_ids.includes(user.id)) {
+    //     //         return true;
+    //     //     }
+    //     //     else return false;
+    //     // }
 
-        // if (user && group) {
-        //     if (!checkAccess(group)) {
-        //         return history.push('/')
-        //     }
-        // }
-        //check access here
-    }, [group, user, history]);
+    //     // if (user && group) {
+    //     //     if (!checkAccess(group)) {
+    //     //         return history.push('/')
+    //     //     }
+    //     // }
+    //     //check access here
+    // }, [group, user, history]);
 
 
     useEffect(() => {
         socket = io();
 
-        dispatch(joinChatRoom(roomId));
+        dispatch(joinChatRoom(roomId, 'site'));
 
-        socket.emit('join', { 'username': user.username, 'room': roomId });
-        socket.emit('join_room', { 'username': user.username, 'room': roomId })
-        socket.emit('chat', { user: 'weStudy-Bot', msg: `${user.username} has joined the room.`, room: roomId });
+        socket.emit('join', { 'username': `${user.firstName} ${user.lastName}`, 'room': roomId });
+        socket.emit('join_room', { 'username': `${user.firstName} ${user.lastName}`, 'room': roomId })
+        socket.emit('chat', { user: 'windVentory-Bot', msg: `${user.firstName} ${user.lastName} has joined the room.`, room: roomId });
 
         socket.on('chat', (chat) => {
             setMessages(messages => [...messages, chat]);
-            scroll();
         });
 
         socket.on('join_room', (user) => {
-            dispatch(getRooms(groupId));
+            dispatch(getSiteChatRooms(siteId));
         });
 
         socket.on('leave_room', (user) => {
-            dispatch(getRooms(groupId));
+            dispatch(getSiteChatRooms(siteId));
         });
 
 
         return (() => {
-            dispatch(leaveChatRoom(roomId));
-            socket.emit('leave', { 'username': user.username, 'room': roomId });
-            socket.emit('leave_room', { 'username': user.username, 'room': roomId })
-            socket.emit('chat', { user: 'weStudy-Bot', msg: `${user.username} has left the room.`, room: roomId });
+            dispatch(leaveChatRoom(roomId, 'site'));
+            socket.emit('leave', { 'username': `${user.firstName} ${user.lastName}`, 'room': roomId });
+            socket.emit('leave_room', { 'username': `${user.firstName} ${user.lastName}`, 'room': roomId })
+            socket.emit('chat', { user: 'weStudy-Bot', msg: `${user.firstName} ${user.lastName} has left the room.`, room: roomId });
 
             socket.disconnect();
         })
-    }, [roomId, user.username, dispatch, groupId]);
+    }, [roomId, user.firstName, user.lastName, dispatch]);
 
 
     return (
         <>
             <div className='chat-container'>
-                <h2 className='chat-room-name'>Welcome to #{room?.room_name}!</h2>
+                <h2 className='chat-room-name'>Welcome to #{chatRoom?.room_name}!</h2>
                 <div className='active-users-container'>
-                    {room?.active_users.map(user => {
+                    {chatRoom?.active_members.map(member => {
                         return (
                             <div key={user.id} className='active-user-img-container'>
-                                <img className='active-user-img' src={user.image} alt={user.id}></img>
+                                <img className='active-user-img' src={member.image} alt={member.id}></img>
                             </div>
                         )
                     })}
@@ -113,18 +111,14 @@ const Chat = () => {
             </div>
             <div className='chat-room-container'>
                 <div className='chat-messages-container'>
-                    {chats?.map(chat => {
-                        return <div
-                            className={chat.username === user.username ? 'right chat-msg' : 'left chat-msg'}
-                            key={chat.message + chat.id}>
-                            <div className='profile-pic-div chat-profile-pic'>
-                                <img src={chat.user_image} alt={chat.username}></img>
-                            </div>
+                    {chatMessages?.map(msg => {
+                        return (
                             <div className='chat-message'>
-                                <p className='chat-username'>{chat.username}<span className='created-at-msg'>{(new Date(chat.created_at)).toLocaleTimeString()}</span></p>
-                                <p className='chat-text'>{chat.message}</p>
+                                <p className='chat-username'>{msg.firstName}<span className='created-at-msg'>{(new Date(msg.created_at)).toLocaleTimeString()}</span></p>
+                                <p className='chat-text'>{msg.message}</p>
                             </div>
-                        </div>
+                        )
+
                     })}
                     {messages.map((message, idx) => (
                         <div
@@ -146,11 +140,11 @@ const Chat = () => {
                 </div>
                 <form autoComplete="off" className='chat-input-form' onSubmit={sendChat}>
                     <input
-                        value={chatInput}
-                        onChange={updateChatInput}
-                        placeholder={`Message #${room?.room_name}`}
+                        value={messageBody}
+                        onChange={(e) => setMessageBody(e.target.value)}
+                        placeholder={`Message #${chatRoom?.room_name}`}
                     />
-                    <button disabled={chatInput.length === 0} id='send-chat' type='submit'><i className="fas fa-paper-plane"></i></button>
+                    <button disabled={!messageBody.length} id='send-chat' type='submit'><i className="fas fa-paper-plane"></i></button>
                 </form>
             </div>
         </>

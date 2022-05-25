@@ -1,17 +1,9 @@
 from flask import Blueprint, request
-from flask_login import current_user
 from ..extensions import db
-from ..models import ChatRoom, Chat, User
+from ..models import ChatRoom, Message, User
 from ..forms import TeamRoomForm, SiteRoomForm
 from .auth_routes import token_required
-
-
-def error_messages(validation_errors):
-    errorMessages = []
-    for field in validation_errors:
-        for error in validation_errors[field]:
-            errorMessages.append(f'{field}: {error}')
-    return errorMessages
+from ..utils import form_validation_errors
 
 room_routes = Blueprint('rooms', __name__)
 
@@ -44,7 +36,7 @@ def create_team_room(current_user):
         db.session.add(room)
         db.session.commit()
         return room.to_dict()
-    return {'errors': error_messages(form.errors)}, 401
+    return {'errors': form_validation_errors(form.errors)}, 401
 
 
 @room_routes.route('/site', methods=['POST'])
@@ -62,7 +54,7 @@ def create_site_room(current_user):
         db.session.add(room)
         db.session.commit()
         return room.to_dict()
-    return {'errors': error_messages(form.errors)}, 401
+    return {'errors': form_validation_errors(form.errors)}, 401
 
 
 @room_routes.route('/<int:roomId>', methods=['PATCH'])
@@ -75,7 +67,7 @@ def edit_room(current_user, roomId):
         room.room_name = form.data['room_name']
         db.session.commit()
         return room.to_dict()
-    return {'errors': error_messages(form.errors)}, 401
+    return {'errors': form_validation_errors(form.errors)}, 401
 
 
 @room_routes.route('/<int:roomId>', methods=['DELETE'])
@@ -88,19 +80,19 @@ def delete_room(current_user, roomId):
     return data
 
 
-@room_routes.route('/<int:roomId>/chats')
+@room_routes.route('/<int:roomId>/messages')
 @token_required
 def get_chats(current_user, roomId):
-    chats = Chat.query.filter(Chat.room_id == roomId).all()
-    return { 'chats': [chat.to_dict() for chat in chats] }
+    messages = Message.query.filter(Message.room_id == roomId).all()
+    return {'messages': [message.to_dict() for message in messages]}
 
 
 @room_routes.route('/<int:roomId>/join', methods=['PATCH'])
 @token_required
 def join_chatroom(current_user, roomId):
     room = ChatRoom.query.get(roomId)
-    user = User.query.get(current_user.get_id())
-    room.active_users.append(user)
+    user = User.query.get(current_user.id)
+    room.active_members.append(user)
     db.session.commit()
     return room.to_dict()
 
@@ -109,7 +101,7 @@ def join_chatroom(current_user, roomId):
 @token_required
 def leave_chatroom(current_user, roomId):
     room = ChatRoom.query.get(roomId)
-    user = User.query.get(current_user.get_id())
-    room.active_users.pop(room.active_users.index(user))
+    user = User.query.get(current_user.id)
+    room.active_members.pop(room.active_members.index(user))
     db.session.commit()
     return room.to_dict()

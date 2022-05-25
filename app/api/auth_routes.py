@@ -10,6 +10,7 @@ import datetime
 from ..forms.signup import SignUpForm
 from ..extensions import db
 from ..models.user import User
+from ..utils import form_validation_errors
 
 auth_routes = Blueprint('auth', __name__)
 
@@ -35,15 +36,6 @@ def token_required(f):
     
     return decorated
 
-def validation_errors_to_error_messages(validation_errors):
-    """
-    Turns validation errors into an error message for frontend
-    """
-    errorMessages = []
-    for field in validation_errors:
-        for error in validation_errors[field]:
-            errorMessages.append(f'{field}:{error}')
-    return errorMessages
 
 
 @auth_routes.route('/login', methods=['POST'])
@@ -120,7 +112,7 @@ def sign_up():
             'user': user.to_dict(),
             'token' : token
         })
-    return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+    return {'errors': form_validation_errors(form.errors)}, 401
 
 @auth_routes.route('/unauthorized')
 def unauthorized():

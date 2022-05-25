@@ -1,10 +1,9 @@
 from ..extensions import db
-from sqlalchemy.orm import relationship
 from sqlalchemy import ForeignKey
 from datetime import datetime
 
 
-class Chat(db.Model):
+class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, ForeignKey('user.id'))
     room_id = db.Column(db.Integer, ForeignKey('chat_room.id'))
@@ -13,8 +12,8 @@ class Chat(db.Model):
 
 
     #relationships
-    user = db.relationship('User', back_populates='chats')
-    room = db.relationship('ChatRoom', back_populates='chats')
+    user = db.relationship('User', back_populates='messages')
+    room = db.relationship('ChatRoom', back_populates='messages')
 
 
     def to_dict(self):

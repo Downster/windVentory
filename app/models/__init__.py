@@ -1,4 +1,4 @@
-from .chat import Chat
+from .message import Message
 from .connex import Connex
 from .events import Event
 from .jobSite import JobSite

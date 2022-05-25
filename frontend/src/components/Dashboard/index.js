@@ -18,6 +18,7 @@ import { fetchUserTeam } from '../../store/currentTeam'
 import JobSiteCard from './JobSiteCard'
 import SiteWeather from './SiteWeather'
 import SiteTeams from './SiteTeams'
+import Chat from './Chat'
 import { getSiteChatRooms } from '../../store/chatRoom'
 
 
@@ -72,7 +73,10 @@ const Dashboard = () => {
                         <Team />
                     </Route>
                     <Route exact path='/jobsite/:siteId/chats'>
-                        <h1>Chat rooms</h1>
+                        <h1>Jobsite Chats</h1>
+                    </Route>
+                    <Route exact path='/jobsite/:siteId/rooms/:roomId/chat'>
+                        <Chat jobsite={true} />
                     </Route>
                     <Route path='/admin/jobsites'>
                         <AllSites adminPanel={true} />

@@ -1,5 +1,8 @@
-from flask_socketio import emit, join_room, leave_room, send
-from extensions import socketio
+from flask_socketio import emit, join_room, leave_room, send, SocketIO
+
+socketio = SocketIO()
+
+socketio = SocketIO(cors_allowed_origins="*")
 
 @socketio.on("chat")
 def handle_chat(data):

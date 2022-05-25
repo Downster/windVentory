@@ -9,18 +9,10 @@ from .auth_routes import token_required
 from ..models import JobSite, User
 from ..extensions import db
 from ..forms import CreateSiteForm
+from ..utils import form_validation_errors
 
 jobsite_routes = Blueprint('jobsites', __name__)
 
-def error_messages(validation_errors):
-    """
-    Turns validation errors into an error message for frontend
-    """
-    errorMessages = []
-    for field in validation_errors:
-        for error in validation_errors[field]:
-            errorMessages.append(f'{field}:{error}')
-    return errorMessages
 
 #base route for jobsites
 @jobsite_routes.route('/')
@@ -64,7 +56,7 @@ def create_site(current_user):
         return jsonify({
             'site': site.to_dict(),
         })
-    return {'errors': error_messages(form.errors)}, 401
+    return {'errors': form_validation_errors(form.errors)}, 401
 
 #delete jobsite
 @jobsite_routes.route('/<int:jobsite_id>', methods=['DELETE'])
@@ -106,7 +98,7 @@ def edit_site(current_user, jobsite_id):
         jobsite.image= url 
         db.session.commit()
         return jsonify({'jobsite' : jobsite.to_dict()})
-    return {'errors': error_messages(form.errors)}, 401
+    return {'errors': form_validation_errors(form.errors)}, 401
 
 
 #Search for specific jobsite

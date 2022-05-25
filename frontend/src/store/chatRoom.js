@@ -6,8 +6,8 @@ const CREATE_TEAM_ROOM = 'chatRooms/CREATE_TEAM_ROOM';
 const CREATE_SITE_ROOM = 'charRooms/CREATE_SITE_ROOM';
 const DELETE_ROOM = 'chatRooms/DELETE_ROOM';
 const EDIT_ROOM = 'chatRooms/EDIT_ROOM';
-const JOIN_ROOM = 'chatRooms/JOIN_ROOM';
-const LEAVE_ROOM = 'chatRooms/LEAVE_ROOM';
+const JOIN_SITE_ROOM = 'chatRooms/JOIN_ROOM';
+const LEAVE_SITE_ROOM = 'chatRooms/LEAVE_ROOM';
 
 const loadSiteRooms = (rooms) => ({
     type: LOAD_SITE_ROOMS,
@@ -39,13 +39,13 @@ const editRoom = (room) => ({
     room
 });
 
-const joinRoom = (room) => ({
-    type: JOIN_ROOM,
+const joinSiteRoom = (room) => ({
+    type: JOIN_SITE_ROOM,
     room
 });
 
-const leaveRoom = (room) => ({
-    type: LEAVE_ROOM,
+const leaveSiteRoom = (room) => ({
+    type: LEAVE_SITE_ROOM,
     room
 })
 
@@ -97,6 +97,38 @@ export const createSiteChatRoom = (formData) => async (dispatch) => {
     };
 };
 
+export const joinChatRoom = (roomId, type) => async (dispatch) => {
+    const res = await tokenFetch(`/rooms/${roomId}/join`, {
+        method: 'PATCH',
+        body: {}
+    });
+
+    const room = await res.json();
+    if (res.ok) {
+        if (type === 'site') {
+            dispatch(joinSiteRoom(room))
+        }
+    } else {
+        return room
+    }
+}
+
+export const leaveChatRoom = (roomId, type) => async (dispatch) => {
+    const res = await tokenFetch(`/rooms/${roomId}/leave`, {
+        method: 'PATCH'
+    });
+
+    const room = await res.json();
+    if (res.ok) {
+        if (type === 'site') {
+            dispatch(leaveSiteRoom(room))
+        }
+    } else {
+        return room
+    }
+
+}
+
 const initialState = {
     teamRooms: {},
     siteRooms: {}
@@ -127,9 +159,12 @@ const chatRoomsReducer = (state = initialState, action) => {
             newState.siteRooms[action.room.id] = action.room
             return newState
         case EDIT_ROOM:
-        case JOIN_ROOM:
-        case LEAVE_ROOM:
-
+        case JOIN_SITE_ROOM:
+            newState.siteRooms[action.room.id] = action.room
+            return newState
+        case LEAVE_SITE_ROOM:
+            newState.siteRooms[action.room.id] = action.room
+            return newState
         default:
             return state;
     };

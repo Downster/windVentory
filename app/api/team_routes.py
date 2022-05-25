@@ -4,18 +4,10 @@ from .auth_routes import token_required
 from ..extensions import db
 from ..models.user import Team, User
 from ..forms import CreateTeamForm
+from ..utils import form_validation_errors
 
 team_routes = Blueprint('teams', __name__)
 
-def error_messages(validation_errors):
-    """
-    Turns validation errors into an error message for frontend
-    """
-    errorMessages = []
-    for field in validation_errors:
-        for error in validation_errors[field]:
-            errorMessages.append(f'{field}:{error}')
-    return errorMessages
 
 
 #Get all teams route
@@ -47,7 +39,7 @@ def create_team(current_user):
             })
     else :
         return {"errors": "Unauthorized"}, 401
-    return {'errors': error_messages(form.errors)}, 401
+    return {'errors': form_validation_errors(form.errors)}, 401
     
 
 
@@ -89,7 +81,7 @@ def edit_team(current_user, teamId):
             return jsonify({
                 'team': team.to_dict(),
             })
-    return {'errors': error_messages(form.errors)}, 401
+    return {'errors': form_validation_errors(form.errors)}, 401
 
 
 

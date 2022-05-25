@@ -4,19 +4,11 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from ..extensions import db
 from ..models.user import User, Role
 from ..forms import CreateUserForm, EditUserForm
+from ..utils import form_validation_errors
 
 user_routes = Blueprint('users', __name__)
 
 
-def error_messages(validation_errors):
-    """
-    Turns validation errors into an error message for frontend
-    """
-    errorMessages = []
-    for field in validation_errors:
-        for error in validation_errors[field]:
-            errorMessages.append(f'{field}:{error}')
-    return errorMessages
 
 #Get all users
 @user_routes.route('')
@@ -60,7 +52,7 @@ def admin_create_user(current_user):
             db.session.add(new_user)
             db.session.commit()
             return jsonify({'user' : new_user.to_dict()})
-        return {'errors': error_messages(form.errors)}, 401
+        return {'errors': form_validation_errors(form.errors)}, 401
     return {'Unauthorized' : 'You must be an admin to add a user'}, 401
 
 
@@ -100,6 +92,6 @@ def admin_edit_user(current_user, id):
             user.roles = [role]
             db.session.commit()
             return jsonify({'user': user.to_dict()})
-        return {'errors': error_messages(form.errors)}, 401
+        return {'errors': form_validation_errors(form.errors)}, 401
     return {'Unauthorized' : 'You must be an admin to delete a user'}, 401
 
