@@ -87,7 +87,6 @@ def sign_up():
     form['csrf_token'].data = request.cookies['csrf_token']
     hashed_password = generate_password_hash(form.data['password'], method='sha256')
     image = form["image"].data
-    print(image)
     if image:
         if not allowed_file(image.filename):
             print('---sad-fhgd--gdfdsa-dfgh-sf-ghd-sfg-hgfds-fgh')

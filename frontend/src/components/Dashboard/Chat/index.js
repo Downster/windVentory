@@ -4,7 +4,6 @@ import { useParams, useHistory } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import { joinChatRoom, leaveChatRoom, getSiteChatRooms } from '../../../store/chatRoom'
 import { createChatMessage, loadChatMessages, clearMessages } from '../../../store/messages'
-import { v4 as uuidv4 } from 'uuid';
 
 
 let socket;

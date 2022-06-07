@@ -4,6 +4,7 @@ import { useLocation } from "react-router"
 import JobSiteNav from "./JobsiteNav"
 import AdminNav from "./AdminNav";
 import TeamsNav from "./TeamsNav";
+import InventoryNav from "./InventoryNav";
 import ChatsNav from "./ChatsNav";
 
 const LeftMenu = ({ capstone }) => {
@@ -32,8 +33,8 @@ const LeftMenu = ({ capstone }) => {
         <>
             {capstone &&
                 < div className="left-menu" >
-                    <h1>Inventory</h1>
-                    <h1>ChatRooms</h1>
+                    <InventoryNav />
+                    <ChatsNav siteId={1} siteChats={siteChats} />
                 </div>
             }
 

@@ -1,33 +1,43 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
+import { deleteChatRoom } from '../../../store/chatRoom';
+import { Modal } from '../../../context/Modal';
+import ChatRoomForm from '../ChatRoomForm';
 
 
 const ChatRoom = ({ room }) => {
     const dispatch = useDispatch();
+    const history = useHistory();
     const user = useSelector(state => state.session.user);
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
 
     }, [dispatch])
 
+    const deleteRoom = async () => {
+        const errors = await dispatch(deleteChatRoom(room.id, 'site'))
+        history.push('/')
+    }
+
+
     return (
         <div className='chat-room'>
-            {/* {
-                (user.id === room.user_id || user.id === room.group_owner_id) &&
-                <div className='modal-container'>
-                    <EditRoomModal room={room} />
-                    <DeleteRoomModal room={room} />
-                </div>
-            } */}
-            <NavLink activeClassName='active'
-                to={`/jobsite/${room.jobsite_id}/rooms/${room.id}/chat`}>
-                <li className='chat-room-container'>
-                    <i className="fas fa-door-open"></i>
+            {showModal && (
+                <Modal onClose={() => setShowModal(false)}>
+                    <ChatRoomForm edit={true} setShowModal={setShowModal} room={room} />
+                </Modal>
+            )}
+            <li className='chat-room-container'>
+                <NavLink activeClassName='active'
+                    to={`/chat/${room.id}`}>
                     <p className='side-nav-overflow-control'>{room.room_name}</p>
-                    {/* <i className='active-users-num'>[ {room.active_users.length} ]</i> */}
-                </li>
-            </NavLink>
+                </NavLink>
+                {room.user_id === user.id && <i class="fa-solid fa-pen-to-square" onClick={(e) => setShowModal(true)}></i>}
+                {room.user_id === user.id && <i className="fa-solid fa-minus" onClick={deleteRoom}></i>}
+                {/* <i className='active-users-num'>[ {room.active_users.length} ]</i> */}
+            </li>
         </div>
     )
 }
