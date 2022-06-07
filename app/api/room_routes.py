@@ -4,6 +4,8 @@ from ..models import ChatRoom, Message, User
 from ..forms import TeamRoomForm, SiteRoomForm
 from .auth_routes import token_required
 from ..utils import form_validation_errors
+from ..awsS3 import (
+    upload_file_to_s3, allowed_file, get_unique_filename)
 
 room_routes = Blueprint('rooms', __name__)
 
@@ -74,10 +76,9 @@ def edit_room(current_user, roomId):
 @token_required
 def delete_room(current_user, roomId):
     room = ChatRoom.query.get(roomId)
-    data = room.to_dict()
     db.session.delete(room)
     db.session.commit()
-    return data
+    return {'roomId': roomId}
 
 
 @room_routes.route('/<int:roomId>/messages')
@@ -95,6 +96,30 @@ def join_chatroom(current_user, roomId):
     room.active_members.append(user)
     db.session.commit()
     return room.to_dict()
+
+@room_routes.route('/<int:roomId>', methods=['PATCH'])
+@token_required
+def edit_chatroom(current_user, roomId):
+    form = SiteRoomForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    image = form.data["image"]
+    if image:
+        if not allowed_file(image.filename):
+            return {"errors": "file type not allowed"}, 400
+        image.filename = get_unique_filename(image.filename)
+        upload = upload_file_to_s3(image)
+        if "url" not in upload:
+            return upload, 400
+        url = upload["url"]
+    if form.validate_on_submit():
+        room = ChatRoom.query.get(roomId)
+        room.room_name = form.data['room_name']
+        room.image = url
+
+        db.session.commit()
+        return room.to_dict()
+    return {'errors': form_validation_errors(form.errors)}, 401
+
 
 
 @room_routes.route('/<int:roomId>/leave', methods=['PATCH'])

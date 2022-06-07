@@ -3,9 +3,9 @@ import { tokenFetch } from "./csrf";
 const LOAD_SITE_ROOMS = 'chatRooms/LOAD_ROOMS';
 const LOAD_ROOM = 'chatRooms/LOAD_ROOM';
 const CREATE_TEAM_ROOM = 'chatRooms/CREATE_TEAM_ROOM';
-const CREATE_SITE_ROOM = 'charRooms/CREATE_SITE_ROOM';
-const DELETE_ROOM = 'chatRooms/DELETE_ROOM';
-const EDIT_ROOM = 'chatRooms/EDIT_ROOM';
+const CREATE_SITE_ROOM = 'chatRooms/CREATE_SITE_ROOM';
+const DELETE_SITE_ROOM = 'chatRooms/DELETE_ROOM';
+const EDIT_SITE_ROOM = 'chatRooms/EDIT_ROOM';
 const JOIN_SITE_ROOM = 'chatRooms/JOIN_ROOM';
 const LEAVE_SITE_ROOM = 'chatRooms/LEAVE_ROOM';
 
@@ -29,13 +29,13 @@ const createSiteRoom = (room) => ({
     room
 });
 
-const removeRoom = (room) => ({
-    type: DELETE_ROOM,
-    room
+const removeSiteRoom = (roomId) => ({
+    type: DELETE_SITE_ROOM,
+    roomId
 });
 
-const editRoom = (room) => ({
-    type: EDIT_ROOM,
+const editSiteRoom = (room) => ({
+    type: EDIT_SITE_ROOM,
     room
 });
 
@@ -129,13 +129,48 @@ export const leaveChatRoom = (roomId, type) => async (dispatch) => {
 
 }
 
+export const editJobsiteRoom = (roomId, formData, type) => async (dispatch) => {
+    const res = await tokenFetch(`/rooms/${roomId}`, {
+        method: 'PATCH',
+        body: formData
+    });
+
+    const room = await res.json();
+    if (res.ok) {
+        if (type === 'site') {
+            dispatch(editSiteRoom(room))
+        }
+    } else {
+        return room
+    }
+
+}
+
+export const deleteChatRoom = (roomId, type) => async (dispatch) => {
+    const res = await tokenFetch(`/rooms/${roomId}`, {
+        method: 'DELETE'
+    });
+
+    const room = await res.json();
+    if (res.ok) {
+        if (type === 'site') {
+            dispatch(removeSiteRoom(room.roomId))
+        }
+    } else {
+        return room
+    }
+}
+
 const initialState = {
     teamRooms: {},
     siteRooms: {}
 };
 
 const chatRoomsReducer = (state = initialState, action) => {
-    const newState = { ...state }
+    const newState = { teamRooms: {}, siteRooms: {} }
+    newState.teamRooms = { ...state.teamRooms }
+    newState.siteRooms = { ...state.siteRooms }
+    console.log(newState)
     switch (action.type) {
         case LOAD_SITE_ROOMS:
             if (action.rooms.length) {
@@ -145,10 +180,14 @@ const chatRoomsReducer = (state = initialState, action) => {
             }
             return newState;
 
-        case DELETE_ROOM: {
-            delete newState.rooms[action.room.id];
-            delete newState.byGroupId[action.room.group_id][action.room.id];
+        case DELETE_SITE_ROOM: {
+            delete newState.siteRooms[action.roomId];
             return newState;
+        }
+
+        case EDIT_SITE_ROOM: {
+            newState.siteRooms[action.room.id] = action.room
+            return newState
         }
 
         case LOAD_ROOM:
@@ -158,7 +197,6 @@ const chatRoomsReducer = (state = initialState, action) => {
         case CREATE_SITE_ROOM:
             newState.siteRooms[action.room.id] = action.room
             return newState
-        case EDIT_ROOM:
         case JOIN_SITE_ROOM:
             newState.siteRooms[action.room.id] = action.room
             return newState

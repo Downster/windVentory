@@ -4,6 +4,7 @@ import { useLocation } from "react-router"
 import JobSiteNav from "./JobsiteNav"
 import AdminNav from "./AdminNav";
 import TeamsNav from "./TeamsNav";
+import InventoryNav from "./InventoryNav";
 import ChatsNav from "./ChatsNav";
 
 const LeftMenu = ({ capstone }) => {
@@ -12,7 +13,6 @@ const LeftMenu = ({ capstone }) => {
     const siteChats = useSelector(state => state.chatRooms.siteRooms)
     const isAdmin = (currentUser.role[0] === 'Admin' ? true : false)
     const [adminPanel, setAdminPanel] = useState(false)
-    console.log(siteChats)
 
     //if not a member of a jobsite display jobsites
     //if a member of a jobsite display My Jobsite with sub menus
@@ -32,8 +32,8 @@ const LeftMenu = ({ capstone }) => {
         <>
             {capstone &&
                 < div className="left-menu" >
-                    <h1>Inventory</h1>
-                    <h1>ChatRooms</h1>
+                    <InventoryNav />
+                    <ChatsNav siteId={1} siteChats={siteChats} />
                 </div>
             }
 

@@ -1,42 +1,53 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createSiteChatRoom, createTeamChatRoom } from "../../../store/chatRoom";
+import { createSiteChatRoom, createTeamChatRoom, editJobsiteRoom } from "../../../store/chatRoom";
 
 
-function ChatRoomForm({ setShowModal, roomId, team, edit }) {
+function ChatRoomForm({ setShowModal, siteId, room, team, edit }) {
     const dispatch = useDispatch();
     const sessionUser = useSelector((state) => state.session.user);
-    const [name, setName] = useState("");
-    const [image, setImage] = useState(null);
+    const [name, setName] = useState((edit) ? (room.room_name) : "");
+    const [updateCurrentImage, setUpdateImage] = useState(false)
+    const [image, setImage] = useState((edit) ? (room.image) : null);
     const [teamId, setTeamId] = useState((team) ? team : null)
     const [imageLoading, setImageLoading] = useState(false);
-    const [siteId, setSiteId] = useState(sessionUser.jobsite_id)
+    // const [siteId, setSiteId] = useState(sessionUser.jobsite_id)
     const [errors, setErrors] = useState([]);
 
 
 
     const handleSubmit = async (e) => {
-        console.log('please work')
         e.preventDefault();
         const formData = new FormData()
         let errors;
         formData.append('room_name', name)
-        formData.append('jobsite_id', siteId)
+        formData.append('jobsite_id', 1)
         if (image) {
             formData.append('image', image)
         }
-        if (teamId) {
-            errors = await dispatch(createTeamChatRoom(formData))
+        if (edit) {
+            if (teamId) {
+
+            } else {
+                errors = await dispatch(editJobsiteRoom(room.id, formData, 'site'))
+            }
+
+
         } else {
-            errors = await dispatch(createSiteChatRoom(formData))
+            if (teamId) {
+                errors = await dispatch(createTeamChatRoom(formData))
+            } else {
+                errors = await dispatch(createSiteChatRoom(formData))
+            }
         }
-        console.log(errors)
+        setUpdateImage(false)
         setShowModal(false)
     };
 
     const updateImage = (e) => {
         const file = e.target.files[0];
         setImage(file);
+        setUpdateImage(true)
     };
 
 
@@ -64,7 +75,7 @@ function ChatRoomForm({ setShowModal, roomId, team, edit }) {
                         {image && (
                             <img
                                 alt="preview"
-                                src={URL.createObjectURL(image)}
+                                src={(edit && !updateCurrentImage) ? image : null}
                                 className="preview-image site"
                             ></img>
                         )}
@@ -73,11 +84,11 @@ function ChatRoomForm({ setShowModal, roomId, team, edit }) {
                         {imageLoading ?
                             <i className="fas fa-spinner fa-pulse"></i>
                             :
-                            <i className="fas fa-image"></i>
+                            null
                         }
                     </label>
                 </div>
-                <button type="submit">Create Chat Room</button>
+                <button type="submit">{(edit) ? 'Edit Chatroom' : 'Create Chat Room'}</button>
             </div>
         </form>
     );
