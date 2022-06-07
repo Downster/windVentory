@@ -14,6 +14,7 @@ const Chat = ({ jobsite }) => {
     const [messages, setMessages] = useState([]);
     const [messageBody, setMessageBody] = useState("");
     const { siteId, roomId } = useParams();
+    console.log(jobsite)
     const dispatch = useDispatch();
     const history = useHistory();
 
@@ -69,11 +70,11 @@ const Chat = ({ jobsite }) => {
         });
 
         socket.on('join_room', () => {
-            dispatch(getSiteChatRooms(siteId));
+            dispatch(getSiteChatRooms(user.jobsite_id));
         });
 
         socket.on('leave_room', (user) => {
-            dispatch(getSiteChatRooms(siteId));
+            dispatch(getSiteChatRooms(user.jobsite_id));
         });
 
 
