@@ -46,13 +46,23 @@ def create_team_room(current_user):
 def create_site_room(current_user):
     form = SiteRoomForm()
     form['csrf_token'].data = request.cookies['csrf_token']
+    image = form.data['image']
+    if image:
+        if not allowed_file(image.filename):
+            return {"errors": "file type not allowed"}, 400
+        image.filename = get_unique_filename(image.filename)
+        upload = upload_file_to_s3(image)
+        if "url" not in upload:
+            return upload, 400
+        url = upload["url"]
     if form.validate_on_submit():
         room = ChatRoom(
             user_id=current_user.id, 
             room_name=form['room_name'].data,
             jobsite_id=form.data['jobsite_id'],
-            image = form.data['image']
             )
+        if image:
+            room.image = url
         db.session.add(room)
         db.session.commit()
         return room.to_dict()
