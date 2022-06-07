@@ -89,13 +89,11 @@ def sign_up():
     image = form["image"].data
     if image:
         if not allowed_file(image.filename):
-            print('---sad-fhgd--gdfdsa-dfgh-sf-ghd-sfg-hgfds-fgh')
             return {"errors": "file type not allowed"}, 400
         image.filename = get_unique_filename(image.filename)
         upload = upload_file_to_s3(image)
 
         if "url" not in upload:
-            print('dshgfjklfdshafkjghjlsafgjnklfsafjkbndsafjkndsafkjhdsafgjkhdsalkjf')
             return upload, 400
 
         url = upload["url"]
@@ -109,6 +107,7 @@ def sign_up():
             phone_number = form.data['phoneNumber'],
             password=hashed_password,
             image=url,
+            jobsite_id = 1, #remove after capstone
             online=True
         )
         #Capstone shenanigans

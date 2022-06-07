@@ -6,7 +6,7 @@ from ..models import Note
 from ..awsS3 import (
     upload_file_to_s3, allowed_file, get_unique_filename)
 from .auth_routes import token_required
-from ..models import JobSite, User
+from ..models import JobSite, User, StorageLocation, Material
 from ..extensions import db
 from ..forms import CreateSiteForm
 from ..utils import form_validation_errors
@@ -187,3 +187,17 @@ def get_site_notes(current_user, jobsite_id):
         return jsonify({'message': "Notes don't exist fot this jobsite"})
 
     return ""
+
+
+    #Show jobsite inventory
+@jobsite_routes.route('/<int:site_id>/inventory')
+@token_required
+def get_site_storage(current_user, site_id):
+    storageLocation = StorageLocation.query.filter(StorageLocation.jobsite_id==int(site_id), StorageLocation.storagetype_id==(2)).all()
+    locationIds = [location.id for location in storageLocation]
+    materials = []
+    for id in locationIds:
+        locationMats = Material.query.filter(Material.storage_id==id).all()
+        #setup for multiple connex's later
+        materials = locationMats
+    return {'materials' : [material.to_dict() for material in materials]}

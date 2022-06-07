@@ -13,7 +13,6 @@ const LeftMenu = ({ capstone }) => {
     const siteChats = useSelector(state => state.chatRooms.siteRooms)
     const isAdmin = (currentUser.role[0] === 'Admin' ? true : false)
     const [adminPanel, setAdminPanel] = useState(false)
-    console.log(siteChats)
 
     //if not a member of a jobsite display jobsites
     //if a member of a jobsite display My Jobsite with sub menus
