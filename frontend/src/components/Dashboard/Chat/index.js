@@ -3,7 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import { joinChatRoom, leaveChatRoom, getSiteChatRooms } from '../../../store/chatRoom'
-import { createChatMessage } from '../../../store/messages'
+import { createChatMessage, loadChatMessages, clearMessages } from '../../../store/messages'
+import { v4 as uuidv4 } from 'uuid';
 
 
 let socket;
@@ -17,9 +18,11 @@ const Chat = ({ jobsite }) => {
     const dispatch = useDispatch();
     const history = useHistory();
 
-
     const user = useSelector(state => state.session.user);
-    const messageObj = useSelector(state => state.messages);
+    const stateMessages = useSelector(state => state.messages);
+    chatMessages = Object.values(stateMessages)
+
+
     const chatRooms = useSelector(state => state.chatRooms);
     if (jobsite) {
         chatRoom = chatRooms.siteRooms[roomId];
@@ -38,28 +41,18 @@ const Chat = ({ jobsite }) => {
         socket.emit('chat', {
             user: `${user.firstName} ${user.lastName}`, msg: messageBody, room: roomId, user_image: user.image, created_at: (new Date()).toLocaleTimeString()
         });
-        await dispatch(createChatMessage(roomId, messageBody));
+        const errors = await dispatch(createChatMessage(roomId, messageBody));
         setMessageBody("");
     };
 
+    useEffect(() => {
+        dispatch(loadChatMessages(roomId))
+
+
+    }, [roomId, dispatch])
 
 
 
-    // useEffect(() => {
-    //     // const checkAccess = (group) => {
-    //     //     if (group.user_ids.includes(user.id)) {
-    //     //         return true;
-    //     //     }
-    //     //     else return false;
-    //     // }
-
-    //     // if (user && group) {
-    //     //     if (!checkAccess(group)) {
-    //     //         return history.push('/')
-    //     //     }
-    //     // }
-    //     //check access here
-    // }, [group, user, history]);
 
 
     useEffect(() => {
@@ -69,13 +62,14 @@ const Chat = ({ jobsite }) => {
 
         socket.emit('join', { 'username': `${user.firstName} ${user.lastName}`, 'room': roomId });
         socket.emit('join_room', { 'username': `${user.firstName} ${user.lastName}`, 'room': roomId })
-        socket.emit('chat', { user: 'windVentory-Bot', msg: `${user.firstName} ${user.lastName} has joined the room.`, room: roomId });
+        socket.emit('chat', { user: '', msg: `${user.firstName} ${user.lastName} has joined the room.`, room: roomId });
 
-        socket.on('chat', (chat) => {
-            setMessages(messages => [...messages, chat]);
+
+        socket.on('chat', (message) => {
+            setMessages(messages => [...messages, message]);
         });
 
-        socket.on('join_room', (user) => {
+        socket.on('join_room', () => {
             dispatch(getSiteChatRooms(siteId));
         });
 
@@ -88,7 +82,9 @@ const Chat = ({ jobsite }) => {
             dispatch(leaveChatRoom(roomId, 'site'));
             socket.emit('leave', { 'username': `${user.firstName} ${user.lastName}`, 'room': roomId });
             socket.emit('leave_room', { 'username': `${user.firstName} ${user.lastName}`, 'room': roomId })
-            socket.emit('chat', { user: 'weStudy-Bot', msg: `${user.firstName} ${user.lastName} has left the room.`, room: roomId });
+            socket.emit('chat', { user: '', msg: `${user.firstName} ${user.lastName} has left the room.`, room: roomId });
+            dispatch(clearMessages())
+            setMessages([]);
 
             socket.disconnect();
         })
@@ -113,14 +109,14 @@ const Chat = ({ jobsite }) => {
                 <div className='chat-messages-container'>
                     {chatMessages?.map(msg => {
                         return (
-                            <div className='chat-message'>
+                            <div className='chat-message' id={msg.id}>
                                 <p className='chat-username'>{msg.firstName}<span className='created-at-msg'>{(new Date(msg.created_at)).toLocaleTimeString()}</span></p>
                                 <p className='chat-text'>{msg.message}</p>
                             </div>
                         )
 
                     })}
-                    {messages.map((message, idx) => (
+                    {messages?.map((message, idx) => (
                         <div
                             className={message.user === 'weStudy-Bot' ? 'center chat-msg' : message.user === user.username ? 'right chat-msg' : 'left chat-msg'}
                             key={idx}>
@@ -133,7 +129,7 @@ const Chat = ({ jobsite }) => {
                                 {message.user !== 'weStudy-Bot' &&
                                     <p className='chat-username'>{message.user}<span className='created-at-msg'>{message.created_at}</span></p>
                                 }
-                                <p className='chat-text'>{message.msg}</p>
+                                <p className='chat-text' id={message.id}>{message.msg}</p>
                             </div>
                         </div>
                     ))}

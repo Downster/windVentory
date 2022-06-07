@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { loadAllUsers } from "../../../store/allUsers"
-import UserCard from "../../UserCard"
+import UserCard from "../UserCard"
 
 
 

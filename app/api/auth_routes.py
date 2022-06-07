@@ -46,20 +46,22 @@ def login():
         return make_response('Could not verify', 401)
 
     user = User.query.filter_by(email=auth['username']).first()
-    user.online = True
-    db.session.commit()
-
     if not user:
         return make_response('Could not verify', 401)
 
+
+    user.online = True
+    db.session.commit()
+
     if check_password_hash(user.password, auth['password']):
         token = jwt.encode({'id': user.id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=200)}, os.environ.get("SECRET_KEY"), algorithm="HS256")
+
 
         return jsonify({
             "user": user.to_dict(),
             "token": token})
     
-    return make_response('Could not verify', 401,)
+    return {'errors': 'Could not verify'}, 401
 
 
 

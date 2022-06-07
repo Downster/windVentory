@@ -3,6 +3,7 @@ import { tokenFetch } from "./csrf"
 const LOAD_MESSAGES = 'messages/LOAD_MESSAGES'
 const CREATE_MESSAGE = 'messages/CREATE_MESSAGE'
 const EDIT_MESSAGE = 'messages/EDIT_MESSAGE'
+const CLEAR_MESSAGE = 'messages/CLEAR_MESSAGE'
 const DELETE_MESSAGE = 'messages/DELETE_MESSAGE'
 
 const loadMessages = (messages) => ({
@@ -15,6 +16,10 @@ const createMessage = (message) => ({
     message
 });
 
+export const clearMessages = () => ({
+    type: CLEAR_MESSAGE
+})
+
 const removeMessage = (messageID) => ({
     type: DELETE_MESSAGE,
     messageID
@@ -25,10 +30,16 @@ const editMessage = (message) => ({
     message
 })
 
-export const createChatMessage = (roomId, messageBody) => async (dispatch) => {
-    const res = await tokenFetch(`/messages`, {
+export const createChatMessage = (roomID, messageBody) => async (dispatch) => {
+    const res = await tokenFetch(`/messages/`, {
         method: 'POST',
-        body: messageBody
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            room_id: roomID,
+            message: messageBody
+        })
     });
 
     const message = await res.json();
@@ -37,6 +48,18 @@ export const createChatMessage = (roomId, messageBody) => async (dispatch) => {
     } else {
         return message
     }
+}
+
+export const loadChatMessages = (roomId) => async (dispatch) => {
+    const res = await tokenFetch(`/messages/${roomId}`)
+
+    const messages = await res.json();
+    if (res.ok) {
+        dispatch(loadMessages(messages.messages))
+    } else {
+        return messages
+    }
+
 }
 
 
@@ -58,6 +81,8 @@ const messagesReducer = (state = initialState, action) => {
         case CREATE_MESSAGE:
             newState[action.message.id] = action.message
             return newState
+        case CLEAR_MESSAGE:
+            return initialState
         case EDIT_MESSAGE:
             newState[action.message.id] = action.message
             return newState
