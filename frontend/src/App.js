@@ -5,7 +5,7 @@ import { Route, Switch } from "react-router-dom";
 import * as sessionActions from './store/session';
 import SplashPage from "./components/SplashPage";
 import Dashboard from "./components/Dashboard";
-import { joinCurrentTeam } from "./store/currentTeam";
+import CapstoneDashboard from "./components/CapstoneDashboard";
 
 
 function App() {
@@ -31,10 +31,7 @@ function App() {
       <BrowserRouter>
         <Switch>
           <Route path='/'>
-            {sessionUser ? <Dashboard user={sessionUser} /> : <SplashPage />}
-          </Route>
-          <Route path='jobsites/:jobsiteId'>
-
+            {sessionUser ? <CapstoneDashboard /> : <SplashPage />}
           </Route>
         </Switch>
       </BrowserRouter>

@@ -32,6 +32,6 @@ class ChatRoom(db.Model):
             'jobsite_id': self.jobsite_id,
             'image': self.image,
             'room_name': self.room_name,
-            'chats': [chat.to_dict() for chat in self.chats],
+            'messages': [message.to_dict() for message in self.messages],
             'active_members': [user.to_dict() for user in self.active_members]
         }

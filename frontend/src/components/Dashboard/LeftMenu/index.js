@@ -6,7 +6,7 @@ import AdminNav from "./AdminNav";
 import TeamsNav from "./TeamsNav";
 import ChatsNav from "./ChatsNav";
 
-const LeftMenu = () => {
+const LeftMenu = ({ capstone }) => {
     const location = useLocation();
     const currentUser = useSelector(state => state.session.user)
     const siteChats = useSelector(state => state.chatRooms.siteRooms)
@@ -30,7 +30,14 @@ const LeftMenu = () => {
 
     return (
         <>
-            {!adminPanel &&
+            {capstone &&
+                < div className="left-menu" >
+                    <h1>Inventory</h1>
+                    <h1>ChatRooms</h1>
+                </div>
+            }
+
+            {/* {!adminPanel &&
                 < div className="left-menu" >
                     <ul className="left-menu-list">
                         {(siteId) ? <JobSiteNav isMember={true} isAdmin={isAdmin} siteId={siteId} /> : <JobSiteNav isMember={false} isAdmin={isAdmin} />
@@ -44,7 +51,7 @@ const LeftMenu = () => {
                 < div className="left-menu" >
                     <AdminNav />
                 </div>
-            }
+            } */}
         </>
     )
 }
