@@ -94,15 +94,6 @@ const Chat = ({ jobsite }) => {
         <>
             <div className='chat-container'>
                 <h2 className='chat-room-name'>Welcome to #{chatRoom?.room_name}!</h2>
-                <div className='active-users-container'>
-                    {chatRoom?.active_members.map(member => {
-                        return (
-                            <div key={user.id} className='active-user-img-container'>
-                                <img className='active-user-img' src={member.image} alt={member.id}></img>
-                            </div>
-                        )
-                    })}
-                </div>
             </div>
             <div className='chat-room-container'>
                 <div className='chat-messages-container'>
@@ -115,23 +106,6 @@ const Chat = ({ jobsite }) => {
                         )
 
                     })}
-                    {messages?.map((message, idx) => (
-                        <div
-                            className={message.user === 'weStudy-Bot' ? 'center chat-msg' : message.user === user.username ? 'right chat-msg' : 'left chat-msg'}
-                            key={idx}>
-                            {message.user !== 'weStudy-Bot' &&
-                                <div className='profile-pic-div chat-profile-pic'>
-                                    <img src={message.user_image} alt={message.user}></img>
-                                </div>
-                            }
-                            <div className='chat-message'>
-                                {message.user !== 'weStudy-Bot' &&
-                                    <p className='chat-username'>{message.user}<span className='created-at-msg'>{message.created_at}</span></p>
-                                }
-                                <p className='chat-text' id={message.id}>{message.msg}</p>
-                            </div>
-                        </div>
-                    ))}
                 </div>
                 <form autoComplete="off" className='chat-input-form' onSubmit={sendChat}>
                     <input

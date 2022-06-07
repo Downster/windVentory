@@ -130,7 +130,7 @@ export const leaveChatRoom = (roomId, type) => async (dispatch) => {
 }
 
 export const editJobsiteRoom = (roomId, formData, type) => async (dispatch) => {
-    const res = await tokenFetch(`/rooms/${roomId}`, {
+    const res = await tokenFetch(`/rooms/${type}/${roomId}`, {
         method: 'PATCH',
         body: formData
     });

@@ -107,7 +107,7 @@ def join_chatroom(current_user, roomId):
     db.session.commit()
     return room.to_dict()
 
-@room_routes.route('/<int:roomId>', methods=['PATCH'])
+@room_routes.route('/site/<int:roomId>', methods=['PATCH'])
 @token_required
 def edit_chatroom(current_user, roomId):
     form = SiteRoomForm()
@@ -115,7 +115,7 @@ def edit_chatroom(current_user, roomId):
     image = form.data["image"]
     if image:
         if not allowed_file(image.filename):
-            return {"errors": "file type not allowed"}, 400
+            return {"errors": ["Error: that file type is not allowed"]}, 400
         image.filename = get_unique_filename(image.filename)
         upload = upload_file_to_s3(image)
         if "url" not in upload:
@@ -124,8 +124,8 @@ def edit_chatroom(current_user, roomId):
     if form.validate_on_submit():
         room = ChatRoom.query.get(roomId)
         room.room_name = form.data['room_name']
-        room.image = url
-
+        if image:
+            room.image = url
         db.session.commit()
         return room.to_dict()
     return {'errors': form_validation_errors(form.errors)}, 401
