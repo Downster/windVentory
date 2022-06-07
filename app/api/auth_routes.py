@@ -9,7 +9,7 @@ import jwt
 import datetime
 from ..forms.signup import SignUpForm
 from ..extensions import db
-from ..models.user import User
+from ..models.user import User, Role
 from ..utils import form_validation_errors
 
 auth_routes = Blueprint('auth', __name__)
@@ -87,16 +87,22 @@ def sign_up():
     form['csrf_token'].data = request.cookies['csrf_token']
     hashed_password = generate_password_hash(form.data['password'], method='sha256')
     image = form["image"].data
-    if not allowed_file(image.filename):
-        return {"errors": "file type not allowed"}, 400
-    image.filename = get_unique_filename(image.filename)
-    upload = upload_file_to_s3(image)
+    print(image)
+    if image:
+        if not allowed_file(image.filename):
+            print('---sad-fhgd--gdfdsa-dfgh-sf-ghd-sfg-hgfds-fgh')
+            return {"errors": "file type not allowed"}, 400
+        image.filename = get_unique_filename(image.filename)
+        upload = upload_file_to_s3(image)
 
-    if "url" not in upload:
-        return upload, 400
+        if "url" not in upload:
+            print('dshgfjklfdshafkjghjlsafgjnklfsafjkbndsafjkndsafkjhdsafgjkhdsalkjf')
+            return upload, 400
 
-    url = upload["url"]
+        url = upload["url"]
     if form.validate_on_submit():
+        #Capstone shenanigans
+        role = Role.query.get(5)
         user = User(
             email=form.data['email'],
             first_name = form.data['firstName'],
@@ -105,8 +111,9 @@ def sign_up():
             password=hashed_password,
             image=url,
             online=True
-            
         )
+        #Capstone shenanigans
+        user.roles.append(role)
         db.session.add(user)
         db.session.commit()
         token = jwt.encode({'id': user.id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=200)}, os.environ.get("SECRET_KEY"), algorithm="HS256")

@@ -26,6 +26,14 @@ function LoginForm({ setSignup }) {
             });
     }
 
+    const demoUser = async () => {
+        const credentials = {
+            username: 'demo@demo.com',
+            password: 'password'
+        }
+        await dispatch(sessionActions.login(credentials))
+    }
+
     const changeSignup = (e) => {
         e.preventDefault();
         setSignup(true);
@@ -59,6 +67,7 @@ function LoginForm({ setSignup }) {
 
                     <button className='login-button' type="submit">Log In</button>
                     <button className='sign-up-change' onClick={changeSignup}>Not a member? Sign up!</button>
+                    <button onClick={demoUser} className='login-button'>Demo User</button>
                 </div>
             </form>
         </div >
