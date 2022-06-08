@@ -20,9 +20,9 @@ export const clearMessages = () => ({
     type: CLEAR_MESSAGE
 })
 
-const removeMessage = (messageID) => ({
+export const removeMessage = (messageId) => ({
     type: DELETE_MESSAGE,
-    messageID
+    messageId
 })
 
 const editMessage = (message) => ({
@@ -88,6 +88,7 @@ const messagesReducer = (state = initialState, action) => {
             return newState
         case DELETE_MESSAGE:
             delete newState[action.messageId]
+            console.log(newState)
             return newState
         default:
             return state;
