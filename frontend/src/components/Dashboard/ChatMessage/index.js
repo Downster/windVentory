@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import { Modal } from "../../../context/Modal";
 import DeleteMessagePrompt from "../DeleteMessagePrompt";
+import { editChatMessage } from "../../../store/messages";
 
 const ChatMessage = ({ msg, socket }) => {
     const dispatch = useDispatch()
@@ -11,11 +12,16 @@ const ChatMessage = ({ msg, socket }) => {
     const [message, setMessage] = useState(msg.message)
     const [showModal, setShowModal] = useState(false);
 
-    const editMessage = () => {
-        setEdit(true)
-        socket.emit('edit', {
-            user: `${user.username}`, userId: `${user.id}`, msgId: msg.id, msg: message, room: msg.room_id, created_at: (new Date()).toLocaleTimeString()
-        });
+    const editMessage = async (msg, body) => {
+        const errors = await dispatch(editChatMessage(msg.id, body, msg.room_id))
+        if (errors) {
+            console.log(errors)
+        } else {
+            socket.emit('edit', {
+                user: `${user.username}`, userId: `${user.id}`, msgId: msg.id, msg: message, room: msg.room_id, created_at: (new Date()).toLocaleTimeString()
+            });
+            setEdit(false)
+        }
     }
 
     const deleteMessage = () => {
@@ -33,10 +39,10 @@ const ChatMessage = ({ msg, socket }) => {
             <div className="chat-message-inner-container" onMouseEnter={() => setMouse(true)} onMouseLeave={() => setMouse(false)}>
                 <div className='chat-message' id={msg.id}>
                     <p className='chat-username'>{msg.firstName}<span className='created-at-msg'>{(new Date(msg.created_at)).toLocaleTimeString()}</span></p>
-                    {edit ? <input value={message} onChange={(e) => setMessage(e.target.value)}></input> : <p className='chat-text'>{msg.message}</p>}
+                    {edit ? <><input value={message} onChange={(e) => setMessage(e.target.value)}></input><button onClick={() => editMessage(msg, message)}>Send</button></> : <p className='chat-text'>{msg.message}</p>}
                 </div>
                 {mouse && msg.user_id === user.id && <div className='message-buttons'>
-                    <button onClick={editMessage}>Edit</button>
+                    <button onClick={(e) => setEdit(true)}>Edit</button>
                     <button onClick={deleteMessage}>Delete</button>
                 </div>
                 }

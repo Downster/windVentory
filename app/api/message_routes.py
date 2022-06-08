@@ -39,7 +39,7 @@ def edit_message(current_user, msgId):
     form = MessageForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
-        message = Message.query.filter(Message.id == msgId)
+        message = Message.query.filter(Message.id == msgId).first()
         message.message = form.data['message']
         db.session.commit()
         return message.to_dict()

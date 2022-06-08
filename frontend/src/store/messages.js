@@ -62,6 +62,27 @@ export const loadChatMessages = (roomId) => async (dispatch) => {
 
 }
 
+export const editChatMessage = (msgId, messageBody, roomId) => async (dispatch) => {
+    const res = await tokenFetch(`/messages/${msgId}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            room_id: roomId,
+            message: messageBody
+        })
+    })
+
+    const message = await res.json();
+    if (res.ok) {
+        dispatch(editMessage(message))
+    } else {
+        return message
+    }
+
+}
+
 
 
 
