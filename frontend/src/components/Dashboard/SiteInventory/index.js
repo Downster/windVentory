@@ -6,6 +6,7 @@ import MaterialCard from "../MaterialCard"
 const SiteInventory = ({ inventory }) => {
     console.log(Object.values(inventory))
 
+
     return (
         <>
             <h1>Materials</h1>

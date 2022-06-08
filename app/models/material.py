@@ -1,3 +1,4 @@
+from email.mime import image
 from ..extensions import db
 from sqlalchemy.orm import relationship
 from sqlalchemy import ForeignKey
@@ -8,7 +9,7 @@ class Material(db.Model):
     storage_id = db.Column(db.Integer, ForeignKey('storage_location.id'))
     name = db.Column(db.String, nullable=False)
     quantity = db.Column(db.String, nullable=False)
-    unit = db.Column(db.String, nullable=False)
+    image = image = db.Column(db.String(255), nullable=False)
     
 
     #relationships
@@ -24,7 +25,6 @@ class Material(db.Model):
             'storage_id': self.storage_id,
             'name': self.name,
             'quantity': self.quantity,
-            'unit': self.unit,
         }
 
     

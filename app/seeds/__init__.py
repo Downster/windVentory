@@ -8,6 +8,7 @@ from .events import seed_events
 from .storageType import seed_storage_type
 from .storageLocation import seed_storage_location
 from .users import seed_users, undo_users
+from .material_class import seed_material_class
 
 
 seed_commands = AppGroup('seed')
@@ -25,6 +26,7 @@ def seed():
     # seed_events()
     seed_connex()
     seed_notes()
+    seed_material_class()
     # Add other seed functions here
 
 

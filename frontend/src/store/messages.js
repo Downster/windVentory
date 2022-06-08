@@ -20,9 +20,9 @@ export const clearMessages = () => ({
     type: CLEAR_MESSAGE
 })
 
-const removeMessage = (messageID) => ({
+export const removeMessage = (messageId) => ({
     type: DELETE_MESSAGE,
-    messageID
+    messageId
 })
 
 const editMessage = (message) => ({
@@ -62,6 +62,27 @@ export const loadChatMessages = (roomId) => async (dispatch) => {
 
 }
 
+export const editChatMessage = (msgId, messageBody, roomId) => async (dispatch) => {
+    const res = await tokenFetch(`/messages/${msgId}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            room_id: roomId,
+            message: messageBody
+        })
+    })
+
+    const message = await res.json();
+    if (res.ok) {
+        dispatch(editMessage(message))
+    } else {
+        return message
+    }
+
+}
+
 
 
 
@@ -88,6 +109,7 @@ const messagesReducer = (state = initialState, action) => {
             return newState
         case DELETE_MESSAGE:
             delete newState[action.messageId]
+            console.log(newState)
             return newState
         default:
             return state;

@@ -2,6 +2,7 @@ import { tokenFetch } from "./csrf";
 
 const LOAD_JOBSITE = 'currentSite/LOAD_JOBSITE';
 const LOAD_INVENTORY = 'currentSite/LOAD_INVENTORY'
+const ADD_MATERIAL = 'currentSite/ADD_MATERIAL'
 const GET_TEAMS = 'currentSite/GET_TEAMS'
 const GET_WEATHER = 'currentSite/GET_WEATHER'
 
@@ -24,6 +25,11 @@ const getWeather = (weather) => ({
 const loadInventory = (materials) => ({
     type: LOAD_INVENTORY,
     materials
+})
+
+const addMaterial = (material) => ({
+    type: ADD_MATERIAL,
+    material
 })
 
 export const loadUserJobsite = (jobsiteId) => async (dispatch) => {
@@ -65,6 +71,20 @@ export const loadSiteInventory = (jobsiteId) => async (dispatch) => {
     } else {
         return data
     }
+}
+
+export const addMaterialToSite = (formData) => async (dispatch) => {
+    const res = await tokenFetch(`/inventory`, {
+        method: 'POST',
+        body: formData
+    });
+    const data = await res.json();
+    if (res.ok) {
+        dispatch(addMaterial(data));
+    } else {
+        return data
+    }
+
 }
 
 const initialState = { site: null, currentWeather: null, forecast: null, teams: {}, inventory: {} }

@@ -27,7 +27,7 @@ def seed_users():
     admin = User (
         email='admin@admin.com', first_name='Admin', last_name='Joe', password=generate_password_hash('password', method='sha256'), phone_number='666-666-6666', roles=[Admin])
     demo = User (
-        email='demo@demo.com', first_name='Demo', last_name='Dan', password=generate_password_hash('password', method='sha256'), phone_number='666-666-6666', roles=[Demo])
+        email='demo@demo.com', first_name='Demo', last_name='Dan', password=generate_password_hash('password', method='sha256'), jobsite_id=1, phone_number='666-666-6666', roles=[Demo])
     
 
     db.session.add(Worker)

@@ -8,7 +8,7 @@ function ChatRoomForm({ setShowModal, siteId, room, team, edit }) {
     const sessionUser = useSelector((state) => state.session.user);
     const [name, setName] = useState((edit) ? (room.room_name) : "");
     const [updateCurrentImage, setUpdateImage] = useState(false)
-    const [image, setImage] = useState((edit) ? (room.image) : null);
+    const [image, setImage] = useState(null);
     const [teamId, setTeamId] = useState((team) ? team : null)
     const [imageLoading, setImageLoading] = useState(false);
     // const [siteId, setSiteId] = useState(sessionUser.jobsite_id)
@@ -40,8 +40,13 @@ function ChatRoomForm({ setShowModal, siteId, room, team, edit }) {
                 errors = await dispatch(createSiteChatRoom(formData))
             }
         }
-        setUpdateImage(false)
-        setShowModal(false)
+        if (errors) {
+            setErrors(errors.errors)
+            console.log(errors)
+        } else {
+            setUpdateImage(false)
+            setShowModal(false)
+        }
     };
 
     const updateImage = (e) => {
@@ -54,6 +59,9 @@ function ChatRoomForm({ setShowModal, siteId, room, team, edit }) {
     return (
         <form onSubmit={handleSubmit} className='chat-room-form'>
             <div className="chat-form-input-container">
+                <ul>
+                    {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+                </ul>
                 <div className="form-element-container">
                     <input
                         type="text"

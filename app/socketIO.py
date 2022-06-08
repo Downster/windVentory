@@ -1,4 +1,6 @@
 from flask_socketio import emit, join_room, leave_room, send, SocketIO
+from .extensions import db
+from .models import Message
 
 
 socketio = SocketIO(cors_allowed_origins="*")
@@ -7,6 +9,20 @@ socketio = SocketIO(cors_allowed_origins="*")
 def handle_chat(data):
     room = data['room']
     emit("chat", data, broadcast=True, to=room)
+
+
+@socketio.on("delete")
+def edit_chat(data):
+    room = data['room']
+    message = Message.query.get(data['msgId'])
+    db.session.delete(message)
+    db.session.commit()
+    emit("delete", data, broadcast=True, to=room)
+
+@socketio.on("edit")
+def edit_chat(data):
+    room = data['room']
+    emit("edit", data, broadcast=True, to=room)
 
 
 

@@ -31,3 +31,16 @@ def create_message(current_user):
 def get_room_messages(current_user, roomId):
     messages = Message.query.filter_by(room_id = roomId).all()
     return {'messages' : [message.to_dict() for message in messages]}
+
+
+@message_routes.route('/<int:msgId>', methods=['PATCH'])
+@token_required
+def edit_message(current_user, msgId):
+    form = MessageForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        message = Message.query.filter(Message.id == msgId).first()
+        message.message = form.data['message']
+        db.session.commit()
+        return message.to_dict()
+    return {'errors': form_validation_errors(form.errors)}, 401

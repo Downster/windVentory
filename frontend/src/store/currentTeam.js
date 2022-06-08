@@ -13,7 +13,6 @@ const getTeam = (team) => ({
 
 export const fetchUserTeam = (user) => async (dispatch) => {
     if (user.teams[0]) {
-        console.log('here')
         dispatch(getTeam(user.teams[0]))
     }
 }
