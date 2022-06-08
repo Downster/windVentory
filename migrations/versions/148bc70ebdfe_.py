@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: e7ac7caa57fc
+Revision ID: 148bc70ebdfe
 Revises: 
-Create Date: 2022-06-07 10:45:17.477266
+Create Date: 2022-06-08 15:38:16.725213
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'e7ac7caa57fc'
+revision = '148bc70ebdfe'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -31,7 +31,8 @@ def upgrade():
     op.create_table('material_class',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('material_class', sa.String(), nullable=False),
-    sa.Column('material_subClass', sa.String(), nullable=False),
+    sa.Column('material_subclass', sa.String(), nullable=False),
+    sa.Column('unit', sa.String(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('role',
@@ -81,7 +82,7 @@ def upgrade():
     sa.Column('storage_id', sa.Integer(), nullable=True),
     sa.Column('name', sa.String(), nullable=False),
     sa.Column('quantity', sa.String(), nullable=False),
-    sa.Column('unit', sa.String(), nullable=False),
+    sa.Column('image', sa.String(length=255), nullable=False),
     sa.ForeignKeyConstraint(['class_id'], ['material_class.id'], ),
     sa.ForeignKeyConstraint(['storage_id'], ['storage_location.id'], ),
     sa.PrimaryKeyConstraint('id')

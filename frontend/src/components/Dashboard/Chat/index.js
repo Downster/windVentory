@@ -43,7 +43,6 @@ const Chat = ({ jobsite }) => {
         e.preventDefault();
         const errors = await dispatch(createChatMessage(roomId, messageBody));
         if (errors) {
-            console.log(errors.errors)
             setErrors(errors.errors)
         } else {
             socket.emit('chat', {
