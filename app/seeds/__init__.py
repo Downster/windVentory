@@ -17,8 +17,8 @@ seed_commands = AppGroup('seed')
 
 @seed_commands.command('all')
 def seed():
-    seed_users()
     seed_sites()
+    seed_users()
     seed_towers()
     seed_teams()
     seed_storage_type()
