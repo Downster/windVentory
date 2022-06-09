@@ -8,7 +8,7 @@ import roleToNum from "../../../utils/roleToNum";
 function MaterialForm({ setShowModal, material, edit }) {
     const dispatch = useDispatch();
     const [email, setEmail] = useState("");
-    const [materialClass, setMaterialClass] = useState('')
+    const [materialClass, setMaterialClass] = useState(1)
     const [name, setName] = useState('')
     const [quantity, setQuantity] = useState('')
     const [image, setImage] = useState(null)
@@ -25,9 +25,13 @@ function MaterialForm({ setShowModal, material, edit }) {
         formData.append('quantity', quantity)
         formData.append('image', image)
 
-        errors = dispatch(addMaterialToSite(formData))
+        errors = await dispatch(addMaterialToSite(formData))
         if (errors) {
-            setErrors(errors.errors)
+            if (Array.isArray(errors.errors)) {
+                setErrors(errors.errors)
+            } else {
+                setErrors([errors.errors])
+            }
         } else {
             setShowModal(false)
         }

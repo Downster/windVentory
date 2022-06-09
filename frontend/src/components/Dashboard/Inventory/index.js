@@ -12,7 +12,7 @@ const Inventory = ({ site }) => {
 
     return (
         <>{
-            site && <SiteInventory inventory={siteInventory} />
+            site && <div className="app-body"><SiteInventory inventory={siteInventory} /></div>
         }
         </>
     )

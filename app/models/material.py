@@ -25,6 +25,7 @@ class Material(db.Model):
             'storage_id': self.storage_id,
             'name': self.name,
             'quantity': self.quantity,
+            'image': self.image
         }
 
     

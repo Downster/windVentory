@@ -16,11 +16,12 @@ const MaterialCard = ({ material }) => {
         return () => setShowModal(false);
     }, []);
 
-
+    console.log(material)
 
     return (
         <div className='material-container'>
             <div className="material-card">
+                <img src={material.image}></img>
                 <h1 className="material-name">{material.name}</h1>
                 {showModal && (
                     <Modal onClose={() => setShowModal(false)}>

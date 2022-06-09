@@ -1,20 +1,41 @@
 import { useSelector, useDispatch } from "react-redux"
 import { useHistory } from 'react-router-dom'
 import MaterialCard from "../MaterialCard"
+import filterMaterials from "../../../utils/filterMaterials"
 
 
 const SiteInventory = ({ inventory }) => {
-    console.log(Object.values(inventory))
+    const materials = filterMaterials('material', Object.values(inventory))
+    const chemicals = filterMaterials('chemical', Object.values(inventory))
+
 
 
     return (
         <>
-            <h1>Materials</h1>
-            {inventory && Object.values(inventory).filter((item) => item.class_id === 1).map((mat) => <MaterialCard material={mat} />)}
-            <h1>Chemicals</h1>
-            {inventory && Object.values(inventory).filter((item) => item.class_id === 2).map((mat) => <MaterialCard material={mat} />)}
-            <h1>Misc</h1>
-            {inventory && Object.values(inventory).filter((item) => item.class_id === 3).map((mat) => <MaterialCard material={mat} />)}
+            <div className="material-inventory">
+                <div className="materials-header-container">
+                    <h1>Materials</h1>
+                    <div className="inventory-display">
+                        {materials && materials.map((mat) => {
+                            return <MaterialCard material={mat} />
+                        })}
+                    </div>
+                </div>
+                <div className="chemicals-header-containter">
+                    <h1>Chemicals</h1>
+                    <div className="inventory-display">
+                        {chemicals && chemicals.map((mat) => {
+                            return <MaterialCard material={mat} />
+                        })}
+                    </div>
+                </div>
+                <div className="misc-header-container">
+                    <h1>Misc</h1>
+                    <div className="inventory-display">
+
+                    </div>
+                </div>
+            </div>
         </>
     )
 }
