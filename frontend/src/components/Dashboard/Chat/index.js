@@ -12,7 +12,6 @@ let socket;
 const Chat = ({ jobsite }) => {
     let chatMessages;
     let chatRoom;
-    const [messages, setMessages] = useState([]);
     const [messageBody, setMessageBody] = useState("");
     const [errors, setErrors] = useState([])
     const { siteId, roomId } = useParams();
@@ -49,6 +48,7 @@ const Chat = ({ jobsite }) => {
                 user: `${user.firstName} ${user.lastName}`, msg: messageBody, room: roomId, user_image: user.image, created_at: (new Date()).toLocaleTimeString()
             });
             setMessageBody("");
+            setErrors([])
         }
     };
 
@@ -120,6 +120,7 @@ const Chat = ({ jobsite }) => {
                     })}
                 </div>
                 <form autoComplete="off" className='chat-input-form' onSubmit={sendChat}>
+                    {errors && errors.map((error, idx) => <li key={idx}>{error}</li>)}
                     <input
                         value={messageBody}
                         onChange={(e) => setMessageBody(e.target.value)}

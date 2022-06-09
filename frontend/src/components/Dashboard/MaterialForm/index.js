@@ -105,7 +105,7 @@ function MaterialForm({ setShowModal, material, edit }) {
                         value={name}
                         placeholder='Material Name'
                         onChange={(e) => setName(e.target.value)}
-                        required
+
                     />
                 </div>
                 <div className="form-element-container">
@@ -115,7 +115,7 @@ function MaterialForm({ setShowModal, material, edit }) {
                         value={quantity}
                         placeholder='Quantity'
                         onChange={(e) => setQuantity(e.target.value)}
-                        required
+
                     />
                 </div>
                 <div className="material-add-image-container">

@@ -129,7 +129,7 @@ export const deleteSiteMaterial = (materialId) => async (dispatch) => {
 const initialState = { site: null, currentWeather: null, forecast: null, teams: {}, inventory: {} }
 
 const currentSiteReducer = (state = initialState, action) => {
-    const newState = initialState;
+    const newState = { site: null, currentWeather: null, forecast: null, teams: {}, inventory: {} }
     newState.site = { ...state.site }
     newState.currentWeather = { ...state.currentWeather }
     newState.forecast = { ...state.forecast }

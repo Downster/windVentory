@@ -36,7 +36,7 @@ const MaterialCard = ({ material }) => {
                 <h1 className='material-quantity'>{material.quantity}</h1>
                 {showModal && (
                     <Modal onClose={() => setShowModal(false)}>
-                        <MaterialForm material={material} edit={true} />
+                        <MaterialForm material={material} edit={true} setShowModal={setShowModal} />
                     </Modal>
                 )}
                 {showDeleteModal && (

@@ -42,12 +42,16 @@ def token_required(f):
 def login():
     auth = request.json
 
-    if not auth or not auth['username'] or not auth['password']:
-        return make_response('Could not verify', 401)
+    if not auth:
+        return {'errors': 'Please input a username and password'}, 401
+    if not auth['username']:
+        return {'errors': 'Please input an email'}, 401
+    if not auth['password']:
+        return {'errors': 'Please input a password'}, 401
 
     user = User.query.filter_by(email=auth['username']).first()
     if not user:
-        return make_response('Could not verify', 401)
+        return {'errors' : 'Incorrect credentials'}, 401
 
 
     user.online = True
@@ -61,7 +65,7 @@ def login():
             "user": user.to_dict(),
             "token": token})
     
-    return {'errors': 'Could not verify'}, 401
+    return {'errors': 'Incorrect credentials'}, 401
 
 
 
@@ -86,30 +90,33 @@ def sign_up():
     form = SignUpForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     hashed_password = generate_password_hash(form.data['password'], method='sha256')
-    image = form["image"].data
-    if image:
-        if not allowed_file(image.filename):
-            return {"errors": "file type not allowed"}, 400
-        image.filename = get_unique_filename(image.filename)
-        upload = upload_file_to_s3(image)
-
-        if "url" not in upload:
-            return upload, 400
-
-        url = upload["url"]
+    image = form.data["image"]
     if form.validate_on_submit():
         #Capstone shenanigans
+        image = form.data["image"]
+        if image != 'null':
+            if not allowed_file(image.filename):
+                return {"errors": "file type not allowed"}, 400
+            image.filename = get_unique_filename(image.filename)
+            upload = upload_file_to_s3(image)
+
+            if "url" not in upload:
+                return upload, 400
+
+            url = upload["url"]
         role = Role.query.get(5)
-        user = User(
-            email=form.data['email'],
-            first_name = form.data['firstName'],
-            last_name = form.data['lastName'],
-            phone_number = form.data['phoneNumber'],
-            password=hashed_password,
-            image=url,
-            jobsite_id = 1, #remove after capstone
-            online=True
-        )
+        params = {
+        'email': form.data['email'],
+        'first_name': form.data['firstName'],
+        'last_name': form.data['lastName'],
+        'phone_number' : form.data['phoneNumber'],
+        'password': hashed_password,
+        'jobsite_id': 1,
+        'online' : True
+        }
+        if image != 'null':
+            params['image'] = url
+        user = User(**params)
         #Capstone shenanigans
         user.roles.append(role)
         db.session.add(user)

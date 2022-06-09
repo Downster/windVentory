@@ -7,8 +7,8 @@ class Material(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     class_id = db.Column(db.Integer, ForeignKey('material_class.id'))
     storage_id = db.Column(db.Integer, ForeignKey('storage_location.id'))
-    name = db.Column(db.String, nullable=False)
-    quantity = db.Column(db.String, nullable=False)
+    name = db.Column(db.String(40), nullable=False)
+    quantity = db.Column(db.Integer, nullable=False)
     image = image = db.Column(db.String(255), nullable=False)
     
 
