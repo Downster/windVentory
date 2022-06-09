@@ -16,14 +16,17 @@ function LoginForm({ setSignup }) {
         <Redirect to="/" />
     );
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setErrors([]);
-        return dispatch(sessionActions.login({ username, password }))
-            .catch(async (res) => {
-                const data = await res.json();
-                if (data && data.errors) setErrors(data.errors);
-            });
+        const { errors } = await dispatch(sessionActions.login({ username, password }))
+        if (errors) {
+            if (Array.isArray(errors)) {
+                setErrors(errors)
+            } else {
+                setErrors([errors])
+            }
+        }
     }
 
     const demoUser = async () => {
@@ -53,7 +56,6 @@ function LoginForm({ setSignup }) {
                     placeholder='Email'
                     value={username}
                     onChange={(e) => setCredential(e.target.value)}
-                    required
                 />
                 <input
                     type="password"
@@ -61,7 +63,6 @@ function LoginForm({ setSignup }) {
                     placeholder='Password'
                     className='input-field'
                     onChange={(e) => setPassword(e.target.value)}
-                    required
                 />
                 <div className='button-div'>
 

@@ -55,9 +55,13 @@ export const login = (user) => async (dispatch) => {
         }),
     });
     const data = await response.json();
-    localStorage.setItem('x-access-token', data.token)
-    dispatch(setUser(data.user));
-    return response;
+    if (response.ok) {
+        localStorage.setItem('x-access-token', data.token)
+        dispatch(setUser(data.user));
+    } else {
+        return data;
+
+    }
 };
 
 export const setUserJobsite = (jobsiteId) => async (dispatch) => {
@@ -118,9 +122,13 @@ export const signup = (formData) => async (dispatch) => {
         body: formData
     });
     const data = await response.json();
-    localStorage.setItem('x-access-token', data.token)
-    dispatch(setUser(data.user));
-    return response;
+    if (response.ok) {
+        localStorage.setItem('x-access-token', data.token)
+        dispatch(setUser(data.user));
+
+    } else {
+        return data;
+    }
 };
 
 export const logout = () => async (dispatch) => {

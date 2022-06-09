@@ -31,6 +31,7 @@ function SignupForm({ setSignup }) {
             setErrors([]);
             const { errors } = await dispatch(sessionActions.signup(formData))
             if (errors) {
+                console.log(errors)
                 setErrors(errors)
             }
         } else {
@@ -70,7 +71,7 @@ function SignupForm({ setSignup }) {
                     value={email}
                     placeholder='Email'
                     onChange={(e) => setEmail(e.target.value)}
-                    required
+
                 />
                 <input
                     type="text"
@@ -78,7 +79,7 @@ function SignupForm({ setSignup }) {
                     value={firstName}
                     placeholder='First Name'
                     onChange={(e) => setFirstName(e.target.value)}
-                    required
+
                 />
                 <input
                     type="text"
@@ -86,7 +87,7 @@ function SignupForm({ setSignup }) {
                     value={lastName}
                     placeholder='Last Name'
                     onChange={(e) => setLastName(e.target.value)}
-                    required
+
                 />
                 <input
                     type="text"
@@ -94,7 +95,7 @@ function SignupForm({ setSignup }) {
                     value={phoneNumber}
                     placeholder='Phone Number'
                     onChange={(e) => setPhoneNumber(e.target.value)}
-                    required
+
                 />
                 <input
                     className="input-field"
@@ -102,7 +103,7 @@ function SignupForm({ setSignup }) {
                     value={password}
                     placeholder='Password'
                     onChange={(e) => setPassword(e.target.value)}
-                    required
+
                 />
                 <input
                     className="input-field"
@@ -110,7 +111,7 @@ function SignupForm({ setSignup }) {
                     placeholder="Confirm Password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    required
+
                 />
                 <input
                     type='file'
