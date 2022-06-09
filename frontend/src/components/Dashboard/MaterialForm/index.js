@@ -1,16 +1,15 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createNewUser, modifyUser } from "../../../store/allUsers";
-import { addMaterialToSite } from "../../../store/currentSite";
+import { addMaterialToSite, editSiteMaterial } from "../../../store/currentSite";
 import roleToNum from "../../../utils/roleToNum";
 
 
 function MaterialForm({ setShowModal, material, edit }) {
     const dispatch = useDispatch();
-    const [email, setEmail] = useState("");
-    const [materialClass, setMaterialClass] = useState(1)
-    const [name, setName] = useState('')
-    const [quantity, setQuantity] = useState('')
+    const [materialClass, setMaterialClass] = useState((edit) ? material.class_id : 1)
+    const [name, setName] = useState((edit) ? material.name : '')
+    const [quantity, setQuantity] = useState(edit ? material.quantity : '')
     const [image, setImage] = useState(null)
     const [errors, setErrors] = useState([]);
 
@@ -23,9 +22,15 @@ function MaterialForm({ setShowModal, material, edit }) {
         formData.append('storage_id', 4)
         formData.append('name', name)
         formData.append('quantity', quantity)
-        formData.append('image', image)
+        if (image) {
+            formData.append('image', image)
+        }
 
-        errors = await dispatch(addMaterialToSite(formData))
+        if (edit) {
+            errors = await dispatch(editSiteMaterial(material.id, formData))
+        } else {
+            errors = await dispatch(addMaterialToSite(formData))
+        }
         if (errors) {
             if (Array.isArray(errors.errors)) {
                 setErrors(errors.errors)
@@ -113,12 +118,24 @@ function MaterialForm({ setShowModal, material, edit }) {
                         required
                     />
                 </div>
-                <input
-                    type='file'
-                    onChange={updateImage}
-                />
+                <div className="material-add-image-container">
+                    <input
+                        type='file'
+                        accept="image/*"
+                        onChange={updateImage}
+                    />
+                    <div className="preview-container site">
+                        {image && (
+                            <img
+                                alt="preview"
+                                src={(edit) ? image : null}
+                                className="preview-image site"
+                            ></img>
+                        )}
+                    </div>
+                </div>
                 <div className="button-div">
-                    <button type="submit" className='signup-button'>{(edit) ? 'Edit user' : 'Add Material'}</button>
+                    <button type="submit" className='signup-button'>{(edit) ? 'Edit Material' : 'Add Material'}</button>
                 </div>
             </div>
         </form>

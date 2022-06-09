@@ -3,6 +3,8 @@ import { tokenFetch } from "./csrf";
 const LOAD_JOBSITE = 'currentSite/LOAD_JOBSITE';
 const LOAD_INVENTORY = 'currentSite/LOAD_INVENTORY'
 const ADD_MATERIAL = 'currentSite/ADD_MATERIAL'
+const EDIT_MATERIAL = 'currentSite/EDIT_MATERIAL'
+const DELETE_MATERIAL = 'currentSite/DELETE_MATERIAL'
 const GET_TEAMS = 'currentSite/GET_TEAMS'
 const GET_WEATHER = 'currentSite/GET_WEATHER'
 
@@ -30,6 +32,16 @@ const loadInventory = (materials) => ({
 const addMaterial = (material) => ({
     type: ADD_MATERIAL,
     material
+})
+
+const editMaterial = (material) => ({
+    type: EDIT_MATERIAL,
+    material
+})
+
+const deleteMaterial = (matId) => ({
+    type: DELETE_MATERIAL,
+    matId
 })
 
 export const loadUserJobsite = (jobsiteId) => async (dispatch) => {
@@ -87,6 +99,33 @@ export const addMaterialToSite = (formData) => async (dispatch) => {
 
 }
 
+export const editSiteMaterial = (materialId, formData) => async (dispatch) => {
+    const res = await tokenFetch(`/inventory/${materialId}`, {
+        method: 'PATCH',
+        body: formData
+    });
+    const data = await res.json();
+    if (res.ok) {
+        dispatch(editMaterial(data));
+    } else {
+        return data
+    }
+
+}
+
+export const deleteSiteMaterial = (materialId) => async (dispatch) => {
+    const res = await tokenFetch(`/inventory/${materialId}`, {
+        method: 'DELETE'
+    });
+    const data = await res.json();
+    if (res.ok) {
+        dispatch(deleteMaterial(data.matId));
+    } else {
+        return data
+    }
+
+}
+
 const initialState = { site: null, currentWeather: null, forecast: null, teams: {}, inventory: {} }
 
 const currentSiteReducer = (state = initialState, action) => {
@@ -110,12 +149,21 @@ const currentSiteReducer = (state = initialState, action) => {
         case GET_WEATHER:
             newState.currentWeather = action.weather
             return newState
+        case ADD_MATERIAL:
+            newState.inventory[action.material.id] = action.material
+            return newState
         case LOAD_INVENTORY:
             if (action.materials) {
                 action.materials.forEach(item => {
                     newState.inventory[item.id] = item;
                 });
             }
+            return newState
+        case EDIT_MATERIAL:
+            newState.inventory[action.material.id] = action.material
+            return newState
+        case DELETE_MATERIAL:
+            delete newState.inventory[action.matId]
             return newState
         default:
             return state

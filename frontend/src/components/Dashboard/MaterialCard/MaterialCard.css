@@ -1,0 +1,13 @@
+.material-image{
+    width: 155px;
+    height: 155px;
+}
+
+.material-container{
+    background-color: aqua;
+}
+
+
+.material-container.low{
+    background-color: palevioletred;
+}

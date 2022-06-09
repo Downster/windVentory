@@ -1,12 +1,21 @@
 import { useSelector, useDispatch } from "react-redux"
-import { useHistory } from 'react-router-dom'
+import { useEffect } from "react"
+import { loadSiteInventory } from "../../../store/currentSite"
 import MaterialCard from "../MaterialCard"
 import filterMaterials from "../../../utils/filterMaterials"
+import './SiteInventory.css'
 
 
-const SiteInventory = ({ inventory }) => {
-    const materials = filterMaterials('material', Object.values(inventory))
-    const chemicals = filterMaterials('chemical', Object.values(inventory))
+const SiteInventory = () => {
+    const dispatch = useDispatch()
+    const siteInventory = useSelector(state => state.currentSite.inventory)
+    const materials = filterMaterials('material', Object.values(siteInventory))
+    const chemicals = filterMaterials('chemical', Object.values(siteInventory))
+
+    useEffect(() => {
+        dispatch(loadSiteInventory(1))
+    }, [dispatch])
+
 
 
 
@@ -17,7 +26,7 @@ const SiteInventory = ({ inventory }) => {
                     <h1>Materials</h1>
                     <div className="inventory-display">
                         {materials && materials.map((mat) => {
-                            return <MaterialCard material={mat} />
+                            return <MaterialCard key={mat.id} material={mat} />
                         })}
                     </div>
                 </div>
@@ -25,7 +34,7 @@ const SiteInventory = ({ inventory }) => {
                     <h1>Chemicals</h1>
                     <div className="inventory-display">
                         {chemicals && chemicals.map((mat) => {
-                            return <MaterialCard material={mat} />
+                            return <MaterialCard key={mat.id} material={mat} />
                         })}
                     </div>
                 </div>
