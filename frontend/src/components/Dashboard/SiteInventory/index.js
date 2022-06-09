@@ -6,15 +6,16 @@ import filterMaterials from "../../../utils/filterMaterials"
 import './SiteInventory.css'
 
 
-const SiteInventory = () => {
+const SiteInventory = ({ siteInventory }) => {
     const dispatch = useDispatch()
-    const siteInventory = useSelector(state => state.currentSite.inventory)
     const materials = filterMaterials('material', Object.values(siteInventory))
     const chemicals = filterMaterials('chemical', Object.values(siteInventory))
 
     useEffect(() => {
         dispatch(loadSiteInventory(1))
     }, [dispatch])
+
+
 
 
 
