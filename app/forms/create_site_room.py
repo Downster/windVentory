@@ -14,6 +14,6 @@ def room_exists(form, field):
 
 
 class SiteRoomForm(FlaskForm):
-    room_name = StringField('room_name', validators=[DataRequired(), Length(min=3, max=40, message="Chat Room name must be between 3 and 40 characters."), room_exists])
+    room_name = StringField('room_name', validators=[DataRequired(message='You must provide a room name'), Length(min=3, max=40, message="Chat Room name must be between 3 and 40 characters."), room_exists])
     jobsite_id = IntegerField('jobsite_id')
     image = FileField('image')

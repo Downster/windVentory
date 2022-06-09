@@ -14,15 +14,16 @@ def add_to_inventory(current_user):
     form = MaterialForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     image = form["image"].data
-    if not allowed_file(image.filename):
-        return {"errors": "file type not allowed"}, 400
-    image.filename = get_unique_filename(image.filename)
-    upload = upload_file_to_s3(image)
+    if image:
+        if not allowed_file(image.filename):
+            return {"errors": "file type not allowed please upload a file of these types: pdf, png, jpg, jpeg, gif"}, 400
+        image.filename = get_unique_filename(image.filename)
+        upload = upload_file_to_s3(image)
 
-    if "url" not in upload:
-        return upload, 400
+        if "url" not in upload:
+            return upload, 400
 
-    url = upload["url"]
+        url = upload["url"]
     if form.validate_on_submit():
         material = Material(
             class_id = form.data['class_id'],
