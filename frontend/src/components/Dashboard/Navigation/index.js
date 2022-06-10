@@ -9,7 +9,7 @@ function Navigation() {
 
     return (
         <nav className='nav-bar'>
-            <i className="fa-solid fa-house"></i>
+            <i class="fa-solid fa-wind-turbine"></i>
             <ProfileButton user={sessionUser} />
         </nav>
     );

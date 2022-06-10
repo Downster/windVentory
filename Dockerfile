@@ -1,11 +1,15 @@
 FROM node:12 AS build-stage
+ARG NPM_TOKEN  
 WORKDIR /frontend
 COPY frontend/. .
 
 ENV REACT_APP_BASE_URL=https://windventory.herokuapp.com/
 
 # Build our React App
-RUN npm install
+COPY .npmrc .npmrc  
+RUN echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > /app/.npmrc && \
+    npm install && \
+    rm -f /app/.npmrc
 RUN npm run build
 
 FROM python:3.9
