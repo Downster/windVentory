@@ -12,9 +12,11 @@ def material_exists(form, field):
     material_id = form.data['material_id']
     currentMaterial = Material.query.get(material_id)
     material = Material.query.filter(func.lower(Material.name) == func.lower(name)).first()
-    if currentMaterial != material:
-        raise ValidationError('Material already exists, please locate it and update it accordingly')
-
+    if material:
+        if material != currentMaterial:
+            raise ValidationError('Material already exists, please locate it and update it accordingly')
+        else:
+            pass
 
 class EditMaterialForm(FlaskForm):
     class_id = IntegerField('class_id', validators=[DataRequired(message="You must provide a material class")])

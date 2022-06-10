@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { createNewUser, modifyUser } from "../../../store/allUsers";
 import { addMaterialToSite, editSiteMaterial } from "../../../store/currentSite";
 import roleToNum from "../../../utils/roleToNum";
+import './MaterialForm.css'
 
 
 function MaterialForm({ setShowModal, material, edit }) {
@@ -11,6 +12,7 @@ function MaterialForm({ setShowModal, material, edit }) {
     const [name, setName] = useState((edit) ? material.name : '')
     const [quantity, setQuantity] = useState(edit ? material.quantity : '')
     const [image, setImage] = useState(null)
+    const [imageLoading, setImageLoading] = useState(false)
     const [errors, setErrors] = useState([]);
 
 
@@ -27,6 +29,7 @@ function MaterialForm({ setShowModal, material, edit }) {
         formData.append('quantity', quantity)
         if (image) {
             formData.append('image', image)
+            setImageLoading(true)
         }
 
         if (edit) {
@@ -35,6 +38,7 @@ function MaterialForm({ setShowModal, material, edit }) {
             errors = await dispatch(addMaterialToSite(formData))
         }
         if (errors) {
+            setImageLoading(false)
             if (Array.isArray(errors.errors)) {
                 setErrors(errors.errors)
             } else {
@@ -128,12 +132,15 @@ function MaterialForm({ setShowModal, material, edit }) {
                         onChange={updateImage}
                     />
                     <div className="preview-container site">
-                        {image && (
-                            <img
-                                alt="preview"
-                                src={(edit) ? image : null}
-                                className="preview-image site"
-                            ></img>
+                        {imageLoading && (
+                            <>
+                                <h1 className="loading">loading....</h1>
+                                <img
+                                    alt="preview"
+                                    src={'https://windventory.s3.amazonaws.com/turbine.gif'}
+                                    className="loading-image site"
+                                ></img>
+                            </>
                         )}
                     </div>
                 </div>

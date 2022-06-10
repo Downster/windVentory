@@ -9,7 +9,13 @@
 
 .profile-button{
     width: 100px;
+    border-radius: 50%;
 
+}
+
+.profile-button:hover{
+    transition: 500ms ease;
+    filter: blur(5px);
 }
 
 .profile-div{

@@ -9,6 +9,7 @@ function Navigation() {
 
     return (
         <nav className='nav-bar'>
+            <i className="fa-solid fa-house"></i>
             <ProfileButton user={sessionUser} />
         </nav>
     );
