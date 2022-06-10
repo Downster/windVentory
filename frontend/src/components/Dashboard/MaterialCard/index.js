@@ -45,12 +45,12 @@ const MaterialCard = ({ material }) => {
 
                     <div className='material-actions'>
                         <div className='edit-delete-material'>
-                            {hover && <i className={dark ? "fa-solid fa-pen-to-square dark" : "fa-solid fa-pen-to-square"} onClick={() => setShowModal(true)}></i>}
-                            {hover && <i className={dark ? "fa-solid fa-trash-can dark" : "fa-solid fa-trash-can"} onClick={() => setShowDeleteModal(true)}></i>}
+                            {hover && <i className={dark ? "fa-duotone fa-pen-to-square dark" : "fa-duotone fa-pen-to-square"} onClick={() => setShowModal(true)}></i>}
+                            {hover && <i className={dark ? "fa-duotone fa-trash-can dark" : "fa-duotone fa-trash-can"} onClick={() => setShowDeleteModal(true)}></i>}
                         </div>
                         <div className='increment-decrement-material'>
-                            {hover && <i className={dark ? "fa-solid fa-plus dark" : "fa-solid fa-plus"} ></i>}
-                            {hover && <i className={dark ? "fa-solid fa-minus dark" : "fa-solid fa-minus"}></i>}
+                            {hover && <i className={dark ? "fa-solid fa-plus-large dark" : "fa-solid fa-plus-large"} ></i>}
+                            {hover && <i className={dark ? "fa-solid fa-minus-large dark" : "fa-solid fa-minus-large"}></i>}
                         </div>
                     </div>
                     <img className={hover ? 'material-image blur' : 'material-image'} id={`material-image-${material.id}`} src={material.image}>

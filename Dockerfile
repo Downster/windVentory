@@ -7,9 +7,9 @@ ENV REACT_APP_BASE_URL=https://windventory.herokuapp.com/
 
 # Build our React App
 COPY .npmrc .npmrc  
-RUN echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > /app/.npmrc && \
+RUN echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc && \
     npm install && \
-    rm -f /app/.npmrc
+    rm -f .npmrc
 RUN npm run build
 
 FROM python:3.9

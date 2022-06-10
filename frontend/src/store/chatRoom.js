@@ -170,7 +170,6 @@ const chatRoomsReducer = (state = initialState, action) => {
     const newState = { teamRooms: {}, siteRooms: {} }
     newState.teamRooms = { ...state.teamRooms }
     newState.siteRooms = { ...state.siteRooms }
-    console.log(newState)
     switch (action.type) {
         case LOAD_SITE_ROOMS:
             if (action.rooms.length) {

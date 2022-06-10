@@ -71,7 +71,7 @@ function MaterialForm({ setShowModal, material, edit }) {
                         </img>
                         }
                         {!image && <>
-                            <i class="fa-solid fa-cloud-arrow-up"></i><p>Please upload a pdf, png, jpg, jpeg, or gif</p>
+                            <i class="fa-duotone fa-cloud-arrow-up"></i><p>Please upload a pdf, png, jpg, jpeg, or gif</p>
                         </>}
                     </div>
                     <select
@@ -159,7 +159,7 @@ function MaterialForm({ setShowModal, material, edit }) {
                     <button type="submit" className='signup-button'>{(edit) ? 'Edit Material' : 'Add Material'}</button>
                 </div>
             </div>
-        </form>
+        </form >
 
 
     );
