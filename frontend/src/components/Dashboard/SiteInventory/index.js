@@ -24,7 +24,9 @@ const SiteInventory = ({ siteInventory }) => {
         <>
             <div className="material-inventory">
                 <div className="materials-header-container">
-                    <h1>Materials</h1>
+                    <div className="inventory-title">
+                        <h1 className="materials-title">Materials</h1>
+                    </div>
                     <div className="inventory-display">
                         {materials && materials.map((mat) => {
                             return <MaterialCard key={mat.id} material={mat} />
@@ -32,7 +34,9 @@ const SiteInventory = ({ siteInventory }) => {
                     </div>
                 </div>
                 <div className="chemicals-header-containter">
-                    <h1>Chemicals</h1>
+                    <div className="inventory-title">
+                        <h1 className="chemicals-title">Chemicals</h1>
+                    </div>
                     <div className="inventory-display">
                         {chemicals && chemicals.map((mat) => {
                             return <MaterialCard key={mat.id} material={mat} />
@@ -40,7 +44,9 @@ const SiteInventory = ({ siteInventory }) => {
                     </div>
                 </div>
                 <div className="misc-header-container">
-                    <h1>Misc</h1>
+                    <div className="inventory-title">
+                        <h1 className="misc-title">Misc</h1>
+                    </div>
                     <div className="inventory-display">
 
                     </div>

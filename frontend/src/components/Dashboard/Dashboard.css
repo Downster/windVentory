@@ -8,14 +8,17 @@
     width: 200px;
     min-width: 200px;
     background-color: #A9C2F4;
+    border-right: 3px solid #B3B4B5;
 }
 
 .app-body{
     display: flex;
     gap: 20px;
+    height: 96%;
     flex-wrap: wrap;
     padding-top: 20px;
     padding-left: 20px;
+    overflow-y: auto;
 }
 
 .whole-page-container{

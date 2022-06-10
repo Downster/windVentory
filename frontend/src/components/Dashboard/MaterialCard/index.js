@@ -24,6 +24,7 @@ const MaterialCard = ({ material }) => {
         if (material.quantity < 4) {
             setLow(true)
         }
+        getImageBrightness(material.image, darkOrLight)
         return () => setShowModal(false);
     }, []);
 
@@ -34,7 +35,6 @@ const MaterialCard = ({ material }) => {
         console.log(dark)
     }
 
-    getImageBrightness(material.image, darkOrLight)
 
 
 
