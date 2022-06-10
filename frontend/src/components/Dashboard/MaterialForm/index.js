@@ -63,6 +63,17 @@ function MaterialForm({ setShowModal, material, edit }) {
             </ul>
             <div className="user-form-input-container">
                 <div className="form-element-container">
+                    <div className="material-image-container">
+                        {image && <img
+                            className="material-form-image"
+                            src={URL.createObjectURL(image)}
+                        >
+                        </img>
+                        }
+                        {!image && <>
+                            <i class="fa-solid fa-cloud-arrow-up"></i><p>Please upload a pdf, png, jpg, jpeg, or gif</p>
+                        </>}
+                    </div>
                     <select
                         value={materialClass}
                         onChange={({ target: { value } }) => setMaterialClass(value)}
