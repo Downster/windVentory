@@ -18,6 +18,9 @@ function MaterialForm({ setShowModal, material, edit }) {
         e.preventDefault();
         const formData = new FormData()
         let errors;
+        if (edit) {
+            formData.append('material_id', material.id)
+        }
         formData.append('class_id', materialClass)
         formData.append('storage_id', 4)
         formData.append('name', name)
