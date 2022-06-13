@@ -34,8 +34,8 @@ function getImageBrightness(image, callback) {
         }
         const brightness = Math.floor(colorSum / (this.width * this.height));
         callback(brightness)
-        img.remove()
     }
+    img.remove()
 }
 
 // $("img").on("click", function () {

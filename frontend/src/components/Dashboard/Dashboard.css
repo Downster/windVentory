@@ -15,6 +15,7 @@
     display: flex;
     gap: 20px;
     height: 96%;
+    width: 96%;
     flex-wrap: wrap;
     padding-top: 20px;
     padding-left: 20px;
