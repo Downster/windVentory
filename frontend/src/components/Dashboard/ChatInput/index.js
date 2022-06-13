@@ -52,8 +52,8 @@ const ChatInput = ({ value, onChange, send, room }) => {
                     onChange={onChange}
                     placeholder={`Message # ${room?.room_name}`}
                 />
-                <div className='button-div'>
-                    <button className='send-button' onClick={send}><i className="fa-solid fa-paper-plane"></i></button>
+                <div className='chat-button-div'>
+                    <button className='send-button' onClick={send}><i className="fa-solid fa-paper-plane-top"></i></button>
                 </div>
             </div>
         </>

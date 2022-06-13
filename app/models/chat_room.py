@@ -17,7 +17,6 @@ class ChatRoom(db.Model):
     jobsite_id = db.Column(db.Integer, ForeignKey('job_site.id'))
     room_name = db.Column(db.String(40), nullable=False)
     image = db.Column(db.String(255), default='https://windventory.s3.amazonaws.com/73e0e9c55dd04ba284e933cfa4d9c07a.png')
-
     user = db.relationship('User', back_populates='rooms', foreign_keys=[user_id])
     team = db.relationship('Team', back_populates='rooms')
     messages = db.relationship('Message', back_populates='room', cascade="all, delete")

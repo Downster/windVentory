@@ -48,8 +48,8 @@ const ChatMessage = ({ msg, socket }) => {
                         {edit ? <><input value={message} onChange={(e) => setMessage(e.target.value)}></input><button onClick={() => editMessage(msg, message)}>Send</button></> : <p className='chat-text'>{Parser(msg.message)}</p>}
                     </div>
                     {mouse && msg.user_id === user.id && <div className='message-buttons'>
-                        <button onClick={(e) => setEdit(true)}>Edit</button>
-                        <button onClick={deleteMessage}>Delete</button>
+                        <button className='message-button' onClick={(e) => setEdit(true)}>Edit</button>
+                        <button className='message-button' onClick={deleteMessage}>Delete</button>
                     </div>
                     }
                 </div>
