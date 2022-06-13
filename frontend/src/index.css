@@ -23,7 +23,24 @@ body{
     color: #4F5B73;
   }
 
+.errors{
+    color:red;
+}
+
+.form-errors{
+    padding: 5px;
+}
+
 #root{
     width: 100%;
     height: 100%
+}
+
+.form-label{
+    padding-top: 5px;
+}
+
+.form-label-required{
+    padding-top: 5px;
+    font-size: 12px;
 }

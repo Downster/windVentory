@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { createNewUser, modifyUser } from "../../../store/allUsers";
 import { addMaterialToSite, editSiteMaterial } from "../../../store/currentSite";
 import roleToNum from "../../../utils/roleToNum";
+import ImageUpload from "../ImageUpload";
 import './MaterialForm.css'
 
 
@@ -72,17 +73,7 @@ function MaterialForm({ setShowModal, material, edit }) {
                         <label className="form-label">Material image</label>
                         <p className="form-label-required">Required</p>
                     </div>
-                    <div className="material-image-container">
-                        {image && <img
-                            className="material-form-image"
-                            src={URL.createObjectURL(image)}
-                        >
-                        </img>
-                        }
-                        {!image && <>
-                            <i className="fa-duotone fa-cloud-arrow-up" onClick={showImageInput}></i><p className="valid-uploads">Please upload a pdf, png, jpg, jpeg, or gif</p>
-                        </>}
-                    </div>
+                    <ImageUpload image={image} showImageInput={showImageInput} />
                     <div className="form-label-container">
                         <label className="form-label">Material class</label>
                         <p className="form-label-required">Required</p>

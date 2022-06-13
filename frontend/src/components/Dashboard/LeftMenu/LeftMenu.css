@@ -45,3 +45,8 @@
 .chat-menu-button:hover{
     all: unset;
 }
+
+.side-nav-overflow-control{
+    overflow-wrap: break-word;
+    padding-right: 5px;
+}
