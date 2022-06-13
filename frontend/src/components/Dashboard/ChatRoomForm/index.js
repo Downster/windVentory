@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createSiteChatRoom, createTeamChatRoom, editJobsiteRoom } from "../../../store/chatRoom";
-
+import ImageUpload from "../ImageUpload";
 
 function ChatRoomForm({ setShowModal, siteId, room, team, edit }) {
     const dispatch = useDispatch();
+    const hiddenImageInput = useRef(null);
     const sessionUser = useSelector((state) => state.session.user);
     const [name, setName] = useState((edit) ? (room.room_name) : "");
     const [updateCurrentImage, setUpdateImage] = useState(false)
@@ -24,6 +25,7 @@ function ChatRoomForm({ setShowModal, siteId, room, team, edit }) {
         formData.append('jobsite_id', 1)
         if (image) {
             formData.append('image', image)
+            setImageLoading(true)
         }
         if (edit) {
             if (teamId) {
@@ -54,14 +56,24 @@ function ChatRoomForm({ setShowModal, siteId, room, team, edit }) {
         setImage(file);
         setUpdateImage(true)
     };
+    const showImageInput = event => {
+        hiddenImageInput.current.click();
+    };
 
 
     return (
         <form onSubmit={handleSubmit} className='chat-room-form'>
             <div className="chat-form-input-container">
-                <ul>
-                    {errors.map((error, idx) => <li key={idx}>{error}</li>)}
-                </ul>
+                <div className="form-errors">
+                    <ul>
+                        {errors.map((error, idx) => <li className='errors' key={idx}>{error}</li>)}
+                    </ul>
+                </div>
+                <ImageUpload image={image} showImageInput={showImageInput} />
+                <div className="form-label-container">
+                    <label className="form-label">Room name</label>
+                    <p className="form-label-required">Required</p>
+                </div>
                 <div className="form-element-container">
                     <input
                         type="text"
@@ -74,27 +86,24 @@ function ChatRoomForm({ setShowModal, siteId, room, team, edit }) {
                 </div>
                 <div className="chat-room-add-image-container">
                     <input
-                        id="file-upload"
+                        className="material-image-input"
+                        ref={hiddenImageInput}
                         type="file"
                         accept="image/*"
                         onChange={updateImage}
                     />
                     <div className="preview-container site">
-                        {image && (
-                            <img
-                                alt="preview"
-                                src={(edit && !updateCurrentImage) ? image : null}
-                                className="preview-image site"
-                            ></img>
+                        {imageLoading && (
+                            <>
+                                <h1 className="loading">loading....</h1>
+                                <img
+                                    alt="preview"
+                                    src={'https://windventory.s3.amazonaws.com/turbine.gif'}
+                                    className="loading-image site"
+                                ></img>
+                            </>
                         )}
                     </div>
-                    <label htmlFor="file-upload">
-                        {imageLoading ?
-                            <i className="fas fa-spinner fa-pulse"></i>
-                            :
-                            null
-                        }
-                    </label>
                 </div>
                 <button type="submit">{(edit) ? 'Edit Chatroom' : 'Create Chat Room'}</button>
             </div>

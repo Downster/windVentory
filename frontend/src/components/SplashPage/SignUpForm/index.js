@@ -59,71 +59,97 @@ function SignupForm({ setSignup }) {
     };
 
     return (
-        <div className="signup-container">
-            <form onSubmit={handleSubmit} className='sign-up-form'>
+        <>
+            <div className="signup-container">
                 <h3 className="sign-up-header">Sign up for windVentory</h3>
-                <ul>
-                    {errors.map((error, idx) => <li key={idx}>{error}</li>)}
-                </ul>
-                <input
-                    type="text"
-                    className="input-field"
-                    value={email}
-                    placeholder='Email'
-                    onChange={(e) => setEmail(e.target.value)}
+                <form onSubmit={handleSubmit} className='sign-up-form'>
+                    <ul>
+                        {errors.map((error, idx) => <li className='errors' key={idx}>{error}</li>)}
+                    </ul>
+                    <div className="form-label-container">
+                        <label className="form-label">Email</label>
+                        <p className="form-label-required">Required</p>
+                    </div>
+                    <input
+                        type="text"
+                        className="input-field"
+                        value={email}
+                        placeholder='Email'
+                        onChange={(e) => setEmail(e.target.value)}
 
-                />
-                <input
-                    type="text"
-                    className="input-field"
-                    value={firstName}
-                    placeholder='First Name'
-                    onChange={(e) => setFirstName(e.target.value)}
+                    />
+                    <div className="form-label-container">
+                        <label className="form-label">First name</label>
+                        <p className="form-label-required">Required</p>
+                    </div>
+                    <input
+                        type="text"
+                        className="input-field"
+                        value={firstName}
+                        placeholder='First Name'
+                        onChange={(e) => setFirstName(e.target.value)}
 
-                />
-                <input
-                    type="text"
-                    className="input-field"
-                    value={lastName}
-                    placeholder='Last Name'
-                    onChange={(e) => setLastName(e.target.value)}
+                    />
+                    <div className="form-label-container">
+                        <label className="form-label">Last name</label>
+                        <p className="form-label-required">Required</p>
+                    </div>
+                    <input
+                        type="text"
+                        className="input-field"
+                        value={lastName}
+                        placeholder='Last Name'
+                        onChange={(e) => setLastName(e.target.value)}
 
-                />
-                <input
-                    type="text"
-                    className="input-field"
-                    value={phoneNumber}
-                    placeholder='Phone Number'
-                    onChange={(e) => setPhoneNumber(e.target.value)}
+                    />
+                    <div className="form-label-container">
+                        <label className="form-label">Phone number</label>
+                        <p className="form-label-required">Required</p>
+                    </div>
+                    <input
+                        type="text"
+                        className="input-field"
+                        value={phoneNumber}
+                        placeholder='Phone Number'
+                        onChange={(e) => setPhoneNumber(e.target.value)}
 
-                />
-                <input
-                    className="input-field"
-                    type="password"
-                    value={password}
-                    placeholder='Password'
-                    onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <div className="form-label-container">
+                        <label className="form-label">Password</label>
+                        <p className="form-label-required">Required</p>
+                    </div>
+                    <input
+                        className="input-field"
+                        type="password"
+                        value={password}
+                        placeholder='Password'
+                        onChange={(e) => setPassword(e.target.value)}
 
-                />
-                <input
-                    className="input-field"
-                    type="password"
-                    placeholder="Confirm Password"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    />
+                    <div className="form-label-container">
+                        <label className="form-label">Confirm password</label>
+                        <p className="form-label-required">Required</p>
+                    </div>
+                    <input
+                        className="input-field"
+                        type="password"
+                        placeholder="Confirm Password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
 
-                />
-                <input
-                    type='file'
-                    onChange={updateImage}
-                />
-                <div className="button-div">
-                    <button type="submit" className='signup-button'>Sign Up</button>
-                    <button onClick={changeSignup} className='back-to-login-button'>Back to Login!</button >
-                    <button onClick={demoUser} className='signup-button'>Demo User</button>
-                </div>
-            </form>
-        </div >
+                    />
+                    <input
+                        type='file'
+                        onChange={updateImage}
+                    />
+                    <div className="button-div">
+                        <button type="submit" className='signup-button'>Sign Up</button>
+                        <button onClick={changeSignup} className='back-to-login-button'>Back to Login!</button >
+                        <button onClick={demoUser} className='demo-button'>Demo User</button>
+                    </div>
+                </form>
+            </div >
+        </>
 
 
     );

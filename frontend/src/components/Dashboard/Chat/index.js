@@ -5,6 +5,8 @@ import { io } from 'socket.io-client';
 import { joinChatRoom, leaveChatRoom, getSiteChatRooms } from '../../../store/chatRoom'
 import { createChatMessage, loadChatMessages, clearMessages, removeMessage } from '../../../store/messages'
 import ChatMessage from '../ChatMessage';
+import ChatInput from '../ChatInput';
+import './Chat.css'
 
 
 let socket;
@@ -15,7 +17,6 @@ const Chat = ({ jobsite }) => {
     const [messageBody, setMessageBody] = useState("");
     const [errors, setErrors] = useState([])
     const { siteId, roomId } = useParams();
-    console.log(jobsite)
     const dispatch = useDispatch();
     const history = useHistory();
 
@@ -105,29 +106,33 @@ const Chat = ({ jobsite }) => {
 
     return (
         <>
-            <div className='chat-container'>
-                <h2 className='chat-room-name'>Welcome to #{chatRoom?.room_name}!</h2>
-            </div>
-            <div className='chat-room-container'>
-                <div className='chat-messages-container'>
-                    {chatMessages?.map(msg => {
-                        return (
-                            <>
-                                <ChatMessage msg={msg} socket={socket} />
-                            </>
-                        )
+            <div className='whole-chat-container'>
+                <div className='outer-chat-container'>
+                    <div className='chat-container'>
+                        <h2 className='chat-room-name'>Welcome to #{chatRoom?.room_name}!</h2>
+                    </div>
+                    <div className='chat-room-container'>
+                        <div className='chat-messages-container'>
+                            {chatMessages?.map(msg => {
+                                return (
+                                    <>
+                                        <ChatMessage msg={msg} socket={socket} />
+                                    </>
+                                )
 
-                    })}
+                            })}
+                        </div>
+                    </div>
                 </div>
-                <form autoComplete="off" className='chat-input-form' onSubmit={sendChat}>
+                <div className='chat-input-container'>
                     {errors && errors.map((error, idx) => <li key={idx}>{error}</li>)}
-                    <input
+                    <ChatInput
                         value={messageBody}
-                        onChange={(e) => setMessageBody(e.target.value)}
-                        placeholder={`Message #${chatRoom?.room_name}`}
+                        onChange={(e) => setMessageBody(e)}
+                        room={chatRoom}
+                        send={sendChat}
                     />
-                    <button disabled={!messageBody.length} id='send-chat' type='submit'><i className="fas fa-paper-plane"></i></button>
-                </form>
+                </div>
             </div>
         </>
     )

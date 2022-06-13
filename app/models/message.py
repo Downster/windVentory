@@ -22,5 +22,6 @@ class Message(db.Model):
             'user_id': self.user_id,
             'room_id': self.room_id,
             'message': self.message,
-            'created_at': self.created_at
+            'created_at': self.created_at,
+            'user': self.user.to_name()
         }

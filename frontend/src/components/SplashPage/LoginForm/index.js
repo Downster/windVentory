@@ -48,27 +48,39 @@ function LoginForm({ setSignup }) {
             <h3 className='login-header'>Login to windVentory</h3>
             <form onSubmit={handleSubmit} className='splash-form'>
                 <ul>
-                    {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+                    {errors.map((error, idx) => <li className='errors' key={idx}>{error}</li>)}
                 </ul>
-                <input
-                    type="text"
-                    className='input-field'
-                    placeholder='Email'
-                    value={username}
-                    onChange={(e) => setCredential(e.target.value)}
-                />
-                <input
-                    type="password"
-                    value={password}
-                    placeholder='Password'
-                    className='input-field'
-                    onChange={(e) => setPassword(e.target.value)}
-                />
+                <div className="form-label-container">
+                    <label className="form-label">Email</label>
+                    <p className="form-label-required">Required</p>
+                </div>
+                <div className="form-element-container">
+                    <input
+                        type="text"
+                        className='input-field'
+                        placeholder='Email'
+                        value={username}
+                        onChange={(e) => setCredential(e.target.value)}
+                    />
+                </div>
+                <div className="form-label-container">
+                    <label className="form-label">Password</label>
+                    <p className="form-label-required">Required</p>
+                </div>
+                <div className="form-element-container">
+                    <input
+                        type="password"
+                        value={password}
+                        placeholder='Password'
+                        className='input-field'
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                </div>
                 <div className='button-div'>
 
                     <button className='login-button' type="submit">Log In</button>
                     <button className='sign-up-change' onClick={changeSignup}>Not a member? Sign up!</button>
-                    <button onClick={demoUser} className='login-button'>Demo User</button>
+                    <button onClick={demoUser} className='demo-button'>Demo User</button>
                 </div>
             </form>
         </div >
