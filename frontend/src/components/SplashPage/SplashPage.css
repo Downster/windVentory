@@ -11,18 +11,22 @@ button:hover {
     justify-content: space-around;
 }
 .input-field{
-    padding-left: 20px;
-    font-size: 22px;
+    padding-left: 10px;
+    font-size: 15px;
     width: 75%;
-    height: 45px;
+    height: 35px;
     margin-top: 10px;
     margin-bottom: 10px;
     border: none;
-    border-radius: 16px;
+    border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 .button-div{
     width: 100%;
     display: flex;
     justify-content: center;
+}
+
+.form-input-container{
+    
 }

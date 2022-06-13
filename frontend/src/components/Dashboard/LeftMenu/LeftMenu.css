@@ -1,0 +1,47 @@
+.menu-nav{
+    text-decoration: none;
+    padding: 10px;
+    font-size: 16px;
+    color: black
+}
+
+.inventory-menu{
+    padding-right: 22px;
+}
+
+.chat-nav-title{
+    margin-bottom: 15px;
+}
+
+.chat-room{
+    margin-left: 20px;
+}
+
+.fa-comment{
+    padding-right: 5px;
+}
+
+.active{
+    color: red;
+}
+
+.fa-boxes-stacked{
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.left-menu{
+    padding-left: 10px;
+    padding-top: 20px;
+}
+
+.chat-menu-button{
+    all: unset;
+    border: none;
+    background-color: transparent;
+    width: 155px;
+}
+
+.chat-menu-button:hover{
+    all: unset;
+}

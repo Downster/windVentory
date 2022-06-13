@@ -6,6 +6,7 @@ import AdminNav from "./AdminNav";
 import TeamsNav from "./TeamsNav";
 import InventoryNav from "./InventoryNav";
 import ChatsNav from "./ChatsNav";
+import './LeftMenu.css'
 
 const LeftMenu = ({ capstone }) => {
     const location = useLocation();

@@ -11,3 +11,29 @@
 .fa-cloud-arrow-up{
     font-size: 40px;
 }
+
+.material-form{
+    padding: 20px
+}
+
+.form-label-container{
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.form-label-required{
+    color: red
+}
+
+.material-image-input{
+    display: none;
+}
+
+.fa-cloud-arrow-up{
+    cursor: pointer;
+}
+
+.valid-uploads{
+    font-size: 10px;
+}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createNewUser, modifyUser } from "../../../store/allUsers";
 import { addMaterialToSite, editSiteMaterial } from "../../../store/currentSite";
@@ -8,6 +8,7 @@ import './MaterialForm.css'
 
 function MaterialForm({ setShowModal, material, edit }) {
     const dispatch = useDispatch();
+    const hiddenImageInput = useRef(null);
     const [materialClass, setMaterialClass] = useState((edit) ? material.class_id : 1)
     const [name, setName] = useState((edit) ? material.name : '')
     const [quantity, setQuantity] = useState(edit ? material.quantity : '')
@@ -55,14 +56,22 @@ function MaterialForm({ setShowModal, material, edit }) {
         setImage(file);
     };
 
+    const showImageInput = event => {
+        hiddenImageInput.current.click();
+    };
+
 
     return (
-        <form onSubmit={handleSubmit} className='sign-up-form'>
+        <form onSubmit={handleSubmit} className='material-form'>
             <ul>
                 {errors && errors.map((error, idx) => <li key={idx}>{error}</li>)}
             </ul>
-            <div className="user-form-input-container">
+            <div className="form-input-container material">
                 <div className="form-element-container">
+                    <div className="form-label-container">
+                        <label className="form-label">Material image</label>
+                        <p className="form-label-required">Required</p>
+                    </div>
                     <div className="material-image-container">
                         {image && <img
                             className="material-form-image"
@@ -71,50 +80,61 @@ function MaterialForm({ setShowModal, material, edit }) {
                         </img>
                         }
                         {!image && <>
-                            <i class="fa-duotone fa-cloud-arrow-up"></i><p>Please upload a pdf, png, jpg, jpeg, or gif</p>
+                            <i className="fa-duotone fa-cloud-arrow-up" onClick={showImageInput}></i><p className="valid-uploads">Please upload a pdf, png, jpg, jpeg, or gif</p>
                         </>}
                     </div>
-                    <select
-                        value={materialClass}
-                        onChange={({ target: { value } }) => setMaterialClass(value)}
-                    >
-                        <option
-                            value={1}
+                    <div className="form-label-container">
+                        <label className="form-label">Material class</label>
+                        <p className="form-label-required">Required</p>
+                    </div>
+                    <div className="form-element-container">
+                        <select
+                            className="input-field"
+                            value={materialClass}
+                            onChange={({ target: { value } }) => setMaterialClass(value)}
                         >
-                            Fiberglass
-                        </option>
-                        <option
-                            value={2}
-                        >
-                            Carbon
-                        </option>
-                        <option
-                            value={3}
-                        >
-                            PVC Core
-                        </option>
-                        <option
-                            value={4}
-                        >
-                            Balsa Core
-                        </option>
-                        <option
-                            value={5}
-                        >
-                            Slow Curing Adhesive
-                        </option>
-                        <option
-                            value={6}
-                        >
-                            Fast Curing Adhesive
-                        </option>
-                        <option
-                            value={7}
-                        >
-                            Epoxy
-                        </option>
-                    </select>
+                            <option
+                                value={1}
+                            >
+                                Fiberglass
+                            </option>
+                            <option
+                                value={2}
+                            >
+                                Carbon
+                            </option>
+                            <option
+                                value={3}
+                            >
+                                PVC Core
+                            </option>
+                            <option
+                                value={4}
+                            >
+                                Balsa Core
+                            </option>
+                            <option
+                                value={5}
+                            >
+                                Slow Curing Adhesive
+                            </option>
+                            <option
+                                value={6}
+                            >
+                                Fast Curing Adhesive
+                            </option>
+                            <option
+                                value={7}
+                            >
+                                Epoxy
+                            </option>
+                        </select>
+                    </div>
 
+                </div>
+                <div className="form-label-container">
+                    <label className="form-label">Material name</label>
+                    <p className="form-label-required">Required</p>
                 </div>
                 <div className="form-element-container">
                     <input
@@ -125,6 +145,10 @@ function MaterialForm({ setShowModal, material, edit }) {
                         onChange={(e) => setName(e.target.value)}
 
                     />
+                </div>
+                <div className="form-label-container">
+                    <label className="form-label">Material quantity</label>
+                    <p className="form-label-required">Required</p>
                 </div>
                 <div className="form-element-container">
                     <input
@@ -138,7 +162,9 @@ function MaterialForm({ setShowModal, material, edit }) {
                 </div>
                 <div className="material-add-image-container">
                     <input
+                        className="material-image-input"
                         type='file'
+                        ref={hiddenImageInput}
                         accept="image/*"
                         onChange={updateImage}
                     />
@@ -156,7 +182,7 @@ function MaterialForm({ setShowModal, material, edit }) {
                     </div>
                 </div>
                 <div className="button-div">
-                    <button type="submit" className='signup-button'>{(edit) ? 'Edit Material' : 'Add Material'}</button>
+                    <button type="submit" className='material-button'>{(edit) ? 'Edit Material' : 'Add Material'}</button>
                 </div>
             </div>
         </form >
