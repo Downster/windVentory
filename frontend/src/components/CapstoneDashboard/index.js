@@ -8,6 +8,7 @@ import { getSiteChatRooms } from '../../store/chatRoom'
 import { loadUserJobsite, fetchWeather, fetchTeams, loadSiteInventory } from '../../store/currentSite'
 import Chat from '../Dashboard/Chat'
 import Inventory from '../Dashboard/Inventory'
+import ChatRoomCard from '../Dashboard/ChatRoomCard'
 
 
 
@@ -15,6 +16,7 @@ import Inventory from '../Dashboard/Inventory'
 const CapstoneDashboard = () => {
     const dispatch = useDispatch()
     const user = useSelector(state => state.session.user)
+    const siteRooms = useSelector(state => state.chatRooms.siteRooms)
 
     const getAllUserInfo = async (user) => {
         await dispatch(loadUserJobsite(user.jobsite_id))
@@ -23,6 +25,8 @@ const CapstoneDashboard = () => {
         await dispatch(getSiteChatRooms(user.jobsite_id))
         await dispatch(loadSiteInventory(user.jobsite_id))
     }
+
+    console.log(siteRooms)
 
     useEffect(() => {
         if (user) {
@@ -48,7 +52,8 @@ const CapstoneDashboard = () => {
                         <Inventory site={true} />
                     </Route>
                     <Route exact path='/chat'>
-                        <h1>All Chat Rooms</h1>
+                        {Object.values(siteRooms).map((site) => <ChatRoomCard room={site} />)}
+
                     </Route>
                     <Route exact path='/chat/:roomId'>
                         <Chat jobsite={true} />

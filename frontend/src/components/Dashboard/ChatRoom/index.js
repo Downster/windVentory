@@ -4,6 +4,7 @@ import { NavLink, useHistory } from 'react-router-dom';
 import { deleteChatRoom } from '../../../store/chatRoom';
 import { Modal } from '../../../context/Modal';
 import ChatRoomForm from '../ChatRoomForm';
+import ChatRoomCard from '../ChatRoomCard';
 
 
 const ChatRoom = ({ room }) => {
@@ -29,15 +30,14 @@ const ChatRoom = ({ room }) => {
                     <ChatRoomForm edit={true} setShowModal={setShowModal} room={room} />
                 </Modal>
             )}
-            <li className='chat-room-container'>
-                <NavLink activeClassName='active'
-                    to={`/chat/${room.id}`}>
-                    <p className='side-nav-overflow-control'>{room.room_name}</p>
-                </NavLink>
-                {room.user_id === user.id && <i class="fa-solid fa-pen-to-square" onClick={(e) => setShowModal(true)}></i>}
-                {room.user_id === user.id && <i className="fa-solid fa-minus" onClick={deleteRoom}></i>}
-                {/* <i className='active-users-num'>[ {room.active_users.length} ]</i> */}
-            </li>
+            <NavLink activeClassName='active'
+                to={`/chat/${room.id}`}>
+                <p className='side-nav-overflow-control'>{room.room_name}</p>
+            </NavLink>
+            {room.user_id === user.id && <i class="fa-solid fa-pen-to-square" onClick={(e) => setShowModal(true)}></i>}
+            {room.user_id === user.id && <i className="fa-solid fa-minus" onClick={deleteRoom}></i>}
+            {/* <i className='active-users-num'>[ {room.active_users.length} ]</i> */}
+
         </div>
     )
 }

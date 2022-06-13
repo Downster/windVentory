@@ -13,8 +13,18 @@
 }
 .chat-input-container{
     display: flex;
+    border: 1px solid red;
+    background-color: aqua;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    padding: 7px;
 }
 
+.chat-input{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+}
 .chat-message-inner-container{
     display: flex;
 }
@@ -24,6 +34,24 @@
     flex-direction: column;
 }
 
+.chat-button-div{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.message-button{
+    margin-right: 10px;
+}
+
+.message-buttons{
+    display: flex;
+    margin-right: 10px;
+}
+
+.send-button{
+    width: 50px;
+}
+
 .owner{
     display: flex;
     justify-content: flex-end;
@@ -31,4 +59,15 @@
 
 .chat-room-form{
     padding: 20px;
+}
+
+.ql-toolbar.ql-snow {
+    border: 0px !important
+}
+.ql-container.ql-snow {
+    border: 0px !important
+}
+
+.ql-editor.ql-blank::before{
+    color: black
 }

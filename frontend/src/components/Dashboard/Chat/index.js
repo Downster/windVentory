@@ -40,7 +40,6 @@ const Chat = ({ jobsite }) => {
 
 
     const sendChat = async (e) => {
-        e.preventDefault();
         const errors = await dispatch(createChatMessage(roomId, messageBody));
         if (errors) {
             setErrors(errors.errors)
