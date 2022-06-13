@@ -8,3 +8,17 @@
 .chat-input-container{
     display: flex;
 }
+
+.chat-message-inner-container{
+    display: flex;
+}
+
+.chat-message{
+    display: flex;
+    flex-direction: column;
+}
+
+.owner{
+    display: flex;
+    justify-content: flex-end;
+}

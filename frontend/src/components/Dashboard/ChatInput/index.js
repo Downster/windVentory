@@ -13,6 +13,7 @@ import { loadChatMessages } from '../../../store/messages';
 const ChatInput = ({ value, onChange, send, room }) => {
     const dispatch = useDispatch()
     const { roomId } = useParams()
+    console.log(value)
 
 
     useEffect(() => {
@@ -52,7 +53,7 @@ const ChatInput = ({ value, onChange, send, room }) => {
                     placeholder={`Message # ${room?.room_name}`}
                 />
                 <div className='button-div'>
-                    <button disabled={value.length < 1} className='send-button' onClick={send}><i className="fa-solid fa-paper-plane"></i></button>
+                    <button className='send-button' onClick={send}><i className="fa-solid fa-paper-plane"></i></button>
                 </div>
             </div>
         </>
