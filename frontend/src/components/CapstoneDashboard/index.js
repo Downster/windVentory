@@ -41,6 +41,9 @@ const CapstoneDashboard = () => {
             <div className='app-container'>
                 <LeftMenu capstone={true} />
                 <Switch>
+                    <Route exact path='/'>
+                        <h1>dookie</h1>
+                    </Route>
                     <Route exact path='/inventory'>
                         <Inventory site={true} />
                     </Route>
@@ -49,6 +52,9 @@ const CapstoneDashboard = () => {
                     </Route>
                     <Route exact path='/chat/:roomId'>
                         <Chat jobsite={true} />
+                    </Route>
+                    <Route>
+                        <h1>404 errors</h1>
                     </Route>
                 </Switch>
             </div>
