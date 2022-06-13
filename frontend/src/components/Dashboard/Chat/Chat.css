@@ -1,0 +1,10 @@
+.whole-chat-container{
+    width: 98%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.chat-input-container{
+    display: flex;
+}
