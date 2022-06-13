@@ -29,7 +29,8 @@ function LoginForm({ setSignup }) {
         }
     }
 
-    const demoUser = async () => {
+    const demoUser = async (e) => {
+        e.preventDefault()
         const credentials = {
             username: 'demo@demo.com',
             password: 'password'
