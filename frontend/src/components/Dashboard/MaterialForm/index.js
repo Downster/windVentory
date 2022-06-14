@@ -54,6 +54,7 @@ function MaterialForm({ setShowModal, material, edit }) {
 
     const updateImage = (e) => {
         const file = e.target.files[0];
+        console.log('here')
         setImage(file);
     };
 
@@ -134,7 +135,6 @@ function MaterialForm({ setShowModal, material, edit }) {
                         value={name}
                         placeholder='Material Name'
                         onChange={(e) => setName(e.target.value)}
-
                     />
                 </div>
                 <div className="form-label-container">
