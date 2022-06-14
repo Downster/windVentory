@@ -33,14 +33,16 @@ const EditChatInput = ({ value, onChange, send, group, room, errors }) => {
 
     return (
         <>
-            <div className='chat-input'>
-                <ReactQuill value={value}
-                    modules={modules}
-                    placeholder={(errors) ? errors : "Edit your message, must be less than 255 characters and not empty"}
-                    theme='snow'
-                    onChange={onChange} />
-                <div className='button-div'>
-                    <button className='send-button' onClick={send}><i className="fa-solid fa-paper-plane"></i></button>
+            <div className='chat-input-container'>
+
+                <div className='chat-input'>
+                    <ReactQuill value={value}
+                        modules={modules}
+                        theme='snow'
+                        onChange={onChange} />
+                    <div className='button-div'>
+                        <button className='send-button' onClick={send}><i className="fa-solid fa-paper-plane"></i></button>
+                    </div>
                 </div>
             </div>
         </>

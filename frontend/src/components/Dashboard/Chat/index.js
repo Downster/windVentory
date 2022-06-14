@@ -28,6 +28,9 @@ const Chat = ({ jobsite }) => {
     const chatRooms = useSelector(state => state.chatRooms);
     if (jobsite) {
         chatRoom = chatRooms.siteRooms[roomId];
+        if (!chatRoom) {
+            history.push('/chat-error')
+        }
     } else {
         chatRoom = chatRooms.teamRooms[roomId];
     }
@@ -63,42 +66,48 @@ const Chat = ({ jobsite }) => {
 
 
     useEffect(() => {
-        socket = io();
+        if (chatRoom) {
 
-        dispatch(joinChatRoom(roomId, 'site'));
+            socket = io();
 
-        socket.emit('join', { 'username': `${user.firstName} ${user.lastName}`, 'room': roomId });
-        socket.emit('join_room', { 'username': `${user.firstName} ${user.lastName}`, 'room': roomId })
+            dispatch(joinChatRoom(roomId, 'site'));
 
-
-        socket.on('chat', (message) => {
-            dispatch(loadChatMessages(roomId))
-        });
-
-        socket.on('edit', (message) => {
-            dispatch(loadChatMessages(roomId))
-        })
-
-        socket.on('delete', (message) => {
-            dispatch(removeMessage(message.msgId))
-        })
-
-        socket.on('join_room', () => {
-            dispatch(getSiteChatRooms(user.jobsite_id));
-        });
-
-        socket.on('leave_room', (user) => {
-            dispatch(getSiteChatRooms(user.jobsite_id));
-        });
+            socket.emit('join', { 'username': `${user.firstName} ${user.lastName}`, 'room': roomId });
+            socket.emit('join_room', { 'username': `${user.firstName} ${user.lastName}`, 'room': roomId })
 
 
+            socket.on('chat', (message) => {
+                dispatch(loadChatMessages(roomId))
+            });
+
+            socket.on('edit', (message) => {
+                dispatch(loadChatMessages(roomId))
+            })
+
+            socket.on('delete', (message) => {
+                dispatch(removeMessage(message.msgId))
+            })
+
+            socket.on('join_room', () => {
+                dispatch(getSiteChatRooms(user.jobsite_id));
+            });
+
+            socket.on('leave_room', (user) => {
+                dispatch(getSiteChatRooms(user.jobsite_id));
+            });
+
+
+        }
         return (() => {
-            dispatch(leaveChatRoom(roomId, 'site'));
-            socket.emit('leave', { 'username': `${user.firstName} ${user.lastName}`, 'room': roomId });
-            socket.emit('leave_room', { 'username': `${user.firstName} ${user.lastName}`, 'room': roomId })
-            dispatch(clearMessages())
+            if (chatRoom) {
 
-            socket.disconnect();
+                dispatch(leaveChatRoom(roomId, 'site'));
+                socket.emit('leave', { 'username': `${user.firstName} ${user.lastName}`, 'room': roomId });
+                socket.emit('leave_room', { 'username': `${user.firstName} ${user.lastName}`, 'room': roomId })
+                dispatch(clearMessages())
+
+                socket.disconnect();
+            }
         })
     }, [roomId, user.firstName, user.lastName, dispatch]);
 
