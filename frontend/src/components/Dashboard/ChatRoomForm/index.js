@@ -75,6 +75,9 @@ function ChatRoomForm({ setShowModal, siteId, room, team, edit }) {
                         {errors.map((error, idx) => <li className='errors' key={idx}>{error}</li>)}
                     </ul>
                 </div>
+                <div className="form-label-container">
+                    <label className="form-label">Room image</label>
+                </div>
                 <ImageUpload image={image} showImageInput={showImageInput} />
                 <div className="form-label-container">
                     <label className="form-label">Room name</label>

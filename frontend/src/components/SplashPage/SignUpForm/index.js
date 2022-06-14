@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import * as sessionActions from "../../../store/session";
 import './SignUpForm.css';
 
 function SignupForm({ setSignup }) {
     const dispatch = useDispatch();
+    const history = useHistory();
     const sessionUser = useSelector((state) => state.session.user);
     const [email, setEmail] = useState("");
     const [firstName, setFirstName] = useState('');
@@ -16,7 +17,7 @@ function SignupForm({ setSignup }) {
     const [image, setImage] = useState(null);
     const [errors, setErrors] = useState([]);
 
-    if (sessionUser) return <Redirect to="/" />;
+    if (sessionUser) return <Redirect to="/inventory" />;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -31,7 +32,6 @@ function SignupForm({ setSignup }) {
             setErrors([]);
             const { errors } = await dispatch(sessionActions.signup(formData))
             if (errors) {
-                console.log(errors)
                 setErrors(errors)
             }
         } else {
@@ -52,6 +52,7 @@ function SignupForm({ setSignup }) {
             password: 'password'
         }
         await dispatch(sessionActions.login(credentials))
+        history.push('/inventory')
     }
 
     const updateImage = (e) => {
@@ -68,8 +69,7 @@ function SignupForm({ setSignup }) {
                         {errors.map((error, idx) => <li className='errors' key={idx}>{error}</li>)}
                     </ul>
                     <div className="form-label-container">
-                        <label className="form-label">Email</label>
-                        <p className="form-label-required">Required</p>
+                        <label className="form-label">Email *</label>
                     </div>
                     <input
                         type="text"
@@ -80,8 +80,7 @@ function SignupForm({ setSignup }) {
 
                     />
                     <div className="form-label-container">
-                        <label className="form-label">First name</label>
-                        <p className="form-label-required">Required</p>
+                        <label className="form-label">First name *</label>
                     </div>
                     <input
                         type="text"
@@ -92,8 +91,7 @@ function SignupForm({ setSignup }) {
 
                     />
                     <div className="form-label-container">
-                        <label className="form-label">Last name</label>
-                        <p className="form-label-required">Required</p>
+                        <label className="form-label">Last name *</label>
                     </div>
                     <input
                         type="text"
@@ -104,8 +102,7 @@ function SignupForm({ setSignup }) {
 
                     />
                     <div className="form-label-container">
-                        <label className="form-label">Phone number</label>
-                        <p className="form-label-required">Required</p>
+                        <label className="form-label">Phone number *</label>
                     </div>
                     <input
                         type="text"
@@ -116,8 +113,7 @@ function SignupForm({ setSignup }) {
 
                     />
                     <div className="form-label-container">
-                        <label className="form-label">Password</label>
-                        <p className="form-label-required">Required</p>
+                        <label className="form-label">Password *</label>
                     </div>
                     <input
                         className="input-field"
@@ -128,8 +124,7 @@ function SignupForm({ setSignup }) {
 
                     />
                     <div className="form-label-container">
-                        <label className="form-label">Confirm password</label>
-                        <p className="form-label-required">Required</p>
+                        <label className="form-label">Confirm password *</label>
                     </div>
                     <input
                         className="input-field"
@@ -139,10 +134,14 @@ function SignupForm({ setSignup }) {
                         onChange={(e) => setConfirmPassword(e.target.value)}
 
                     />
+                    <div className="form-label-container">
+                        <label className="form-label">Profile image</label>
+                    </div>
                     <input
                         type='file'
                         onChange={updateImage}
                     />
+                    <p className="form-label-required">* Required fields</p>
                     <div className="button-div">
                         <button type="submit" className='signup-button'>Sign Up</button>
                         <button onClick={changeSignup} className='back-to-login-button'>Back to Login!</button >

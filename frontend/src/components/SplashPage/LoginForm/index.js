@@ -2,18 +2,19 @@
 import React, { useState } from 'react';
 import * as sessionActions from '../../../store/session';
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import './LoginForm.css';
 
 function LoginForm({ setSignup }) {
     const dispatch = useDispatch();
+    const history = useHistory();
     const sessionUser = useSelector(state => state.session.user);
     const [username, setCredential] = useState('');
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState([]);
 
     if (sessionUser) return (
-        <Redirect to="/" />
+        <Redirect to="/inventory" />
     );
 
     const handleSubmit = async (e) => {
@@ -36,6 +37,7 @@ function LoginForm({ setSignup }) {
             password: 'password'
         }
         await dispatch(sessionActions.login(credentials))
+        history.push('/inventory')
     }
 
     const changeSignup = (e) => {

@@ -7,6 +7,27 @@
     border-bottom: 2px solid #B3B4B5;
 }
 
+
+.profile-dropdown{
+    background-color: 
+    #A9C2F4;
+    height: auto;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.logout-div{
+    margin-top: 15px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.fa-right-from-bracket{
+    padding-left: 10px;
+    cursor: pointer;
+}
+
 .fa-wind-turbine{
     padding-top: 10px;
     cursor: pointer;
