@@ -1,5 +1,6 @@
 import { deleteSiteMaterial } from "../../../store/currentSite"
 import { useDispatch } from "react-redux"
+import './DeletePrompt.css'
 
 
 const DeleteMaterialPrompt = ({ material, setShowModal }) => {
@@ -18,8 +19,10 @@ const DeleteMaterialPrompt = ({ material, setShowModal }) => {
     return (
         <div className="delete-material-prompt">
             <p>Are you sure you want to delete this material?</p>
-            <button onClick={() => setShowModal(false)}>Cancel</button>
-            <button onClick={(e) => deleteMaterial(e, material)}>Confirm</button>
+            <div className="button-div">
+                <button className="delete-button" onClick={() => setShowModal(false)}>Cancel</button>
+                <button className="delete-button" onClick={(e) => deleteMaterial(e, material)}>Confirm</button>
+            </div>
         </div>
     )
 }

@@ -42,7 +42,7 @@ def token_required(f):
 def login():
     auth = request.json
 
-    if not auth:
+    if not auth['username'] and not auth['password']:
         return {'errors': 'Please input a username and password'}, 401
     if not auth['username']:
         return {'errors': 'Please input an email'}, 401

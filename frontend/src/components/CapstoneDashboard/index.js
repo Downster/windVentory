@@ -26,8 +26,6 @@ const CapstoneDashboard = () => {
         await dispatch(loadSiteInventory(user.jobsite_id))
     }
 
-    console.log(siteRooms)
-
     useEffect(() => {
         if (user) {
             if (user.jobsite_id) {
@@ -45,9 +43,6 @@ const CapstoneDashboard = () => {
             <div className='app-container'>
                 <LeftMenu capstone={true} />
                 <Switch>
-                    <Route exact path='/'>
-                        <h1>dookie</h1>
-                    </Route>
                     <Route exact path='/inventory'>
                         <Inventory site={true} />
                     </Route>

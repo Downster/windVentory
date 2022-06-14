@@ -14,8 +14,9 @@ const ChatsNav = ({ siteId, siteChats }) => {
     return (
         <>
             <button className='chat-menu-button' onClick={e => showChats ? setShowChats(false) : setShowChats(true)}>
-                <ul className="chat-nav-title"><NavLink className='menu-nav' to={`/chat`}> <i className="fa-solid fa-caret-down" style={showChats ? null : { transform: "rotate(270deg)" }}></i><i class="fa-solid fa-comment"></i>Chat Rooms</NavLink><CreateChatRoomModal siteId={1} /></ul>
+                <ul className="chat-nav-title"><NavLink className='menu-nav' to={`/chat`}> <i className="fa-solid fa-caret-down" style={showChats ? null : { transform: "rotate(270deg)" }}></i><i class="fa-solid fa-comment"></i>Chat Rooms</NavLink></ul>
             </button>
+            <CreateChatRoomModal siteId={1} />
             {
                 siteChats && showChats && Object.values(siteChats).map((room, idx) => (
                     <ChatRoom key={idx} room={room} />

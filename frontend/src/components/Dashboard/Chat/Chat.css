@@ -1,36 +1,88 @@
 .whole-chat-container{
-    width: 98%;
+    width: 85%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding-left: 15px;
     padding-right: 10px;
     padding-top: 15px;
+    overflow-y: hidden;
 }
 
+.outer-chat-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-room-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-messages-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-message-meta-data{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+}
+
+.chat-text{
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-message-info{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
+
+.chat-message-info.owner{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+
+.chat-user-image{
+    width: 40px;
+    height: 40px;
+}
 .chat-container{
     margin-bottom: 25px;
 }
 .chat-input-container{
     display: flex;
-    border: 1px solid red;
-    background-color: aqua;
+    background-color: #4F5B73;
     border-radius: 10px;
     margin-bottom: 10px;
     padding: 7px;
+    overflow-wrap: break-word;
 }
 
 .chat-input{
     display: flex;
     width: 100%;
     flex-direction: column;
+    background-color: #e6e7e9;
+    border-radius: 10px;
 }
 .chat-message-inner-container{
     display: flex;
+    justify-content: flex-start;
+    overflow-wrap: break-word;
+    width: 100%;
+    margin-bottom: 10px;
 }
 
 .chat-message{
     display: flex;
+    width: 100%;
     flex-direction: column;
 }
 
@@ -45,6 +97,9 @@
 
 .message-buttons{
     display: flex;
+    width: 100%;
+    flex-direction: row-reverse;
+    justify-content: flex-start;
     margin-right: 10px;
 }
 
@@ -55,6 +110,15 @@
 .owner{
     display: flex;
     justify-content: flex-end;
+    overflow-wrap: break-word;
+    width: 100%;
+}
+
+.owner1{
+    display: flex;
+    flex-direction: row-reverse;
+    overflow-wrap: break-word;
+    width: 100%;
 }
 
 .chat-room-form{
@@ -70,4 +134,32 @@
 
 .ql-editor.ql-blank::before{
     color: black
+}
+
+.ql-editor:first-child{
+    overflow-wrap: break-word;
+}
+
+.chat-text{
+    margin-top: 5px;
+    overflow-wrap: break-word;
+}
+
+.chat-text.owner1 > p{
+    overflow-wrap: anywhere;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.chat-room-name{
+    display: flex;
+    justify-content: center;
+    font-size: 22px;
+}
+
+
+
+.message-button{
+    width: 100px;
 }

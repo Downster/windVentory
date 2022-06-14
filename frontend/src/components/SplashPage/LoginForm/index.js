@@ -29,7 +29,8 @@ function LoginForm({ setSignup }) {
         }
     }
 
-    const demoUser = async () => {
+    const demoUser = async (e) => {
+        e.preventDefault()
         const credentials = {
             username: 'demo@demo.com',
             password: 'password'
@@ -51,8 +52,7 @@ function LoginForm({ setSignup }) {
                     {errors.map((error, idx) => <li className='errors' key={idx}>{error}</li>)}
                 </ul>
                 <div className="form-label-container">
-                    <label className="form-label">Email</label>
-                    <p className="form-label-required">Required</p>
+                    <label className="form-label">Email *</label>
                 </div>
                 <div className="form-element-container">
                     <input
@@ -64,8 +64,7 @@ function LoginForm({ setSignup }) {
                     />
                 </div>
                 <div className="form-label-container">
-                    <label className="form-label">Password</label>
-                    <p className="form-label-required">Required</p>
+                    <label className="form-label">Password *</label>
                 </div>
                 <div className="form-element-container">
                     <input
@@ -76,8 +75,8 @@ function LoginForm({ setSignup }) {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </div>
+                <p className="form-label-required">* Required Fields</p>
                 <div className='button-div'>
-
                     <button className='login-button' type="submit">Log In</button>
                     <button className='sign-up-change' onClick={changeSignup}>Not a member? Sign up!</button>
                     <button onClick={demoUser} className='demo-button'>Demo User</button>

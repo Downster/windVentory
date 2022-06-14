@@ -43,8 +43,14 @@ function ChatRoomForm({ setShowModal, siteId, room, team, edit }) {
             }
         }
         if (errors) {
-            setErrors(errors.errors)
-            console.log(errors)
+            if (errors.errors) {
+                setErrors(errors.errors)
+            } else if (errors.image_errors) {
+                setErrors([errors.image_errors])
+                setImage(null)
+                setImageLoading(false)
+            }
+
         } else {
             setUpdateImage(false)
             setShowModal(false)
