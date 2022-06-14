@@ -2,7 +2,6 @@ import React, { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createNewUser, modifyUser } from "../../../store/allUsers";
 import { addMaterialToSite, editSiteMaterial } from "../../../store/currentSite";
-import roleToNum from "../../../utils/roleToNum";
 import ImageUpload from "../ImageUpload";
 import './MaterialForm.css'
 
@@ -41,14 +40,21 @@ function MaterialForm({ setShowModal, material, edit }) {
         }
         if (errors) {
             setImageLoading(false)
-            if (Array.isArray(errors.errors)) {
-                setErrors(errors.errors)
-            } else {
-                setErrors([errors.errors])
+            if (errors.errors) {
+                if (Array.isArray(errors.errors)) {
+                    setErrors(errors.errors)
+                } else {
+                    setErrors([errors.errors])
+                }
+            } else if (errors.image_errors) {
+                setErrors([errors.image_errors])
+                setImage(null)
+                setImageLoading(false)
             }
         } else {
             setShowModal(false)
         }
+
 
     };
 
@@ -66,7 +72,7 @@ function MaterialForm({ setShowModal, material, edit }) {
     return (
         <form onSubmit={handleSubmit} className='material-form'>
             <ul>
-                {errors && errors.map((error, idx) => <li key={idx}>{error}</li>)}
+                {errors && errors.map((error, idx) => <li className='errors' key={idx}>{error}</li>)}
             </ul>
             <div className="form-input-container material">
                 <div className="form-element-container">

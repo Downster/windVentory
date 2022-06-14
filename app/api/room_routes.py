@@ -49,7 +49,7 @@ def create_site_room(current_user):
     image = form.data['image']
     if image:
         if not allowed_file(image.filename):
-            return {"errors": "file type not allowed"}, 400
+            return {"image_errors": "file type not allowed"}, 400
         image.filename = get_unique_filename(image.filename)
         upload = upload_file_to_s3(image)
         if "url" not in upload:
