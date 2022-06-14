@@ -137,13 +137,23 @@
     overflow-wrap: break-word;
 }
 
-.chat-text{overflow-wrap: break-word;
-
-}
-
-#text{
+.chat-text{
+    margin-top: 5px;
     overflow-wrap: break-word;
 }
+
+.chat-text.owner1 > p{
+    overflow-wrap: anywhere;
+    width: 100%;
+}
+
+.chat-room-name{
+    display: flex;
+    justify-content: center;
+    font-size: 22px;
+}
+
+
 
 .message-button{
     width: 100px;

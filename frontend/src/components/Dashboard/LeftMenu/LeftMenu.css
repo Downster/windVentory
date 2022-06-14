@@ -13,7 +13,12 @@
     margin-bottom: 15px;
 }
 
+
+.fa-minus{
+    padding-left: 10px;
+}
 .chat-room{
+    display: flex;
     margin-left: 20px;
 }
 
