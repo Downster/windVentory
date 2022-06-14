@@ -13,6 +13,10 @@
     margin-bottom: 15px;
 }
 
+.fa-plus{
+    cursor: pointer;
+}
+
 
 .fa-minus{
     padding-left: 10px;

@@ -41,10 +41,12 @@ function ProfileButton({ user }) {
                 <img src={user.image} className='profile-button' />
                 {showMenu && (
                     <ul className="profile-dropdown">
-                        <li>{user.firstName}</li>
-                        <li>{user.email}</li>
+                        <li>Hello, {user.firstName}</li>
                         <li>
-                            <button onClick={logout}>Log Out</button>
+                            <div className="logout-div">
+                                <p>Logout</p>
+                                <i className="fa-duotone fa-right-from-bracket" onClick={logout}></i>
+                            </div>
                         </li>
                         {(role === 'Admin') && <li>
                             <button onClick={adminPanel}>Admin Panel</button>
