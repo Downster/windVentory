@@ -73,6 +73,7 @@ class User(db.Model):
             'id': self.id,
             'firstName': self.first_name,
             'lastName' : self.last_name,
+            'image': self.image,
         }
 
 

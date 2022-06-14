@@ -1,5 +1,5 @@
 .whole-chat-container{
-    width: 98%;
+    width: 85%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -8,6 +8,49 @@
     padding-top: 15px;
 }
 
+.outer-chat-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-room-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-messages-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-message-meta-data{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+}
+
+.chat-text{
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-message-info{
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
+
+.chat-message-info.owner{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+
+.chat-user-image{
+    width: 40px;
+    height: 40px;
+}
 .chat-container{
     margin-bottom: 25px;
 }
@@ -18,19 +61,25 @@
     border-radius: 10px;
     margin-bottom: 10px;
     padding: 7px;
+    overflow-wrap: break-word;
 }
 
 .chat-input{
     display: flex;
     width: 100%;
     flex-direction: column;
+    background-color: aqua;
 }
 .chat-message-inner-container{
     display: flex;
+    justify-content: flex-start;
+    overflow-wrap: break-word;
+    width: 100%;
 }
 
 .chat-message{
     display: flex;
+    width: 100%;
     flex-direction: column;
 }
 
@@ -45,6 +94,9 @@
 
 .message-buttons{
     display: flex;
+    width: 100%;
+    flex-direction: row-reverse;
+    justify-content: flex-start;
     margin-right: 10px;
 }
 
@@ -55,6 +107,15 @@
 .owner{
     display: flex;
     justify-content: flex-end;
+    overflow-wrap: break-word;
+    width: 100%;
+}
+
+.owner1{
+    display: flex;
+    flex-direction: row-reverse;
+    overflow-wrap: break-word;
+    width: 100%;
 }
 
 .chat-room-form{
@@ -70,4 +131,20 @@
 
 .ql-editor.ql-blank::before{
     color: black
+}
+
+.ql-editor:first-child{
+    overflow-wrap: break-word;
+}
+
+.chat-text{overflow-wrap: break-word;
+
+}
+
+#text{
+    overflow-wrap: break-word;
+}
+
+.message-button{
+    width: 100px;
 }

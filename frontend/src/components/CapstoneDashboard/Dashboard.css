@@ -1,6 +1,8 @@
 .app-container{
     display: flex;
     height: 100%;
+    width: 99%;
+    overflow-x: hidden;
 }
 
 .left-menu{
