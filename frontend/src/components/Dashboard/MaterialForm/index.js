@@ -126,6 +126,21 @@ function MaterialForm({ setShowModal, material, edit }) {
                             >
                                 Epoxy
                             </option>
+                            <option
+                                value={8}
+                            >
+                                Plastic Sheeting
+                            </option>
+                            <option
+                                value={9}
+                            >
+                                Spreaders
+                            </option>
+                            <option
+                                value={10}
+                            >
+                                Stir Sticks
+                            </option>
                         </select>
                     </div>
 

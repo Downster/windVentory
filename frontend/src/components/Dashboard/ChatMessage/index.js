@@ -47,7 +47,7 @@ const ChatMessage = ({ msg, socket }) => {
 
                         {errors && errors.map((error, idx) => <li key={idx}>{error}</li>)}
                         <div className={msg.user_id === user.id ? "chat-message-info owner" : "chat-message-info"}>
-                            <p className='chat-username'>{msg.user.firstName + " " + msg.user.lastName}<span className='created-at-msg'>{(new Date(msg.created_at)).toLocaleTimeString()}</span></p>
+                            <p className='chat-username'>{msg.user.firstName + " " + msg.user.lastName + " at "}<span className='created-at-msg'>{(new Date(msg.created_at)).toLocaleTimeString()}</span></p>
                             <img className="chat-user-image"
                                 src={msg.user.image}>
                             </img>

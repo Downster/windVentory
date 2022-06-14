@@ -1,4 +1,4 @@
-
+import './DeleteMessagePrompt.css'
 
 
 const DeleteMessagePrompt = ({ msg, setShowModal, socket }) => {
@@ -16,8 +16,10 @@ const DeleteMessagePrompt = ({ msg, setShowModal, socket }) => {
     return (
         <div className="delete-message-prompt">
             <p>Are you sure you want to delete this message?</p>
-            <button onClick={() => setShowModal(false)}>Cancel</button>
-            <button onClick={(e) => deleteMessage(e, msg)}>Confirm</button>
+            <div className="button-div">
+                <button className='delete-button' onClick={() => setShowModal(false)}>Cancel</button>
+                <button className='delete-button' onClick={(e) => deleteMessage(e, msg)}>Confirm</button>
+            </div>
         </div>
     )
 }

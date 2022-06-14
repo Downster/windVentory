@@ -46,10 +46,10 @@ const CapstoneDashboard = () => {
                     <Route exact path='/inventory'>
                         <Inventory site={true} />
                     </Route>
-                    <Route exact path='/chat'>
+                    {/* <Route exact path='/chat'>
                         {Object.values(siteRooms).map((site) => <ChatRoomCard room={site} />)}
 
-                    </Route>
+                    </Route> */}
                     <Route exact path='/chat/:roomId'>
                         <Chat jobsite={true} />
                     </Route>

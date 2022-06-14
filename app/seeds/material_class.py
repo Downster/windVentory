@@ -21,6 +21,15 @@ def seed_material_class():
     Resin = MaterialClass(
         material_class='Chemical', material_subclass='Epoxy', unit='Cans'
     )
+    Plastic = MaterialClass(
+        material_class='Misc', material_subclass='Plastic Sheeting', unit='Square Feet'
+    )
+    Spreaders = MaterialClass(
+        material_class='Misc', material_subclass='Spreaders', unit='Spreaders'
+    )
+    Sticks = MaterialClass(
+        material_class='Misc', material_subclass='Stir Sticks', unit='sticks'
+    )
 
 
 
@@ -32,6 +41,9 @@ def seed_material_class():
     db.session.add(BP_20)
     db.session.add(Wind_Filler)
     db.session.add(Resin)
+    db.session.add(Plastic)
+    db.session.add(Spreaders)
+    db.session.add(Sticks)
 
     
     db.session.commit()

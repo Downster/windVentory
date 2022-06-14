@@ -19,7 +19,7 @@ const ChatRoom = ({ room }) => {
 
     const deleteRoom = async () => {
         const errors = await dispatch(deleteChatRoom(room.id, 'site'))
-        history.push('/')
+        history.push('/inventory')
     }
 
 

@@ -35,6 +35,13 @@ const Chat = ({ jobsite }) => {
         chatRoom = chatRooms.teamRooms[roomId];
     }
 
+    const scroll = () => {
+        const container = document.querySelector('.outer-chat-container');
+        if (container) {
+            container.scrollTop = container.scrollHeight
+        }
+    }
+
 
 
 
@@ -52,6 +59,7 @@ const Chat = ({ jobsite }) => {
             });
             setMessageBody("");
             setErrors([])
+            scroll()
         }
     };
 
@@ -67,6 +75,7 @@ const Chat = ({ jobsite }) => {
 
     useEffect(() => {
         if (chatRoom) {
+            scroll()
 
             socket = io();
 

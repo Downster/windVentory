@@ -12,6 +12,9 @@
 .outer-chat-container{
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
+    padding-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 .chat-room-container{
@@ -28,6 +31,10 @@
     display: flex;
     width: 100%;
     flex-direction: column;
+}
+
+.delete-message-prompt{
+    padding: 20px
 }
 
 .chat-text{
