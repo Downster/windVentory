@@ -43,6 +43,9 @@ const CapstoneDashboard = () => {
             <div className='app-container'>
                 <LeftMenu capstone={true} />
                 <Switch>
+                    <Route exact path='/'>
+                        Welcome to Windventory
+                    </Route>
                     <Route exact path='/inventory'>
                         <Inventory site={true} />
                     </Route>

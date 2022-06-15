@@ -30,7 +30,7 @@ const Chat = ({ jobsite }) => {
     if (jobsite) {
         chatRoom = chatRooms.siteRooms[roomId];
         if (!chatRoom) {
-            history.push('/errors')
+            history.push('/inventory')
         }
     } else {
         chatRoom = chatRooms.teamRooms[roomId];
@@ -109,6 +109,11 @@ const Chat = ({ jobsite }) => {
             socket.on('leave_room', (user) => {
                 dispatch(getSiteChatRooms(user.jobsite_id));
             });
+
+            socket.on('delete-room', async (data) => {
+                const path = window.location.href.split('/')
+                console.log(path)
+            })
 
 
         }

@@ -10,6 +10,7 @@ const SiteInventory = ({ siteInventory }) => {
     const dispatch = useDispatch()
     const materials = filterMaterials('material', Object.values(siteInventory))
     const chemicals = filterMaterials('chemical', Object.values(siteInventory))
+    const misc = filterMaterials('misc', Object.values(siteInventory))
 
     useEffect(() => {
         dispatch(loadSiteInventory(1))
@@ -48,7 +49,9 @@ const SiteInventory = ({ siteInventory }) => {
                         <h1 className="misc-title">Misc</h1>
                     </div>
                     <div className="inventory-display">
-
+                        {misc && misc.map((mat) => {
+                            return <MaterialCard key={mat.id} material={mat} />
+                        })}
                     </div>
                 </div>
             </div>

@@ -18,13 +18,13 @@ const MaterialCard = ({ material }) => {
     const [showModal, setShowModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false)
     const [hover, setHover] = useState(false)
-    const [dark, setDark] = useState(false)
+    const [dark, setDark] = useState(true)
     const [low, setLow] = useState(false)
     useEffect(() => {
         if (material.quantity < 4) {
             setLow(true)
         }
-        getImageBrightness(material.image, darkOrLight)
+        // getImageBrightness(material.image, darkOrLight)
         return () => setShowModal(false);
     }, []);
 
@@ -32,7 +32,6 @@ const MaterialCard = ({ material }) => {
         if (brightness < 127.5) {
             setDark(true)
         }
-        console.log(dark)
     }
 
 

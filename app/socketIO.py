@@ -48,6 +48,9 @@ def on_leave(data):
 def on_active(data):
     emit('login', data, broadcast=True)
 
+@socketio.on('delete-room')
+def on_delete(data):
+    emit('delete-room', data, broadcast=True)
 
 
 @socketio.on('logout')

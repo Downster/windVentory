@@ -7,6 +7,10 @@ const filterMaterials = (type, materials) => {
         return materials.filter((material) => {
             return material.class_id === 5 || material.class_id === 6 || material.class_id === 7
         })
+    } else if (type === 'misc') {
+        return materials.filter((material) => {
+            return material.class_id === 8 || material.class_id === 9 || material.class_id === 10
+        })
     }
 
 }
