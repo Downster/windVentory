@@ -22,6 +22,18 @@
     flex-direction: column;
 }
 
+.chat-button-div{
+    z-index: 200;
+}
+
+.button-div{
+    z-index: 200
+}
+
+.send-button{
+    cursor: pointer;
+}
+
 .chat-messages-container{
     display: flex;
     flex-direction: column;

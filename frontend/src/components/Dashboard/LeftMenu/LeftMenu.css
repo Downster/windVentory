@@ -6,7 +6,7 @@
 }
 
 .inventory-menu{
-    padding-right: 22px;
+    padding-right: 13px;
 }
 
 .chat-nav-title{
@@ -72,4 +72,12 @@
 
 .fa-caret-down{
     cursor: pointer;
+}
+
+.fa-comment{
+    padding-left: 10px;
+}
+
+.fa-plus{
+    padding-left: 20px;
 }
