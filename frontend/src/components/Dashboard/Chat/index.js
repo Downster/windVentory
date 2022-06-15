@@ -16,7 +16,7 @@ const Chat = ({ jobsite }) => {
     let chatRoom;
     const [messageBody, setMessageBody] = useState("");
     const [errors, setErrors] = useState([])
-    const { siteId, roomId } = useParams();
+    const { roomId } = useParams();
     const dispatch = useDispatch();
     const history = useHistory();
 

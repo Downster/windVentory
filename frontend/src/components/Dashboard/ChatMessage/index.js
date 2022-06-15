@@ -55,8 +55,9 @@ const ChatMessage = ({ msg, socket, sameUser }) => {
                         {errors && errors.map((error, idx) => <li className='errors' key={idx}>{error}</li>)}
                         <div className={msg.user_id === user.id ? "chat-message-info owner" : "chat-message-info"}>
                             {!sameUser && <p className='chat-username'>{msg.user.firstName + " " + msg.user.lastName} <span className='created-at-msg'>{" at " + (new Date(msg.created_at)).toLocaleTimeString()}</span></p>}
-                            {!sameUser && < img className="chat-user-image"
-                                src={msg.user.image}>
+                            {!sameUser && <img className="chat-user-image"
+                                src={msg.user.image}
+                                alt='Chat-message owner'>
                             </img>
                             }
                         </div>

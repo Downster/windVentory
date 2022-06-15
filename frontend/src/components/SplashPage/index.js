@@ -1,13 +1,11 @@
 import SignupForm from "./SignUpForm"
 import LoginForm from './LoginForm'
-import { useLocation } from "react-router"
 import { useState } from "react"
 import './SplashPage.css'
 import DeveloperComponent from "./DeveloperComponent"
 
 
 const SplashPage = () => {
-    const location = useLocation();
     const [signup, setSignup] = useState(false);
 
     return (
