@@ -49,17 +49,24 @@ const Chat = ({ jobsite }) => {
 
 
 
+
+
     const sendChat = async (e) => {
-        const errors = await dispatch(createChatMessage(roomId, messageBody));
-        if (errors) {
-            setErrors(errors.errors)
+        if (messageBody !== "<p><br></p>") {
+            const errors = await dispatch(createChatMessage(roomId, messageBody));
+            if (errors) {
+                console.log(errors)
+                setErrors(errors.errors)
+            } else {
+                socket.emit('chat', {
+                    user: `${user.firstName} ${user.lastName}`, msg: messageBody, room: roomId, user_image: user.image, created_at: (new Date()).toLocaleTimeString()
+                });
+                setMessageBody("");
+                setErrors([])
+                scroll()
+            }
         } else {
-            socket.emit('chat', {
-                user: `${user.firstName} ${user.lastName}`, msg: messageBody, room: roomId, user_image: user.image, created_at: (new Date()).toLocaleTimeString()
-            });
-            setMessageBody("");
-            setErrors([])
-            scroll()
+            setErrors(['Message cannot be empty, please input a message'])
         }
     };
 
@@ -130,19 +137,23 @@ const Chat = ({ jobsite }) => {
                     </div>
                     <div className='chat-room-container'>
                         <div className='chat-messages-container'>
-                            {chatMessages?.map(msg => {
-                                return (
-                                    <>
-                                        <ChatMessage msg={msg} socket={socket} />
-                                    </>
-                                )
+                            {chatMessages?.map((msg, idx) => {
+                                if (idx !== 0 && chatMessages[idx - 1].user_id === msg.user_id) {
+                                    return <ChatMessage msg={msg} socket={socket} sameUser={true} />
+                                } else {
+                                    return (
+                                        <>
+                                            <ChatMessage msg={msg} socket={socket} />
+                                        </>
+                                    )
+                                }
 
                             })}
                         </div>
                     </div>
                 </div>
                 <div className='chat-input-container'>
-                    {errors && errors.map((error, idx) => <li key={idx}>{error}</li>)}
+                    {errors && errors.map((error, idx) => <li className='errors' key={idx}>{error}</li>)}
                     <ChatInput
                         value={messageBody}
                         onChange={(e) => setMessageBody(e)}
