@@ -19,9 +19,6 @@ const ChatInput = ({ value, onChange, send, room }) => {
                 shift_enter: {
                     key: 13,
                     shiftKey: true,
-                    handler: (range, ctx) => {
-
-                    }
                 },
                 enter: {
                     key: 13,

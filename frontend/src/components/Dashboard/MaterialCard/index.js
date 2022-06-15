@@ -48,10 +48,10 @@ const MaterialCard = ({ material }) => {
                             {hover && <i className={dark ? "fa-duotone fa-pen-to-square dark" : "fa-duotone fa-pen-to-square"} onClick={() => setShowModal(true)}></i>}
                             {hover && <i className={dark ? "fa-duotone fa-trash-can dark" : "fa-duotone fa-trash-can"} onClick={() => setShowDeleteModal(true)}></i>}
                         </div>
-                        <div className='increment-decrement-material'>
+                        {/* <div className='increment-decrement-material'>
                             {hover && <i className={dark ? "fa-solid fa-plus-large dark" : "fa-solid fa-plus-large"} ></i>}
                             {hover && <i className={dark ? "fa-solid fa-minus-large dark" : "fa-solid fa-minus-large"}></i>}
-                        </div>
+                        </div> */}
                     </div>
                     <img className={hover ? 'material-image blur' : 'material-image'} id={`material-image-${material.id}`} src={material.image}>
                     </img>
