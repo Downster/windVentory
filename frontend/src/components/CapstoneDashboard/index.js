@@ -54,7 +54,7 @@ const CapstoneDashboard = () => {
                         <Chat jobsite={true} />
                     </Route>
                     <Route>
-                        <h1>404 errors</h1>
+                        <h1>Sorry, an error occured. Url not found</h1>
                     </Route>
                 </Switch>
             </div>

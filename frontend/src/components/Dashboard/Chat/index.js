@@ -26,10 +26,11 @@ const Chat = ({ jobsite }) => {
 
 
     const chatRooms = useSelector(state => state.chatRooms);
+
     if (jobsite) {
         chatRoom = chatRooms.siteRooms[roomId];
         if (!chatRoom) {
-            history.push('/chat-error')
+            history.push('/errors')
         }
     } else {
         chatRoom = chatRooms.teamRooms[roomId];
@@ -55,7 +56,6 @@ const Chat = ({ jobsite }) => {
         if (messageBody !== "<p><br></p>") {
             const errors = await dispatch(createChatMessage(roomId, messageBody));
             if (errors) {
-                console.log(errors)
                 setErrors(errors.errors)
             } else {
                 socket.emit('chat', {
@@ -72,8 +72,7 @@ const Chat = ({ jobsite }) => {
 
     useEffect(() => {
         dispatch(loadChatMessages(roomId))
-
-
+        dispatch(joinChatRoom(roomId, 'site'));
     }, [roomId, dispatch])
 
 
@@ -86,7 +85,6 @@ const Chat = ({ jobsite }) => {
 
             socket = io();
 
-            dispatch(joinChatRoom(roomId, 'site'));
 
             socket.emit('join', { 'username': `${user.firstName} ${user.lastName}`, 'room': roomId });
             socket.emit('join_room', { 'username': `${user.firstName} ${user.lastName}`, 'room': roomId })
@@ -139,11 +137,11 @@ const Chat = ({ jobsite }) => {
                         <div className='chat-messages-container'>
                             {chatMessages?.map((msg, idx) => {
                                 if (idx !== 0 && chatMessages[idx - 1].user_id === msg.user_id) {
-                                    return <ChatMessage msg={msg} socket={socket} sameUser={true} />
+                                    return <ChatMessage key={msg.id + 'M'} msg={msg} socket={socket} sameUser={true} />
                                 } else {
                                     return (
                                         <>
-                                            <ChatMessage msg={msg} socket={socket} />
+                                            <ChatMessage key={msg.id + 'M'} msg={msg} socket={socket} />
                                         </>
                                     )
                                 }
@@ -153,7 +151,7 @@ const Chat = ({ jobsite }) => {
                     </div>
                 </div>
                 <div className='chat-input-container'>
-                    {errors && errors.map((error, idx) => <li className='errors' key={idx}>{error}</li>)}
+                    {errors && errors.map((error, idx) => <li className='errors' key={idx + 'e'}>{error}</li>)}
                     <ChatInput
                         value={messageBody}
                         onChange={(e) => setMessageBody(e)}

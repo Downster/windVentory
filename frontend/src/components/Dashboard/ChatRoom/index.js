@@ -30,7 +30,7 @@ const ChatRoom = ({ room }) => {
                 to={`/chat/${room.id}`}>
                 {room.room_name}
             </NavLink>
-            {room.user_id === user.id && <i class="fa-solid fa-pen-to-square" onClick={(e) => setShowModal(true)}></i>}
+            {room.user_id === user.id && <i className="fa-solid fa-pen-to-square" onClick={(e) => setShowModal(true)}></i>}
             {room.user_id === user.id && <i className="fa-solid fa-minus" onClick={(e) => setShowDeleteModal(true)}></i>}
             {/* <i className='active-users-num'>[ {room.active_users.length} ]</i> */}
 

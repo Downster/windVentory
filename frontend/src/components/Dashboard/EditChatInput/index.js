@@ -2,14 +2,9 @@ import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css';
 
 
-const EditChatInput = ({ value, onChange, send, group, room, errors }) => {
-    let users;
-    if (group) {
-        users = room.users.map(user => user.username).join(', ')
-    } else {
-        users = room?.name
-    }
-    const toolbarOptions = [['bold', 'italic', 'strike'], ['link']];
+const EditChatInput = ({ value, onChange, send }) => {
+
+    const toolbarOptions = [['bold', 'italic', 'strike']];
 
     const modules = {
         'toolbar': toolbarOptions,

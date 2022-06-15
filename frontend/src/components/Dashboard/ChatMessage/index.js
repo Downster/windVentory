@@ -61,7 +61,7 @@ const ChatMessage = ({ msg, socket, sameUser }) => {
                             </img>
                             }
                         </div>
-                        {edit ? <EditChatInput value={message} onChange={(e) => setMessage(e)} send={() => editMessage(msg, message)} /> : <p className={msg.user_id === user.id ? 'chat-text owner1' : 'chat-text'} > {Parser(msg.message)}</p>}
+                        {edit ? <EditChatInput value={message} onChange={(e) => setMessage(e)} send={() => editMessage(msg, message)} /> : <span className={msg.user_id === user.id ? 'chat-text owner1' : 'chat-text'} > {Parser(msg.message)}</span>}
                         {mouse && msg.user_id === user.id && <div className='message-buttons'>
                             {!edit && <button className='message-button' onClick={(e) => setEdit(true)}>Edit</button>}
                             {!edit && <button className='message-button' onClick={deleteMessage}>Delete</button>}

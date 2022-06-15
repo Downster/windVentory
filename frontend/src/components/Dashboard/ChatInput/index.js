@@ -2,9 +2,6 @@ import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css';
 import { useParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
-import { joinChatRoom } from '../../../store/chatRoom'
-import { loadChatMessages } from '../../../store/messages';
 
 //adding comments to see if i can get docker
 //to rebuild
@@ -12,17 +9,9 @@ import { loadChatMessages } from '../../../store/messages';
 
 const ChatInput = ({ value, onChange, send, room }) => {
     const dispatch = useDispatch()
-    const { roomId } = useParams()
-    console.log(value)
 
 
-    useEffect(() => {
-        dispatch(joinChatRoom(roomId, 'site'));
-        dispatch(loadChatMessages(roomId))
-    }, [])
-
-
-    const toolbarOptions = [['bold', 'italic', 'strike'], ['link']];
+    const toolbarOptions = [['bold', 'italic', 'strike']];
     const modules = {
         'toolbar': toolbarOptions,
         keyboard: {
@@ -31,7 +20,7 @@ const ChatInput = ({ value, onChange, send, room }) => {
                     key: 13,
                     shiftKey: true,
                     handler: (range, ctx) => {
-                        console.log(range, ctx); // if you want to see the output of the binding
+
                     }
                 },
                 enter: {
