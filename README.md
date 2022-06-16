@@ -49,5 +49,12 @@ From the splash page, users can choose to create an account, log into an existin
 ![Imgur](https://i.imgur.com/86RKe96.png)
 
 # Chat Rooms
+### Create Chat Rooms
+![Imgur](https://i.imgur.com/rx0nsCH.png)
 
-# Live Chat 
+# Live Chat
+### Send messages
+![Imgur](https://i.imgur.com/9Jyl4dZ.png)
+
+### Edit/Delete messages
+![Imgur](https://i.imgur.com/rx0nsCH.png)
