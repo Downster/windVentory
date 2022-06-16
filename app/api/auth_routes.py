@@ -92,7 +92,6 @@ def sign_up():
     hashed_password = generate_password_hash(form.data['password'], method='sha256')
     image = form.data["image"]
     if form.validate_on_submit():
-        #Capstone shenanigans
         image = form.data["image"]
         if image != 'null':
             if not allowed_file(image.filename):
@@ -104,21 +103,17 @@ def sign_up():
                 return upload, 400
 
             url = upload["url"]
-        role = Role.query.get(5)
         params = {
         'email': form.data['email'],
         'first_name': form.data['firstName'],
         'last_name': form.data['lastName'],
         'phone_number' : form.data['phoneNumber'],
         'password': hashed_password,
-        'jobsite_id': 1,
         'online' : True
         }
         if image != 'null':
             params['image'] = url
         user = User(**params)
-        #Capstone shenanigans
-        user.roles.append(role)
         db.session.add(user)
         db.session.commit()
         token = jwt.encode({'id': user.id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=200)}, os.environ.get("SECRET_KEY"), algorithm="HS256")

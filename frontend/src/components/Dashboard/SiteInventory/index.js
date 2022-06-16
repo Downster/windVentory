@@ -13,7 +13,7 @@ const SiteInventory = ({ siteInventory }) => {
     const misc = filterMaterials('misc', Object.values(siteInventory))
 
     useEffect(() => {
-        dispatch(loadSiteInventory(1))
+        dispatch(loadSiteInventory(siteInventory))
     }, [dispatch])
 
 

@@ -20,6 +20,7 @@ import SiteWeather from './SiteWeather'
 import SiteTeams from './SiteTeams'
 import Chat from './Chat'
 import { getSiteChatRooms } from '../../store/chatRoom'
+import SiteInventory from './SiteInventory'
 
 
 
@@ -55,7 +56,7 @@ const Dashboard = () => {
                         <Jobsite />
                     </Route>
                     <Route exact path='/jobsite/:jobsiteId/inventory'>
-                        <h1>User-site-inventory</h1>
+                        <SiteInventory siteInventory={user.jobsite_id} />
                     </Route>
                     <Route exact path='/jobsite/:jobsiteId/'>
                         <JobSiteCard single={true} />

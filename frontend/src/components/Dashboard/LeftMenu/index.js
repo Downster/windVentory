@@ -31,14 +31,14 @@ const LeftMenu = ({ capstone }) => {
 
     return (
         <>
-            {capstone &&
+            {/* {capstone &&
                 < div className="left-menu" >
                     <InventoryNav />
                     <ChatsNav siteId={1} siteChats={siteChats} />
                 </div>
-            }
+            } */}
 
-            {/* {!adminPanel &&
+            {!adminPanel &&
                 < div className="left-menu" >
                     <ul className="left-menu-list">
                         {(siteId) ? <JobSiteNav isMember={true} isAdmin={isAdmin} siteId={siteId} /> : <JobSiteNav isMember={false} isAdmin={isAdmin} />
@@ -52,7 +52,7 @@ const LeftMenu = ({ capstone }) => {
                 < div className="left-menu" >
                     <AdminNav />
                 </div>
-            } */}
+            }
         </>
     )
 }

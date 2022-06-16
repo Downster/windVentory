@@ -5,7 +5,7 @@ import { Route, Switch } from "react-router-dom";
 import * as sessionActions from './store/session';
 import SplashPage from "./components/SplashPage";
 import Dashboard from "./components/Dashboard";
-import CapstoneDashboard from "./components/CapstoneDashboard";
+// import CapstoneDashboard from "./components/CapstoneDashboard";
 
 
 function App() {
@@ -31,7 +31,7 @@ function App() {
       <BrowserRouter>
         <Switch>
           <Route path='/'>
-            {sessionUser ? <CapstoneDashboard /> : <SplashPage />}
+            {sessionUser ? <Dashboard /> : <SplashPage />}
           </Route>
         </Switch>
       </BrowserRouter>

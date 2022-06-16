@@ -8,7 +8,6 @@ def seed_users():
     Lead = Role(name='Lead')
     Supervisor = Role(name='Supervisor')
     Admin = Role(name='Admin')
-    Demo = Role(name='Demo')
 
     brendan = User(
         email='imbrandan@gmail.com', first_name='Brendan', last_name='Downing', password=generate_password_hash('password', method='sha256'), phone_number='408-916-6314', roles=[Lead])
@@ -27,7 +26,7 @@ def seed_users():
     admin = User (
         email='admin@admin.com', first_name='Admin', last_name='Joe', password=generate_password_hash('password', method='sha256'), phone_number='666-666-6666', roles=[Admin])
     demo = User (
-        email='demo@demo.com', first_name='Demo', last_name='Dan', password=generate_password_hash('password', method='sha256'), jobsite_id=1, phone_number='666-666-6666', roles=[Demo])
+        email='demo@demo.com', first_name='Demo', last_name='Dan', password=generate_password_hash('password', method='sha256'), jobsite_id=1, phone_number='666-666-6666', roles=[Admin])
     
 
     db.session.add(Worker)
