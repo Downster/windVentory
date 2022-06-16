@@ -13,7 +13,7 @@ import { useParams } from 'react-router'
 import { loadAllTeams } from '../../store/allTeams'
 import { useEffect } from 'react'
 import { getJobsites } from '../../store/jobsites'
-import { fetchTeams } from '../../store/currentSite'
+import { fetchTeams, loadSiteInventory } from '../../store/currentSite'
 import { fetchUserTeam } from '../../store/currentTeam'
 import JobSiteCard from './JobSiteCard'
 import SiteWeather from './SiteWeather'
@@ -27,12 +27,14 @@ import SiteInventory from './SiteInventory'
 const Dashboard = () => {
     const dispatch = useDispatch()
     const user = useSelector(state => state.session.user)
+    const siteInventory = useSelector(state => state.currentSite.inventory)
 
     const getAllUserInfo = async (user) => {
         await dispatch(loadUserJobsite(user.jobsite_id))
         await dispatch(fetchWeather(user.jobsite_id))
         await dispatch(fetchTeams(user.jobsite_id))
         await dispatch(getSiteChatRooms(user.jobsite_id))
+        await dispatch(loadSiteInventory(user.jobsite_id))
     }
 
     useEffect(() => {
@@ -56,7 +58,7 @@ const Dashboard = () => {
                         <Jobsite />
                     </Route>
                     <Route exact path='/jobsite/:jobsiteId/inventory'>
-                        <SiteInventory siteInventory={user.jobsite_id} />
+                        <SiteInventory siteInventory={siteInventory} />
                     </Route>
                     <Route exact path='/jobsite/:jobsiteId/'>
                         <JobSiteCard single={true} />

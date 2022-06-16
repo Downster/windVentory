@@ -11,6 +11,7 @@ const SiteInventory = ({ siteInventory }) => {
     const materials = filterMaterials('material', Object.values(siteInventory))
     const chemicals = filterMaterials('chemical', Object.values(siteInventory))
     const misc = filterMaterials('misc', Object.values(siteInventory))
+    console.log(siteInventory)
 
     useEffect(() => {
         dispatch(loadSiteInventory(siteInventory))

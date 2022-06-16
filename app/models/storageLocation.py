@@ -10,7 +10,7 @@ class StorageLocation(db.Model):
 
     #relationships
     storage_type = relationship('StorageType', backref='type_storage')
-    jobsite = relationship('JobSite', backref='jobsite_storage')
+    jobsite = relationship('JobSite', back_populates='site_inventory')
 
     def to_dict(self):
         return {
