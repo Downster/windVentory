@@ -50,7 +50,7 @@ From the splash page, users can choose to create an account, log into an existin
 
 # Chat Rooms
 ### Create Chat Rooms
-![Imgur](https://i.imgur.com/rx0nsCH.png)
+![Imgur](https://i.imgur.com/hOTyYpg.png)
 
 # Live Chat
 ### Send messages
