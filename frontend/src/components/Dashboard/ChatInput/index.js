@@ -11,7 +11,7 @@ const ChatInput = ({ value, onChange, send, room }) => {
     const dispatch = useDispatch()
 
 
-    const toolbarOptions = [['bold', 'italic', 'strike']];
+    const toolbarOptions = [];
     const modules = {
         'toolbar': toolbarOptions,
         keyboard: {

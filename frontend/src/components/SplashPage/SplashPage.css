@@ -10,6 +10,33 @@ button:hover {
     display: flex;
     justify-content: space-around;
 }
+
+.windVentory-intro{
+    padding-left: 40px;
+}
+
+.intro-text{
+    font-size: 20px;
+}
+
+.features{
+    padding-left: 160px;
+    width: 300px;
+}
+
+.content{
+    padding: 20px;
+    border-radius: 20px;
+    background-color: #A9C2F4;
+    width: 500px;
+}
+
+.content2{
+    padding: 20px;
+    border-radius: 20px;
+    background-color: #A9C2F4;
+    width: 300px;
+}
 .input-field{
     padding-left: 10px;
     font-size: 15px;

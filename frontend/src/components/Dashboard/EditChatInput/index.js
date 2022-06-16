@@ -4,7 +4,7 @@ import 'react-quill/dist/quill.snow.css';
 
 const EditChatInput = ({ value, onChange, send }) => {
 
-    const toolbarOptions = [['bold', 'italic', 'strike']];
+    const toolbarOptions = [];
 
     const modules = {
         'toolbar': toolbarOptions,

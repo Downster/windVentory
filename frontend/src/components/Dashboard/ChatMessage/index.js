@@ -38,6 +38,7 @@ const ChatMessage = ({ msg, socket, sameUser }) => {
 
     const cancelAndClear = () => {
         setEdit(false)
+        setMessage(msg.message)
         setErrors([])
     }
 

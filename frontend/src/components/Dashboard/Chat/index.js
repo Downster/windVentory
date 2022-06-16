@@ -29,9 +29,9 @@ const Chat = ({ jobsite }) => {
 
     if (jobsite) {
         chatRoom = chatRooms.siteRooms[roomId];
-        if (!chatRoom) {
-            history.push('/inventory')
-        }
+        // if (!chatRoom) {
+        //     history.push('/inventory')
+        // }
     } else {
         chatRoom = chatRooms.teamRooms[roomId];
     }
