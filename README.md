@@ -42,6 +42,11 @@ From the splash page, users can choose to create an account, log into an existin
 
 # Inventory
 
+### Inventory tracking
+![Imgur](https://i.imgur.com/YE9ufi5.png)
+
+### Add materials 
+![Imgur](https://i.imgur.com/86RKe96.png)
 
 # Chat Rooms
 
