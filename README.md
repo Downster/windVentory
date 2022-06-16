@@ -34,6 +34,8 @@ Upcoming features:
 From the splash page, users can choose to create an account, log into an existing account, or log in as a demo user.
 
 
+
+
 # Inventory
 
 
