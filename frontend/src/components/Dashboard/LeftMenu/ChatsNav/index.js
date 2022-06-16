@@ -6,9 +6,9 @@ import { useState } from "react"
 
 
 
-const ChatsNav = ({ siteId, siteChats }) => {
-
+const ChatsNav = ({ siteId, teamId, siteChats, team }) => {
     const [showChats, setShowChats] = useState(true)
+    const teamChats = useSelector(state => state.chatRooms.teamRooms)
 
 
     return (
@@ -18,15 +18,18 @@ const ChatsNav = ({ siteId, siteChats }) => {
                     <i className="fa-solid fa-caret-down" onClick={e => showChats ? setShowChats(false) : setShowChats(true)} style={showChats ? null : { transform: "rotate(270deg)" }}></i>
                     <i className="fa-solid fa-comment"></i>
                     <p className="room-text">Chat Rooms</p>
-                    <CreateChatRoomModal siteId={1} />
+                    <CreateChatRoomModal siteId={siteId} teamId={teamId} />
                 </div>
             </ul>
             {
                 siteChats && showChats && Object.values(siteChats).map((room, idx) => (
-                    <ChatRoom key={idx} room={room} />
+                    <ChatRoom key={idx} room={room} jobsite={true} />
                 ))
             }
-            {/* <ul><li className="chat-item">Team Chat</li></ul> */}
+            {team && teamChats && showChats && Object.values(teamChats).filter((room) => room.team_id === teamId).map((room, idx) => (
+                <ChatRoom key={room.id} room={room} team={true} />
+            ))}
+
         </>
     )
 }

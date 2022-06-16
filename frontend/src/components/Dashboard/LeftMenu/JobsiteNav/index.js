@@ -1,10 +1,11 @@
 import CreateJobSiteModal from "../../CreateJobSiteModal"
 import CreateMaterialModal from "../../CreateMaterialModal"
 import { NavLink } from "react-router-dom"
+import ChatsNav from "../ChatsNav"
 
 
 
-const JobSiteNav = ({ isMember, isAdmin, siteId }) => {
+const JobSiteNav = ({ isMember, isAdmin, siteChats, siteId }) => {
 
     return (
         <>
@@ -13,11 +14,13 @@ const JobSiteNav = ({ isMember, isAdmin, siteId }) => {
             {isMember &&
                 <>
 
-                    <NavLink to={`/jobsite/${siteId}/inventory`}><i className="fa-solid fa-boxes-stacked"></i><li className="jobsite-item">Inventory</li></NavLink><CreateMaterialModal />
-                    <NavLink to={`/jobsite/${siteId}/weather`}><li className="jobsite-item">Weather</li></NavLink>
-                    <NavLink to={`/jobsite/${siteId}/teams`}><li className="jobsite-item">Teams</li></NavLink>
-                    <li className="jobsite-item">Members</li>
-                    <li className="jobsite-item">Leave Jobsite <i className="fas fa-minus"></i></li>
+                    <ChatsNav siteId={siteId} siteChats={siteChats} />
+                    <li><NavLink to={`/jobsite/${siteId}/inventory`}><i className="fa-solid fa-boxes-stacked"></i>Inventory</NavLink><CreateMaterialModal /></li>
+                    <li><NavLink to={`/jobsite/${siteId}/weather`}><i class="fa-duotone fa-cloud-bolt-sun"></i>Weather</NavLink></li>
+                    <li><NavLink to={`/jobsite/${siteId}/teams`}><i class="fa-duotone fa-people-group"></i>Teams</NavLink></li>
+                    <li><NavLink to={`/jobsite/${siteId}/towers`}><i class="fa-duotone fa-wind-turbine"></i>Towers</NavLink></li>
+                    <li><i class="fa-duotone fa-user-cowboy"></i>Members</li>
+                    <li className="jobsite-item"><i class="fa-duotone fa-person-to-door"></i>Leave Jobsite <i className="fas fa-minus"></i></li>
                 </>
             }
         </>

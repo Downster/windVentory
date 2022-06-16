@@ -2,7 +2,7 @@ import json
 from flask import Blueprint, jsonify, request
 from .auth_routes import token_required
 from ..extensions import db
-from ..models.user import Team, User
+from ..models import Team, User, StorageLocation
 from ..forms import CreateTeamForm
 from ..utils import form_validation_errors
 
@@ -96,4 +96,17 @@ def join_team(current_user, teamId):
     db.session.commit()    
 
     return jsonify({'team': team.to_dict()})
+
+
+@team_routes.route('/<int:team_id>/inventory')
+@token_required
+def get_team_storage(current_user, site_id):
+    storageLocation = StorageLocation.query.filter(StorageLocation.jobsite_id==int(site_id), StorageLocation.storagetype_id==(2)).all()
+    locationIds = [location.id for location in storageLocation]
+    materials = []
+    for id in locationIds:
+        locationMats = Material.query.filter(Material.storage_id==id).all()
+        #setup for multiple connex's later
+        materials = locationMats
+    return {'materials' : [material.to_dict() for material in materials]}
 

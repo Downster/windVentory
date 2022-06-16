@@ -19,7 +19,7 @@ import JobSiteCard from './JobSiteCard'
 import SiteWeather from './SiteWeather'
 import SiteTeams from './SiteTeams'
 import Chat from './Chat'
-import { getSiteChatRooms } from '../../store/chatRoom'
+import { getSiteChatRooms, getTeamChatRoom } from '../../store/chatRoom'
 import SiteInventory from './SiteInventory'
 
 
@@ -35,6 +35,7 @@ const Dashboard = () => {
         await dispatch(fetchTeams(user.jobsite_id))
         await dispatch(getSiteChatRooms(user.jobsite_id))
         await dispatch(loadSiteInventory(user.jobsite_id))
+        await dispatch(getTeamChatRoom(user.teams[0].id))
     }
 
     useEffect(() => {
@@ -69,16 +70,23 @@ const Dashboard = () => {
                     <Route exact path='/jobsite/:jobsiteId/weather'>
                         <SiteWeather />
                     </Route>
+                    <Route exact path='/jobsite/:jobsiteId/towers'>
+                        <h1> Site tower</h1>
+                    </Route>
+
                     <Route exact path='/team/:teamId'>
                         <Team />
                     </Route>
                     <Route exact path='/team/:teamId/inventory'>
                         <Team />
                     </Route>
+                    <Route exact path='/team/:teamId/chat/:roomId'>
+                        <Team />
+                    </Route>
                     <Route exact path='/jobsite/:siteId/chats'>
                         <h1>Jobsite Chats</h1>
                     </Route>
-                    <Route exact path='/jobsite/:siteId/rooms/:roomId/chat'>
+                    <Route exact path='/jobsite/:siteId/chat/:roomId'>
                         <Chat jobsite={true} />
                     </Route>
                     <Route path='/admin/jobsites'>

@@ -4,16 +4,13 @@ import { deleteChatRoom } from "../../../store/chatRoom"
 import { io } from 'socket.io-client'
 
 let socket;
-const DeleteRoomPrompt = ({ room, setShowModal }) => {
+const DeleteRoomPrompt = ({ room, setShowModal, type }) => {
     const dispatch = useDispatch()
     const history = useHistory();
 
     const deleteRoom = async () => {
-        await dispatch(deleteChatRoom(room.id, 'site'))
-        socket = io()
-        socket.emit('delete-room', { data: 'data' })
-        history.push('/inventory')
-        socket.disconnect()
+        await dispatch(deleteChatRoom(room.id, type))
+        history.push('/')
         setShowModal(false)
 
     }

@@ -10,7 +10,7 @@ function Navigation() {
 
     return (
         <nav className='nav-bar'>
-            <i className="fa-duotone fa-wind-turbine" onClick={() => history.push('/inventory')}></i>
+            <i className="fa-duotone fa-wind-turbine navbine" onClick={() => history.push('/inventory')}></i>
             <p className='title-text' onClick={() => history.push('/inventory')}>windVentory</p>
             <ProfileButton user={sessionUser} />
         </nav>

@@ -9,6 +9,21 @@
     padding-right: 13px;
 }
 
+.jobsite-nav-title{
+    font-size: 22px;
+    padding-bottom: 10px;
+}
+
+.teams-nav-title {
+    padding-top: 10px;
+    font-size: 22px;
+    padding-bottom: 10px;
+}
+
+.nav{
+    font-size: 10px;
+}
+
 .chat-nav-title{
     margin-bottom: 15px;
 }

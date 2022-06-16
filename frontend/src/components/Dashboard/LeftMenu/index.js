@@ -21,9 +21,13 @@ const LeftMenu = ({ capstone }) => {
     //if a memeber of a team display teams with sub menus
     const path = location.pathname;
     const splitpath = path.split('/')
+    console.log(splitpath)
     let siteId;
     if (splitpath[1] === 'jobsite' && currentUser.jobsite_id) {
         siteId = path.split('/')[2]
+    }
+    if (splitpath[1] === 'team' && currentUser.jobsite_id) {
+        siteId = splitpath[2]
     }
     if (isAdmin && path.split('/')[1] === 'admin' && !adminPanel) {
         setAdminPanel(true)
@@ -41,10 +45,9 @@ const LeftMenu = ({ capstone }) => {
             {!adminPanel &&
                 < div className="left-menu" >
                     <ul className="left-menu-list">
-                        {(siteId) ? <JobSiteNav isMember={true} isAdmin={isAdmin} siteId={siteId} /> : <JobSiteNav isMember={false} isAdmin={isAdmin} />
+                        {(siteId) ? <JobSiteNav isMember={true} isAdmin={isAdmin} siteId={siteId} siteChats={siteChats} /> : <JobSiteNav isMember={false} isAdmin={isAdmin} />
                         }
                         {siteId && <TeamsNav siteId={siteId} />}
-                        {siteId && <ChatsNav siteId={siteId} siteChats={siteChats} />}
                     </ul>
                 </div >
             }
