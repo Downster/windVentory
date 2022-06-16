@@ -1,21 +1,13 @@
-import { useSelector, useDispatch } from "react-redux"
-import { useEffect } from "react"
-import { loadSiteInventory } from "../../../store/currentSite"
 import MaterialCard from "../MaterialCard"
 import filterMaterials from "../../../utils/filterMaterials"
 import './SiteInventory.css'
 
 
 const SiteInventory = ({ siteInventory }) => {
-    const dispatch = useDispatch()
     const materials = filterMaterials('material', Object.values(siteInventory))
     const chemicals = filterMaterials('chemical', Object.values(siteInventory))
     const misc = filterMaterials('misc', Object.values(siteInventory))
-    console.log(siteInventory)
 
-    useEffect(() => {
-        dispatch(loadSiteInventory(siteInventory))
-    }, [dispatch])
 
 
 

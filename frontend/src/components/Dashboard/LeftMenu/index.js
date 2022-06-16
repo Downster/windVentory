@@ -24,6 +24,9 @@ const LeftMenu = ({ capstone }) => {
     console.log(splitpath)
     let siteId;
     if (splitpath[1] === 'jobsite' && currentUser.jobsite_id) {
+        if (adminPanel) {
+            setAdminPanel(false)
+        }
         siteId = path.split('/')[2]
     }
     if (splitpath[1] === 'team' && currentUser.jobsite_id) {
