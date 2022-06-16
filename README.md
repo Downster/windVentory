@@ -5,6 +5,8 @@ This project was an idea I had while working as a blade repair technician. A con
 This would cause duplicate materials to be ordered, and ultimately increase the amount of money spent on each project.
 WindVentory aims to cut costs by providing an easy and efficient way to track materials.
 
+View and test out windVentory on [Heroku](https://windventory.herokuapp.com/)
+
 ## Features
 - Create an account, sign in, or log in as a demo user
 - Create, view, edit, and delete
