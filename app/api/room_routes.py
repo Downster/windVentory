@@ -75,10 +75,22 @@ def create_site_room(current_user):
     return {'errors': form_validation_errors(form.errors)}, 401
 
 
-@room_routes.route('/<int:roomId>', methods=['PATCH'])
+@room_routes.route('/team/<int:roomId>', methods=['PATCH'])
 @token_required
-def edit_room(current_user, roomId):
+def edit_team_room(current_user, roomId):
     form = TeamRoomForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        room = ChatRoom.query.get(int(roomId))
+        room.room_name = form.data['room_name']
+        db.session.commit()
+        return room.to_dict()
+    return {'errors': form_validation_errors(form.errors)}, 401
+
+@room_routes.route('/site/<int:roomId>', methods=['PATCH'])
+@token_required
+def edit_site_room(current_user, roomId):
+    form = SiteRoomForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         room = ChatRoom.query.get(int(roomId))

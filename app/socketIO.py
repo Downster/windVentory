@@ -58,10 +58,18 @@ def on_inactive(data):
     emit('logout', data, broadcast=True)
 
 
-@socketio.on('join_room')
+@socketio.on('join_team_room')
 def on_join_room(data):
-    emit('join_room', data, broadcast=True)
+    emit('join_team_room', data, broadcast=True)
 
-@socketio.on('leave_room')
+@socketio.on('leave_team_room')
 def on_leave_room(data):
-    emit('leave_room', data, broadcast=True)
+    emit('leave_team_room', data, broadcast=True)
+
+@socketio.on('join_site_room')
+def on_join_site_room(data):
+    emit('join_site_room', data, broadcast=True)
+
+@socketio.on('leave_site_room')
+def on_leave_site_room(data):
+    emit('leave_site_room', data, broadcast=True)

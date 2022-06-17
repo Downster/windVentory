@@ -7,8 +7,11 @@ const CREATE_SITE_ROOM = 'chatRooms/CREATE_SITE_ROOM';
 const DELETE_SITE_ROOM = 'chatRooms/DELETE_ROOM';
 const DELETE_TEAM_ROOM = 'chatRooms/DELETE_TEAM_ROOM';
 const EDIT_SITE_ROOM = 'chatRooms/EDIT_ROOM';
+const EDIT_TEAM_ROOM = 'chatRooms/EDIT_TEAM_ROOM'
 const JOIN_SITE_ROOM = 'chatRooms/JOIN_ROOM';
 const LEAVE_SITE_ROOM = 'chatRooms/LEAVE_ROOM';
+const JOIN_TEAM_ROOM = 'chatRooms/JOIN_TEAM_ROOM';
+const LEAVE_TEAM_ROOM = 'chatRooms/LEAVE_TEAM_ROOM';
 
 const loadSiteRooms = (rooms) => ({
     type: LOAD_SITE_ROOMS,
@@ -45,6 +48,11 @@ const editSiteRoom = (room) => ({
     room
 });
 
+const editTeamRoom = (room) => ({
+    type: EDIT_TEAM_ROOM,
+    room
+});
+
 const joinSiteRoom = (room) => ({
     type: JOIN_SITE_ROOM,
     room
@@ -52,6 +60,16 @@ const joinSiteRoom = (room) => ({
 
 const leaveSiteRoom = (room) => ({
     type: LEAVE_SITE_ROOM,
+    room
+})
+
+const joinTeamRoom = (room) => ({
+    type: JOIN_TEAM_ROOM,
+    room
+});
+
+const leaveTeamRoom = (room) => ({
+    type: LEAVE_TEAM_ROOM,
     room
 })
 
@@ -113,6 +131,8 @@ export const joinChatRoom = (roomId, type) => async (dispatch) => {
     if (res.ok) {
         if (type === 'site') {
             dispatch(joinSiteRoom(room))
+        } else {
+            dispatch(joinTeamRoom(room))
         }
     } else {
         return room
@@ -128,6 +148,8 @@ export const leaveChatRoom = (roomId, type) => async (dispatch) => {
     if (res.ok) {
         if (type === 'site') {
             dispatch(leaveSiteRoom(room))
+        } else {
+            dispatch(leaveTeamRoom(room))
         }
     } else {
         return room
@@ -135,7 +157,7 @@ export const leaveChatRoom = (roomId, type) => async (dispatch) => {
 
 }
 
-export const editJobsiteRoom = (roomId, formData, type) => async (dispatch) => {
+export const editRoom = (roomId, formData, type) => async (dispatch) => {
     const res = await tokenFetch(`/rooms/${type}/${roomId}`, {
         method: 'PATCH',
         body: formData
@@ -145,6 +167,8 @@ export const editJobsiteRoom = (roomId, formData, type) => async (dispatch) => {
     if (res.ok) {
         if (type === 'site') {
             dispatch(editSiteRoom(room))
+        } else {
+            dispatch(editTeamRoom(room))
         }
     } else {
         return room
@@ -199,6 +223,10 @@ const chatRoomsReducer = (state = initialState, action) => {
             newState.siteRooms[action.room.id] = action.room
             return newState
         }
+        case EDIT_TEAM_ROOM: {
+            newState.teamRooms[action.room.id] = action.room
+            return newState
+        }
 
         case LOAD_TEAM_ROOMS:
             if (action.rooms.length) {
@@ -219,6 +247,12 @@ const chatRoomsReducer = (state = initialState, action) => {
             return newState
         case LEAVE_SITE_ROOM:
             newState.siteRooms[action.room.id] = action.room
+            return newState
+        case JOIN_TEAM_ROOM:
+            newState.teamRooms[action.room.id] = action.room
+            return newState
+        case LEAVE_TEAM_ROOM:
+            newState.teamRooms[action.room.id] = action.room
             return newState
         default:
             return state;

@@ -18,7 +18,7 @@ const ChatsNav = ({ siteId, teamId, siteChats, team }) => {
                     <i className="fa-solid fa-caret-down" onClick={e => showChats ? setShowChats(false) : setShowChats(true)} style={showChats ? null : { transform: "rotate(270deg)" }}></i>
                     <i className="fa-solid fa-comment"></i>
                     <p className="room-text">Chat Rooms</p>
-                    <CreateChatRoomModal siteId={siteId} teamId={teamId} />
+                    <CreateChatRoomModal siteId={siteId} teamId={teamId} type={team ? 'team' : 'site'} />
                 </div>
             </ul>
             {

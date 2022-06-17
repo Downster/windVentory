@@ -1,9 +1,9 @@
 import React, { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createSiteChatRoom, createTeamChatRoom, editJobsiteRoom } from "../../../store/chatRoom";
+import { createSiteChatRoom, createTeamChatRoom, editRoom } from "../../../store/chatRoom";
 import ImageUpload from "../ImageUpload";
 
-function ChatRoomForm({ setShowModal, siteId, room, teamId, edit }) {
+function ChatRoomForm({ setShowModal, siteId, room, teamId, edit, type }) {
     const dispatch = useDispatch();
     const hiddenImageInput = useRef(null);
     const sessionUser = useSelector((state) => state.session.user);
@@ -20,7 +20,7 @@ function ChatRoomForm({ setShowModal, siteId, room, teamId, edit }) {
         const formData = new FormData()
         let errors;
         formData.append('room_name', name)
-        if (teamId) {
+        if (type === 'team') {
             formData.append('team_id', teamId)
         } else {
             formData.append('jobsite_id', siteId)
@@ -30,10 +30,11 @@ function ChatRoomForm({ setShowModal, siteId, room, teamId, edit }) {
             setImageLoading(true)
         }
         if (edit) {
-            if (teamId) {
-
+            if (type === 'team') {
+                console.log(teamId)
+                errors = await dispatch(editRoom(room.id, formData, 'team'))
             } else {
-                errors = await dispatch(editJobsiteRoom(room.id, formData, 'site'))
+                errors = await dispatch(editRoom(room.id, formData, 'site'))
             }
 
 

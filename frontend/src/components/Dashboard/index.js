@@ -84,7 +84,7 @@ const Dashboard = () => {
                         <Inventory team={true} />
                     </Route>
                     <Route exact path='/team/:teamId/chat/:roomId'>
-                        <Team />
+                        <Chat />
                     </Route>
                     <Route exact path='/jobsite/:siteId/chats'>
                         <h1>Jobsite Chats</h1>

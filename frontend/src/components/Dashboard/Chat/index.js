@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import { io } from 'socket.io-client';
-import { joinChatRoom, leaveChatRoom, getSiteChatRooms } from '../../../store/chatRoom'
+import { joinChatRoom, leaveChatRoom, getSiteChatRooms, getTeamChatRoom } from '../../../store/chatRoom'
 import { createChatMessage, loadChatMessages, clearMessages, removeMessage } from '../../../store/messages'
 import ChatMessage from '../ChatMessage';
 import ChatInput from '../ChatInput';
@@ -72,7 +72,8 @@ const Chat = ({ jobsite }) => {
 
     useEffect(() => {
         dispatch(loadChatMessages(roomId))
-        dispatch(joinChatRoom(roomId, 'site'));
+        jobsite && dispatch(joinChatRoom(roomId, 'site'));
+        !jobsite && dispatch(joinChatRoom(roomId, 'team'));
     }, [roomId, dispatch])
 
 
@@ -87,7 +88,8 @@ const Chat = ({ jobsite }) => {
 
 
             socket.emit('join', { 'username': `${user.firstName} ${user.lastName}`, 'room': roomId });
-            socket.emit('join_room', { 'username': `${user.firstName} ${user.lastName}`, 'room': roomId })
+            jobsite && socket.emit('join_site_room', { 'username': `${user.firstName} ${user.lastName}`, 'room': roomId })
+            !jobsite && socket.emit('join_team_room', { 'username': `${user.firstName} ${user.lastName}`, 'room': roomId })
 
 
             socket.on('chat', (message) => {
@@ -102,12 +104,21 @@ const Chat = ({ jobsite }) => {
                 dispatch(removeMessage(message.msgId))
             })
 
-            socket.on('join_room', () => {
+            socket.on('join_site_room', () => {
                 dispatch(getSiteChatRooms(user.jobsite_id));
             });
 
-            socket.on('leave_room', (user) => {
+            socket.on('join_team_room', () => {
+                dispatch(getTeamChatRoom(user.teams[0].id));
+            });
+
+
+            socket.on('leave_site_room', (user) => {
                 dispatch(getSiteChatRooms(user.jobsite_id));
+            });
+
+            socket.on('leave_team_room', (user) => {
+                dispatch(getTeamChatRoom(user.teams[0].id));
             });
 
             socket.on('delete-room', async (data) => {
@@ -120,9 +131,10 @@ const Chat = ({ jobsite }) => {
         return (() => {
             if (chatRoom) {
 
-                dispatch(leaveChatRoom(roomId, 'site'));
+                jobsite && dispatch(leaveChatRoom(roomId, 'site'));
+                !jobsite && dispatch(leaveChatRoom(roomId, 'team'))
                 socket.emit('leave', { 'username': `${user.firstName} ${user.lastName}`, 'room': roomId });
-                socket.emit('leave_room', { 'username': `${user.firstName} ${user.lastName}`, 'room': roomId })
+                jobsite && socket.emit('leave_site_room', { 'username': `${user.firstName} ${user.lastName}`, 'room': roomId })
                 dispatch(clearMessages())
 
                 socket.disconnect();

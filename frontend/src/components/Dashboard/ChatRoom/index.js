@@ -10,9 +10,9 @@ import DeleteRoomPrompt from '../DeleteRoomPrompt';
 const ChatRoom = ({ room, jobsite, team }) => {
     const user = useSelector(state => state.session.user);
     const currentTeam = useSelector(state => state.currentTeam.team)
+    const currentSite = useSelector(state => state.currentSite.site)
     const [showModal, setShowModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false)
-
 
 
 
@@ -20,7 +20,7 @@ const ChatRoom = ({ room, jobsite, team }) => {
         <div className='chat-room'>
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>
-                    <ChatRoomForm edit={true} setShowModal={setShowModal} room={room} />
+                    <ChatRoomForm siteId={currentSite.id} teamId={currentTeam.id} edit={true} setShowModal={setShowModal} room={room} type={jobsite ? 'site' : 'team'} />
                 </Modal>
             )}
             {showDeleteModal && (
