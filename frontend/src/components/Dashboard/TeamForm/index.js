@@ -1,15 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { createNewTeam, editTeam } from "../../../store/allTeams";
+import { fetchTeams } from "../../../store/currentSite";
+import { setTeam } from "../../../store/currentTeam";
 import { getJobsites } from "../../../store/jobsites";
 import { loadLeads } from "../../../store/leads";
+import { setUserTeam } from "../../../store/session";
 
-const TeamForm = ({ setShowModal, edit, teamId }) => {
+const TeamForm = ({ setShowModal, edit, teamId, jobsite }) => {
+    let newTeam
     const dispatch = useDispatch();
+    const currentSite = useSelector(state => state.currentSite.site.id)
+    const currentUser = useSelector(state => state.session.user.id)
     const [errors, setErrors] = useState({});
     const [teamLead, setTeamLead] = useState('')
     const [jobType, setJobtype] = useState('')
-    const [jobsite, setJobsite] = useState('')
+    const [selectJobsite, setSelectJobsite] = useState('')
     const leads = useSelector(state => state.leads);
     const sites = useSelector(state => state.jobsites)
     const team = useSelector(state => state.allTeams[teamId])
@@ -24,18 +30,21 @@ const TeamForm = ({ setShowModal, edit, teamId }) => {
         e.preventDefault()
         let errors;
         const formData = new FormData();
-        formData.append('lead_id', teamLead)
-        formData.append('jobsite_id', jobsite)
+        formData.append('lead_id', jobsite ? currentUser : teamLead)
+        formData.append('jobsite_id', jobsite ? currentSite : selectJobsite)
         formData.append('job_type', jobType)
 
 
         if (edit) {
             errors = await dispatch(editTeam(formData, team.id))
         } else {
-            errors = await dispatch(createNewTeam(formData));
+            newTeam = await dispatch(createNewTeam(formData));
+            jobsite && await dispatch(setUserTeam(newTeam.id))
+            jobsite && await dispatch(setTeam(newTeam))
+            await dispatch(fetchTeams(currentSite))
         }
 
-        if (errors) {
+        if (newTeam.errors) {
             console.log(errors)
         }
 
@@ -61,7 +70,7 @@ const TeamForm = ({ setShowModal, edit, teamId }) => {
             <div className='team-form-input-container'>
 
                 <div className='form-element-container'>
-                    <select
+                    {!jobsite && <select
                         className="input-field"
                         value={teamLead}
                         onChange={({ target: { value } }) => setTeamLead(value)}
@@ -74,14 +83,14 @@ const TeamForm = ({ setShowModal, edit, teamId }) => {
                                 {lead.firstName + " " + lead.lastName}
                             </option>
                         ))}
-                    </select>
+                    </select>}
                 </div>
 
                 <div className='form-element-container'>
-                    <select
+                    {!jobsite && <select
                         className="input-field"
-                        value={jobsite}
-                        onChange={({ target: { value } }) => setJobsite(value)}
+                        value={selectJobsite}
+                        onChange={({ target: { value } }) => setSelectJobsite(value)}
                     >
                         {sites && Object.values(sites).map(site => (
                             <option
@@ -91,7 +100,7 @@ const TeamForm = ({ setShowModal, edit, teamId }) => {
                                 {site.name + " " + site.client}
                             </option>
                         ))}
-                    </select>
+                    </select>}
                 </div>
                 <div className='form-element-container'>
                     <input

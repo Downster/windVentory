@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { setUserTeam } from '../../../store/session';
 import { removeTeam } from '../../../store/allTeams';
-import { setTeam } from '../../../store/currentTeam';
+import { loadTeamInventory, setTeam } from '../../../store/currentTeam';
 import { Modal } from "../../../context/Modal";
 import TeamForm from '../TeamForm';
 
@@ -17,9 +17,11 @@ const TeamCard = ({ team, admin }) => {
         return () => setShowModal(false);
     }, []);
 
-    const joinTeam = () => {
-        dispatch(setUserTeam(team.id))
-        dispatch(setTeam(team))
+    const joinTeam = async () => {
+        await dispatch(setUserTeam(team.id))
+        await dispatch(setTeam(team))
+        await dispatch(loadTeamInventory(user.teams.location))
+
         history.push(`/team/${team.id}`)
     }
 

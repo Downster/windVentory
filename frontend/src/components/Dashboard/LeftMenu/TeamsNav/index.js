@@ -7,6 +7,7 @@ import CreateMaterialModal from "../../CreateMaterialModal"
 import { useDispatch } from "react-redux"
 import { leaveUserTeam } from "../../../../store/session"
 import { leaveCurrentTeam } from "../../../../store/currentTeam"
+import { clearTeamRooms } from "../../../../store/chatRoom"
 
 
 
@@ -18,6 +19,7 @@ const TeamsNav = ({ siteId }) => {
     const leaveTeam = async () => {
         await dispatch(leaveUserTeam(userTeam.id))
         await dispatch(leaveCurrentTeam())
+        await dispatch(clearTeamRooms())
         history.push('/')
 
     }

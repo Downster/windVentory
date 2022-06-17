@@ -6,6 +6,8 @@ const CREATE_TEAM_ROOM = 'chatRooms/CREATE_TEAM_ROOM';
 const CREATE_SITE_ROOM = 'chatRooms/CREATE_SITE_ROOM';
 const DELETE_SITE_ROOM = 'chatRooms/DELETE_ROOM';
 const DELETE_TEAM_ROOM = 'chatRooms/DELETE_TEAM_ROOM';
+const CLEAR_ROOMS = 'chatRooms/CLEAR_ROOMS'
+const CLEAR_TEAM_ROOMS = 'chatRooms/CLEAR_TEAM_ROOMS'
 const EDIT_SITE_ROOM = 'chatRooms/EDIT_ROOM';
 const EDIT_TEAM_ROOM = 'chatRooms/EDIT_TEAM_ROOM'
 const JOIN_SITE_ROOM = 'chatRooms/JOIN_ROOM';
@@ -71,6 +73,14 @@ const joinTeamRoom = (room) => ({
 const leaveTeamRoom = (room) => ({
     type: LEAVE_TEAM_ROOM,
     room
+})
+
+export const clearRooms = () => ({
+    type: CLEAR_ROOMS
+})
+
+export const clearTeamRooms = () => ({
+    type: CLEAR_TEAM_ROOMS
 })
 
 export const getSiteChatRooms = (siteId) => async (dispatch) => {
@@ -211,6 +221,12 @@ const chatRoomsReducer = (state = initialState, action) => {
             }
             return newState;
 
+        case CLEAR_ROOMS:
+            const clearedState = { teamRooms: {}, siteRooms: {} }
+            return clearedState
+        case CLEAR_TEAM_ROOMS:
+            newState.teamRooms = {}
+            return newState
         case DELETE_SITE_ROOM: {
             delete newState.siteRooms[action.roomId];
             return newState;

@@ -33,11 +33,13 @@ def create_team(current_user):
                 storagetype_id = 1,
                 jobsite_id = form['jobsite_id'].data
             )
+            db.session.add(location)
+            db.session.commit()
             team = Team (
                 lead_id=form['lead_id'].data,
                 jobsite_id = form['jobsite_id'].data,
                 job_type = form['job_type'].data,
-                storagelocation_id = location['id']
+                storagelocation_id = location.id
             )
             db.session.add(team)
             db.session.commit()

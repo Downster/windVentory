@@ -3,7 +3,7 @@ import { Modal } from "../../../context/Modal";
 import TeamForm from "../TeamForm";
 
 
-function CreateTeamModal() {
+function CreateTeamModal({ jobsite }) {
     const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
@@ -17,7 +17,7 @@ function CreateTeamModal() {
 
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>
-                    <TeamForm setShowModal={setShowModal} />
+                    <TeamForm jobsite={jobsite} setShowModal={setShowModal} />
                 </Modal>
             )}
         </>
