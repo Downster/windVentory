@@ -11,6 +11,7 @@ class StorageLocation(db.Model):
     #relationships
     storage_type = relationship('StorageType', backref='type_storage')
     jobsite = relationship('JobSite', back_populates='site_inventory')
+    team = relationship('Team', back_populates='storage_location')
 
     def to_dict(self):
         return {

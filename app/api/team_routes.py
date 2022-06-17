@@ -1,8 +1,10 @@
 import json
 from flask import Blueprint, jsonify, request
+
+from app.models import storageLocation
 from .auth_routes import token_required
 from ..extensions import db
-from ..models import Team, User, StorageLocation
+from ..models import Team, User, StorageLocation, Material
 from ..forms import CreateTeamForm
 from ..utils import form_validation_errors
 
@@ -27,10 +29,15 @@ def create_team(current_user):
     #add logic to determine role
     if current_user.to_role() == {'Admin'} or current_user.to_role() =={'Lead'} or current_user.to_role() == {'Supervisor'}:
         if form.validate_on_submit():
+            location = StorageLocation(
+                storagetype_id = 1,
+                jobsite_id = form['jobsite_id'].data
+            )
             team = Team (
                 lead_id=form['lead_id'].data,
                 jobsite_id = form['jobsite_id'].data,
                 job_type = form['job_type'].data,
+                storagelocation_id = location['id']
             )
             db.session.add(team)
             db.session.commit()
@@ -98,15 +105,10 @@ def join_team(current_user, teamId):
     return jsonify({'team': team.to_dict()})
 
 
-@team_routes.route('/<int:team_id>/inventory')
+@team_routes.route('/<int:storage_id>/inventory')
 @token_required
-def get_team_storage(current_user, site_id):
-    storageLocation = StorageLocation.query.filter(StorageLocation.jobsite_id==int(site_id), StorageLocation.storagetype_id==(2)).all()
-    locationIds = [location.id for location in storageLocation]
-    materials = []
-    for id in locationIds:
-        locationMats = Material.query.filter(Material.storage_id==id).all()
-        #setup for multiple connex's later
-        materials = locationMats
-    return {'materials' : [material.to_dict() for material in materials]}
+def get_team_storage(current_user, storage_id):
+    storage_location = StorageLocation.query.filter(StorageLocation.id==int(storage_id)).first()
+    location_mats = Material.query.filter(Material.storage_id==storage_location.id).all()
+    return {'materials' : [material.to_dict() for material in location_mats]}
 

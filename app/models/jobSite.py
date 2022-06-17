@@ -32,7 +32,7 @@ class JobSite(db.Model):
             'latitude': self.latitude,
             'longitude': self.longitude,
             'currentTeams': [team.to_dict() for team in self.teams_site],
-            'inventory' : [inventory.to_dict() for inventory in self.site_inventory]
+            'connex_location': [location.to_dict() for location in self.site_inventory if location.storagetype_id == 2]
         }
 
     def teams_to_dict(self):

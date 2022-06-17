@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 148bc70ebdfe
+Revision ID: a5d5c263ff6a
 Revises: 
-Create Date: 2022-06-08 15:38:16.725213
+Create Date: 2022-06-17 08:42:09.400275
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '148bc70ebdfe'
+revision = 'a5d5c263ff6a'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -80,8 +80,8 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('class_id', sa.Integer(), nullable=True),
     sa.Column('storage_id', sa.Integer(), nullable=True),
-    sa.Column('name', sa.String(), nullable=False),
-    sa.Column('quantity', sa.String(), nullable=False),
+    sa.Column('name', sa.String(length=40), nullable=False),
+    sa.Column('quantity', sa.Integer(), nullable=False),
     sa.Column('image', sa.String(length=255), nullable=False),
     sa.ForeignKeyConstraint(['class_id'], ['material_class.id'], ),
     sa.ForeignKeyConstraint(['storage_id'], ['storage_location.id'], ),
@@ -116,8 +116,10 @@ def upgrade():
     sa.Column('lead_id', sa.Integer(), nullable=False),
     sa.Column('jobsite_id', sa.Integer(), nullable=False),
     sa.Column('job_type', sa.String(), nullable=False),
+    sa.Column('storagelocation_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['jobsite_id'], ['job_site.id'], ),
     sa.ForeignKeyConstraint(['lead_id'], ['user.id'], ),
+    sa.ForeignKeyConstraint(['storagelocation_id'], ['storage_location.id'], ),
     sa.ForeignKeyConstraint(['tower_id'], ['tower.id'], ),
     sa.PrimaryKeyConstraint('id')
     )

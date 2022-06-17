@@ -14,20 +14,20 @@ import { loadAllTeams } from '../../store/allTeams'
 import { useEffect } from 'react'
 import { getJobsites } from '../../store/jobsites'
 import { fetchTeams, loadSiteInventory } from '../../store/currentSite'
-import { fetchUserTeam } from '../../store/currentTeam'
+import { fetchUserTeam, loadTeamInventory } from '../../store/currentTeam'
 import JobSiteCard from './JobSiteCard'
 import SiteWeather from './SiteWeather'
 import SiteTeams from './SiteTeams'
 import Chat from './Chat'
 import { getSiteChatRooms, getTeamChatRoom } from '../../store/chatRoom'
-import SiteInventory from './SiteInventory'
+import DisplayInventory from './DisplayInventory'
+import Inventory from './Inventory'
 
 
 
 const Dashboard = () => {
     const dispatch = useDispatch()
     const user = useSelector(state => state.session.user)
-    const siteInventory = useSelector(state => state.currentSite.inventory)
 
     const getAllUserInfo = async (user) => {
         await dispatch(loadUserJobsite(user.jobsite_id))
@@ -35,7 +35,10 @@ const Dashboard = () => {
         await dispatch(fetchTeams(user.jobsite_id))
         await dispatch(getSiteChatRooms(user.jobsite_id))
         await dispatch(loadSiteInventory(user.jobsite_id))
-        await dispatch(getTeamChatRoom(user.teams[0].id))
+        if (user.teams[0]) {
+            await dispatch(getTeamChatRoom(user.teams[0].id))
+            await dispatch(loadTeamInventory(user.teams[0].location))
+        }
     }
 
     useEffect(() => {
@@ -59,7 +62,7 @@ const Dashboard = () => {
                         <Jobsite />
                     </Route>
                     <Route exact path='/jobsite/:jobsiteId/inventory'>
-                        <SiteInventory siteInventory={siteInventory} />
+                        <Inventory site={true} />
                     </Route>
                     <Route exact path='/jobsite/:jobsiteId/'>
                         <JobSiteCard single={true} />
@@ -78,7 +81,7 @@ const Dashboard = () => {
                         <Team />
                     </Route>
                     <Route exact path='/team/:teamId/inventory'>
-                        <Team />
+                        <Inventory team={true} />
                     </Route>
                     <Route exact path='/team/:teamId/chat/:roomId'>
                         <Team />

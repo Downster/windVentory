@@ -9,8 +9,8 @@ from sqlalchemy import func
 def material_exists(form, field):
     # Checking if room name is already in use
     name = field.data
-    room = Material.query.filter(func.lower(Material.name) == func.lower(name)).first()
-    if room:
+    material = Material.query.filter(func.lower(Material.name) == func.lower(name), Material.storage_id == form.data['storage_id']).first()
+    if material:
         raise ValidationError('Material already exists, please locate it and update it accordingly')
 
 

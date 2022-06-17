@@ -1,4 +1,6 @@
 from email.policy import default
+
+from app.models import storageLocation
 from ..extensions import db
 from sqlalchemy.orm import relationship
 from sqlalchemy import ForeignKey
@@ -84,6 +86,7 @@ class Team(db.Model):
     lead_id = db.Column(db.Integer, ForeignKey('user.id'), nullable=False)
     jobsite_id = db.Column(db.Integer, ForeignKey('job_site.id'), nullable=False)
     job_type = db.Column(db.String, nullable=False)
+    storagelocation_id = db.Column(db.Integer, ForeignKey('storage_location.id'), nullable=False)
 
 
     #relationships
@@ -92,6 +95,7 @@ class Team(db.Model):
     team_members = relationship('User', back_populates='teams', secondary=user_Teams)
     team_jobsite = relationship('JobSite', back_populates='teams_site')
     rooms = relationship('ChatRoom', back_populates='team', cascade="all, delete")
+    storage_location = relationship('StorageLocation', back_populates='team')
 
     def to_dict(self):
         return {
@@ -100,6 +104,7 @@ class Team(db.Model):
             'lead_id': self.lead_id,
             'jobsite_id': self.jobsite_id,
             'job_type': self.job_type,
+            'location': self.storagelocation_id,
             'team_lead': self.team_lead.to_team_dict(),
             'team_members': [member.to_team_dict() for member in self.team_members]
         }

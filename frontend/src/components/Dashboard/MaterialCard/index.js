@@ -12,7 +12,7 @@ import DeleteMaterialPrompt from '../DeleteInventoryPrompt';
 import getImageBrightness from '../../../utils/imageBrightness';
 
 
-const MaterialCard = ({ material }) => {
+const MaterialCard = ({ material, team }) => {
     const history = useHistory()
     const dispatch = useDispatch()
     const [showModal, setShowModal] = useState(false);
@@ -60,12 +60,12 @@ const MaterialCard = ({ material }) => {
                 {low && <h1 className='low-indicator'>Restock</h1>}
                 {showModal && (
                     <Modal onClose={() => setShowModal(false)}>
-                        <MaterialForm material={material} edit={true} setShowModal={setShowModal} />
+                        <MaterialForm team={team} material={material} edit={true} setShowModal={setShowModal} />
                     </Modal>
                 )}
                 {showDeleteModal && (
                     <Modal onClose={() => setShowModal(false)}>
-                        <DeleteMaterialPrompt material={material} setShowModal={setShowDeleteModal} />
+                        <DeleteMaterialPrompt team={team} material={material} setShowModal={setShowDeleteModal} />
                     </Modal>
                 )}
             </div>

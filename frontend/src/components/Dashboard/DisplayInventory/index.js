@@ -3,10 +3,10 @@ import filterMaterials from "../../../utils/filterMaterials"
 import './SiteInventory.css'
 
 
-const SiteInventory = ({ siteInventory }) => {
-    const materials = filterMaterials('material', Object.values(siteInventory))
-    const chemicals = filterMaterials('chemical', Object.values(siteInventory))
-    const misc = filterMaterials('misc', Object.values(siteInventory))
+const DisplayInventory = ({ inventory, team }) => {
+    const materials = filterMaterials('material', Object.values(inventory))
+    const chemicals = filterMaterials('chemical', Object.values(inventory))
+    const misc = filterMaterials('misc', Object.values(inventory))
 
 
 
@@ -23,7 +23,7 @@ const SiteInventory = ({ siteInventory }) => {
                     </div>
                     <div className="inventory-display">
                         {materials && materials.map((mat) => {
-                            return <MaterialCard key={mat.id} material={mat} />
+                            return <MaterialCard team={team} key={mat.id} material={mat} />
                         })}
                     </div>
                 </div>
@@ -33,7 +33,7 @@ const SiteInventory = ({ siteInventory }) => {
                     </div>
                     <div className="inventory-display">
                         {chemicals && chemicals.map((mat) => {
-                            return <MaterialCard key={mat.id} material={mat} />
+                            return <MaterialCard team={team} key={mat.id} material={mat} />
                         })}
                     </div>
                 </div>
@@ -43,7 +43,7 @@ const SiteInventory = ({ siteInventory }) => {
                     </div>
                     <div className="inventory-display">
                         {misc && misc.map((mat) => {
-                            return <MaterialCard key={mat.id} material={mat} />
+                            return <MaterialCard team={team} key={mat.id} material={mat} />
                         })}
                     </div>
                 </div>
@@ -52,4 +52,4 @@ const SiteInventory = ({ siteInventory }) => {
     )
 }
 
-export default SiteInventory
+export default DisplayInventory

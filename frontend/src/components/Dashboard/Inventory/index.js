@@ -1,20 +1,19 @@
 import { useSelector, useDispatch } from "react-redux"
-import { useEffect, useState } from "react";
-import { useHistory } from 'react-router-dom'
-import SiteInventory from "../SiteInventory";
-import { loadSiteInventory } from "../../../store/currentSite";
-const Inventory = ({ site }) => {
-    const history = useHistory();
-    const dispatch = useDispatch();
-    const jobsite = useSelector(state => state.currentSite)
+import DisplayInventory from "../DisplayInventory";
+
+const Inventory = ({ site, team }) => {
     const siteInventory = useSelector(state => state.currentSite.inventory)
+    const teamInventory = useSelector(state => state.currentTeam.inventory)
 
 
 
     return (
         <>{
-            site && <div className="app-body"><SiteInventory siteInventory={siteInventory} /></div>
+            site && <div className="app-body"><DisplayInventory inventory={siteInventory} /></div>
         }
+            {
+                team && <div className="app-body"><DisplayInventory team={team} inventory={teamInventory} /></div>
+            }
         </>
     )
 }

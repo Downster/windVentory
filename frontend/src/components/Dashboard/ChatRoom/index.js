@@ -25,7 +25,7 @@ const ChatRoom = ({ room, jobsite, team }) => {
             )}
             {showDeleteModal && (
                 <Modal onClose={() => setShowModal(false)}>
-                    <DeleteRoomPrompt room={room} setShowModal={setShowDeleteModal} type={jobsite ? 'site' : 'team'} />}
+                    <DeleteRoomPrompt room={room} setShowModal={setShowDeleteModal} type={jobsite ? 'site' : 'team'} />
                 </Modal>
             )}
             {jobsite && <NavLink activeClassName='active'
