@@ -1,6 +1,7 @@
 import { tokenFetch } from "./csrf";
 
 const LOAD_JOBSITE = 'currentSite/LOAD_JOBSITE';
+const LEAVE_JOBSITE = 'currentSite/LEAVE_JOBSITE'
 const LOAD_INVENTORY = 'currentSite/LOAD_INVENTORY'
 const ADD_MATERIAL = 'currentSite/ADD_MATERIAL'
 const EDIT_MATERIAL = 'currentSite/EDIT_MATERIAL'
@@ -13,6 +14,10 @@ const loadJobsite = (jobsite) => ({
     type: LOAD_JOBSITE,
     jobsite
 });
+
+export const leaveSite = () => ({
+    type: LEAVE_JOBSITE
+})
 
 const getTeams = (teams) => ({
     type: GET_TEAMS,
@@ -139,6 +144,9 @@ const currentSiteReducer = (state = initialState, action) => {
         case LOAD_JOBSITE:
             newState.site = action.jobsite
             return newState
+        case LEAVE_JOBSITE:
+            const cleanState = { site: null, currentWeather: null, forecast: null, teams: {}, inventory: {} }
+            return cleanState
         case GET_TEAMS:
             if (action.teams) {
                 action.teams.forEach(team => {

@@ -11,11 +11,9 @@ function CreateJobSiteModal() {
 
     return (
         <>
-            <li className='create-job-site'
-                onClick={() => setShowModal(true)}
-            >
-                Add a jobsite <i className="fas fa-plus"></i>
-            </li>
+
+            <i className="fas fa-plus" onClick={() => setShowModal(true)}></i>
+
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>
                     <CreateJobsiteForm setShowModal={setShowModal} />

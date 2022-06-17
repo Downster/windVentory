@@ -20,6 +20,7 @@ class JobSite(db.Model):
     users_site = relationship('User', back_populates='user_jobsite')
     site_connex = relationship('Connex', back_populates='jobsite')
     site_notes = relationship('Note', back_populates='jobsite')
+    site_inventory = relationship('StorageLocation', back_populates='jobsite')
 
     def to_dict(self):
         return {
@@ -31,6 +32,7 @@ class JobSite(db.Model):
             'latitude': self.latitude,
             'longitude': self.longitude,
             'currentTeams': [team.to_dict() for team in self.teams_site],
+            'connex_location': [location.to_dict() for location in self.site_inventory if location.storagetype_id == 2]
         }
 
     def teams_to_dict(self):

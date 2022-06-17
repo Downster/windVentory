@@ -3,7 +3,7 @@ import { Modal } from "../../../context/Modal";
 import ChatRoomForm from "../ChatRoomForm";
 
 
-function CreateChatRoomModal({ siteId }) {
+function CreateChatRoomModal({ siteId, teamId, type }) {
     const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
@@ -16,7 +16,7 @@ function CreateChatRoomModal({ siteId }) {
 
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>
-                    <ChatRoomForm setShowModal={setShowModal} siteId={siteId} />
+                    <ChatRoomForm setShowModal={setShowModal} siteId={siteId} teamId={teamId} type={type} />
                 </Modal>
             )}
         </>

@@ -2,11 +2,14 @@ import React, { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createNewUser, modifyUser } from "../../../store/allUsers";
 import { addMaterialToSite, editSiteMaterial } from "../../../store/currentSite";
+import { addMaterialToTeam, editTeamMaterial } from "../../../store/currentTeam";
 import ImageUpload from "../ImageUpload";
 import './MaterialForm.css'
 
 
-function MaterialForm({ setShowModal, material, edit }) {
+function MaterialForm({ team, setShowModal, material, edit }) {
+    const siteStorageId = useSelector(state => state.currentSite.site.connex_location[0].id)
+    const teamStorageId = useSelector(state => state.currentTeam.team.location)
     const dispatch = useDispatch();
     const hiddenImageInput = useRef(null);
     const [materialClass, setMaterialClass] = useState((edit) ? material.class_id : 1)
@@ -25,7 +28,7 @@ function MaterialForm({ setShowModal, material, edit }) {
             formData.append('material_id', material.id)
         }
         formData.append('class_id', materialClass)
-        formData.append('storage_id', 4)
+        formData.append('storage_id', (team) ? teamStorageId : siteStorageId)
         formData.append('name', name)
         formData.append('quantity', quantity)
         if (image) {
@@ -34,9 +37,17 @@ function MaterialForm({ setShowModal, material, edit }) {
         }
 
         if (edit) {
-            errors = await dispatch(editSiteMaterial(material.id, formData))
+            if (team) {
+                errors = await dispatch(editTeamMaterial(material.id, formData))
+            } else {
+                errors = await dispatch(editSiteMaterial(material.id, formData))
+            }
         } else {
-            errors = await dispatch(addMaterialToSite(formData))
+            if (team) {
+                errors = await dispatch(addMaterialToTeam(formData))
+            } else {
+                errors = await dispatch(addMaterialToSite(formData))
+            }
         }
         if (errors) {
             setImageLoading(false)

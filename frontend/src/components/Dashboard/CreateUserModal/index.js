@@ -12,11 +12,9 @@ function CreateUserModal() {
 
     return (
         <>
-            <li className='create-user'
-                onClick={() => setShowModal(true)}
-            >
-                Add a User <i className="fas fa-plus"></i>
-            </li>
+
+            <i className="fas fa-plus" onClick={() => setShowModal(true)}></i>
+
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>
                     <UserForm setShowModal={setShowModal} />

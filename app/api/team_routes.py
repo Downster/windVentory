@@ -1,8 +1,10 @@
 import json
 from flask import Blueprint, jsonify, request
+
+from app.models import storageLocation
 from .auth_routes import token_required
 from ..extensions import db
-from ..models.user import Team, User
+from ..models import Team, User, StorageLocation, Material
 from ..forms import CreateTeamForm
 from ..utils import form_validation_errors
 
@@ -27,10 +29,17 @@ def create_team(current_user):
     #add logic to determine role
     if current_user.to_role() == {'Admin'} or current_user.to_role() =={'Lead'} or current_user.to_role() == {'Supervisor'}:
         if form.validate_on_submit():
+            location = StorageLocation(
+                storagetype_id = 1,
+                jobsite_id = form['jobsite_id'].data
+            )
+            db.session.add(location)
+            db.session.commit()
             team = Team (
                 lead_id=form['lead_id'].data,
                 jobsite_id = form['jobsite_id'].data,
                 job_type = form['job_type'].data,
+                storagelocation_id = location.id
             )
             db.session.add(team)
             db.session.commit()
@@ -96,4 +105,25 @@ def join_team(current_user, teamId):
     db.session.commit()    
 
     return jsonify({'team': team.to_dict()})
+
+#Join team route
+@team_routes.route('/<int:teamId>/leave', methods=['PATCH'])
+@token_required
+def leave_team(current_user, teamId):
+    
+    user = User.query.get(current_user.id)
+    team = Team.query.get(int(teamId))
+    team.team_members.pop(team.team_members.index(user))
+    db.session.commit()    
+
+    return jsonify({'team': team.to_dict()})
+
+
+
+@team_routes.route('/<int:storage_id>/inventory')
+@token_required
+def get_team_storage(current_user, storage_id):
+    storage_location = StorageLocation.query.filter(StorageLocation.id==int(storage_id)).first()
+    location_mats = Material.query.filter(Material.storage_id==storage_location.id).all()
+    return {'materials' : [material.to_dict() for material in location_mats]}
 

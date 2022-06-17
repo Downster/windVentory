@@ -13,13 +13,15 @@ import { useParams } from 'react-router'
 import { loadAllTeams } from '../../store/allTeams'
 import { useEffect } from 'react'
 import { getJobsites } from '../../store/jobsites'
-import { fetchTeams } from '../../store/currentSite'
-import { fetchUserTeam } from '../../store/currentTeam'
+import { fetchTeams, loadSiteInventory } from '../../store/currentSite'
+import { fetchUserTeam, loadTeamInventory } from '../../store/currentTeam'
 import JobSiteCard from './JobSiteCard'
 import SiteWeather from './SiteWeather'
 import SiteTeams from './SiteTeams'
 import Chat from './Chat'
-import { getSiteChatRooms } from '../../store/chatRoom'
+import { getSiteChatRooms, getTeamChatRoom } from '../../store/chatRoom'
+import DisplayInventory from './DisplayInventory'
+import Inventory from './Inventory'
 
 
 
@@ -32,6 +34,11 @@ const Dashboard = () => {
         await dispatch(fetchWeather(user.jobsite_id))
         await dispatch(fetchTeams(user.jobsite_id))
         await dispatch(getSiteChatRooms(user.jobsite_id))
+        await dispatch(loadSiteInventory(user.jobsite_id))
+        if (user.teams[0]) {
+            await dispatch(getTeamChatRoom(user.teams[0].id))
+            await dispatch(loadTeamInventory(user.teams[0].location))
+        }
     }
 
     useEffect(() => {
@@ -55,7 +62,7 @@ const Dashboard = () => {
                         <Jobsite />
                     </Route>
                     <Route exact path='/jobsite/:jobsiteId/inventory'>
-                        <h1>User-site-inventory</h1>
+                        <Inventory site={true} />
                     </Route>
                     <Route exact path='/jobsite/:jobsiteId/'>
                         <JobSiteCard single={true} />
@@ -66,16 +73,23 @@ const Dashboard = () => {
                     <Route exact path='/jobsite/:jobsiteId/weather'>
                         <SiteWeather />
                     </Route>
+                    <Route exact path='/jobsite/:jobsiteId/towers'>
+                        <h1> Site tower</h1>
+                    </Route>
+
                     <Route exact path='/team/:teamId'>
                         <Team />
                     </Route>
                     <Route exact path='/team/:teamId/inventory'>
-                        <Team />
+                        <Inventory team={true} />
+                    </Route>
+                    <Route exact path='/team/:teamId/chat/:roomId'>
+                        <Chat />
                     </Route>
                     <Route exact path='/jobsite/:siteId/chats'>
                         <h1>Jobsite Chats</h1>
                     </Route>
-                    <Route exact path='/jobsite/:siteId/rooms/:roomId/chat'>
+                    <Route exact path='/jobsite/:siteId/chat/:roomId'>
                         <Chat jobsite={true} />
                     </Route>
                     <Route path='/admin/jobsites'>

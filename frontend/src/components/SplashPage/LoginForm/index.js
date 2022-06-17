@@ -14,7 +14,7 @@ function LoginForm({ setSignup }) {
     const [errors, setErrors] = useState([]);
 
     if (sessionUser) return (
-        <Redirect to="/inventory" />
+        <Redirect to="/" />
     );
 
     const handleSubmit = async (e) => {
@@ -37,7 +37,7 @@ function LoginForm({ setSignup }) {
             password: 'password'
         }
         await dispatch(sessionActions.login(credentials))
-        history.push('/inventory')
+        history.push('/')
     }
 
     const changeSignup = (e) => {

@@ -3,7 +3,7 @@ import { Modal } from "../../../context/Modal";
 import TeamForm from "../TeamForm";
 
 
-function CreateTeamModal() {
+function CreateTeamModal({ jobsite }) {
     const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
@@ -12,14 +12,12 @@ function CreateTeamModal() {
 
     return (
         <>
-            <li className='create-team'
-                onClick={() => setShowModal(true)}
-            >
-                Add a Team <i className="fas fa-plus"></i>
-            </li>
+
+            <i className="fas fa-plus" onClick={() => setShowModal(true)}></i>
+
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>
-                    <TeamForm setShowModal={setShowModal} />
+                    <TeamForm jobsite={jobsite} setShowModal={setShowModal} />
                 </Modal>
             )}
         </>

@@ -1,4 +1,4 @@
-from app.models import Team
+from app.models import Team, storageLocation
 from ..extensions import db
 
 
@@ -6,15 +6,15 @@ from ..extensions import db
 def seed_teams():
     # image='https://fionacapstonebucket.s3.us-west-1.amazonaws.com/defaults/c203d7ca558d417b9aea8cd102ae32cf.jpg'
     Team1 = Team(
-           jobsite_id= 1, lead_id=1, tower_id=1, job_type='Fiberglass')
+           jobsite_id= 1, lead_id=1, job_type='Fiberglass', storagelocation_id = 1)
     Team2 = Team(
-           jobsite_id= 2, lead_id= 2, tower_id=2, job_type='Fiberglass')
+           jobsite_id= 2, lead_id= 2, job_type='Fiberglass', storagelocation_id = 6)
     Team3 = Team(
-           jobsite_id=1, lead_id= 4, tower_id=2, job_type='Fiberglass')
+           jobsite_id=1, lead_id= 4, job_type='Fiberglass', storagelocation_id = 3)
     Team4 = Team(
-           jobsite_id=1, lead_id= 5, tower_id=3, job_type='Fiberglass')
+           jobsite_id=1, lead_id= 5, job_type='Fiberglass', storagelocation_id = 4)
     Team5 = Team(
-           jobsite_id=2, lead_id= 6, tower_id=1, job_type='Fiberglass')
+           jobsite_id=2, lead_id= 6, job_type='Fiberglass', storagelocation_id = 7)
 
 
 

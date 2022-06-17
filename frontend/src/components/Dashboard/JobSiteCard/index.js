@@ -5,8 +5,9 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { setUserJobsite } from '../../../store/session'
 import { deleteJobsite, editJobsite } from '../../../store/jobsites'
-import { fetchTeams } from '../../../store/currentSite';
+import { fetchTeams, fetchWeather, loadSiteInventory } from '../../../store/currentSite';
 import CreateJobsiteForm from '../JobSiteForm';
+import { getSiteChatRooms } from '../../../store/chatRoom';
 
 
 const JobSiteCard = ({ jobsite, adminPanel, single }) => {
@@ -24,6 +25,9 @@ const JobSiteCard = ({ jobsite, adminPanel, single }) => {
     const setJobsite = async () => {
         await dispatch(setUserJobsite(jobsite.id))
         await dispatch(fetchTeams(jobsite.id))
+        await dispatch(loadSiteInventory(jobsite.id))
+        await dispatch(getSiteChatRooms(jobsite.id))
+        await dispatch(fetchWeather(jobsite.id))
         history.push(`/jobsite/${jobsite.id}/inventory`)
     }
 

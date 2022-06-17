@@ -1,20 +1,18 @@
 import React, { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createSiteChatRoom, createTeamChatRoom, editJobsiteRoom } from "../../../store/chatRoom";
+import { createSiteChatRoom, createTeamChatRoom, editRoom } from "../../../store/chatRoom";
 import ImageUpload from "../ImageUpload";
 
-function ChatRoomForm({ setShowModal, siteId, room, team, edit }) {
+function ChatRoomForm({ setShowModal, siteId, room, teamId, edit, type }) {
     const dispatch = useDispatch();
     const hiddenImageInput = useRef(null);
     const sessionUser = useSelector((state) => state.session.user);
     const [name, setName] = useState((edit) ? (room.room_name) : "");
     const [updateCurrentImage, setUpdateImage] = useState(false)
     const [image, setImage] = useState(null);
-    const [teamId, setTeamId] = useState((team) ? team : null)
     const [imageLoading, setImageLoading] = useState(false);
     // const [siteId, setSiteId] = useState(sessionUser.jobsite_id)
     const [errors, setErrors] = useState([]);
-
 
 
     const handleSubmit = async (e) => {
@@ -22,16 +20,21 @@ function ChatRoomForm({ setShowModal, siteId, room, team, edit }) {
         const formData = new FormData()
         let errors;
         formData.append('room_name', name)
-        formData.append('jobsite_id', 1)
+        if (type === 'team') {
+            formData.append('team_id', teamId)
+        } else {
+            formData.append('jobsite_id', siteId)
+        }
         if (image) {
             formData.append('image', image)
             setImageLoading(true)
         }
         if (edit) {
-            if (teamId) {
-
+            if (type === 'team') {
+                console.log(teamId)
+                errors = await dispatch(editRoom(room.id, formData, 'team'))
             } else {
-                errors = await dispatch(editJobsiteRoom(room.id, formData, 'site'))
+                errors = await dispatch(editRoom(room.id, formData, 'site'))
             }
 
 

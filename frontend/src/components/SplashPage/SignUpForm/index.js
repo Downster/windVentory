@@ -18,7 +18,6 @@ function SignupForm({ setSignup }) {
     const [errors, setErrors] = useState([]);
 
     if (sessionUser) {
-        console.log('yes')
     }
 
     const handleSubmit = async (e) => {
@@ -54,7 +53,7 @@ function SignupForm({ setSignup }) {
             password: 'password'
         }
         await dispatch(sessionActions.login(credentials))
-        history.push('/inventory')
+        history.push('/')
     }
 
     const updateImage = (e) => {

@@ -1,6 +1,8 @@
 import requests
 import os
 from flask import Blueprint, jsonify, request
+
+from app.models import jobSite
 from ..models import Tower
 from ..models import Note
 from ..awsS3 import (
@@ -129,9 +131,19 @@ def get_site_weather(current_user, jobsite_id):
 @jobsite_routes.route('/<int:jobsite_id>/join', methods=["PATCH"])
 @token_required
 def join_site(current_user, jobsite_id):
-    print('inside')
     user = User.query.get(current_user.id)
     user.jobsite_id = int(jobsite_id)
+
+    db.session.commit()
+    
+    return jsonify({'id' : jobsite_id})
+
+#leave a jobsite
+@jobsite_routes.route('/<int:jobsite_id>/leave', methods=["PATCH"])
+@token_required
+def leave_site(current_user, jobsite_id):
+    user = User.query.get(current_user.id)
+    user.jobsite_id = None
 
     db.session.commit()
     

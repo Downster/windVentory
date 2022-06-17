@@ -3,7 +3,7 @@ import { Modal } from "../../../context/Modal";
 import MaterialForm from "../MaterialForm";
 
 
-function CreateMaterialModal() {
+function CreateMaterialModal({ team }) {
     const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
@@ -15,7 +15,7 @@ function CreateMaterialModal() {
             <i className="fas fa-plus" onClick={() => setShowModal(true)}></i>
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>
-                    <MaterialForm setShowModal={setShowModal} />
+                    <MaterialForm team={team} setShowModal={setShowModal} />
                 </Modal>
             )}
         </>

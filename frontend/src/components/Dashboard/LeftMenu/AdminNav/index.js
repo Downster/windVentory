@@ -20,12 +20,9 @@ const AdminNav = () => {
 
     return (
         <ul className="left-menu-list">
-            <NavLink to='/admin/jobsites'><li className="admin-nav-title">Manage Jobsites</li></NavLink>
-            <CreateJobSiteModal />
-            <NavLink to='/admin/teams'><li className="admin-nav-title">Manage Teams</li></NavLink>
-            <CreateTeamModal />
-            <NavLink to='/admin/users'><li className="admin-nav-title">Manage Users</li></NavLink>
-            <CreateUserModal />
+            <ul className="admin-nav-title"><NavLink to='/admin/jobsites'>Manage Jobsites</NavLink><CreateJobSiteModal /></ul>
+            <ul className="admin-nav-title"><NavLink to='/admin/teams'>Manage Teams</NavLink><CreateTeamModal /></ul>
+            <ul className="admin-nav-title"><NavLink to='/admin/users'>Manage Users</NavLink><CreateUserModal /></ul>
         </ul>
     )
 }

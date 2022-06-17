@@ -49,6 +49,7 @@ export const createNewTeam = (formData) => async (dispatch) => {
     const team = await res.json();
     if (res.ok) {
         dispatch(createTeam(team.team));
+        return team.team
     } else {
         return team;
     }

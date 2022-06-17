@@ -28,11 +28,12 @@
     cursor: pointer;
 }
 
-.fa-wind-turbine{
-    padding-top: 10px;
-    cursor: pointer;
-    padding-left: 10px;
-    font-size: 25px;
+
+.navbine{
+        padding-top: 10px;
+        cursor: pointer;
+        padding-left: 10px;
+        font-size: 25px;
 }
 
 .title-text{
