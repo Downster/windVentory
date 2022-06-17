@@ -12,11 +12,9 @@ function CreateTeamModal() {
 
     return (
         <>
-            <li className='create-team'
-                onClick={() => setShowModal(true)}
-            >
-                Add a Team <i className="fas fa-plus"></i>
-            </li>
+
+            <i className="fas fa-plus" onClick={() => setShowModal(true)}></i>
+
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>
                     <TeamForm setShowModal={setShowModal} />

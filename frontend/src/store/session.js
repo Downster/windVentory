@@ -4,7 +4,9 @@ const SET_USER = 'session/SET_USER';
 const REMOVE_USER = 'session/REMOVE_USER';
 const UPDATE_USER = 'session/UPDATE_USER';
 const SET_JOBSITE = 'session/SET_JOBSITE'
+const LEAVE_JOBSITE = 'session/LEAVE_JOBSITE'
 const SET_TEAM = 'session/SET_TEAM'
+const LEAVE_TEAM = 'session/LEAVE_TEAM'
 
 const setUser = (user) => ({
     type: SET_USER,
@@ -25,8 +27,18 @@ const setJobsite = (jobsiteId) => ({
     jobsiteId
 })
 
+const leaveJobsite = (siteId) => ({
+    type: LEAVE_JOBSITE,
+    siteId
+})
+
 const setTeam = (team) => ({
     type: SET_TEAM,
+    team
+})
+
+const leaveTeam = (team) => ({
+    type: LEAVE_TEAM,
     team
 })
 
@@ -83,6 +95,25 @@ export const setUserJobsite = (jobsiteId) => async (dispatch) => {
 
 }
 
+export const leaveUserJobsite = (jobsiteId) => async (dispatch) => {
+    const res = await tokenFetch(`/jobsites/${jobsiteId}/leave`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ jobsite_id: jobsiteId })
+    });
+
+    if (res.ok) {
+        const siteId = await res.json()
+        dispatch(leaveJobsite(siteId))
+    } else {
+        const errors = res.json()
+        return errors
+    }
+
+}
+
 export const setUserTeam = (teamId) => async (dispatch) => {
     const res = await tokenFetch(`/teams/${teamId}`, {
         method: 'PATCH',
@@ -95,6 +126,24 @@ export const setUserTeam = (teamId) => async (dispatch) => {
     if (res.ok) {
         const team = await res.json()
         dispatch(setTeam(team))
+    } else {
+        const errors = res.json()
+        return errors
+    }
+}
+
+export const leaveUserTeam = (teamId) => async (dispatch) => {
+    const res = await tokenFetch(`/teams/${teamId}/leave`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ team_id: teamId })
+    });
+
+    if (res.ok) {
+        const team = await res.json()
+        dispatch(leaveTeam(team))
     } else {
         const errors = res.json()
         return errors
@@ -157,9 +206,14 @@ const sessionReducer = (state = initialState, action) => {
         case SET_JOBSITE:
             newState.user.jobsite_id = action.jobsiteId.id
             return newState
-        case SET_TEAM:
-            newState.user.teams = action.team
+        case LEAVE_JOBSITE:
+            newState.user.jobsite_id = null
             return newState
+        case SET_TEAM:
+            newState.user.teams = action.team.team
+            return newState
+        case LEAVE_TEAM:
+            newState.user.teams = []
         default:
             return state;
     }

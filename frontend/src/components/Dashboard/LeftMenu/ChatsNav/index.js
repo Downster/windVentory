@@ -3,13 +3,15 @@ import { useSelector } from "react-redux"
 import CreateChatRoomModal from "../../CreateChatRoomModal"
 import ChatRoom from "../../ChatRoom"
 import { useState } from "react"
+import checkPermissions from "../../../../utils/checkPermissions"
 
 
 
 const ChatsNav = ({ siteId, teamId, siteChats, team }) => {
     const [showChats, setShowChats] = useState(true)
     const teamChats = useSelector(state => state.chatRooms.teamRooms)
-
+    const userRole = useSelector(state => state.session.user.role[0])
+    const canCreate = checkPermissions(userRole, team ? 'team' : 'site')
 
     return (
         <>
@@ -18,7 +20,7 @@ const ChatsNav = ({ siteId, teamId, siteChats, team }) => {
                     <i className="fa-solid fa-caret-down" onClick={e => showChats ? setShowChats(false) : setShowChats(true)} style={showChats ? null : { transform: "rotate(270deg)" }}></i>
                     <i className="fa-solid fa-comment"></i>
                     <p className="room-text">Chat Rooms</p>
-                    <CreateChatRoomModal siteId={siteId} teamId={teamId} type={team ? 'team' : 'site'} />
+                    {canCreate && <CreateChatRoomModal siteId={siteId} teamId={teamId} type={team ? 'team' : 'site'} />}
                 </div>
             </ul>
             {

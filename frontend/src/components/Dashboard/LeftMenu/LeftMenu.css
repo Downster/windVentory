@@ -24,12 +24,27 @@
     font-size: 10px;
 }
 
-.chat-nav-title{
-    margin-bottom: 15px;
+.nav-item{
+    padding-top: 7px;
+    padding-left: 15px;
 }
+
+.nav-item-person{
+    padding-top: 7px;
+    padding-left: 10px;
+}
+
 
 .fa-plus{
     cursor: pointer;
+}
+
+.fa-people-group{
+    padding-right: 7px;
+}
+
+.fa-person-to-door{
+    padding-right: 5px;
 }
 
 
@@ -45,13 +60,26 @@
     padding-right: 5px;
 }
 
+.fa-user-cowboy{
+    padding-right: 7px;
+}
+
+.jobsite-chat-nav{
+    padding-top: 6px;
+}
+
 .active{
     color: #4F5B73;
 }
 
 .fa-boxes-stacked{
-    padding-right: 10px;
-    padding-left: 10px;
+    padding-top: 7px;
+    padding-right: 8px;
+    padding-left: 17px;
+}
+
+.fa-cloud-bolt-sun{
+    padding-right: 7px;
 }
 
 .left-menu{

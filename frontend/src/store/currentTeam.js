@@ -1,6 +1,7 @@
 import { tokenFetch } from "./csrf"
 
 const SET_TEAM = 'currentTeam/SET_TEAM'
+const LEAVE_TEAM = 'currentTeam/LEAVE_TEAM'
 const GET_TEAM = 'currentTeam/GET_TEAM'
 const LOAD_INVENTORY = 'currentTeam/LOAD_INVENTORY'
 const ADD_MATERIAL = 'currentTeam/ADD_MATERIAL'
@@ -10,6 +11,11 @@ const DELETE_MATERIAL = 'currentTeam/DELETE_MATERIAL'
 export const setTeam = (team) => ({
     type: SET_TEAM,
     team
+})
+
+
+export const leaveCurrentTeam = () => ({
+    type: LEAVE_TEAM,
 })
 
 const getTeam = (team) => ({
@@ -112,6 +118,9 @@ const currentTeamReducer = (state = initialState, action) => {
         case GET_TEAM:
             newState.team = action.team
             return newState
+        case LEAVE_TEAM:
+            const clearState = { team: null, inventory: null }
+            return clearState
         case LOAD_INVENTORY:
             if (action.materials) {
                 action.materials.forEach(item => {

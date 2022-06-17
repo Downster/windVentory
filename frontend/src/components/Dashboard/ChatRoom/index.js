@@ -28,11 +28,11 @@ const ChatRoom = ({ room, jobsite, team }) => {
                     <DeleteRoomPrompt room={room} setShowModal={setShowDeleteModal} type={jobsite ? 'site' : 'team'} />
                 </Modal>
             )}
-            {jobsite && <NavLink activeClassName='active'
+            {jobsite && <NavLink className='jobsite-chat-nav' activeClassName='active'
                 to={`/jobsite/${user.jobsite_id}/chat/${room.id}`}>
                 {room.room_name}
             </NavLink>}
-            {team && <NavLink activeClassName='active'
+            {team && <NavLink className='team-chat-nav' activeClassName='active'
                 to={`/team/${currentTeam.id}/chat/${room.id}`}>
                 {room.room_name}
             </NavLink>}

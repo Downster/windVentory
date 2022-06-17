@@ -104,6 +104,19 @@ def join_team(current_user, teamId):
 
     return jsonify({'team': team.to_dict()})
 
+#Join team route
+@team_routes.route('/<int:teamId>/leave', methods=['PATCH'])
+@token_required
+def leave_team(current_user, teamId):
+    
+    user = User.query.get(current_user.id)
+    team = Team.query.get(int(teamId))
+    team.team_members.pop(team.team_members.index(user))
+    db.session.commit()    
+
+    return jsonify({'team': team.to_dict()})
+
+
 
 @team_routes.route('/<int:storage_id>/inventory')
 @token_required

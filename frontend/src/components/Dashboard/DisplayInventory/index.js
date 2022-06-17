@@ -4,9 +4,12 @@ import './SiteInventory.css'
 
 
 const DisplayInventory = ({ inventory, team }) => {
-    const materials = filterMaterials('material', Object.values(inventory))
-    const chemicals = filterMaterials('chemical', Object.values(inventory))
-    const misc = filterMaterials('misc', Object.values(inventory))
+    let materials, chemicals, misc;
+    if (inventory) {
+        materials = filterMaterials('material', Object.values(inventory))
+        chemicals = filterMaterials('chemical', Object.values(inventory))
+        misc = filterMaterials('misc', Object.values(inventory))
+    }
 
 
 
