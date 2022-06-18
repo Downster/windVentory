@@ -8,6 +8,7 @@ socketio = SocketIO(cors_allowed_origins="*")
 @socketio.on("chat")
 def handle_chat(data):
     room = data['room']
+    #see what data is being sent to the backend
     emit("chat", data, broadcast=True, to=room)
 
 
