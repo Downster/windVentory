@@ -121,6 +121,10 @@
     cursor: pointer;
 }
 
+.new-messages{
+    color: yellow;
+}
+
 .fa-comment{
     padding-left: 10px;
 }

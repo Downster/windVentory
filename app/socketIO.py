@@ -9,6 +9,7 @@ socketio = SocketIO(cors_allowed_origins="*")
 def handle_chat(data):
     room = data['room']
     #see what data is being sent to the backend
+    emit('chat-global', data, broadcast=True)
     emit("chat", data, broadcast=True, to=room)
 
 
@@ -74,3 +75,16 @@ def on_join_site_room(data):
 @socketio.on('leave_site_room')
 def on_leave_site_room(data):
     emit('leave_site_room', data, broadcast=True)
+
+@socketio.on('delete-room')
+def delete_channel(data):
+    emit('delete-channel', data, broadcast=True)
+
+@socketio.on('create-site-room')
+def create_channel(data):
+    emit('create-site-room', data, broadcast=True)
+
+
+@socketio.on('create-team-room')
+def create_channel(data):
+    emit('create-team-room', data, broadcast=True)

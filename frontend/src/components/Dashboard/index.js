@@ -23,9 +23,10 @@ import { getSiteChatRooms, getTeamChatRoom } from '../../store/chatRoom'
 import DisplayInventory from './DisplayInventory'
 import Inventory from './Inventory'
 import { flipLoading } from '../../store/session'
+import { io } from 'socket.io-client'
 
 
-
+let socket;
 const Dashboard = () => {
     const dispatch = useDispatch()
     const user = useSelector(state => state.session.user)
@@ -53,6 +54,27 @@ const Dashboard = () => {
             dispatch(getJobsites())
             dispatch(fetchUserTeam(user))
         }
+        socket = io()
+        socket.on('chat-global', (data) => {
+            const path = window.location.href.split('/')
+            if ((path[5] !== 'chat' && path[6] !== data.room) || (path[5] === 'chat' && path[6] !== data.room)) {
+                if (document.getElementById(`chat${data.room}`)) {
+                    const room = document.getElementById(`chat${data.room}`)
+                    room.classList.add('new-messages')
+                }
+            }
+        })
+
+        socket.on('create-site-room', (data) => {
+            dispatch(getSiteChatRooms(user.jobsite_id))
+        })
+
+        socket.on('create-team-room', (data) => {
+            dispatch(getTeamChatRoom(user.teams[0].id))
+        })
+        return (() => {
+            socket.disconnect()
+        })
 
     }, [dispatch])
 

@@ -1,7 +1,8 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createSiteChatRoom, createTeamChatRoom, editRoom } from "../../../store/chatRoom";
 import ImageUpload from "../ImageUpload";
+import { io } from 'socket.io-client'
 
 function ChatRoomForm({ setShowModal, siteId, room, teamId, edit, type }) {
     const dispatch = useDispatch();
@@ -14,7 +15,7 @@ function ChatRoomForm({ setShowModal, siteId, room, teamId, edit, type }) {
     // const [siteId, setSiteId] = useState(sessionUser.jobsite_id)
     const [errors, setErrors] = useState([]);
 
-
+    let socket;
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData()
@@ -31,7 +32,6 @@ function ChatRoomForm({ setShowModal, siteId, room, teamId, edit, type }) {
         }
         if (edit) {
             if (type === 'team') {
-                console.log(teamId)
                 errors = await dispatch(editRoom(room.id, formData, 'team'))
             } else {
                 errors = await dispatch(editRoom(room.id, formData, 'site'))
@@ -55,10 +55,24 @@ function ChatRoomForm({ setShowModal, siteId, room, teamId, edit, type }) {
             }
 
         } else {
+            socket = io()
+            if (teamId) {
+                socket.emit('create-team-room', { user: sessionUser })
+            } else {
+                console.log('here')
+                socket.emit('create-site-room', { user: sessionUser })
+
+            }
             setUpdateImage(false)
             setShowModal(false)
         }
     };
+
+    useEffect(() => {
+        return (() => {
+            socket?.disconnect()
+        })
+    }, [])
 
     const updateImage = (e) => {
         const file = e.target.files[0];
