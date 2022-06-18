@@ -120,10 +120,11 @@ def get_site_weather(current_user, jobsite_id):
     longitude = site.longitude
     key = os.environ.get('OPENWEATHER_API_KEY')
 
-    response = requests.get(
+    weather = requests.get(
     f'https://api.openweathermap.org/data/2.5/weather?lat={latitude}&lon={longitude}&appid={key}')
-
-    return response.json()
+    forecast = requests.get(
+    f'https://api.openweathermap.org/data/2.5/forecast?lat={latitude}&lon={longitude}&appid={key}')
+    return {'weather' : weather.json(), 'forecast' : forecast.json()}
 
 
 

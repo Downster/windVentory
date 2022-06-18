@@ -7,11 +7,16 @@ const SET_JOBSITE = 'session/SET_JOBSITE'
 const LEAVE_JOBSITE = 'session/LEAVE_JOBSITE'
 const SET_TEAM = 'session/SET_TEAM'
 const LEAVE_TEAM = 'session/LEAVE_TEAM'
+const FLIP_LOADING = 'session/FLIP_LOADING'
 
 const setUser = (user) => ({
     type: SET_USER,
     user,
 });
+
+export const flipLoading = () => ({
+    type: FLIP_LOADING
+})
 
 const removeUser = () => ({
     type: REMOVE_USER,
@@ -190,7 +195,7 @@ export const logout = () => async (dispatch) => {
 };
 
 
-const initialState = { user: null };
+const initialState = { user: null, loading: false };
 
 const sessionReducer = (state = initialState, action) => {
     const newState = { ...state }
@@ -198,6 +203,9 @@ const sessionReducer = (state = initialState, action) => {
         case SET_USER:
             newState.user = action.user;
             return newState;
+        case FLIP_LOADING:
+            newState.loading = !newState.loading
+            return newState
         case REMOVE_USER:
             newState.user = null;
             return newState;
