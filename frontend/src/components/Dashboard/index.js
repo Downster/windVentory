@@ -22,6 +22,7 @@ import Chat from './Chat'
 import { getSiteChatRooms, getTeamChatRoom } from '../../store/chatRoom'
 import DisplayInventory from './DisplayInventory'
 import Inventory from './Inventory'
+import { flipLoading } from '../../store/session'
 
 
 
@@ -30,6 +31,7 @@ const Dashboard = () => {
     const user = useSelector(state => state.session.user)
 
     const getAllUserInfo = async (user) => {
+        await dispatch(flipLoading())
         await dispatch(loadUserJobsite(user.jobsite_id))
         await dispatch(fetchWeather(user.jobsite_id))
         await dispatch(fetchTeams(user.jobsite_id))
@@ -39,6 +41,7 @@ const Dashboard = () => {
             await dispatch(getTeamChatRoom(user.teams[0].id))
             await dispatch(loadTeamInventory(user.teams[0].location))
         }
+        await dispatch(flipLoading())
     }
 
     useEffect(() => {
@@ -50,6 +53,7 @@ const Dashboard = () => {
             dispatch(getJobsites())
             dispatch(fetchUserTeam(user))
         }
+
     }, [dispatch])
 
     return (

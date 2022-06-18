@@ -64,6 +64,7 @@ export const fetchWeather = (jobsiteId) => async (dispatch) => {
     const res = await tokenFetch(`/jobsites/${jobsiteId}/weather`);
     const weather = await res.json();
     if (res.ok) {
+        console.log(weather)
         dispatch(getWeather(weather))
     } else {
         return weather
@@ -155,7 +156,9 @@ const currentSiteReducer = (state = initialState, action) => {
             }
             return newState
         case GET_WEATHER:
-            newState.currentWeather = action.weather
+            console.log(action)
+            newState.currentWeather = action.weather.weather
+            newState.forecast = action.weather.forecast
             return newState
         case ADD_MATERIAL:
             newState.inventory[action.material.id] = action.material
