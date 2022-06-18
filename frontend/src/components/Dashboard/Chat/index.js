@@ -7,11 +7,13 @@ import { createChatMessage, loadChatMessages, clearMessages, removeMessage } fro
 import ChatMessage from '../ChatMessage';
 import ChatInput from '../ChatInput';
 import './Chat.css'
+import { useContext } from 'react';
+import { SocketContext } from '../../../context/SocketContext'
 
 
-let socket;
 
 const Chat = ({ jobsite }) => {
+    let { socket: { current: socket } } = useContext(SocketContext);
     let chatMessages;
     let chatRoom;
     const [messageBody, setMessageBody] = useState("");
@@ -84,7 +86,6 @@ const Chat = ({ jobsite }) => {
         if (chatRoom) {
             scroll()
 
-            socket = io();
 
 
             socket.emit('join', { 'username': `${user.firstName} ${user.lastName}`, 'room': roomId });
@@ -92,39 +93,39 @@ const Chat = ({ jobsite }) => {
             !jobsite && socket.emit('join_team_room', { 'username': `${user.firstName} ${user.lastName}`, 'room': roomId })
 
 
-            socket.on('chat', (message) => {
-                dispatch(loadChatMessages(roomId))
-            });
+            // socket.on('chat', (message) => {
+            //     dispatch(loadChatMessages(roomId))
+            // });
 
-            socket.on('edit', (message) => {
-                dispatch(loadChatMessages(roomId))
-            })
+            // socket.on('edit', (message) => {
+            //     dispatch(loadChatMessages(roomId))
+            // })
 
-            socket.on('delete', (message) => {
-                dispatch(removeMessage(message.msgId))
-            })
+            // socket.on('delete', (message) => {
+            //     dispatch(removeMessage(message.msgId))
+            // })
 
-            socket.on('join_site_room', () => {
-                dispatch(getSiteChatRooms(user.jobsite_id));
-            });
+            // socket.on('join_site_room', () => {
+            //     dispatch(getSiteChatRooms(user.jobsite_id));
+            // });
 
-            socket.on('join_team_room', () => {
-                dispatch(getTeamChatRoom(user.teams[0].id));
-            });
+            // socket.on('join_team_room', () => {
+            //     dispatch(getTeamChatRoom(user.teams[0].id));
+            // });
 
 
-            socket.on('leave_site_room', (user) => {
-                dispatch(getSiteChatRooms(user.jobsite_id));
-            });
+            // socket.on('leave_site_room', (user) => {
+            //     dispatch(getSiteChatRooms(user.jobsite_id));
+            // });
 
-            socket.on('leave_team_room', (user) => {
-                dispatch(getTeamChatRoom(user.teams[0].id));
-            });
+            // socket.on('leave_team_room', (user) => {
+            //     dispatch(getTeamChatRoom(user.teams[0].id));
+            // });
 
-            socket.on('delete-room', async (data) => {
-                const path = window.location.href.split('/')
-                console.log(path)
-            })
+            // socket.on('delete-room', async (data) => {
+            //     const path = window.location.href.split('/')
+            //     console.log(path)
+            // })
 
 
         }

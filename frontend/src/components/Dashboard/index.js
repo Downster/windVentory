@@ -23,9 +23,10 @@ import { getSiteChatRooms, getTeamChatRoom } from '../../store/chatRoom'
 import DisplayInventory from './DisplayInventory'
 import Inventory from './Inventory'
 import { flipLoading } from '../../store/session'
+import { io } from 'socket.io-client'
 
 
-
+let socket;
 const Dashboard = () => {
     const dispatch = useDispatch()
     const user = useSelector(state => state.session.user)
@@ -55,6 +56,17 @@ const Dashboard = () => {
         }
 
     }, [dispatch])
+
+    useEffect(() => {
+        socket = io()
+        socket.on('chat', (data) => {
+            console.log('dookies')
+        })
+
+        return (() => {
+            socket.disconnect()
+        })
+    }, [])
 
     //global socket listener
     //on chat check the path of the user

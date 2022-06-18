@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { ModalProvider } from './context/Modal';
+import { SocketProvider } from './context/SocketContext';
 import './reset.css'
 import './index.css';
 import App from './App';
@@ -19,14 +20,15 @@ if (process.env.NODE_ENV !== 'production') {
 function Root() {
   return (
     <Provider store={store}>
-
-      <ModalProvider>
-        <BrowserRouter>
-          <div className='whole-page-container'>
-            <App />
-          </div>
-        </BrowserRouter>
-      </ModalProvider>
+      <SocketProvider>
+        <ModalProvider>
+          <BrowserRouter>
+            <div className='whole-page-container'>
+              <App />
+            </div>
+          </BrowserRouter>
+        </ModalProvider>
+      </SocketProvider>
     </Provider>
   );
 }

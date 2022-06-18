@@ -2,7 +2,7 @@ from .auth_routes import token_required
 from ..forms import MessageForm
 from flask import Blueprint, request
 from datetime import datetime
-from ..models import Message
+from ..models import Message, User
 from ..extensions import db
 from ..utils import form_validation_errors
 
@@ -15,12 +15,20 @@ def create_message(current_user):
     form = MessageForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
+        print(current_user.first_name)
         message = Message(
             user_id=current_user.id,
             room_id=form.data['room_id'],
             message=form.data['message'],
             created_at=datetime.utcnow()
         )
+        # data = {
+        #   'user': f'${current_user.first_name} ${current_user.last_name}', 
+        #   'msg': form.data['message'], 
+        #   'room': form.data['room_id'],
+        #   'user_image' : current_user.image,
+        #   'created_at': datetime.utcnow()   
+        # }
         db.session.add(message)
         db.session.commit()
         return message.to_dict()
