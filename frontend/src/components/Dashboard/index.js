@@ -56,6 +56,11 @@ const Dashboard = () => {
 
     }, [dispatch])
 
+    //global socket listener
+    //on chat check the path of the user
+    //if they aren't on that chatrooms path and belong to the chatroom
+    //change the style of the chatroom
+
     return (
         <>
             <Navaigation />
@@ -71,6 +76,9 @@ const Dashboard = () => {
                     <Route exact path='/jobsite/:jobsiteId/'>
                         <JobSiteCard single={true} />
                     </Route>
+                    {/* <Route exact path='/jobsite/:jobsiteId/events'>
+                        <h1>Events</h1>
+                    </Route> */}
                     <Route exact path='/jobsite/:jobsiteId/teams'>
                         <SiteTeams />
                     </Route>
@@ -90,6 +98,9 @@ const Dashboard = () => {
                     <Route exact path='/team/:teamId/chat/:roomId'>
                         <Chat />
                     </Route>
+                    {/* <Route exact path='/team/:teamId/events'>
+                        <h1>Events</h1>
+                    </Route> */}
                     <Route exact path='/jobsite/:siteId/chats'>
                         <h1>Jobsite Chats</h1>
                     </Route>
