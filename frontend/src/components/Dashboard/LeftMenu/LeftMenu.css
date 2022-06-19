@@ -56,6 +56,12 @@
     margin-left: 20px;
 }
 
+.chat-con{
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+}
+
 .fa-comment{
     padding-right: 5px;
 }
@@ -122,7 +128,7 @@
 }
 
 .new-messages{
-    color: yellow;
+    color: #FFF468;
 }
 
 .fa-comment{

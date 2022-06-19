@@ -76,13 +76,13 @@ const Chat = ({ jobsite }) => {
         !jobsite && dispatch(joinChatRoom(roomId, 'team'));
     }, [roomId, dispatch])
 
+    scroll()
 
 
 
 
     useEffect(() => {
         if (chatRoom) {
-            scroll()
 
             socket = io();
 

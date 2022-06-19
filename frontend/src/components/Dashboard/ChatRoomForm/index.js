@@ -65,12 +65,16 @@ function ChatRoomForm({ setShowModal, siteId, room, teamId, edit, type }) {
             }
             setUpdateImage(false)
             setShowModal(false)
+            //disconnect socket after message has been sent
+            setTimeout(() => {
+                socket.disconnect()
+            }, 1000)
         }
     };
 
     useEffect(() => {
         return (() => {
-            socket?.disconnect()
+            // socket?.disconnect()
         })
     }, [])
 

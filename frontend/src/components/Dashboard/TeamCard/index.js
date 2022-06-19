@@ -1,12 +1,12 @@
 import { useHistory } from 'react-router-dom'
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { setUserTeam } from '../../../store/session';
+import { setUserTeam, leaveUserTeam } from '../../../store/session';
 import { removeTeam } from '../../../store/allTeams';
-import { loadTeamInventory, setTeam } from '../../../store/currentTeam';
+import { loadTeamInventory, setTeam, leaveCurrentTeam } from '../../../store/currentTeam';
 import { Modal } from "../../../context/Modal";
 import TeamForm from '../TeamForm';
-import { getTeamChatRoom } from '../../../store/chatRoom';
+import { getTeamChatRoom, clearTeamRooms } from '../../../store/chatRoom';
 
 
 const TeamCard = ({ team, admin }) => {
@@ -36,12 +36,19 @@ const TeamCard = ({ team, admin }) => {
         setShowModal(true)
     }
 
+    const leaveTeam = async () => {
+        await dispatch(leaveUserTeam(team.id))
+        await dispatch(leaveCurrentTeam())
+        await dispatch(clearTeamRooms())
+
+    }
+
 
     return (
         <div className='team-container'>
             <div className="team-card">
                 <h1 className="team-name">{team.team_lead.firstName + " " + team.team_lead.lastName}'s Team</h1>
-                {admin ? null : (currentTeam?.id !== team?.id) ? <button onClick={joinTeam}>Join Team</button> : <button onClick={joinTeam}>Leave Team</button>}
+                {admin ? null : (currentTeam?.id !== team?.id) ? <button onClick={joinTeam}>Join Team</button> : <button onClick={leaveTeam}>Leave Team</button>}
                 {admin && <button onClick={modifyTeam}>Edit Team</button>}
                 {admin && <button onClick={deleteTeam}>Delete Team</button>}
                 {showModal && (

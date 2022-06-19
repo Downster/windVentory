@@ -8,7 +8,7 @@ from sqlalchemy import func
 def room_exists(form, field):
     # Checking if room name is already in use
     room_name = field.data
-    room = ChatRoom.query.filter(func.lower(ChatRoom.room_name) == func.lower(room_name)).first()
+    room = ChatRoom.query.filter(func.lower(ChatRoom.room_name) == func.lower(room_name), ChatRoom.jobsite_id == form.data['jobsite_id']).first()
     if room:
         raise ValidationError('Channel already exists')
 

@@ -31,11 +31,13 @@ const ChatRoom = ({ room, jobsite, team }) => {
             {jobsite && <NavLink className='chat-nav' id={`chat${room.id}`} activeClassName='active'
                 to={`/jobsite/${user.jobsite_id}/chat/${room.id}`}>
                 {room.room_name}
-            </NavLink>}
+            </NavLink>
+            }
             {team && <NavLink className='chat-nav' id={`chat${room.id}`} activeClassName='active'
                 to={`/team/${currentTeam.id}/chat/${room.id}`}>
                 {room.room_name}
-            </NavLink>}
+            </NavLink>
+            }
             <div className='room-buttons'>
                 {room.user_id === user.id && <i className="fa-solid fa-pen-to-square" onClick={(e) => setShowModal(true)}></i>}
                 {room.user_id === user.id && <i className="fa-solid fa-minus" onClick={(e) => setShowDeleteModal(true)}></i>}
