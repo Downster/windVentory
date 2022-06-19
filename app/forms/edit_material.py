@@ -11,7 +11,7 @@ def material_exists(form, field):
     name = field.data
     material_id = form.data['material_id']
     currentMaterial = Material.query.get(material_id)
-    material = Material.query.filter(func.lower(Material.name) == func.lower(name)).first()
+    material = Material.query.filter(func.lower(Material.name) == func.lower(name), Material.storage_id == form.data['storage_id']).first()
     if material:
         if material != currentMaterial:
             raise ValidationError('Material already exists, please locate it and update it accordingly')

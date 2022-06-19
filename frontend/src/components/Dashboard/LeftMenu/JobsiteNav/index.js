@@ -4,11 +4,12 @@ import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from 'react-router-dom'
 import { NavLink } from "react-router-dom"
 import ChatsNav from "../ChatsNav"
-import { leaveUserJobsite } from "../../../../store/session"
+import { leaveUserJobsite, leaveUserTeam } from "../../../../store/session"
 import { leaveSite } from "../../../../store/currentSite"
+import { leaveCurrentTeam } from "../../../../store/currentTeam"
 import CreateTeamModal from "../../CreateTeamModal"
 import checkPermissions from "../../../../utils/checkPermissions"
-import { clearRooms } from "../../../../store/chatRoom"
+import { clearRooms, clearTeamRooms } from "../../../../store/chatRoom"
 
 
 
@@ -16,12 +17,18 @@ const JobSiteNav = ({ isMember, isAdmin, siteChats, siteId }) => {
     const dispatch = useDispatch()
     const history = useHistory()
     const userRole = useSelector(state => state.session.user.role[0])
+    const userTeam = useSelector(state => state?.session?.user?.teams[0])
     const canCreate = checkPermissions(userRole, 'team')
 
     const leaveJobsite = async () => {
         await dispatch(leaveUserJobsite(siteId))
         await dispatch(leaveSite())
         await dispatch(clearRooms())
+        if (userTeam) {
+            await dispatch(leaveUserTeam(userTeam.id))
+            await dispatch(leaveCurrentTeam())
+            await dispatch(clearTeamRooms())
+        }
         history.push('/')
     }
 

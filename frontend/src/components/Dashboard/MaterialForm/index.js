@@ -8,8 +8,8 @@ import './MaterialForm.css'
 
 
 function MaterialForm({ team, setShowModal, material, edit }) {
-    const siteStorageId = useSelector(state => state.currentSite.site.connex_location[0].id)
-    const teamStorageId = useSelector(state => state.currentTeam.team.location)
+    const siteStorageId = useSelector(state => state?.currentSite?.site?.connex_location[0]?.id)
+    const teamStorageId = useSelector(state => state?.currentTeam?.team?.location)
     const dispatch = useDispatch();
     const hiddenImageInput = useRef(null);
     const [materialClass, setMaterialClass] = useState((edit) ? material.class_id : 1)

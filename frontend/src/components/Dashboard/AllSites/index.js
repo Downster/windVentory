@@ -9,6 +9,7 @@ const AllSites = ({ adminPanel }) => {
 
     const jobsites = useSelector(state => state.jobsites)
     const user = useSelector(state => state.session.user)
+    const loading = useSelector(state => state.session.loading)
     const jobSiteObject = Object.values(jobsites)
 
     useEffect(() => {
@@ -18,12 +19,20 @@ const AllSites = ({ adminPanel }) => {
 
 
     return (
-        < div className="app-body" >
-            {jobSiteObject && jobSiteObject.map((jobsite) => (
-                <JobSiteCard key={jobsite.id} jobsite={jobsite} adminPanel={adminPanel} />
-            )
-            )}
-        </div >
+        <>
+            {loading &&
+                <>
+                    <h1>Loading.....</h1>
+                    <img src='https://windventory.s3.amazonaws.com/turbine.gif'>
+                    </img>
+                </>}
+            {!loading && < div className="app-body" >
+                {jobSiteObject && jobSiteObject.map((jobsite) => (
+                    <JobSiteCard key={jobsite.id} jobsite={jobsite} adminPanel={adminPanel} />
+                )
+                )}
+            </div >}
+        </>
     )
 }
 
