@@ -42,15 +42,16 @@ function ProfileButton({ user }) {
                 {showMenu && (
                     <ul className="profile-dropdown">
                         <li>Hello, {user.firstName}</li>
+                        {(role === 'Admin') && <li>
+                            <p>Admin Menu</p>
+                            <i class="fa-duotone fa-folder-gear" onClick={adminPanel}></i>
+                        </li>}
                         <li>
                             <div className="logout-div">
                                 <p>Logout</p>
                                 <i className="fa-duotone fa-right-from-bracket" onClick={logout}></i>
                             </div>
                         </li>
-                        {(role === 'Admin') && <li>
-                            <button onClick={adminPanel}>Admin Panel</button>
-                        </li>}
                     </ul>
                 )}
             </div>

@@ -2,6 +2,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-pro": "^6.1.1",
     "jquery": "^3.6.0",
+    "react-open-weather": "^1.2.1",
     "uuid": "^8.3.2"
   }
 }

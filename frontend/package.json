@@ -17,6 +17,7 @@
     "parser": "^0.1.4",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
+    "react-open-weather": "^1.2.1",
     "react-quill": "^2.0.0-beta.4",
     "react-redux": "^8.0.1",
     "react-router-dom": "^5.3.1",

@@ -23,7 +23,7 @@ const LeftMenu = ({ capstone }) => {
     const splitpath = path.split('/')
     console.log(splitpath)
     let siteId;
-    if (splitpath[1] === 'jobsite' && currentUser.jobsite_id) {
+    if (splitpath[1] === 'jobsite' && currentUser.jobsite_id || splitpath[0] === '' && splitpath[1] === '') {
         if (adminPanel) {
             setAdminPanel(false)
         }

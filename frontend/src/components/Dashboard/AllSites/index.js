@@ -27,10 +27,12 @@ const AllSites = ({ adminPanel }) => {
                     </img>
                 </>}
             {!loading && < div className="app-body" >
-                {jobSiteObject && jobSiteObject.map((jobsite) => (
-                    <JobSiteCard key={jobsite.id} jobsite={jobsite} adminPanel={adminPanel} />
-                )
-                )}
+                <div className='jobsite-container'>
+                    {jobSiteObject && jobSiteObject.map((jobsite) => (
+                        <JobSiteCard key={jobsite.id} jobsite={jobsite} adminPanel={adminPanel} />
+                    )
+                    )}
+                </div>
             </div >}
         </>
     )

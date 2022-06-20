@@ -17,6 +17,14 @@ body{
     
 }
 
+.jobsite-container{
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    
+
+}
+
 .intro-header {
     font-family: "Righteous", cursive;
     font-size: 40pt;
