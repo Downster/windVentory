@@ -4,7 +4,7 @@ import ReactWeather, { useOpenWeather } from "react-open-weather";
 const SiteWeather = () => {
     const coord = useSelector(state => state.currentSite.currentWeather.coord)
     const { data, isLoading, errorMessage } = useOpenWeather({
-        key: 'c99c8ad2b9ffda1cf1fca3aff99d07ae',
+        key: '',
         lat: coord?.lat,
         lon: coord?.lon,
         lang: 'en',
