@@ -22,8 +22,11 @@ const SplashPage = () => {
                 </div>}
                 {!signup && <div className="features">
                     <div className="content2">
+                        <h1>- Manage users, teams and jobsites</h1>
+                        <h1>- Join teams and jobsites</h1>
                         <h1>- Track Inventory</h1>
                         <h1>- Chat with teammates</h1>
+                        <h1>- Track weather</h1>
                     </div>
                 </div>}
                 <div className="developer-div">

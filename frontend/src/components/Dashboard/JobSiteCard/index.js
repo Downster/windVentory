@@ -8,6 +8,8 @@ import { deleteJobsite, editJobsite } from '../../../store/jobsites'
 import { fetchTeams, fetchWeather, loadSiteInventory } from '../../../store/currentSite';
 import CreateJobsiteForm from '../JobSiteForm';
 import { getSiteChatRooms } from '../../../store/chatRoom';
+import ReactTooltip from 'react-tooltip';
+import ReactWeather, { useOpenWeather } from 'react-open-weather';
 
 
 const JobSiteCard = ({ jobsite, adminPanel, single }) => {
@@ -17,6 +19,16 @@ const JobSiteCard = ({ jobsite, adminPanel, single }) => {
     const userSite = useSelector(state => state.currentSite.site)
     const user = useSelector(state => state.session.user)
     const [showModal, setShowModal] = useState(false);
+    const currentWeather = useSelector(state => state.currentSite.currentWeather)
+    console.log(process.env)
+    const coord = currentWeather?.coord
+    const { data, isLoading, errorMessage } = useOpenWeather({
+        key: process.env.REACT_APP_OPENWEATHER_API_KEY,
+        lat: coord?.lat,
+        lon: coord?.lon,
+        lang: 'en',
+        unit: 'metric', // values are (metric, standard, imperial)
+    });
 
 
     useEffect(() => {
@@ -45,12 +57,18 @@ const JobSiteCard = ({ jobsite, adminPanel, single }) => {
         <>
 
 
-            {!single && <div className="jobSite-card">
-                <img src={jobsite.image}></img>
+            {!single && <div className="jobSite-card" >
+                <img className='jobsite-image' src={jobsite.image} data-tip={'State: ' + jobsite.state}></img>
+                <ReactTooltip
+                    className="tool-tip-cls"
+                    place="right"
+                    type="dark"
+                    effect="solid"
+                />
                 <h1 className="jobsite-name">{jobsite.name}</h1>
-                <h1 className="jobsite-client">{jobsite.client}</h1>
-                <h1 className="jobsite-state">{jobsite.state}</h1>
-                {!adminPanel && <button onClick={setJobsite}>+</button>}
+                <h1 className="jobsite-client">Client: {jobsite.client}</h1>
+                {/* <h1 className="jobsite-state">{jobsite.state}</h1> */}
+                {!adminPanel && <><p>Join site</p><i class="fa-duotone fa-right-to-bracket" onClick={setJobsite}></i></>}
                 {adminPanel && <button onClick={modifyJobsite}>Edit</button>}
                 {adminPanel && <button onClick={destroyJobsite}>-</button>}
                 {showModal && (
@@ -61,12 +79,28 @@ const JobSiteCard = ({ jobsite, adminPanel, single }) => {
 
             </div>
             }
-            {single && userSite && < div className='single-user-site'>
-                <img src={jobsite.image}></img>
-                <h1 className="jobsite-name">{userSite.name}</h1>
-                <h1 className="jobsite-client">{userSite.client}</h1>
-                <h1 className="jobsite-state">{userSite.state}</h1>
-            </div>
+            {
+                single && userSite && < div className='single-user-site'>
+                    <div className='jobsite-data'>
+
+                        <img className='jobsite-image' src={userSite.image}></img>
+
+                        <h1 className="jobsite-name">{userSite.name}</h1>
+                        <h1 className="jobsite-client">Client: {userSite.client}</h1>
+                        <h1 className="jobsite-state">State: {userSite.state}</h1>
+                    </div>
+                    <div className='weather-div'>
+                        <ReactWeather
+                            isLoading={isLoading}
+                            errorMessage={errorMessage}
+                            data={data}
+                            lang="en"
+                            locationLabel={currentWeather.name}
+                            unitsLabels={{ temperature: 'C', windSpeed: 'Km/h' }}
+                            showForecast={false}
+                        />
+                    </div>
+                </div>
             }
 
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom'
 import * as sessionActions from '../../../store/session';
-
+import ReactTooltip from "react-tooltip";
 function ProfileButton({ user }) {
     const history = useHistory();
     const dispatch = useDispatch();
@@ -38,7 +38,13 @@ function ProfileButton({ user }) {
     return (
         <>
             <div className="profile-div" onClick={openMenu}>
-                <img src={user.image} className='profile-button' />
+                <img src={user.image} className='profile-button' data-tip={'User profile'} />
+                <ReactTooltip
+                    className="tool-tip-cls"
+                    place="right"
+                    type="dark"
+                    effect="solid"
+                />
                 {showMenu && (
                     <ul className="profile-dropdown">
                         <li>Hello, {user.firstName}</li>

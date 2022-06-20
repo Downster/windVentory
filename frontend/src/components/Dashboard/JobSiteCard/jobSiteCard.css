@@ -1,5 +1,13 @@
 .jobSite-card{
-    border: 1px solid red;
     height: 150px;
     width: 150px;
+}
+
+.jobsite-image{
+    height: 100px;
+    width: 100px;
+}
+
+.single-user-site{
+    display: flex;
 }
