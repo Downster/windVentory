@@ -1,0 +1,16 @@
+.weather-container{
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    overflow-y: auto; 
+}
+
+.weather-div{
+    padding: 20px;
+}
+
+.weather-data{
+    display: flex;
+    padding: 20px;
+    height: 40%;
+}

@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { flipLoading, setUserJobsite } from '../../../store/session'
 import { deleteJobsite, editJobsite } from '../../../store/jobsites'
-import { fetchTeams, fetchWeather, loadSiteInventory } from '../../../store/currentSite';
+import { fetchTeams, fetchWeather, loadSiteInventory, loadUserJobsite } from '../../../store/currentSite';
 import CreateJobsiteForm from '../JobSiteForm';
 import { getSiteChatRooms } from '../../../store/chatRoom';
 import ReactTooltip from 'react-tooltip';
@@ -32,6 +32,7 @@ const JobSiteCard = ({ jobsite, adminPanel, single }) => {
 
 
     useEffect(() => {
+        dispatch(loadUserJobsite(jobsite?.id))
         return () => setShowModal(false);
     }, []);
 

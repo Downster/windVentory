@@ -22,6 +22,7 @@ const JobSiteNav = ({ isMember, isAdmin, siteChats, siteId }) => {
 
     const leaveJobsite = async () => {
         await dispatch(leaveUserJobsite(siteId))
+        history.push('/')
         await dispatch(leaveSite())
         await dispatch(clearRooms())
         if (userTeam) {
@@ -29,7 +30,6 @@ const JobSiteNav = ({ isMember, isAdmin, siteChats, siteId }) => {
             await dispatch(leaveCurrentTeam())
             await dispatch(clearTeamRooms())
         }
-        history.push('/')
     }
 
     return (
