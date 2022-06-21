@@ -15,9 +15,9 @@ def jobsite_exists(form, field):
 
 
 class CreateSiteForm(FlaskForm):
-    siteName = StringField('siteName', validators=[DataRequired(), jobsite_exists, Length(min=3, max=40, message='Jobsite must be between 3 and 40 characters')])
-    state = StringField('state', validators=[DataRequired()])
-    client = StringField('client', validators=[DataRequired(), Length(min=3, max=60, message="Client name must be beweeen 3 and 60 characters")])
-    latitude = DecimalField('latitude', validators=[DataRequired()])
-    longitude = DecimalField('longitude', validators=[DataRequired()])
+    siteName = StringField('siteName', validators=[DataRequired(message="You must provide a site name"), jobsite_exists, Length(min=3, max=40, message='Jobsite must be between 3 and 40 characters')])
+    state = StringField('state', validators=[DataRequired(message="You must provide a state")])
+    client = StringField('client', validators=[DataRequired(message="You must provide a client name"), Length(min=3, max=60, message="Client name must be beweeen 3 and 60 characters")])
+    latitude = DecimalField('latitude', validators=[DataRequired(message="You must provide a latitude")])
+    longitude = DecimalField('longitude', validators=[DataRequired(message="You must provide a longitude")])
     image = FileField('image')

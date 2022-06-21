@@ -64,7 +64,7 @@ const SiteWeather = () => {
                     }
                 }).map((hour) => hour.wind.speed),
                 backgroundColor: ["#fff"],
-                borderColor: ["#03dac5"],
+                borderColor: ["#A9C2F4"],
             },
             {
                 label: "Gusts",
@@ -74,7 +74,7 @@ const SiteWeather = () => {
                     }
                 }).map((hour) => hour.wind.gust),
                 backgroundColor: ["#fff"],
-                borderColor: ["#03dac5"],
+                borderColor: ["#4F5B73"],
             },
         ],
     };

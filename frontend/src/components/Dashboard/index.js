@@ -24,6 +24,7 @@ import DisplayInventory from './DisplayInventory'
 import Inventory from './Inventory'
 import { flipLoading } from '../../store/session'
 import { io } from 'socket.io-client'
+import CreateJobsiteForm from './JobSiteForm'
 
 
 let socket;

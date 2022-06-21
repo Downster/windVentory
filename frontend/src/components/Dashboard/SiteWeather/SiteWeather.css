@@ -12,5 +12,15 @@
 .weather-data{
     display: flex;
     padding: 20px;
-    height: 40%;
+    height: 30%;
+}
+
+.weather-data > canvas{
+    display: flex;
+    background-color: #e6e7e9;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: rgb(50 50 50 / 50%) 0px 3px 6px 0px;
+    margin-bottom: 40px;
+    
 }

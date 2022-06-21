@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import states from "../../../utils/states";
 import { createJobsite, editJobsite, getJobsites } from "../../../store/jobsites";
+import MiniMap from "../MiniMap";
 
 const CreateJobsiteForm = ({ setShowModal, edit, siteId }) => {
     const history = useHistory();
@@ -13,10 +14,9 @@ const CreateJobsiteForm = ({ setShowModal, edit, siteId }) => {
     const [client, setClient] = useState((edit) ? jobsite.client : '')
     const [state, setState] = useState((edit) ? jobsite.state : '');
     const [image, setImage] = useState(null);
-    const [latitude, setLatitude] = useState(null)
-    const [longitude, setLongitude] = useState(null)
     const [imageLoading, setImageLoading] = useState(false);
     const user = useSelector(state => state.session.user);
+    const [position, setPosition] = useState({ 'lat': 38.1550, 'lng': -121.7336 })
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -35,8 +35,8 @@ const CreateJobsiteForm = ({ setShowModal, edit, siteId }) => {
         formData.append('siteName', siteName);
         formData.append('state', state);
         formData.append('client', client);
-        formData.append('latitude', latitude)
-        formData.append('longitude', longitude)
+        formData.append('latitude', position.lat)
+        formData.append('longitude', position.lng)
         if (image) {
             formData.append('image', image);
             setImageLoading(true);
@@ -124,7 +124,10 @@ const CreateJobsiteForm = ({ setShowModal, edit, siteId }) => {
                         {errors.site_name ? `${errors.site_name}` : ""}
                     </div>
                 </div>
-                <div className='form-element-container'>
+                <div className="form-map-container">
+                    <MiniMap position={position} onPositionChanged={(latlng) => setPosition(latlng)} />
+                </div>
+                {/* <div className='form-element-container'>
                     <input
                         className="input-field"
                         name="latitude"
@@ -145,7 +148,7 @@ const CreateJobsiteForm = ({ setShowModal, edit, siteId }) => {
                         value={longitude}
                         onChange={(e) => setLongitude(e.target.value)}
                     />
-                </div>
+                </div> */}
                 <button disabled={Object.keys(errors).length > 0} id='create-jobsite' type="submit">{(edit) ? 'Edit Jobsite' : 'Create Jobsite'}</button>
                 <button className='cancel-btn' onClick={handleCancelClick}>Cancel</button>
             </div>

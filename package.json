@@ -3,6 +3,9 @@
     "@fortawesome/fontawesome-pro": "^6.1.1",
     "dotenv": "^16.0.1",
     "jquery": "^3.6.0",
+    "leaflet": "^1.8.0",
+    "leaflet-geosearch": "^3.6.1",
+    "react-leaflet": "^4.0.0",
     "react-open-weather": "^1.2.1",
     "react-tooltip": "^4.2.21",
     "uuid": "^8.3.2"
