@@ -60,7 +60,7 @@ Once you are a member of a jobsite you are presented with all of that jobsites o
 ![Jobsite member](https://i.imgur.com/6VSYn8b.png)
 
 You can view the weather, along with a graph of the forecasted average and gust wind speeds
-![Jobsite member](https://i.imgur.com/6VSYn8b.png)
+![Jobsite member](https://i.imgur.com/w2lcrqt.png)
 
 
 # Inventory
