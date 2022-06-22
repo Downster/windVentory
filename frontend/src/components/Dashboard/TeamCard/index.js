@@ -7,6 +7,7 @@ import { loadTeamInventory, setTeam, leaveCurrentTeam } from '../../../store/cur
 import { Modal } from "../../../context/Modal";
 import TeamForm from '../TeamForm';
 import { getTeamChatRoom, clearTeamRooms } from '../../../store/chatRoom';
+import DeleteTeamPrompt from '../DeleteTeamPrompt';
 
 
 const TeamCard = ({ team, admin }) => {
@@ -15,6 +16,7 @@ const TeamCard = ({ team, admin }) => {
     const user = useSelector(state => state.session.user)
     const currentTeam = useSelector(state => state.currentTeam.team)
     const [showModal, setShowModal] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false)
     useEffect(() => {
         return () => setShowModal(false);
     }, []);
@@ -29,7 +31,7 @@ const TeamCard = ({ team, admin }) => {
     }
 
     const deleteTeam = () => {
-        dispatch(removeTeam(team.id))
+        setShowDeleteModal(true)
     }
 
     const modifyTeam = () => {
@@ -54,6 +56,11 @@ const TeamCard = ({ team, admin }) => {
                 {showModal && (
                     <Modal onClose={() => setShowModal(false)}>
                         <TeamForm setShowModal={setShowModal} edit={true} teamId={team.id} />
+                    </Modal>
+                )}
+                {showDeleteModal && (
+                    <Modal onClose={() => setShowModal(false)}>
+                        <DeleteTeamPrompt team={team} setShowModal={setShowDeleteModal} />
                     </Modal>
                 )}
 
