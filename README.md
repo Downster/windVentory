@@ -13,14 +13,17 @@ View and test out windVentory on [Heroku](https://windventory.herokuapp.com/)
    - Inventory
    - Chatrooms
    - Live Chat
+   - Jobsites
+   - Jobsite weather
+   - Teams
 
-Upcoming features: 
-- Jobsites
-- Teams
-- Admin panel
-- Jobsite Weather
-- Jobsite/team notes
-- Jobsite/team events
+- Four different levels of user permissions
+   - Worker: can join jobsites, teams, view weather, send messages, and manage inventory
+   - Lead: can join jobsites, create a team on a jobsite, create chatrooms on a team, and do anything else a worker can do
+   - Supervisor: can join jobsites, create chatrooms on jobsites and do anything a lead can do
+   - Admin: can create, edit, and delete jobsites, teams, and users as well as do anything a supervisor can do 
+
+
 
 ## Technologies Used
 - React
