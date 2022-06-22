@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from .auth_routes import token_required
 from werkzeug.security import generate_password_hash, check_password_hash
 from ..extensions import db
-from ..models.user import User, Role
+from ..models.user import User, Role, Team
 from ..forms import CreateUserForm, EditUserForm
 from ..utils import form_validation_errors
 
@@ -62,9 +62,12 @@ def admin_create_user(current_user):
 def admin_delete_user(current_user, id):
     if current_user.to_role() == {'Admin'}:
         user = User.query.get(id)
+        team = Team.query.filter(Team.lead_id == user.id).first()
+        if team:
+            return {'errors' : 'Please delete this users team first'}, 401
 
         if not user:
-            return jsonify({'message': 'user does not exist'})
+            return jsonify({'errors': 'user does not exist'})
 
         db.session.delete(user)
         db.session.commit()

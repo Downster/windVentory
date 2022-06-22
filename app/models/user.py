@@ -36,7 +36,7 @@ class User(db.Model):
     #relationships
     rooms = relationship('ChatRoom', back_populates='user')
     messages = relationship('Message', back_populates='user')
-    teams = relationship('Team', back_populates='team_members', secondary=user_Teams)
+    teams = relationship('Team', back_populates='team_members', secondary=user_Teams, cascade="all, delete")
     current_room = relationship('ChatRoom', back_populates='active_members', secondary=active_members)
     user_jobsite = relationship('JobSite', back_populates='users_site')
     roles = relationship('Role', back_populates='users', secondary=user_Role)
@@ -64,6 +64,7 @@ class User(db.Model):
             'lastName' : self.last_name,
             'phoneNumber' : self.phone_number,
             'email': self.email,
+            'image': self.image,
             'jobsite_id': self.jobsite_id,
         }
     def to_role(self):

@@ -8,3 +8,4 @@ from .create_site_room import SiteRoomForm
 from .message_form import MessageForm
 from .create_material import MaterialForm
 from .edit_material import EditMaterialForm
+from .edit_jobsite import EditSiteForm

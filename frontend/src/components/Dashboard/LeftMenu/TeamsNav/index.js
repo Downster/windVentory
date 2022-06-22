@@ -31,7 +31,7 @@ const TeamsNav = ({ siteId }) => {
             {userTeam && <>
                 <ChatsNav siteId={siteId} teamId={userTeam?.id} team={true} />
                 <li><NavLink to={`/team/${userTeam?.id}/inventory`}><i className="fa-solid fa-boxes-stacked"></i>Inventory</NavLink><CreateMaterialModal team={true} /></li>
-                <li className="nav-item"><i class="fa-duotone fa-user-cowboy"></i>Members</li>
+                {/* <li className="nav-item"><i class="fa-duotone fa-user-cowboy"></i>Members</li> */}
                 <li className="nav-item-person"><i class="fa-duotone fa-person-to-door"></i>Leave Team <i className="fas fa-minus" onClick={leaveTeam}></i></li>
             </>
             }

@@ -9,6 +9,7 @@ const Team = () => {
     const dispatch = useDispatch();
     const sessionUser = useSelector(state => state.session.user)
     const team = useSelector(state => state.currentTeam)
+    const currentTeam = useSelector(state => state.currentTeam.team)
 
 
     useEffect(() => {
@@ -16,7 +17,7 @@ const Team = () => {
     }, [dispatch, sessionUser])
 
     return (
-        <> {team ? <UserTeam /> : <SiteTeams />}
+        <> {team ? <UserTeam currentTeam={currentTeam} /> : <SiteTeams />}
         </>
     )
 }

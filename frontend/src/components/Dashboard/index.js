@@ -108,9 +108,9 @@ const Dashboard = () => {
                     <Route exact path='/jobsite/:jobsiteId/weather'>
                         <SiteWeather />
                     </Route>
-                    <Route exact path='/jobsite/:jobsiteId/towers'>
+                    {/* <Route exact path='/jobsite/:jobsiteId/towers'>
                         <h1> Site tower</h1>
-                    </Route>
+                    </Route> */}
 
                     <Route exact path='/team/:teamId'>
                         <Team />
@@ -124,9 +124,9 @@ const Dashboard = () => {
                     {/* <Route exact path='/team/:teamId/events'>
                         <h1>Events</h1>
                     </Route> */}
-                    <Route exact path='/jobsite/:siteId/chats'>
+                    {/* <Route exact path='/jobsite/:siteId/chats'>
                         <h1>Jobsite Chats</h1>
-                    </Route>
+                    </Route> */}
                     <Route exact path='/jobsite/:siteId/chat/:roomId'>
                         <Chat jobsite={true} />
                     </Route>

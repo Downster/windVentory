@@ -10,7 +10,7 @@ from ..awsS3 import (
 from .auth_routes import token_required
 from ..models import JobSite, User, StorageLocation, Material
 from ..extensions import db
-from ..forms import CreateSiteForm
+from ..forms import CreateSiteForm, EditSiteForm
 from ..utils import form_validation_errors
 
 jobsite_routes = Blueprint('jobsites', __name__)
@@ -75,7 +75,7 @@ def delete_site(current_user, jobsite_id):
 @jobsite_routes.route('/<int:jobsite_id>', methods=['PATCH'])
 @token_required
 def edit_site(current_user, jobsite_id):
-    form = CreateSiteForm()
+    form = EditSiteForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     image = form["image"].data
     if image:

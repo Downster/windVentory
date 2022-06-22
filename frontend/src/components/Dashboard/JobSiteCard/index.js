@@ -10,17 +10,17 @@ import CreateJobsiteForm from '../JobSiteForm';
 import { getSiteChatRooms } from '../../../store/chatRoom';
 import ReactTooltip from 'react-tooltip';
 import ReactWeather, { useOpenWeather } from 'react-open-weather';
+import DeleteSitePrompt from '../DeleteSitePrompt';
 
 
 const JobSiteCard = ({ jobsite, adminPanel, single }) => {
-    console.log(jobsite)
     const history = useHistory()
     const dispatch = useDispatch()
     const userSite = useSelector(state => state.currentSite.site)
     const user = useSelector(state => state.session.user)
     const [showModal, setShowModal] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false)
     const currentWeather = useSelector(state => state.currentSite.currentWeather)
-    console.log(process.env)
     const coord = currentWeather?.coord
     const { data, isLoading, errorMessage } = useOpenWeather({
         key: process.env.REACT_APP_OPENWEATHER_API_KEY,
@@ -52,12 +52,15 @@ const JobSiteCard = ({ jobsite, adminPanel, single }) => {
     }
 
     const destroyJobsite = () => {
-        dispatch(deleteJobsite(jobsite.id))
+        setShowDeleteModal(true)
     }
     return (
         <>
-
-
+            {showDeleteModal && (
+                <Modal onClose={() => setShowModal(false)}>
+                    <DeleteSitePrompt site={jobsite} setShowModal={setShowDeleteModal} />
+                </Modal>
+            )}
             {!single && <div className="jobSite-card" >
                 <img className='jobsite-image' src={jobsite.image} data-tip={'State: ' + jobsite.state}></img>
                 <ReactTooltip
