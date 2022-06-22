@@ -21,7 +21,7 @@ View and test out windVentory on [Heroku](https://windventory.herokuapp.com/)
    - Worker: can join jobsites, teams, view weather, send messages, and manage inventory
    - Lead: can join jobsites, create a team on a jobsite, create chatrooms on a team, and do anything else a worker can do
    - Supervisor: can join jobsites, create chatrooms on jobsites and do anything a lead can do
-   - Admin: can create, edit, and delete jobsites, teams, and users as well as do anything a supervisor can do 
+   - Admin: can create, edit, and delete jobsites, teams, users, update/modify permissions on all users and do anything a supervisor can do 
 
 
 
@@ -43,6 +43,13 @@ From the splash page, users can choose to create an account, log into an existin
 
 ### Signup
 ![Imgur](https://i.imgur.com/WV72gTC.png)
+
+# Admin panel
+User view on the admin panel
+![Admin panel](https://i.imgur.com/KDiyHJe.png)
+
+Add jobsite with map search on the admin panel
+![Admin panel](https://i.imgur.com/tllRBwu.png)
 
 
 # Inventory
