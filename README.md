@@ -39,7 +39,7 @@ View and test out windVentory on [Heroku](https://windventory.herokuapp.com/)
 From the splash page, users can choose to create an account, log into an existing account, or log in as a demo user.
 
 ### Login
-![Imgur](https://i.imgur.com/oW2STGt.png)
+![Imgur](https://i.imgur.com/lQ6YPW2.png)
 
 ### Signup
 ![Imgur](https://i.imgur.com/WV72gTC.png)
