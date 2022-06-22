@@ -51,6 +51,17 @@ User view on the admin panel
 Add jobsite with map search on the admin panel
 ![Admin panel](https://i.imgur.com/tllRBwu.png)
 
+# Join a jobsite
+Upon logging in a user that is not a member of a jobsite is prompted with the avaliable jobsites for them to join
+![Join jobsite](https://i.imgur.com/ArBIUnd.png)
+
+# Jobsite navigation
+Once you are a member of a jobsite you are presented with all of that jobsites options
+![Jobsite member](https://i.imgur.com/6VSYn8b.png)
+
+You can view the weather, along with a graph of the forecasted average and gust wind speeds
+![Jobsite member](https://i.imgur.com/6VSYn8b.png)
+
 
 # Inventory
 
