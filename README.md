@@ -76,8 +76,6 @@ You can view the weather, along with a graph of the forecasted average and gust 
 ![Imgur](https://i.imgur.com/hOTyYpg.png)
 
 # Live Chat
-### Send messages
-![Imgur](https://i.imgur.com/9Jyl4dZ.png)
+Send messages messages in real time and recieve notifications when a chatroom has a new message.
+![Imgur](https://imgur.com/x4ElQqG.gif)
 
-### Edit/Delete messages
-![Imgur](https://i.imgur.com/rx0nsCH.png)
