@@ -77,5 +77,5 @@ You can view the weather, along with a graph of the forecasted average and gust 
 
 # Live Chat
 Send messages messages in real time and recieve notifications when a chatroom has a new message.
-![Imgur](https://imgur.com/x4ElQqG)
+![Imgur](https://windventory.s3.amazonaws.com/live-notify.gif)
 
