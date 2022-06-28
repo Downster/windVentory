@@ -10,6 +10,7 @@ import { leaveCurrentTeam } from "../../../../store/currentTeam"
 import CreateTeamModal from "../../CreateTeamModal"
 import checkPermissions from "../../../../utils/checkPermissions"
 import { clearRooms, clearTeamRooms } from "../../../../store/chatRoom"
+import { fetchUserTeam } from "../../../../store/currentTeam"
 
 
 
@@ -17,7 +18,7 @@ const JobSiteNav = ({ isMember, isAdmin, siteChats, siteId }) => {
     const dispatch = useDispatch()
     const history = useHistory()
     const userRole = useSelector(state => state.session.user.role[0])
-    const userTeam = useSelector(state => state?.session?.user?.teams[0])
+    const user = useSelector(state => state?.session?.user)
     const canCreate = checkPermissions(userRole, 'team')
 
     const leaveJobsite = async () => {
@@ -25,11 +26,9 @@ const JobSiteNav = ({ isMember, isAdmin, siteChats, siteId }) => {
         history.push('/')
         await dispatch(leaveSite())
         await dispatch(clearRooms())
-        if (userTeam) {
-            await dispatch(leaveUserTeam(userTeam.id))
-            await dispatch(leaveCurrentTeam())
-            await dispatch(clearTeamRooms())
-        }
+        await dispatch(fetchUserTeam(user))
+        await dispatch(leaveCurrentTeam())
+        await dispatch(clearTeamRooms())
     }
 
     return (
