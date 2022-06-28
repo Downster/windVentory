@@ -39,5 +39,13 @@ class JobSite(db.Model):
         return {
             'currentTeams': [team.to_dict() for team in self.teams_site]
         }
+        
+    def to_site_info(self):
+        return {
+            'name': self.name,
+            'state': self.state,
+            'client': self.client,
+            'image': self.image,
+        }
     
 

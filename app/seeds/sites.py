@@ -7,9 +7,9 @@ def seed_sites():
     Shiloh = JobSite(
         name="Shiloh",state ='CA', client = 'EDF', latitude=38.1550, longitude=-121.7336)
     Sheldon = JobSite(
-        name="Sheldon",state ='NY', client = 'EDF', latitude=38.1550, longitude=-121.7336)
+        name="Sheldon",state ='NY', client = 'EDF', latitude=42.7619, longitude=-78.4186)
     Spurs1 = JobSite(
-        name="Spinning Spurs",state ='CA', client = 'EDF', latitude=38.1550, longitude=-121.7336)
+        name="Spinning Spurs",state ='CA', client = 'EDF', latitude=35.295, longitude=-102.7211)
     Cridge = JobSite(
         name="California Ridge",state ='CA', client = 'EDF', latitude=38.1550, longitude=-121.7336)
 

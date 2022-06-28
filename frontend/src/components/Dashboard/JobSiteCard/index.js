@@ -14,6 +14,7 @@ import DeleteSitePrompt from '../DeleteSitePrompt';
 
 
 const JobSiteCard = ({ jobsite, adminPanel, single }) => {
+    const [city, setCity] = useState('')
     const history = useHistory()
     const dispatch = useDispatch()
     const userSite = useSelector(state => state.currentSite.site)
@@ -49,6 +50,14 @@ const JobSiteCard = ({ jobsite, adminPanel, single }) => {
 
     const modifyJobsite = () => {
         setShowModal(true)
+    }
+
+    const getNearbyThings = async () => {
+        const res = await fetch(`https://nominatim.openstreetmap.org/search?q=supermarket+${city}&format=json&addressdetails=1&polygon_svg=1`)
+        if (res.ok) {
+            const data = await res.json()
+            console.log(data)
+        }
     }
 
     const destroyJobsite = () => {
@@ -103,6 +112,11 @@ const JobSiteCard = ({ jobsite, adminPanel, single }) => {
                             unitsLabels={{ temperature: 'C', windSpeed: 'Km/h' }}
                             showForecast={false}
                         />
+                    </div>
+                    <input value={city} onChange={(e) => setCity(e.target.value)} placeholder='enter your hotels city'></input>
+                    <button onClick={getNearbyThings}></button>
+                    <div>
+
                     </div>
                 </div>
             }

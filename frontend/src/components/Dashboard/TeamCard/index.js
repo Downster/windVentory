@@ -50,6 +50,9 @@ const TeamCard = ({ team, admin }) => {
         <div className='team-container'>
             <div className="team-card">
                 <h1 className="team-name">{team.team_lead.firstName + " " + team.team_lead.lastName}'s Team</h1>
+                <h1 className='team-site'>Jobsite: {team.jobsite.name}</h1>
+                <h1 className='team-site'>Jobsite state: {team.jobsite.state}</h1>
+                <h1 className='team-site'>Client: {team.jobsite.client}</h1>
                 {admin ? null : (currentTeam?.id !== team?.id) ? <button onClick={joinTeam}>Join Team</button> : <button onClick={leaveTeam}>Leave Team</button>}
                 {admin && <button onClick={modifyTeam}>Edit Team</button>}
                 {admin && <button onClick={deleteTeam}>Delete Team</button>}

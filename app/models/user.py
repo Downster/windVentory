@@ -54,6 +54,7 @@ class User(db.Model):
             'image': self.image,
             'online': self.online,
             'jobsite_id': self.jobsite_id,
+            'jobsite_info': None if not self.user_jobsite else self.user_jobsite.to_site_info(), 
             'role': [role.to_name() for role in self.roles],
             'teams': [team.to_dict() for team in self.teams],
         }
@@ -107,7 +108,8 @@ class Team(db.Model):
             'job_type': self.job_type,
             'location': self.storagelocation_id,
             'team_lead': self.team_lead.to_team_dict(),
-            'team_members': [member.to_team_dict() for member in self.team_members]
+            'team_members': [member.to_team_dict() for member in self.team_members],
+            'jobsite': self.team_jobsite.to_site_info()
         }
 
 
