@@ -145,7 +145,8 @@ def join_site(current_user, jobsite_id):
 def leave_site(current_user, jobsite_id):
     user = User.query.get(current_user.id)
     user.jobsite_id = None
-    user.teams.pop(0)
+    if len(user.teams) > 0:
+        user.teams.pop(0)
     db.session.commit()
     
     return jsonify({'id' : jobsite_id})

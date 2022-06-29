@@ -16,7 +16,7 @@ const CreateJobsiteForm = ({ setShowModal, edit, siteId }) => {
     const [image, setImage] = useState(null);
     const [imageLoading, setImageLoading] = useState(false);
     const user = useSelector(state => state.session.user);
-    const [position, setPosition] = useState({ 'lat': jobsite?.latitude, 'lng': jobsite?.longitude })
+    const [position, setPosition] = useState((jobsite) ? { 'lat': jobsite?.latitude, 'lng': jobsite?.longitude } : { 'lat': 38.155, 'lng': -121.7336 })
     const dispatch = useDispatch();
 
     useEffect(() => {
