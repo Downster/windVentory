@@ -96,7 +96,7 @@ class Team(db.Model):
     team_members = relationship('User', back_populates='teams', secondary=user_Teams)
     team_jobsite = relationship('JobSite', back_populates='teams_site')
     rooms = relationship('ChatRoom', back_populates='team', cascade="all, delete")
-    storage_location = relationship('StorageLocation', back_populates='team')
+    storage_location = relationship('StorageLocation', back_populates='team', cascade="all, delete")
 
     def to_dict(self):
         return {

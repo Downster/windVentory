@@ -19,6 +19,12 @@ def seed_storage_location():
         storagetype_id=1, jobsite_id=2)
     SheldonTeam2 = StorageLocation(
         storagetype_id=1, jobsite_id=2)
+    Spurs1Connex = StorageLocation(
+        storagetype_id=2, jobsite_id=3
+    )
+    CridgeConnex = StorageLocation(
+        storagetype_id=2, jobsite_id=4
+    )
             
 
     
@@ -29,6 +35,8 @@ def seed_storage_location():
     db.session.add(SheldonConnex)
     db.session.add(SheldonTeam)
     db.session.add(SheldonTeam2)
+    db.session.add(Spurs1Connex)
+    db.session.add(CridgeConnex)
     
     db.session.commit()
 
