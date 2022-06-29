@@ -32,7 +32,7 @@ const JobSiteCard = ({ jobsite, adminPanel, single }) => {
 
 
     useEffect(() => {
-        dispatch(loadUserJobsite(jobsite?.id))
+        // dispatch(loadUserJobsite(jobsite?.id))
         return () => setShowModal(false);
     }, []);
 
@@ -43,6 +43,7 @@ const JobSiteCard = ({ jobsite, adminPanel, single }) => {
         await dispatch(loadSiteInventory(jobsite.id))
         await dispatch(getSiteChatRooms(jobsite.id))
         await dispatch(fetchWeather(jobsite.id))
+        await dispatch(loadUserJobsite(jobsite.id))
         await dispatch(flipLoading())
         history.push(`/jobsite/${jobsite.id}/inventory`)
     }

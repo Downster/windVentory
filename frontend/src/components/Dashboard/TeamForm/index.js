@@ -10,7 +10,7 @@ import { setUserTeam } from "../../../store/session";
 const TeamForm = ({ setShowModal, edit, teamId, jobsite }) => {
     let newTeam
     const dispatch = useDispatch();
-    const currentSite = useSelector(state => state.currentSite.site.id)
+    const currentSite = useSelector(state => state.currentSite?.site?.id)
     const currentUser = useSelector(state => state.session.user.id)
     const [errors, setErrors] = useState({});
     const [teamLead, setTeamLead] = useState('')

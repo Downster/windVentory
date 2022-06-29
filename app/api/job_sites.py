@@ -55,6 +55,14 @@ def create_site(current_user):
         )
         db.session.add(site)
         db.session.commit()
+        print('sadsadsadasdsadasd', site.id)
+        id = site.id
+        location = StorageLocation(
+            storagetype_id = 2,
+            jobsite_id = id
+        )
+        db.session.add(location)
+        db.session.commit()
         return jsonify({
             'site': site.to_dict(),
         })

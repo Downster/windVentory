@@ -26,7 +26,7 @@ const JobSiteNav = ({ isMember, isAdmin, siteChats, siteId }) => {
         history.push('/')
         await dispatch(leaveSite())
         await dispatch(clearRooms())
-        await dispatch(fetchUserTeam(user))
+        // await dispatch(fetchUserTeam(user))
         await dispatch(leaveCurrentTeam())
         await dispatch(clearTeamRooms())
     }

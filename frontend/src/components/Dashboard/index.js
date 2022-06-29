@@ -25,14 +25,17 @@ import Inventory from './Inventory'
 import { flipLoading } from '../../store/session'
 import { io } from 'socket.io-client'
 import CreateJobsiteForm from './JobSiteForm'
+import checkPermissions from '../../utils/checkPermissions'
 
 
 let socket;
 const Dashboard = () => {
     const dispatch = useDispatch()
     const user = useSelector(state => state.session.user)
-
+    const role = user.role[0]
+    const canAccess = checkPermissions(role, 'panel')
     const getAllUserInfo = async (user) => {
+        console.log('woooooof')
         await dispatch(flipLoading())
         await dispatch(loadUserJobsite(user.jobsite_id))
         await dispatch(fetchWeather(user.jobsite_id))
@@ -131,13 +134,23 @@ const Dashboard = () => {
                         <Chat jobsite={true} />
                     </Route>
                     <Route path='/admin/jobsites'>
-                        <AllSites adminPanel={true} />
+                        {canAccess ?
+                            <AllSites adminPanel={true} /> : <h1>Unauthorized</h1>
+                        }
                     </Route>
                     <Route path='/admin/teams'>
-                        <AllTeams />
+                        {canAccess ?
+                            <AllTeams /> :
+                            <h1>Unauthorized</h1>}
                     </Route>
                     <Route path='/admin/users'>
-                        <AllUsers />
+                        {canAccess ?
+                            <AllUsers /> :
+                            <h1>Unauthorized</h1>
+                        }
+                    </Route>
+                    <Route>
+                        <h1>Sorry, an error occured. Url not found</h1>
                     </Route>
                 </Switch>
             </div>
