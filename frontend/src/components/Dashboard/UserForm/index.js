@@ -71,6 +71,7 @@ function UserForm({ setShowModal, user, edit }) {
                 </div>
                 <div className="form-element-container">
                     <select
+                        className="input-field"
                         value={role}
                         onChange={({ target: { value } }) => setRole(value)}
                     >
@@ -140,7 +141,7 @@ function UserForm({ setShowModal, user, edit }) {
                 </div>
                 }
                 <div className="button-div">
-                    <button type="submit" className='signup-button'>{(edit) ? 'Edit user' : 'Create User'}</button>
+                    <button type="submit" className='edit-user-button'>{(edit) ? 'Edit user' : 'Create User'}</button>
                 </div>
             </div>
         </form>

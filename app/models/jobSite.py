@@ -16,7 +16,7 @@ class JobSite(db.Model):
 
     #relationships
     towers = relationship('Tower', back_populates='jobsite')
-    teams_site = relationship('Team', back_populates='team_jobsite')
+    teams_site = relationship('Team', back_populates='team_jobsite', cascade='all, delete')
     users_site = relationship('User', back_populates='user_jobsite')
     site_connex = relationship('Connex', back_populates='jobsite')
     site_notes = relationship('Note', back_populates='jobsite')
