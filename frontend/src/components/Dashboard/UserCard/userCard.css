@@ -2,3 +2,34 @@
     width: 100px;
     height: 100px;
 }
+
+.user-card{
+    padding: 15px;
+}
+
+
+.fa-user-pen{
+    font-size: 20px;
+    cursor: pointer;
+    padding-right: 5px;
+}
+
+.fa-ban{
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.user-buttons{
+    display: flex;
+    justify-content: space-around;
+}
+
+.team{
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.site{
+    padding-left: 15px;
+    padding-right: 15px;
+}

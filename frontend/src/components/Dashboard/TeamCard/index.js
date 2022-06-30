@@ -16,6 +16,7 @@ const TeamCard = ({ team, admin }) => {
     const user = useSelector(state => state.session.user)
     const currentTeam = useSelector(state => state.currentTeam.team)
     const [showModal, setShowModal] = useState(false);
+    const [show, setShow] = useState(false)
     const [showDeleteModal, setShowDeleteModal] = useState(false)
     useEffect(() => {
         return () => setShowModal(false);
@@ -23,7 +24,7 @@ const TeamCard = ({ team, admin }) => {
 
     const joinTeam = async () => {
         await dispatch(setUserTeam(team.id))
-        await dispatch(setTeam(team))
+        await dispatch(setTeam(user?.teams))
         await dispatch(loadTeamInventory(user.teams.location))
         await dispatch(getTeamChatRoom(team.id))
 
@@ -48,11 +49,16 @@ const TeamCard = ({ team, admin }) => {
 
     return (
         <div className='team-container'>
-            <div className="team-card">
+            <div className="team-card" onMouseEnter={(e) => setShow(true)} onMouseLeave={(e) => setShow(false)}>
+                <div className='team-image'>
+                    <i class="fa-duotone fa-people-group display"></i>
+                </div>
                 <h1 className="team-name">{team.team_lead.firstName + " " + team.team_lead.lastName}'s Team</h1>
-                {admin ? null : (currentTeam?.id !== team?.id) ? <button onClick={joinTeam}>Join Team</button> : <button onClick={leaveTeam}>Leave Team</button>}
-                {admin && <button onClick={modifyTeam}>Edit Team</button>}
-                {admin && <button onClick={deleteTeam}>Delete Team</button>}
+                {admin ? null : (currentTeam?.id !== team?.id) ? <><i class="fa-duotone fa-right-to-bracket" onClick={joinTeam}></i></> : <i class="fa-duotone fa-person-to-door display" onClick={leaveTeam}></i>}
+                <div className='team-buttons'>
+                    {show && admin && <i class="fa-duotone fa-user-pen team" onClick={modifyTeam}></i>}
+                    {show && admin && <i class="fa-duotone fa-ban team" onClick={deleteTeam}></i>}
+                </div>
                 {showModal && (
                     <Modal onClose={() => setShowModal(false)}>
                         <TeamForm setShowModal={setShowModal} edit={true} teamId={team.id} />

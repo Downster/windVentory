@@ -22,10 +22,10 @@ def seed():
     seed_storage_type()
     seed_storage_location()
     seed_towers()
-    seed_teams()
+    # seed_teams()
     # seed_events()
     seed_connex()
-    seed_notes()
+    # seed_notes()
     seed_material_class()
     # Add other seed functions here
 

@@ -50,6 +50,7 @@
 
 .fa-minus{
     padding-left: 10px;
+    cursor: pointer;
 }
 .chat-room{
     display: flex;

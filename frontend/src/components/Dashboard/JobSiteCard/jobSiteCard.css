@@ -1,6 +1,9 @@
 .jobSite-card{
-    height: 150px;
-    width: 150px;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    align-items: center;
+    height: 200px;
 }
 
 .jobsite-image{
@@ -9,5 +12,9 @@
 }
 
 .single-user-site{
+    display: flex;
+}
+
+.jobsite-buttons{
     display: flex;
 }

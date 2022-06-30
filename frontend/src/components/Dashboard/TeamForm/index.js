@@ -109,7 +109,7 @@ const TeamForm = ({ setShowModal, edit, teamId, jobsite }) => {
                         onChange={(e) => setJobtype(e.target.value)}
                         placeholder='Jobtype'></input>
                 </div>
-                <button disabled={Object.keys(errors).length > 0} id='create-team' type="submit">{(edit) ? 'Edit Team' : 'Create Team'}</button>
+                <button disabled={Object.keys(errors).length > 0} id='create-team' type="submit">{(edit) ? 'Edit' : 'Create'}</button>
                 <button className='cancel-btn' onClick={handleCancelClick}>Cancel</button>
             </div>
         </form>

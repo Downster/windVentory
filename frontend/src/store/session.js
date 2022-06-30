@@ -130,6 +130,7 @@ export const setUserTeam = (teamId) => async (dispatch) => {
 
     if (res.ok) {
         const team = await res.json()
+        console.log(team)
         dispatch(setTeam(team))
     } else {
         const errors = res.json()
@@ -222,6 +223,7 @@ const sessionReducer = (state = initialState, action) => {
             return newState
         case LEAVE_TEAM:
             newState.user.teams = []
+            return newState
         default:
             return state;
     }

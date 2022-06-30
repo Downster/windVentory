@@ -12,6 +12,7 @@ const UserCard = ({ user, admin }) => {
     const [showModal, setShowModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false)
     const [errors, setErrors] = useState([]);
+    const [show, setShow] = useState(false)
 
     useEffect(() => {
         return () => setShowModal(false);
@@ -19,6 +20,11 @@ const UserCard = ({ user, admin }) => {
 
     const editUser = () => {
         setShowModal(true)
+        setShow(false)
+    }
+
+    const showIcons = () => {
+
     }
 
     const deleteUser = async () => {
@@ -28,13 +34,15 @@ const UserCard = ({ user, admin }) => {
 
     return (
         <div className='user-container'>
-            <div className="user-card">
+            <div className="user-card" onMouseEnter={(e) => setShow(true)} onMouseLeave={(e) => setShow(false)}>
                 {errors && errors.map((err, idx) => <li className='errors' key={idx}>{err}</li>)}
                 <img className="user-card-image" src={user.image}></img>
                 <h1 className="team-name">{user.firstName + " " + user.lastName}</h1>
                 {!admin && <button>View User</button>}
-                {admin && <button onClick={editUser}>Edit User</button>}
-                {admin && <button onClick={deleteUser}>Delete User</button>}
+                <div className='user-buttons'>
+                    {show && admin && <i class="fa-duotone fa-user-pen" onClick={editUser}></i>}
+                    {show && admin && <i class="fa-duotone fa-ban" onClick={deleteUser}></i>}
+                </div>
                 {showModal && (
                     <Modal onClose={() => setShowModal(false)}>
                         <UserForm setShowModal={setShowModal} user={user} edit={true} />
