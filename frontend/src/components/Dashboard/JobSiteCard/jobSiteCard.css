@@ -12,6 +12,8 @@
 }
 
 .single-user-site{
+    margin: 15px 15px 15px 15px;
+    gap: 20px;
     display: flex;
 }
 

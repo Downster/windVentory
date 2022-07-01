@@ -17,7 +17,7 @@ const AllTeams = () => {
     return (
         < div className="app-body" >
             {(teamsObject.length) ? teamsObject.map((team) => (
-                <TeamCard key={team.id} team={team} admin={(user.role.includes('Admin')) ? true : false} />)) : <h1>This site has no teams, create one?</h1>}
+                <TeamCard key={team.id} team={team} admin={(user.role.includes('Admin')) ? true : false} />)) : <h1>There are no teams, create one?</h1>}
         </div>
     )
 }

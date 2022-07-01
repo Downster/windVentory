@@ -12,12 +12,13 @@ const TeamForm = ({ setShowModal, edit, teamId, jobsite }) => {
     const dispatch = useDispatch();
     const currentSite = useSelector(state => state.currentSite?.site?.id)
     const currentUser = useSelector(state => state.session.user.id)
-    const [errors, setErrors] = useState({});
-    const [teamLead, setTeamLead] = useState('')
-    const [jobType, setJobtype] = useState('')
-    const [selectJobsite, setSelectJobsite] = useState('')
     const leads = useSelector(state => state.leads);
     const sites = useSelector(state => state.jobsites)
+    console.log(leads)
+    const [errors, setErrors] = useState({});
+    const [teamLead, setTeamLead] = useState(leads[1].id)
+    const [jobType, setJobtype] = useState('')
+    const [selectJobsite, setSelectJobsite] = useState(sites[1].id)
     const team = useSelector(state => state.allTeams[teamId])
 
 
@@ -30,7 +31,8 @@ const TeamForm = ({ setShowModal, edit, teamId, jobsite }) => {
         e.preventDefault()
         let errors;
         const formData = new FormData();
-        formData.append('lead_id', jobsite ? currentUser : teamLead)
+        formData.append('lead_id', (jobsite) ? currentUser : teamLead)
+        console.log(teamLead)
         formData.append('jobsite_id', jobsite ? currentSite : selectJobsite)
         formData.append('job_type', jobType)
 
@@ -45,7 +47,7 @@ const TeamForm = ({ setShowModal, edit, teamId, jobsite }) => {
         }
 
         if (newTeam.errors) {
-            console.log(errors)
+            console.log(newTeam.errors)
         }
 
 

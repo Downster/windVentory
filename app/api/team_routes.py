@@ -43,6 +43,12 @@ def create_team(current_user):
             )
             db.session.add(team)
             db.session.commit()
+            if current_user.to_role() != {'Admin'}:
+                team.team_members.append(current_user)
+            else:
+                lead = User.query.get(form['lead_id'].data)
+                team.team_members.append(lead)
+            db.session.commit()
             return jsonify({
                 'team': team.to_dict(),
             })

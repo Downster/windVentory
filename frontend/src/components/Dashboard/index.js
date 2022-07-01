@@ -23,6 +23,7 @@ import { getSiteChatRooms, getTeamChatRoom } from '../../store/chatRoom'
 import DisplayInventory from './DisplayInventory'
 import Inventory from './Inventory'
 import { flipLoading } from '../../store/session'
+import { loadLeads } from '../../store/leads'
 import { io } from 'socket.io-client'
 import CreateJobsiteForm from './JobSiteForm'
 import checkPermissions from '../../utils/checkPermissions'
@@ -55,6 +56,7 @@ const Dashboard = () => {
                 getAllUserInfo(user)
             }
             dispatch(loadAllTeams())
+            dispatch(loadLeads())
             dispatch(getJobsites())
             dispatch(fetchUserTeam(user))
         }
