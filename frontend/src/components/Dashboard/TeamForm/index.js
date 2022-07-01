@@ -32,7 +32,6 @@ const TeamForm = ({ setShowModal, edit, teamId, jobsite }) => {
         let errors;
         const formData = new FormData();
         formData.append('lead_id', (jobsite) ? currentUser : teamLead)
-        console.log(teamLead)
         formData.append('jobsite_id', jobsite ? currentSite : selectJobsite)
         formData.append('job_type', jobType)
 
@@ -43,7 +42,6 @@ const TeamForm = ({ setShowModal, edit, teamId, jobsite }) => {
             newTeam = await dispatch(createNewTeam(formData));
             jobsite && await dispatch(setUserTeam(newTeam.id))
             jobsite && await dispatch(setTeam(newTeam))
-            await dispatch(fetchTeams(currentSite))
         }
 
         if (newTeam.errors) {
