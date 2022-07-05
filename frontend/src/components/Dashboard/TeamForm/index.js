@@ -19,7 +19,7 @@ const TeamForm = ({ setShowModal, edit, team, jobsite }) => {
     const [teamLead, setTeamLead] = useState((edit) ? team.lead_id : leads[1].id)
     const [jobType, setJobtype] = useState((edit) ? team.job_type : '')
     const [selectJobsite, setSelectJobsite] = useState((edit) ? team.jobsite_id : sites[1].id)
-    const selectedTeam = useSelector(state => state.allTeams[team.id])
+    // const selectedTeam = useSelector(state => state.allTeams[team.id])
 
 
     useEffect(() => {
