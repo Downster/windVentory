@@ -33,21 +33,22 @@ function UserForm({ setShowModal, user, edit }) {
             formData.append('userId', userId)
             errors = await dispatch(modifyUser(formData, user.id))
             await dispatch(loadLeads())
-        } else if (edit && password === confirmPassword) {
+        } else if (!edit && password === confirmPassword) {
             formData.append('password', password)
             errors = await dispatch(createNewUser(formData))
         }
         if (errors) {
-            console.log(errors)
+            setErrors(errors.errors)
+        } else {
+            setShowModal(false)
         }
-        setShowModal(false)
     };
 
 
     return (
         <form onSubmit={handleSubmit} className='sign-up-form'>
             <ul>
-                {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+                {errors.map((error, idx) => <li key={idx} className='errors'>{error}</li>)}
             </ul>
             <div className="user-form-input-container">
                 <div className="form-element-container">
@@ -57,7 +58,6 @@ function UserForm({ setShowModal, user, edit }) {
                         value={email}
                         placeholder='Email'
                         onChange={(e) => setEmail(e.target.value)}
-                        required
                     />
                 </div>
                 <div className="form-element-container">
@@ -67,7 +67,6 @@ function UserForm({ setShowModal, user, edit }) {
                         value={firstName}
                         placeholder='First Name'
                         onChange={(e) => setFirstName(e.target.value)}
-                        required
                     />
                 </div>
                 <div className="form-element-container">
@@ -106,7 +105,6 @@ function UserForm({ setShowModal, user, edit }) {
                         value={lastName}
                         placeholder='Last Name'
                         onChange={(e) => setLastName(e.target.value)}
-                        required
                     />
                 </div>
                 <div className="form-element-container">
@@ -116,7 +114,6 @@ function UserForm({ setShowModal, user, edit }) {
                         value={phoneNumber}
                         placeholder='Phone Number'
                         onChange={(e) => setPhoneNumber(e.target.value)}
-                        required
                     />
                 </div>
                 {!edit && <div className="form-element-container">
@@ -126,7 +123,6 @@ function UserForm({ setShowModal, user, edit }) {
                         value={password}
                         placeholder='Password'
                         onChange={(e) => setPassword(e.target.value)}
-                        required
                     />
                 </div>
                 }
@@ -137,7 +133,6 @@ function UserForm({ setShowModal, user, edit }) {
                         placeholder="Confirm Password"
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
-                        required
                     />
                 </div>
                 }
