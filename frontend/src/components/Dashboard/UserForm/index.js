@@ -6,7 +6,6 @@ import roleToNum from "../../../utils/roleToNum";
 
 
 function UserForm({ setShowModal, user, edit }) {
-    console.log(user)
     const dispatch = useDispatch();
     const [email, setEmail] = useState((edit) ? user.email : "");
     const [role, setRole] = useState((edit) ? roleToNum(user.role[0]) : 1)

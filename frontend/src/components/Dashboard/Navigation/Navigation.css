@@ -49,11 +49,11 @@
 
 }
 
-.profile-button:hover{
+/* .profile-button:hover{
  -webkit-box-shadow: 0px 0px 30px 0px #A9C2F4;
 -moz-box-shadow:    0px 0px 30px 0px #A9C2F4;
 box-shadow:         0px 0px 30px 0px #A9C2F4;
-}
+} */
 
 .profile-div{
     height: fit-content;
