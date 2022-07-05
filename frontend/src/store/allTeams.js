@@ -57,7 +57,7 @@ export const createNewTeam = (formData) => async (dispatch) => {
 
 export const editTeam = (formData, teamId) => async (dispatch) => {
     const res = await tokenFetch(`/teams/${teamId}`, {
-        method: 'PATCH',
+        method: 'PUT',
         body: formData
     })
 
