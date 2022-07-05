@@ -76,6 +76,6 @@ You can view the weather, along with a graph of the forecasted average and gust 
 ![Imgur](https://i.imgur.com/hOTyYpg.png)
 
 # Live Chat
-Send messages messages in real time and recieve notifications when a chatroom has a new message.
+Send messages in real time and recieve notifications when a chatroom has a new message.
 ![Imgur](https://github.com/Downster/windVentory/blob/main/frontend/public/images/Screen%20Recording%202022-06-22%20at%205.56.08%20PM.gif?raw=true)
 
