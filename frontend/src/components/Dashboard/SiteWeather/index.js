@@ -11,7 +11,6 @@ import {
     Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { HashRouter } from "react-router-dom";
 import './SiteWeather.css'
 
 ChartJS.register(
@@ -48,7 +47,7 @@ const SiteWeather = () => {
             },
             title: {
                 display: true,
-                text: `Forecasted wind speed for ${new Date(forecast.list[0].dt_txt).toLocaleDateString('en-US')}`,
+                text: `Forecasted wind speed for ${new Date(forecast.list[0].dt_txt).toLocaleDateString('en-US')} (meters/second)`,
             },
         },
     };

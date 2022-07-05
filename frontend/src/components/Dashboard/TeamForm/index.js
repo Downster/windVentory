@@ -7,19 +7,17 @@ import { getJobsites } from "../../../store/jobsites";
 import { loadLeads } from "../../../store/leads";
 import { setUserTeam } from "../../../store/session";
 
-const TeamForm = ({ setShowModal, edit, teamId, jobsite }) => {
+const TeamForm = ({ setShowModal, edit, team, jobsite }) => {
     let newTeam
     const dispatch = useDispatch();
     const currentSite = useSelector(state => state.currentSite?.site?.id)
     const currentUser = useSelector(state => state.session.user.id)
     const leads = useSelector(state => state.leads);
     const sites = useSelector(state => state.jobsites)
-    console.log(leads)
-    const [errors, setErrors] = useState({});
-    const [teamLead, setTeamLead] = useState(leads[1].id)
-    const [jobType, setJobtype] = useState('')
-    const [selectJobsite, setSelectJobsite] = useState(sites[1].id)
-    const team = useSelector(state => state.allTeams[teamId])
+    const [errors, setErrors] = useState([]);
+    const [teamLead, setTeamLead] = useState((edit) ? team.lead_id : leads[1].id)
+    const [jobType, setJobtype] = useState((edit) ? team.job_type : '')
+    const [selectJobsite, setSelectJobsite] = useState((edit) ? team.jobsite_id : sites[1].id)
 
 
     useEffect(() => {
@@ -43,13 +41,16 @@ const TeamForm = ({ setShowModal, edit, teamId, jobsite }) => {
             jobsite && await dispatch(setUserTeam(newTeam.id))
             jobsite && await dispatch(setTeam(newTeam))
         }
+        if (newTeam && newTeam.errors) {
+            setErrors(newTeam.errors)
+        } else if (errors) {
+            setErrors(errors.errors)
+        } else {
+            setShowModal(false);
 
-        if (newTeam.errors) {
-            console.log(newTeam.errors)
         }
 
 
-        setShowModal(false);
 
     }
 
@@ -68,7 +69,9 @@ const TeamForm = ({ setShowModal, edit, teamId, jobsite }) => {
     return (
         <form autoComplete="off" className="team-form-container" onSubmit={handleSubmit}>
             <div className='team-form-input-container'>
-
+                <ul>
+                    {errors.map((error, idx) => <li key={idx} className='errors'>{error}</li>)}
+                </ul>
                 <div className='form-element-container'>
                     {!jobsite && <select
                         className="input-field"
@@ -109,7 +112,7 @@ const TeamForm = ({ setShowModal, edit, teamId, jobsite }) => {
                         onChange={(e) => setJobtype(e.target.value)}
                         placeholder='Jobtype'></input>
                 </div>
-                <button disabled={Object.keys(errors).length > 0} id='create-team' type="submit">{(edit) ? 'Edit' : 'Create'}</button>
+                <button id='create-team' type="submit">{(edit) ? 'Edit' : 'Create'}</button>
                 <button className='cancel-btn' onClick={handleCancelClick}>Cancel</button>
             </div>
         </form>
