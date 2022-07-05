@@ -19,7 +19,6 @@ const JobSiteCard = ({ jobsite, adminPanel, single }) => {
     const userSite = useSelector(state => state.currentSite.site)
     const user = useSelector(state => state.session.user)
     const [showModal, setShowModal] = useState(false);
-    const [show, setShow] = useState(false)
     const [showDeleteModal, setShowDeleteModal] = useState(false)
     const currentWeather = useSelector(state => state.currentSite.currentWeather)
     const coord = currentWeather?.coord
@@ -32,10 +31,11 @@ const JobSiteCard = ({ jobsite, adminPanel, single }) => {
     });
 
 
-    useEffect(() => {
-        // dispatch(loadUserJobsite(jobsite?.id))
-        return () => setShowModal(false);
-    }, []);
+
+    // useEffect(() => {
+    //     // dispatch(loadUserJobsite(jobsite?.id))
+    //     return () => setShowModal(false);
+    // }, []);
 
     const setJobsite = async () => {
         await dispatch(flipLoading())
@@ -51,7 +51,6 @@ const JobSiteCard = ({ jobsite, adminPanel, single }) => {
 
     const modifyJobsite = () => {
         setShowModal(true)
-        setShow(false)
     }
 
     const destroyJobsite = () => {
@@ -64,7 +63,7 @@ const JobSiteCard = ({ jobsite, adminPanel, single }) => {
                     <DeleteSitePrompt site={jobsite} setShowModal={setShowDeleteModal} />
                 </Modal>
             )}
-            {!single && <div className="jobSite-card" onMouseEnter={(e) => setShow(true)} onMouseLeave={(e) => setShow(false)} >
+            {!single && <div className="jobSite-card" onClick={(adminPanel) ? modifyJobsite : setJobsite} >
                 <img className='jobsite-image' src={jobsite.image} data-tip={'State: ' + jobsite.state}></img>
                 <ReactTooltip
                     className="tool-tip-cls"
@@ -75,10 +74,10 @@ const JobSiteCard = ({ jobsite, adminPanel, single }) => {
                 <h1 className="jobsite-name">{jobsite.name}</h1>
                 <h1 className="jobsite-client">Client: {jobsite.client}</h1>
                 {/* <h1 className="jobsite-state">{jobsite.state}</h1> */}
-                {!adminPanel && <><p>Join site</p><i class="fa-duotone fa-right-to-bracket" onClick={setJobsite}></i></>}
+                {!adminPanel && <><i class="fa-duotone fa-right-to-bracket"></i></>}
                 <div className='jobsite-buttons'>
-                    {show && adminPanel && <i class="fa-duotone fa-user-pen site" onClick={modifyJobsite}></i>}
-                    {show && adminPanel && <i class="fa-duotone fa-ban site" onClick={destroyJobsite}></i>}
+                    {/* {show && adminPanel && <i class="fa-duotone fa-user-pen site" onClick={modifyJobsite}></i>} */}
+                    {adminPanel && <i class="fa-duotone fa-ban site" onClick={destroyJobsite}></i>}
                 </div>
                 {showModal && (
                     <Modal onClose={() => setShowModal(false)}>

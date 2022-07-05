@@ -4,6 +4,7 @@
     padding: 10px;
     align-items: center;
     height: 200px;
+    cursor: pointer;
 }
 
 .jobsite-image{
@@ -19,4 +20,5 @@
 
 .jobsite-buttons{
     display: flex;
+    z-index: 100;
 }

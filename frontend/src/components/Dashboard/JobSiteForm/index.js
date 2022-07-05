@@ -58,7 +58,6 @@ const CreateJobsiteForm = ({ setShowModal, edit, siteId }) => {
     };
 
     const handleCancelClick = async (e) => {
-        e.preventDefault();
         setShowModal(false);
     };
 

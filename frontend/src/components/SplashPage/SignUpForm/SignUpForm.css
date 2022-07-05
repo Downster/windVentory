@@ -5,6 +5,12 @@
     flex-direction: column;
 }
 
+.user-form-input-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .sign-up-header{
     margin-top: 20px;
     padding-bottom: 10px;
@@ -43,6 +49,12 @@
     height: 40px;
     margin-bottom: 10px;
     border-radius: 10px;
+}
+
+.form-element-container{
+    display: flex;
+    width: 100%;
+    justify-content: center;
 }
 
 .back-to-login-button{
