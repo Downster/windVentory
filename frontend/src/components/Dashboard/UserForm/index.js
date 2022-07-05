@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createNewUser, modifyUser } from "../../../store/allUsers";
+import { loadLeads } from '../../../store/leads'
 import roleToNum from "../../../utils/roleToNum";
 
 
 function UserForm({ setShowModal, user, edit }) {
+    console.log(user)
     const dispatch = useDispatch();
-    const sessionUser = useSelector((state) => state.session.user);
     const [email, setEmail] = useState((edit) ? user.email : "");
     const [role, setRole] = useState((edit) ? roleToNum(user.role[0]) : 1)
     const [firstName, setFirstName] = useState((edit) ? user.firstName : '');
@@ -32,6 +33,7 @@ function UserForm({ setShowModal, user, edit }) {
         } else if (edit) {
             formData.append('userId', userId)
             errors = await dispatch(modifyUser(formData, user.id))
+            await dispatch(loadLeads())
         } else if (edit && password === confirmPassword) {
             formData.append('password', password)
             errors = await dispatch(createNewUser(formData))
