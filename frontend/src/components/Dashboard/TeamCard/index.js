@@ -61,7 +61,7 @@ const TeamCard = ({ team, admin }) => {
                 </div>
                 {showModal && (
                     <Modal onClose={() => setShowModal(false)}>
-                        <TeamForm setShowModal={setShowModal} edit={true} teamId={team.id} />
+                        <TeamForm setShowModal={setShowModal} edit={true} team={team} />
                     </Modal>
                 )}
                 {showDeleteModal && (
