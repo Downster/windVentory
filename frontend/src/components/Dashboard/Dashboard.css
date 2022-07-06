@@ -64,6 +64,11 @@
     height: 300px;
 }
 
+.site-form-image{
+    height: 50px;
+    width: 50px;
+}
+
 .site-image-container{
     padding-top: 10px;
     display: flex;
