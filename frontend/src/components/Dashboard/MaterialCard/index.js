@@ -23,10 +23,12 @@ const MaterialCard = ({ material, team }) => {
     useEffect(() => {
         if (material.quantity < 4) {
             setLow(true)
+        } else {
+            setLow(false)
         }
         // getImageBrightness(material.image, darkOrLight)
         return () => setShowModal(false);
-    }, []);
+    }, [material]);
 
     const darkOrLight = (brightness) => {
         if (brightness < 127.5) {
