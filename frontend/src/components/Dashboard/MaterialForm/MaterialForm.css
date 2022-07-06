@@ -12,6 +12,11 @@
     font-size: 40px;
 }
 
+.form-input-container.material{
+    display: flex;
+    flex-direction: column;
+}
+
 .material-form{
     padding: 20px
 }

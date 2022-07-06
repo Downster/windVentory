@@ -86,7 +86,7 @@ function MaterialForm({ team, setShowModal, material, edit }) {
                 {errors && errors.map((error, idx) => <li className='errors' key={idx}>{error}</li>)}
             </ul>
             <div className="form-input-container material">
-                <div className="form-element-container">
+                <div className="form-element-container material">
                     <div className="form-label-container">
                         <label className="form-label">Material image</label>
                         <p className="form-label-required">Required</p>
@@ -198,7 +198,7 @@ function MaterialForm({ team, setShowModal, material, edit }) {
                                 <img
                                     alt="preview"
                                     src={'https://windventory.s3.amazonaws.com/turbine.gif'}
-                                    className="loading-image site"
+                                    className="loading-image"
                                 ></img>
                             </>
                         )}
