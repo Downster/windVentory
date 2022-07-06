@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import states from "../../../utils/states";
 import { createJobsite, editJobsite, getJobsites } from "../../../store/jobsites";
 import MiniMap from "../MiniMap";
+import ImageUpload from "../ImageUpload";
 
 const CreateJobsiteForm = ({ setShowModal, edit, siteId }) => {
     const history = useHistory();
     const location = useLocation();
+    const hiddenImageInput = useRef(null);
     const jobsite = useSelector(state => state.jobsites[siteId])
-    const [errors, setErrors] = useState({});
+    const [errors, setErrors] = useState([]);
     const [siteName, setSiteName] = useState((edit) ? jobsite.name : '');
     const [client, setClient] = useState((edit) ? jobsite.client : '')
     const [state, setState] = useState((edit) ? jobsite.state : '');
@@ -18,15 +20,6 @@ const CreateJobsiteForm = ({ setShowModal, edit, siteId }) => {
     const user = useSelector(state => state.session.user);
     const [position, setPosition] = useState((jobsite) ? { 'lat': jobsite?.latitude, 'lng': jobsite?.longitude } : { 'lat': 38.155, 'lng': -121.7336 })
     const dispatch = useDispatch();
-
-    useEffect(() => {
-        const errors = {};
-        if (siteName.length > 40)
-            errors['group_name'] = 'Group name must be less than 40 characters.';
-        if (client.length > 60)
-            errors['client_name'] = 'Client name must be less than 60 characters';
-        setErrors(errors);
-    }, [siteName, client]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -50,11 +43,13 @@ const CreateJobsiteForm = ({ setShowModal, edit, siteId }) => {
         setImageLoading(false);
 
         if (errors) {
-            console.log(errors)
+            setErrors(errors)
+        } else {
+            setShowModal(false);
+
         }
 
 
-        setShowModal(false);
     };
 
     const handleCancelClick = async (e) => {
@@ -73,6 +68,9 @@ const CreateJobsiteForm = ({ setShowModal, edit, siteId }) => {
     const updateClient = (e) => {
         setClient(e.target.value);
     };
+    const showImageInput = event => {
+        hiddenImageInput.current.click();
+    };
 
     useEffect(() => {
         setErrors(errors)
@@ -81,6 +79,9 @@ const CreateJobsiteForm = ({ setShowModal, edit, siteId }) => {
 
     return (
         <form autoComplete="off" onSubmit={handleSubmit} className="site-form-container">
+            <ul>
+                {errors && errors.map((error, idx) => <li className='errors' key={idx}>{error}</li>)}
+            </ul>
             <div className='site-form-input-container'>
                 <div className='form-element-container'>
                     <input
@@ -91,9 +92,6 @@ const CreateJobsiteForm = ({ setShowModal, edit, siteId }) => {
                         value={siteName}
                         onChange={updateSiteName}
                     />
-                    <div className='errors-container'>
-                        {errors.site_name ? `${errors.site_name}` : ""}
-                    </div>
                 </div>
 
                 <div className='form-element-container'>
@@ -120,9 +118,6 @@ const CreateJobsiteForm = ({ setShowModal, edit, siteId }) => {
                         value={client}
                         onChange={updateClient}
                     />
-                    <div className='errors-container'>
-                        {errors.site_name ? `${errors.site_name}` : ""}
-                    </div>
                 </div>
                 <div className="form-map-container">
                     <MiniMap position={position} onPositionChanged={(latlng) => setPosition(latlng)} />
@@ -149,34 +144,32 @@ const CreateJobsiteForm = ({ setShowModal, edit, siteId }) => {
                         onChange={(e) => setLongitude(e.target.value)}
                     />
                 </div> */}
-                <button disabled={Object.keys(errors).length > 0} id='create-jobsite' type="submit">{(edit) ? 'Edit Jobsite' : 'Create Jobsite'}</button>
-                <button className='cancel-btn' onClick={handleCancelClick}>Cancel</button>
+                <ImageUpload image={image} showImageInput={showImageInput} site={true} />
+                <div className="site-add-image-container">
+                    <input
+                        className="site-image-input"
+                        type='file'
+                        ref={hiddenImageInput}
+                        accept="image/*"
+                        onChange={updateImage}
+                    />
+                    <div className="preview-container site">
+                        {imageLoading && (
+                            <>
+                                <h1 className="loading">loading....</h1>
+                                <img
+                                    alt="preview"
+                                    src={'https://windventory.s3.amazonaws.com/turbine.gif'}
+                                    className="loading-image"
+                                ></img>
+                            </>
+                        )}
+                    </div>
+                    <button id='create-jobsite' type="submit">{(edit) ? 'Edit Jobsite' : 'Create Jobsite'}</button>
+                    <button className='cancel-btn' onClick={handleCancelClick}>Cancel</button>
+                </div>
             </div>
 
-            <div className="site-add-image-container">
-                <input
-                    id="file-upload"
-                    type="file"
-                    accept="image/*"
-                    onChange={updateImage}
-                ></input>
-                <div className="preview-container site">
-                    {image && (
-                        <img
-                            alt="preview"
-                            src={URL.createObjectURL(image)}
-                            className="preview-image site"
-                        ></img>
-                    )}
-                </div>
-                <label htmlFor="file-upload">
-                    {imageLoading ?
-                        <i className="fas fa-spinner fa-pulse"></i>
-                        :
-                        <i className="fas fa-image"></i>
-                    }
-                </label>
-            </div>
 
         </form>
     );

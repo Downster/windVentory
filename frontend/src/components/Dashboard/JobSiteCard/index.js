@@ -20,6 +20,7 @@ const JobSiteCard = ({ jobsite, adminPanel, single }) => {
     const user = useSelector(state => state.session.user)
     const [showModal, setShowModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false)
+    const [show, setShow] = useState(false)
     const currentWeather = useSelector(state => state.currentSite.currentWeather)
     const coord = currentWeather?.coord
     const { data, isLoading, errorMessage } = useOpenWeather({
@@ -51,10 +52,12 @@ const JobSiteCard = ({ jobsite, adminPanel, single }) => {
 
     const modifyJobsite = () => {
         setShowModal(true)
+        setShow(false)
     }
 
     const destroyJobsite = () => {
         setShowDeleteModal(true)
+        setShow(false)
     }
     return (
         <>
@@ -63,7 +66,7 @@ const JobSiteCard = ({ jobsite, adminPanel, single }) => {
                     <DeleteSitePrompt site={jobsite} setShowModal={setShowDeleteModal} />
                 </Modal>
             )}
-            {!single && <div className="jobSite-card" onClick={(adminPanel) ? modifyJobsite : setJobsite} >
+            {!single && <div className="jobSite-card" onClick={(adminPanel) ? null : setJobsite} onMouseEnter={(e) => setShow(true)} onMouseLeave={(e) => setShow(false)} >
                 <img className='jobsite-image' src={jobsite.image} data-tip={'State: ' + jobsite.state}></img>
                 <ReactTooltip
                     className="tool-tip-cls"
@@ -76,8 +79,8 @@ const JobSiteCard = ({ jobsite, adminPanel, single }) => {
                 {/* <h1 className="jobsite-state">{jobsite.state}</h1> */}
                 {!adminPanel && <><i class="fa-duotone fa-right-to-bracket"></i></>}
                 <div className='jobsite-buttons'>
-                    {/* {show && adminPanel && <i class="fa-duotone fa-user-pen site" onClick={modifyJobsite}></i>} */}
-                    {adminPanel && <i class="fa-duotone fa-ban site" onClick={destroyJobsite}></i>}
+                    {show && adminPanel && <i class="fa-duotone fa-user-pen site" onClick={modifyJobsite}></i>}
+                    {show && adminPanel && <i class="fa-duotone fa-ban site" onClick={destroyJobsite}></i>}
                 </div>
                 {showModal && (
                     <Modal onClose={() => setShowModal(false)}>

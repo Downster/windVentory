@@ -1,19 +1,19 @@
 
 
 
-const ImageUpload = ({ image, showImageInput }) => {
+const ImageUpload = ({ image, showImageInput, site }) => {
 
     return (
 
-        <div className="material-image-container">
+        <div className={site ? "site-image-container" : "material-image-container"}>
             {image && <img
-                className="material-form-image"
+                className={site ? 'site-form-image' : "material-form-image"}
                 src={URL.createObjectURL(image)}
             >
             </img>
             }
             {!image && <>
-                <i className="fa-duotone fa-cloud-arrow-up" onClick={showImageInput}></i><p className="valid-uploads">Please upload a pdf, png, jpg, jpeg, or gif</p>
+                <i className="fa-duotone fa-cloud-arrow-up" onClick={showImageInput}></i><p className="valid-uploads">Please upload a pdf, png, jpg, jpeg, or gif image</p>
             </>}
         </div>
     )
