@@ -22,7 +22,6 @@ function LeafletSearch({ onPositionChanged }) {
             style: "bar",
         });
         map.addControl(searchControl);
-        console.log(searchControl)
         map.on("geosearch/showlocation", handlePositionChange);
         return () => map.removeControl(searchControl);
     }, [map, onPositionChanged]);

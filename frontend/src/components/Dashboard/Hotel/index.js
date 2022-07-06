@@ -3,7 +3,8 @@ import MiniMap from "../MiniMap"
 
 
 const Hotel = () => {
-    const [position, setPosition] = useState('')
+    const [position, setPosition] = useState(null)
+    const [isLoaded, setIsLoaded] = useState(false)
 
     const options = {
         enableHighAccuracy: true,
@@ -14,24 +15,18 @@ const Hotel = () => {
     function success(pos) {
         const crd = pos.coords;
         console.log(crd)
-        setPosition(crd)
-        console.log(position)
-        reverseLookup()
-        console.log('Your current position is:');
-        console.log(`Latitude : ${crd.latitude}`);
-        console.log(`Longitude: ${crd.longitude}`);
-        console.log(`More or less ${crd.accuracy} meters.`);
+        const newPosition = {
+            'lat': crd.latitude,
+            'lng': crd.longitude
+        }
+        setPosition({ lat: newPosition.lat, lng: newPosition.lng })
+        setIsLoaded(true)
     }
 
     function error(err) {
         console.warn(`ERROR(${err.code}): ${err.message}`);
     }
 
-    const reverseLookup = async () => {
-        const address = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${position.lat}&lon=${position.lng}`)
-        const res = await address.json()
-        console.log(res)
-    }
 
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(success, error, options)
@@ -39,7 +34,9 @@ const Hotel = () => {
 
     return (
         <>
-            <MiniMap position={position} onPositionChanged={(latlng) => setPosition(latlng)} />
+            {isLoaded &&
+                <MiniMap position={position} onPositionChanged={(latlng) => setPosition(latlng)} />
+            }
         </>
     )
 }
