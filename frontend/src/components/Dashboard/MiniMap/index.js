@@ -22,6 +22,7 @@ function LeafletSearch({ onPositionChanged }) {
             style: "bar",
         });
         map.addControl(searchControl);
+        console.log(searchControl)
         map.on("geosearch/showlocation", handlePositionChange);
         return () => map.removeControl(searchControl);
     }, [map, onPositionChanged]);
@@ -29,7 +30,7 @@ function LeafletSearch({ onPositionChanged }) {
     return null;
 }
 
-export default function MiniMap({ position, onPositionChanged, editMode }) {
+export default function MiniMap({ position, onPositionChanged }) {
     return (
         <>
             <MapContainer center={position} zoom={12} scrollWheelZoom={false}>
