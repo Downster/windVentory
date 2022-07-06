@@ -29,7 +29,7 @@ function LeafletSearch({ onPositionChanged }) {
     return null;
 }
 
-export default function MiniMap({ position, onPositionChanged }) {
+export default function MiniMap({ position, onPositionChanged, popup }) {
     return (
         <>
             <MapContainer center={position} zoom={12} scrollWheelZoom={false}>
@@ -39,7 +39,7 @@ export default function MiniMap({ position, onPositionChanged }) {
                 />
                 <Marker position={position} icon={new Icon({ iconUrl: markerIconPng, iconSize: [25, 41], iconAnchor: [12, 41] })} >
                     <Popup>
-                        A pretty CSS3 popup. <br /> Easily customizable.
+                        {popup}
                     </Popup>
                 </Marker>
                 <LeafletSearch onPositionChanged={onPositionChanged} />

@@ -32,6 +32,8 @@ class User(db.Model):
     jobsite_id = db.Column(db.Integer, ForeignKey('job_site.id'))
     image = db.Column(db.String(255), default='https://windventory.s3.amazonaws.com/73e0e9c55dd04ba284e933cfa4d9c07a.png')
     online = db.Column(db.Boolean, default=False)
+    hotel_latitude = db.Column(db.Float, nullable=True)
+    hotel_longitude = db.Column(db.Float, nullable=True)
 
     #relationships
     rooms = relationship('ChatRoom', back_populates='user')

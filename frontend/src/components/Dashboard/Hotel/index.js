@@ -12,6 +12,8 @@ const Hotel = () => {
         maximumAge: 0
     };
 
+    const popupText = 'Current Location'
+
     function success(pos) {
         const crd = pos.coords;
         console.log(crd)
@@ -35,7 +37,7 @@ const Hotel = () => {
     return (
         <>
             {isLoaded &&
-                <MiniMap position={position} onPositionChanged={(latlng) => setPosition(latlng)} />
+                <MiniMap position={position} popup={popupText} onPositionChanged={(latlng) => setPosition(latlng)} />
             }
         </>
     )
