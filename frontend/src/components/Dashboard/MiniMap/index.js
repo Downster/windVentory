@@ -7,7 +7,7 @@ import markerIconPng from "leaflet/dist/images/marker-icon.png"
 import { Icon } from 'leaflet'
 import { GeoSearchControl, OpenStreetMapProvider } from "leaflet-geosearch";
 
-function LeafletSearch({ onPositionChanged }) {
+function LeafletSearch({ onPositionChanged, admin }) {
     const map = useMap();
     useEffect(() => {
         const handlePositionChange = (e) => {
@@ -20,6 +20,8 @@ function LeafletSearch({ onPositionChanged }) {
             provider,
             showMarker: false,
             style: "bar",
+            keepResult: true,
+            searchLabel: (admin) ? "Enter jobsite address" : 'Enter your hotels address'
         });
         map.addControl(searchControl);
         map.on("geosearch/showlocation", handlePositionChange);
@@ -29,10 +31,10 @@ function LeafletSearch({ onPositionChanged }) {
     return null;
 }
 
-export default function MiniMap({ position, onPositionChanged, popup }) {
+export default function MiniMap({ position, onPositionChanged, popup, admin }) {
     return (
         <>
-            <MapContainer center={position} zoom={12} scrollWheelZoom={false}>
+            <MapContainer center={position} zoom={12} scrollWheelZoom={false} className={(admin) ? 'jobsite-map' : 'hotel-map'}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -42,7 +44,7 @@ export default function MiniMap({ position, onPositionChanged, popup }) {
                         {popup}
                     </Popup>
                 </Marker>
-                <LeafletSearch onPositionChanged={onPositionChanged} />
+                <LeafletSearch onPositionChanged={onPositionChanged} admin={admin} />
             </MapContainer>
         </>
     );

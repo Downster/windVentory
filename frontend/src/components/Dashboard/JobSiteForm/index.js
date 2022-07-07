@@ -120,7 +120,7 @@ const CreateJobsiteForm = ({ setShowModal, edit, siteId }) => {
                     />
                 </div>
                 <div className="form-map-container">
-                    <MiniMap position={position} onPositionChanged={(latlng) => setPosition(latlng)} />
+                    <MiniMap position={position} onPositionChanged={(latlng) => setPosition(latlng)} admin={true} />
                 </div>
                 {/* <div className='form-element-container'>
                     <input

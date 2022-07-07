@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setUserHotel } from "../../../store/session";
 import MiniMap from "../MiniMap"
 
 
 const Hotel = () => {
-    const [position, setPosition] = useState(null)
-    const [isLoaded, setIsLoaded] = useState(false)
+    const dispatch = useDispatch()
+    const user = useSelector(state => state.session.user)
+    const [position, setPosition] = useState((user?.hotel?.lat) ? { lat: user.hotel.lat, lng: user.hotel.lon } : null)
+    const [isLoaded, setIsLoaded] = useState((user?.hotel?.lat) ? true : false)
 
     const options = {
         enableHighAccuracy: true,
@@ -13,6 +17,11 @@ const Hotel = () => {
     };
 
     const popupText = 'Current Location'
+
+    async function updatePosition(latlng) {
+        setPosition(latlng)
+        await dispatch(setUserHotel(user.id, latlng))
+    }
 
     function success(pos) {
         const crd = pos.coords;
@@ -31,15 +40,17 @@ const Hotel = () => {
 
 
     useEffect(() => {
-        navigator.geolocation.getCurrentPosition(success, error, options)
+        if (!position) {
+            navigator.geolocation.getCurrentPosition(success, error, options)
+        }
     }, [])
 
     return (
-        <>
+        <div className="hotel-container">
             {isLoaded &&
-                <MiniMap position={position} popup={popupText} onPositionChanged={(latlng) => setPosition(latlng)} />
+                <MiniMap position={position} popup={popupText} onPositionChanged={(latlng) => updatePosition(latlng)} />
             }
-        </>
+        </div>
     )
 }
 

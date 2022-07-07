@@ -58,6 +58,7 @@ class User(db.Model):
             'jobsite_id': self.jobsite_id,
             'role': [role.to_name() for role in self.roles],
             'teams': [team.to_dict() for team in self.teams],
+            'hotel': {'lat' : self.hotel_latitude, 'lon': self.hotel_longitude}
         }
     def to_team_dict(self):
         return {

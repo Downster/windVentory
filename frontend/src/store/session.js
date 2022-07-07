@@ -1,6 +1,8 @@
 import { tokenFetch } from './csrf';
 
 const SET_USER = 'session/SET_USER';
+const SET_HOTEL = 'session/SET_HOTEL'
+const REMOVE_HOTEL = 'session/REMOVE_HOTEL'
 const REMOVE_USER = 'session/REMOVE_USER';
 const UPDATE_USER = 'session/UPDATE_USER';
 const SET_JOBSITE = 'session/SET_JOBSITE'
@@ -12,6 +14,11 @@ const FLIP_LOADING = 'session/FLIP_LOADING'
 const setUser = (user) => ({
     type: SET_USER,
     user,
+});
+
+const setHotel = (hotel) => ({
+    type: SET_HOTEL,
+    hotel,
 });
 
 export const flipLoading = () => ({
@@ -81,6 +88,26 @@ export const login = (user) => async (dispatch) => {
     }
 };
 
+export const setUserHotel = (id, position) => async (dispatch) => {
+    const res = await tokenFetch(`/users/${id}/hotel`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ hotel_latitude: position.lat, hotel_longitude: position.lng })
+    });
+
+    if (res.ok) {
+        const hotel = await res.json()
+        console.log(hotel)
+        dispatch(setHotel(hotel))
+    } else {
+        const errors = res.json()
+        return errors
+    }
+
+}
+
 export const setUserJobsite = (jobsiteId) => async (dispatch) => {
     const res = await tokenFetch(`/jobsites/${jobsiteId}/join`, {
         method: 'PATCH',
@@ -130,7 +157,6 @@ export const setUserTeam = (teamId) => async (dispatch) => {
 
     if (res.ok) {
         const team = await res.json()
-        console.log(team)
         dispatch(setTeam(team))
     } else {
         const errors = res.json()
@@ -204,6 +230,10 @@ const sessionReducer = (state = initialState, action) => {
         case SET_USER:
             newState.user = action.user;
             return newState;
+        case SET_HOTEL:
+            newState.user.hotel.lon = action.hotel.hotel_longitude
+            newState.user.hotel.lat = action.hotel.hotel_latitude
+            return newState
         case FLIP_LOADING:
             newState.loading = !newState.loading
             return newState

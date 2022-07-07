@@ -1,12 +1,12 @@
 const checkPermissions = (role, type) => {
     if (type === 'team') {
-        if (role === 'Supervisor' || role === 'Lead') {
+        if (role === 'Supervisor' || role === 'Lead' || role === 'Admin') {
             return true
         } else {
             return false
         }
     } else if (type === 'site') {
-        if (role === 'Supervisor') {
+        if (role === 'Supervisor' || role === 'Admin') {
             return true
         } else {
             return false

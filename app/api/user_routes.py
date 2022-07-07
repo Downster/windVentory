@@ -102,4 +102,8 @@ def admin_edit_user(current_user, id):
 @token_required
 def set_hotel(current_user, id):
     user = User.query.get(id)
-    pass
+    data = request.json
+    user.hotel_latitude = data['hotel_latitude']
+    user.hotel_longitude = data['hotel_longitude']
+    db.session.commit()
+    return data, 200
