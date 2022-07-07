@@ -98,3 +98,12 @@ def admin_edit_user(current_user, id):
         return {'errors': form_validation_errors(form.errors)}, 401
     return {'Unauthorized' : 'You must be an admin to delete a user'}, 401
 
+@user_routes.route('/<int:id>/hotel', methods=['PATCH'])
+@token_required
+def set_hotel(current_user, id):
+    user = User.query.get(id)
+    data = request.json
+    user.hotel_latitude = data['hotel_latitude']
+    user.hotel_longitude = data['hotel_longitude']
+    db.session.commit()
+    return data, 200

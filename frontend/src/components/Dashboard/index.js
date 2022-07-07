@@ -4,6 +4,7 @@ import Jobsite from './Jobsite'
 import AllSites from './AllSites'
 import AllUsers from './AllUsers'
 import AllTeams from './AllTeams'
+import Hotel from './Hotel'
 import Team from './Team'
 import { Switch, Route } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -113,10 +114,15 @@ const Dashboard = () => {
                     <Route exact path='/jobsite/:jobsiteId/weather'>
                         <SiteWeather />
                     </Route>
+                    <Route exact path='/jobsite/:jobsiteId/hotel'>
+                        <Hotel />
+                    </Route>
+                    <Route exact path='/jobsite/:jobsiteId/members'>
+                        <h1>Site members</h1>
+                    </Route>
                     {/* <Route exact path='/jobsite/:jobsiteId/towers'>
                         <h1> Site tower</h1>
                     </Route> */}
-
                     <Route exact path='/team/:teamId'>
                         <Team />
                     </Route>
@@ -128,9 +134,6 @@ const Dashboard = () => {
                     </Route>
                     {/* <Route exact path='/team/:teamId/events'>
                         <h1>Events</h1>
-                    </Route> */}
-                    {/* <Route exact path='/jobsite/:siteId/chats'>
-                        <h1>Jobsite Chats</h1>
                     </Route> */}
                     <Route exact path='/jobsite/:siteId/chat/:roomId'>
                         <Chat jobsite={true} />
