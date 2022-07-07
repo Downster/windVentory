@@ -21,6 +21,10 @@ const setHotel = (hotel) => ({
     hotel,
 });
 
+const removeHotel = () => ({
+    type: REMOVE_HOTEL
+});
+
 export const flipLoading = () => ({
     type: FLIP_LOADING
 })
@@ -101,6 +105,25 @@ export const setUserHotel = (id, position) => async (dispatch) => {
         const hotel = await res.json()
         console.log(hotel)
         dispatch(setHotel(hotel))
+    } else {
+        const errors = res.json()
+        return errors
+    }
+
+}
+
+export const leaveHotel = (id) => async (dispatch) => {
+    const res = await tokenFetch(`/users/${id}/hotel`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ hotel_latitude: null, hotel_longitude: null })
+    });
+
+    if (res.ok) {
+        const hotel = await res.json()
+        dispatch(removeHotel())
     } else {
         const errors = res.json()
         return errors
@@ -233,6 +256,10 @@ const sessionReducer = (state = initialState, action) => {
         case SET_HOTEL:
             newState.user.hotel.lon = action.hotel.hotel_longitude
             newState.user.hotel.lat = action.hotel.hotel_latitude
+            return newState
+        case REMOVE_HOTEL:
+            newState.user.hotel.lon = null
+            newState.user.hotel.lat = null
             return newState
         case FLIP_LOADING:
             newState.loading = !newState.loading

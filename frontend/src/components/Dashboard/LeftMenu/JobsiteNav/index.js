@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from 'react-router-dom'
 import { NavLink } from "react-router-dom"
 import ChatsNav from "../ChatsNav"
-import { leaveUserJobsite, leaveUserTeam } from "../../../../store/session"
+import { leaveHotel, leaveUserJobsite, leaveUserTeam } from "../../../../store/session"
 import { leaveSite } from "../../../../store/currentSite"
 import { leaveCurrentTeam } from "../../../../store/currentTeam"
 import CreateTeamModal from "../../CreateTeamModal"
@@ -27,6 +27,7 @@ const JobSiteNav = ({ isMember, isAdmin, siteChats, siteId }) => {
         await dispatch(leaveSite())
         await dispatch(clearRooms())
         // await dispatch(fetchUserTeam(user))
+        await dispatch(leaveHotel(user.id))
         await dispatch(leaveCurrentTeam())
         await dispatch(clearTeamRooms())
     }
