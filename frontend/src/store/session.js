@@ -103,7 +103,6 @@ export const setUserHotel = (id, position) => async (dispatch) => {
 
     if (res.ok) {
         const hotel = await res.json()
-        console.log(hotel)
         dispatch(setHotel(hotel))
     } else {
         const errors = res.json()
@@ -121,11 +120,10 @@ export const leaveHotel = (id) => async (dispatch) => {
         body: JSON.stringify({ hotel_latitude: null, hotel_longitude: null })
     });
 
+    const errors = await res.json()
     if (res.ok) {
-        const hotel = await res.json()
         dispatch(removeHotel())
     } else {
-        const errors = res.json()
         return errors
     }
 

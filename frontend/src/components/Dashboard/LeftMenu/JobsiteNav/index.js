@@ -1,16 +1,15 @@
-import CreateJobSiteModal from "../../CreateJobSiteModal"
 import CreateMaterialModal from "../../CreateMaterialModal"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from 'react-router-dom'
 import { NavLink } from "react-router-dom"
 import ChatsNav from "../ChatsNav"
-import { leaveHotel, leaveUserJobsite, leaveUserTeam } from "../../../../store/session"
+import { leaveHotel, leaveUserJobsite } from "../../../../store/session"
 import { leaveSite } from "../../../../store/currentSite"
 import { leaveCurrentTeam } from "../../../../store/currentTeam"
 import CreateTeamModal from "../../CreateTeamModal"
 import checkPermissions from "../../../../utils/checkPermissions"
 import { clearRooms, clearTeamRooms } from "../../../../store/chatRoom"
-import { fetchUserTeam } from "../../../../store/currentTeam"
+
 
 
 
@@ -44,8 +43,8 @@ const JobSiteNav = ({ isMember, isAdmin, siteChats, siteId }) => {
                     <li className="nav-item"><NavLink to={`/jobsite/${siteId}/weather`}><i class="fa-duotone fa-cloud-bolt-sun"></i>Weather</NavLink></li>
                     <li className="nav-item"><NavLink to={`/jobsite/${siteId}/teams`}><i class="fa-duotone fa-people-group"></i>Teams</NavLink>{canCreate && <CreateTeamModal jobsite={true} />}</li>
                     {/* <li><NavLink to={`/jobsite/${siteId}/towers`}><i class="fa-duotone fa-wind-turbine"></i>Towers</NavLink></li> */}
-                    <li className="nav-item"><NavLink to={`/jobsite/${siteId}/members`}><i class="fa-duotone fa-user-cowboy"></i>Members</NavLink></li>
-                    <li className="nav-item"><NavLink to={`/jobsite/${siteId}/hotel`}><i class="fa-duotone fa-hotel"></i>My Hotel</NavLink></li>
+                    {/* <li className="nav-item"><NavLink to={`/jobsite/${siteId}/members`}><i class="fa-duotone fa-user-cowboy"></i>Members</NavLink></li>
+                    <li className="nav-item"><NavLink to={`/jobsite/${siteId}/hotel`}><i class="fa-duotone fa-hotel"></i>My Hotel</NavLink></li> */}
                     <li className="nav-item-person"><i class="fa-duotone fa-person-to-door"></i>Leave Jobsite <i className="fas fa-minus" onClick={leaveJobsite}></i></li>
                 </>
             }

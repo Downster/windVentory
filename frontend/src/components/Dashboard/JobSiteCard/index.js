@@ -1,10 +1,9 @@
 import './jobSiteCard.css'
 import { useHistory } from 'react-router-dom'
 import { Modal } from "../../../context/Modal";
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { flipLoading, setUserJobsite } from '../../../store/session'
-import { deleteJobsite, editJobsite } from '../../../store/jobsites'
 import { fetchTeams, fetchWeather, loadSiteInventory, loadUserJobsite } from '../../../store/currentSite';
 import CreateJobsiteForm from '../JobSiteForm';
 import { getSiteChatRooms } from '../../../store/chatRoom';
@@ -17,7 +16,6 @@ const JobSiteCard = ({ jobsite, adminPanel, single }) => {
     const history = useHistory()
     const dispatch = useDispatch()
     const userSite = useSelector(state => state.currentSite.site)
-    const user = useSelector(state => state.session.user)
     const [showModal, setShowModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false)
     const [show, setShow] = useState(false)
@@ -67,7 +65,7 @@ const JobSiteCard = ({ jobsite, adminPanel, single }) => {
                 </Modal>
             )}
             {!single && <div className="jobSite-card" onClick={(adminPanel) ? null : setJobsite} onMouseEnter={(e) => setShow(true)} onMouseLeave={(e) => setShow(false)} >
-                <img className='jobsite-image' src={jobsite.image} data-tip={'State: ' + jobsite.state}></img>
+                <img alt='jobsite' className='jobsite-image' src={jobsite.image} data-tip={'State: ' + jobsite.state}></img>
                 <ReactTooltip
                     className="tool-tip-cls"
                     place="right"
@@ -94,7 +92,7 @@ const JobSiteCard = ({ jobsite, adminPanel, single }) => {
                 single && userSite && < div className='single-user-site'>
                     <div className='jobsite-data'>
 
-                        <img className='jobsite-image' src={userSite.image}></img>
+                        <img alt='jobsite' className='jobsite-image' src={userSite.image}></img>
 
                         <h1 className="jobsite-name">{userSite.name}</h1>
                         <h1 className="jobsite-client">Client: {userSite.client}</h1>

@@ -1,14 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useHistory, useLocation } from "react-router-dom";
 import states from "../../../utils/states";
-import { createJobsite, editJobsite, getJobsites } from "../../../store/jobsites";
+import { createJobsite, editJobsite } from "../../../store/jobsites";
 import MiniMap from "../MiniMap";
 import ImageUpload from "../ImageUpload";
 
 const CreateJobsiteForm = ({ setShowModal, edit, siteId }) => {
-    const history = useHistory();
-    const location = useLocation();
     const hiddenImageInput = useRef(null);
     const jobsite = useSelector(state => state.jobsites[siteId])
     const [errors, setErrors] = useState([]);
@@ -17,7 +14,6 @@ const CreateJobsiteForm = ({ setShowModal, edit, siteId }) => {
     const [state, setState] = useState((edit) ? jobsite.state : '');
     const [image, setImage] = useState(null);
     const [imageLoading, setImageLoading] = useState(false);
-    const user = useSelector(state => state.session.user);
     const [position, setPosition] = useState((jobsite) ? { 'lat': jobsite?.latitude, 'lng': jobsite?.longitude } : { 'lat': 38.155, 'lng': -121.7336 })
     const dispatch = useDispatch();
 

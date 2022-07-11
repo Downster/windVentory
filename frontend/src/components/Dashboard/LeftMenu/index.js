@@ -4,8 +4,6 @@ import { useLocation } from "react-router"
 import JobSiteNav from "./JobsiteNav"
 import AdminNav from "./AdminNav";
 import TeamsNav from "./TeamsNav";
-import InventoryNav from "./InventoryNav";
-import ChatsNav from "./ChatsNav";
 import './LeftMenu.css'
 
 const LeftMenu = ({ capstone }) => {
@@ -23,7 +21,7 @@ const LeftMenu = ({ capstone }) => {
     const splitpath = path.split('/')
     console.log(splitpath)
     let siteId;
-    if (splitpath[1] === 'jobsite' && currentUser.jobsite_id || splitpath[0] === '' && splitpath[1] === '') {
+    if ((splitpath[1] === 'jobsite' && currentUser.jobsite_id) || (splitpath[0] === '' && splitpath[1] === '')) {
         if (adminPanel) {
             setAdminPanel(false)
         }

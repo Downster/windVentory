@@ -1,14 +1,11 @@
 import UserForm from '../UserForm';
 import { Modal } from '../../../context/Modal';
 import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux'
-import { removeUser } from '../../../store/allUsers';
 import './userCard.css'
 import DeleteUserPrompt from '../DeleteUserPrompt';
 
 
 const UserCard = ({ user, admin }) => {
-    const dispatch = useDispatch()
     const [showModal, setShowModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false)
     const [errors, setErrors] = useState([]);
@@ -23,9 +20,6 @@ const UserCard = ({ user, admin }) => {
         setShow(false)
     }
 
-    const showIcons = () => {
-
-    }
 
     const deleteUser = async () => {
         setShowDeleteModal(true)
@@ -36,7 +30,7 @@ const UserCard = ({ user, admin }) => {
         <div className='user-container'>
             <div className="user-card" onMouseEnter={(e) => setShow(true)} onMouseLeave={(e) => setShow(false)}>
                 {errors && errors.map((err, idx) => <li className='errors' key={idx}>{err}</li>)}
-                <img className="user-card-image" src={user.image}></img>
+                <img className="user-card-image" alt='user' src={user.image}></img>
                 <h1 className="team-name">{user.firstName + " " + user.lastName}</h1>
                 {!admin && <button>View User</button>}
                 <div className='user-buttons'>

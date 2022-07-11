@@ -10,11 +10,6 @@ const Hotel = () => {
     const [position, setPosition] = useState((user?.hotel?.lat) ? { lat: user.hotel.lat, lng: user.hotel.lon } : null)
     const [isLoaded, setIsLoaded] = useState((user?.hotel?.lat) ? true : false)
 
-    const options = {
-        enableHighAccuracy: true,
-        timeout: 5000,
-        maximumAge: 0
-    };
 
     const popupText = 'Current Location'
 
@@ -40,10 +35,15 @@ const Hotel = () => {
 
 
     useEffect(() => {
+        const options = {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0
+        };
         if (!position) {
             navigator.geolocation.getCurrentPosition(success, error, options)
         }
-    }, [])
+    }, [position])
 
     return (
         <div className="hotel-container">

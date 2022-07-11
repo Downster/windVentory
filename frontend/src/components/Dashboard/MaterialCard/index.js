@@ -1,24 +1,14 @@
-import { useHistory } from 'react-router-dom'
 import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux'
-import { setUserTeam } from '../../../store/session';
-import { removeTeam } from '../../../store/allTeams';
-import { setTeam } from '../../../store/currentTeam';
 import { Modal } from "../../../context/Modal";
-import TeamForm from '../TeamForm';
 import './MaterialCard.css'
 import MaterialForm from '../MaterialForm';
 import DeleteMaterialPrompt from '../DeleteInventoryPrompt';
-import getImageBrightness from '../../../utils/imageBrightness';
 
 
 const MaterialCard = ({ material, team }) => {
-    const history = useHistory()
-    const dispatch = useDispatch()
     const [showModal, setShowModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false)
     const [hover, setHover] = useState(false)
-    const [dark, setDark] = useState(true)
     const [low, setLow] = useState(false)
     useEffect(() => {
         if (material.quantity < 4) {
@@ -30,11 +20,11 @@ const MaterialCard = ({ material, team }) => {
         return () => setShowModal(false);
     }, [material]);
 
-    const darkOrLight = (brightness) => {
-        if (brightness < 127.5) {
-            setDark(true)
-        }
-    }
+    // const darkOrLight = (brightness) => {
+    //     if (brightness < 127.5) {
+    //         setDark(true)
+    //     }
+    // }
 
 
 
@@ -46,15 +36,15 @@ const MaterialCard = ({ material, team }) => {
 
                     <div className='material-actions'>
                         <div className='edit-delete-material'>
-                            {hover && <i className={dark ? "fa-duotone fa-pen-to-square dark" : "fa-duotone fa-pen-to-square"} onClick={() => setShowModal(true)}></i>}
-                            {hover && <i className={dark ? "fa-duotone fa-trash-can dark" : "fa-duotone fa-trash-can"} onClick={() => setShowDeleteModal(true)}></i>}
+                            {hover && <i className={"fa-duotone fa-pen-to-square dark"} onClick={() => setShowModal(true)}></i>}
+                            {hover && <i className={"fa-duotone fa-trash-can dark"} onClick={() => setShowDeleteModal(true)}></i>}
                         </div>
                         {/* <div className='increment-decrement-material'>
                             {hover && <i className={dark ? "fa-solid fa-plus-large dark" : "fa-solid fa-plus-large"} ></i>}
                             {hover && <i className={dark ? "fa-solid fa-minus-large dark" : "fa-solid fa-minus-large"}></i>}
                         </div> */}
                     </div>
-                    <img className={hover ? 'material-image blur' : 'material-image'} id={`material-image-${material.id}`} src={material.image}>
+                    <img className={hover ? 'material-image blur' : 'material-image'} id={`material-image-${material.id}`} src={material.image} alt='material'>
                     </img>
                 </div>
                 <h1 className="material-name">{material.name}</h1>

@@ -7,6 +7,7 @@ const ImageUpload = ({ image, showImageInput, site }) => {
 
         <div className={site ? "site-image-container" : "material-image-container"}>
             {image && <img
+                alt='form'
                 className={site ? 'site-form-image' : "material-form-image"}
                 src={URL.createObjectURL(image)}
             >

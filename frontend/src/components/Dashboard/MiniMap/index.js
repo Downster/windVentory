@@ -1,5 +1,5 @@
 import 'leaflet/dist/leaflet.css';
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
 // import DraggableMarker from "../DraggableMarkerComponent/DraggableMarker";
 import "leaflet-geosearch/dist/geosearch.css";
@@ -26,7 +26,7 @@ function LeafletSearch({ onPositionChanged, admin }) {
         map.addControl(searchControl);
         map.on("geosearch/showlocation", handlePositionChange);
         return () => map.removeControl(searchControl);
-    }, [map, onPositionChanged]);
+    }, [map, onPositionChanged, admin]);
 
     return null;
 }

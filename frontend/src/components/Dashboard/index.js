@@ -10,9 +10,8 @@ import { Switch, Route } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import './Dashboard.css'
 import { fetchWeather, loadUserJobsite } from '../../store/currentSite'
-import { useParams } from 'react-router'
 import { loadAllTeams } from '../../store/allTeams'
-import { useEffect } from 'react'
+import { useEffect, useCallback } from 'react'
 import { getJobsites } from '../../store/jobsites'
 import { fetchTeams, loadSiteInventory } from '../../store/currentSite'
 import { fetchUserTeam, loadTeamInventory } from '../../store/currentTeam'
@@ -21,12 +20,10 @@ import SiteWeather from './SiteWeather'
 import SiteTeams from './SiteTeams'
 import Chat from './Chat'
 import { getSiteChatRooms, getTeamChatRoom } from '../../store/chatRoom'
-import DisplayInventory from './DisplayInventory'
 import Inventory from './Inventory'
 import { flipLoading } from '../../store/session'
 import { loadLeads } from '../../store/leads'
 import { io } from 'socket.io-client'
-import CreateJobsiteForm from './JobSiteForm'
 import checkPermissions from '../../utils/checkPermissions'
 
 
@@ -37,7 +34,6 @@ const Dashboard = () => {
     const role = user.role[0]
     const canAccess = checkPermissions(role, 'panel')
     const getAllUserInfo = async (user) => {
-        console.log('woooooof')
         await dispatch(flipLoading())
         await dispatch(loadUserJobsite(user.jobsite_id))
         await dispatch(fetchWeather(user.jobsite_id))
@@ -83,7 +79,7 @@ const Dashboard = () => {
             socket.disconnect()
         })
 
-    }, [dispatch])
+    }, [dispatch, user])
 
     //global socket listener
     //on chat check the path of the user
