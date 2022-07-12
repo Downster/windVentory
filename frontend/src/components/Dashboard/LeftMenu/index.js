@@ -19,7 +19,6 @@ const LeftMenu = ({ capstone }) => {
     //if a memeber of a team display teams with sub menus
     const path = location.pathname;
     const splitpath = path.split('/')
-    console.log(splitpath)
     let siteId;
     if ((splitpath[1] === 'jobsite' && currentUser.jobsite_id) || (splitpath[0] === '' && splitpath[1] === '')) {
         if (adminPanel) {

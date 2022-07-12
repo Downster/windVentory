@@ -2,7 +2,6 @@ import { useHistory } from 'react-router-dom'
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { setUserTeam, leaveUserTeam } from '../../../store/session';
-import { removeTeam } from '../../../store/allTeams';
 import { loadTeamInventory, setTeam, leaveCurrentTeam } from '../../../store/currentTeam';
 import { Modal } from "../../../context/Modal";
 import TeamForm from '../TeamForm';

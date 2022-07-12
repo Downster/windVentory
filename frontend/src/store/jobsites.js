@@ -41,7 +41,6 @@ export const getJobsites = () => async (dispatch) => {
         if (data.errors) {
             return;
         };
-        console.log(data)
         dispatch(loadJobsites(data.Jobsites));
     };
 };

@@ -1,6 +1,5 @@
 import React, { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createNewUser, modifyUser } from "../../../store/allUsers";
 import { addMaterialToSite, editSiteMaterial } from "../../../store/currentSite";
 import { addMaterialToTeam, editTeamMaterial } from "../../../store/currentTeam";
 import ImageUpload from "../ImageUpload";
