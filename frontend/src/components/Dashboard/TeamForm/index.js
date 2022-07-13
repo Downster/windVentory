@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { createNewTeam, editTeam } from "../../../store/allTeams";
-import { fetchTeams } from "../../../store/currentSite";
 import { setTeam } from "../../../store/currentTeam";
 import { getJobsites } from "../../../store/jobsites";
 import { loadLeads } from "../../../store/leads";

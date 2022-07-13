@@ -23,7 +23,7 @@ def users(current_user):
 @token_required
 def get_leads(current_user):
     users = User.query.all()
-    leads = [user for user in users if user.to_role() == {'Lead'} or user.to_role() == {'Supervisor'}]
+    leads = [user for user in users if user.to_role() == {'Lead'} or user.to_role() == {'Supervisor'} or user.to_role() == {'Admin'}]
     return jsonify({'leads' : [lead.to_name() for lead in leads]})
 
 

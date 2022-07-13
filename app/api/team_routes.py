@@ -132,4 +132,3 @@ def get_team_storage(current_user, storage_id):
     storage_location = StorageLocation.query.filter(StorageLocation.id==int(storage_id)).first()
     location_mats = Material.query.filter(Material.storage_id==storage_location.id).all()
     return {'materials' : [material.to_dict() for material in location_mats]}
-
