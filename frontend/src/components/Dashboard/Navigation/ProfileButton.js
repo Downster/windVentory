@@ -39,12 +39,6 @@ function ProfileButton({ user }) {
         <>
             <div className="profile-div" onClick={openMenu}>
                 <img src={user.image} className='profile-button' data-tip={'User profile'} />
-                <ReactTooltip
-                    className="tool-tip-cls"
-                    place="right"
-                    type="dark"
-                    effect="solid"
-                />
                 {showMenu && (
                     <ul className="profile-dropdown">
                         <li>Hello, {user.firstName}</li>
