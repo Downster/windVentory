@@ -36,22 +36,24 @@ const TeamForm = ({ setShowModal, edit, team, jobsite }) => {
 
         if (edit) {
             errors = await dispatch(editTeam(formData, team.id))
+            if (errors) {
+                setErrors(errors.errors)
+            } else {
+                setShowModal(false);
+            }
         } else {
             newTeam = await dispatch(createNewTeam(formData));
-            jobsite && await dispatch(setUserTeam(newTeam.id))
-            jobsite && await dispatch(setTeam(newTeam))
+            if (newTeam) {
+                console.log(newTeam)
+                setErrors(newTeam.errors)
+            } else {
+                jobsite && await dispatch(setUserTeam(newTeam.id))
+                jobsite && await dispatch(setTeam(newTeam))
+                setShowModal(false);
+            }
+
+
         }
-        if (newTeam && newTeam.errors) {
-            setErrors(newTeam.errors)
-        } else if (errors) {
-            setErrors(errors.errors)
-        } else {
-            setShowModal(false);
-
-        }
-
-
-
     }
 
 
@@ -105,6 +107,7 @@ const TeamForm = ({ setShowModal, edit, team, jobsite }) => {
                         ))}
                     </select>}
                 </div>
+                {jobsite && <div><label>Creates a new team with you as the lead</label></div>}
                 <div className='form-element-container'>
                     <input
                         className="input-field"
