@@ -17,12 +17,13 @@ import { Modal } from "../../context/Modal";
 import { useDispatch } from 'react-redux'
 import * as sessionActions from '../../store/session';
 import { useHistory } from 'react-router-dom'
+import SignupForm from './SignUpForm'
 
 const navigation = [
     { name: 'Product', href: '#product' },
     { name: 'Features', href: '#features' },
     { name: 'Testimonials', href: '#testimonials' },
-    { name: 'About the developer', href: 'https://bdowning.codes/#about' },
+    { name: 'About the developer', href: 'https://bdowning.codes/#about', target: "_blank", rel: "noopener noreferrer" },
 ]
 const features = [
     {
@@ -120,6 +121,8 @@ export default function SplashPage() {
     const dispatch = useDispatch()
     const history = useHistory()
     const [showModal, setShowModal] = useState(false)
+    const [showSignUpModal, setShowSignUpModal] = useState(false)
+    const [email, setEmail] = useState('')
     const demoUser = async (e) => {
         e.preventDefault()
         const credentials = {
@@ -134,6 +137,11 @@ export default function SplashPage() {
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>
                     <LoginForm />
+                </Modal>
+            )}
+            {showSignUpModal && (
+                <Modal onClose={() => setShowSignUpModal(false)}>
+                    <SignupForm inputEmail={email} />
                 </Modal>
             )}
             <div className="relative overflow-hidden">
@@ -159,6 +167,8 @@ export default function SplashPage() {
                                         <a
                                             key={item.name}
                                             href={item.href}
+                                            target={item?.target}
+                                            rel={item?.rel}
                                             className="text-base font-medium text-white hover:text-gray-300"
                                         >
                                             {item.name}
@@ -249,6 +259,8 @@ export default function SplashPage() {
                                     <div className="lg:py-24">
                                         <a
                                             href="http://www.linkedin.com/in/brendan-downing"
+                                            target='_blank'
+                                            rel='noopener noreferrer'
                                             className="inline-flex items-center text-white bg-black rounded-full p-1 pr-2 sm:text-base lg:text-sm xl:text-base hover:text-gray-200"
                                         >
                                             <span className="px-3 py-0.5 text-white text-xs font-semibold leading-5 uppercase tracking-wide bg-gradient-to-r from-teal-500 to-cyan-600 rounded-full">
@@ -268,29 +280,32 @@ export default function SplashPage() {
 
                                         </p>
                                         <div className="mt-10 sm:mt-12">
-                                            <form action="#" className="sm:max-w-xl sm:mx-auto lg:mx-0">
-                                                <div className="sm:flex">
-                                                    <div className="min-w-0 flex-1">
-                                                        <label htmlFor="email" className="sr-only">
-                                                            Email address
-                                                        </label>
-                                                        <input
-                                                            id="email"
-                                                            type="email"
-                                                            placeholder="Enter your email"
-                                                            className="block w-full px-4 py-3 rounded-md border-0 text-base text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-400 focus:ring-offset-gray-900"
-                                                        />
-                                                    </div>
-                                                    <div className="mt-3 sm:mt-0 sm:ml-3">
-                                                        <button
-                                                            type="submit"
-                                                            className="block w-full py-3 px-4 rounded-md shadow bg-gradient-to-r from-teal-500 to-cyan-600 text-white font-medium hover:from-teal-600 hover:to-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-400 focus:ring-offset-gray-900"
-                                                        >
-                                                            Sign up
-                                                        </button>
-                                                    </div>
+
+                                            <div className="sm:flex">
+                                                <div className="min-w-0 flex-1">
+                                                    <label htmlFor="email" className="sr-only">
+                                                        Email address
+                                                    </label>
+                                                    <input
+                                                        id="email"
+                                                        type="email"
+                                                        value={email}
+                                                        onChange={(e) => setEmail(e.target.value)}
+                                                        placeholder="Enter your email"
+                                                        className="block w-full px-4 py-3 rounded-md border-0 text-base text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-400 focus:ring-offset-gray-900"
+                                                    />
                                                 </div>
-                                            </form>
+                                                <div className="mt-3 sm:mt-0 sm:ml-3">
+                                                    <button
+                                                        type="submit"
+                                                        onClick={(e) => setShowSignUpModal(true)}
+                                                        className="block w-full py-3 px-4 rounded-md shadow bg-gradient-to-r from-teal-500 to-cyan-600 text-white font-medium hover:from-teal-600 hover:to-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-400 focus:ring-offset-gray-900"
+                                                    >
+                                                        Sign up
+                                                    </button>
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>

@@ -4,11 +4,11 @@ import { Redirect, useHistory } from "react-router-dom";
 import * as sessionActions from "../../../store/session";
 import './SignUpForm.css';
 
-function SignupForm({ setSignup }) {
+function SignupForm({ inputEmail }) {
     const dispatch = useDispatch();
     const history = useHistory();
     const sessionUser = useSelector((state) => state.session.user);
-    const [email, setEmail] = useState("");
+    const [email, setEmail] = useState(inputEmail ? inputEmail : "");
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('')
     const [phoneNumber, setPhoneNumber] = useState('')
@@ -40,11 +40,6 @@ function SignupForm({ setSignup }) {
         }
     };
 
-    const changeSignup = (e) => {
-        e.preventDefault();
-        setSignup(false);
-
-    }
 
     const demoUser = async (e) => {
         e.preventDefault()
@@ -145,7 +140,6 @@ function SignupForm({ setSignup }) {
                     <p className="form-label-required">* Required fields</p>
                     <div className="button-div">
                         <button type="submit" className='signup-button'>Sign Up</button>
-                        <button onClick={changeSignup} className='back-to-login-button'>Back to Login!</button >
                         <button onClick={demoUser} className='demo-button'>Demo User</button>
                     </div>
                 </form>
