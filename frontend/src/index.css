@@ -1,67 +1,9 @@
 /* TODO Add site wide styles */
-*{
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* *{
     font-family: "Righteous", cursive;
     box-sizing: border-box;
-}
-
-
-body{
-    background-image: url('./components/SplashPage/images/wind.jpeg');
-    width: auto;
-    height: 100vh;
-    background-repeat: no-repeat;
-    background-position: left;
-    background-size: auto;
-    background-color: rgba(230,231,233,255);
-    overflow-y: hidden;
-    
-}
-
-.jobsite-container{
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    
-
-}
-
-.intro-header {
-    font-family: "Righteous", cursive;
-    font-size: 40pt;
-    color: #4F5B73;
-  }
-
-.errors{
-    color:red;
-}
-
-.form-errors{
-    padding: 5px;
-}
-
-
-
-#root{
-    display: flex;
-    width: 100%;
-    height: 100%
-}
-
-a{
-    color: black;
-    text-decoration: none;
-    overflow-wrap: anywhere;
-}
-
-.fa-pen-to-square{
-    padding-left: 10px;
-}
-
-.form-label{
-    padding-top: 5px;
-}
-
-.form-label-required{
-    padding-top: 5px;
-    font-size: 12px;
-}
+} */
