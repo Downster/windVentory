@@ -12,6 +12,12 @@
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
+.fa-wind-turbine.login{
+    display: flex;
+    justify-content: center;
+    font-size: 40px;
+}
+
 .login-header{
     font-family: "Righteous", cursive;
     justify-content: center;

@@ -1,157 +1,86 @@
-import { Fragment } from 'react'
+import { Fragment, useState } from 'react'
 import { Popover, Transition } from '@headlessui/react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import LoginForm from './LoginForm'
 import {
     CloudUploadIcon,
-    CogIcon,
-    LockClosedIcon,
+    LocationMarkerIcon,
     MenuIcon,
-    RefreshIcon,
-    ServerIcon,
-    ShieldCheckIcon,
+    ChatAlt2Icon,
+    LightningBoltIcon,
+    StatusOnlineIcon,
+    CollectionIcon,
     XIcon,
 } from '@heroicons/react/outline'
-import { ChevronRightIcon, ExternalLinkIcon } from '@heroicons/react/solid'
+import { ChevronRightIcon } from '@heroicons/react/solid'
+import { Modal } from "../../context/Modal";
+import { useDispatch } from 'react-redux'
+import * as sessionActions from '../../store/session';
+import { useHistory } from 'react-router-dom'
 
 const navigation = [
-    { name: 'Product', href: '#' },
-    { name: 'Features', href: '#' },
-    { name: 'Marketplace', href: '#' },
-    { name: 'Company', href: '#' },
+    { name: 'Product', href: '#product' },
+    { name: 'Features', href: '#features' },
+    { name: 'Testimonials', href: '#testimonials' },
+    { name: 'About the developer', href: 'https://bdowning.codes/#about' },
 ]
 const features = [
     {
-        name: 'Push to Deploy',
+        name: 'Location Services',
         description: 'Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi vitae lobortis.',
-        icon: CloudUploadIcon,
+        icon: LocationMarkerIcon,
     },
     {
-        name: 'SSL Certificates',
+        name: 'Live Chat',
         description: 'Qui aut temporibus nesciunt vitae dicta repellat sit dolores pariatur. Temporibus qui illum aut.',
-        icon: LockClosedIcon,
+        icon: ChatAlt2Icon,
     },
     {
-        name: 'Simple Queues',
+        name: 'Inventory Management',
         description: 'Rerum quas incidunt deleniti quaerat suscipit mollitia. Amet repellendus ut odit dolores qui.',
-        icon: RefreshIcon,
+        icon: CollectionIcon,
     },
     {
-        name: 'Advanced Security',
+        name: 'Weather',
         description: 'Ullam laboriosam est voluptatem maxime ut mollitia commodi. Et dignissimos suscipit perspiciatis.',
-        icon: ShieldCheckIcon,
+        icon: LightningBoltIcon,
     },
     {
-        name: 'Powerful API',
+        name: 'Online/offline Notifications',
         description:
             'Ab a facere voluptatem in quia corrupti veritatis aliquam. Veritatis labore quaerat ipsum quaerat id.',
-        icon: CogIcon,
+        icon: StatusOnlineIcon,
     },
     {
-        name: 'Database Backups',
+        name: 'Image Uploads',
         description: 'Quia qui et est officia cupiditate qui consectetur. Ratione similique et impedit ea ipsum et.',
-        icon: ServerIcon,
+        icon: CloudUploadIcon,
     },
 ]
-const blogPosts = [
-    {
-        id: 1,
-        title: 'Boost your conversion rate',
-        href: '#',
-        date: 'Mar 16, 2020',
-        datetime: '2020-03-16',
-        category: { name: 'Article', href: '#' },
-        imageUrl:
-            'https://images.unsplash.com/photo-1496128858413-b36217c2ce36?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1679&q=80',
-        preview:
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto accusantium praesentium eius, ut atque fuga culpa, similique sequi cum eos quis dolorum.',
-        author: {
-            name: 'Roel Aufderehar',
-            imageUrl:
-                'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-            href: '#',
-        },
-        readingLength: '6 min',
-    },
-    {
-        id: 2,
-        title: 'How to use search engine optimization to drive sales',
-        href: '#',
-        date: 'Mar 10, 2020',
-        datetime: '2020-03-10',
-        category: { name: 'Video', href: '#' },
-        imageUrl:
-            'https://images.unsplash.com/photo-1547586696-ea22b4d4235d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1679&q=80',
-        preview:
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit facilis asperiores porro quaerat doloribus, eveniet dolore. Adipisci tempora aut inventore optio animi., tempore temporibus quo laudantium.',
-        author: {
-            name: 'Brenna Goyette',
-            imageUrl:
-                'https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-            href: '#',
-        },
-        readingLength: '4 min',
-    },
-    {
-        id: 3,
-        title: 'Improve your customer experience',
-        href: '#',
-        date: 'Feb 12, 2020',
-        datetime: '2020-02-12',
-        category: { name: 'Case Study', href: '#' },
-        imageUrl:
-            'https://images.unsplash.com/photo-1492724441997-5dc865305da7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1679&q=80',
-        preview:
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint harum rerum voluptatem quo recusandae magni placeat saepe molestiae, sed excepturi cumque corporis perferendis hic.',
-        author: {
-            name: 'Daniela Metz',
-            imageUrl:
-                'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-            href: '#',
-        },
-        readingLength: '11 min',
-    },
-]
+
 const footerNavigation = {
-    solutions: [
-        { name: 'Marketing', href: '#' },
-        { name: 'Analytics', href: '#' },
-        { name: 'Commerce', href: '#' },
-        { name: 'Insights', href: '#' },
+    frontend: [
+        { name: 'React.js', href: 'https://reactjs.org/' },
+        { name: 'Tailwind.css', href: 'https://tailwindcss.com/' },
+        { name: 'Redux', href: 'https://redux.js.org/' },
+        { name: 'Javascript', href: 'https://www.javascript.com/' },
     ],
-    support: [
-        { name: 'Pricing', href: '#' },
-        { name: 'Documentation', href: '#' },
-        { name: 'Guides', href: '#' },
-        { name: 'API Status', href: '#' },
+    backend: [
+        { name: 'Flask', href: 'https://flask.palletsprojects.com/en/2.1.x/' },
+        { name: 'PostgreSQL', href: 'https://postgresql.org/' },
+        { name: 'SQLAlchemy', href: 'https://www.sqlalchemy.org/' },
     ],
-    company: [
-        { name: 'About', href: '#' },
-        { name: 'Blog', href: '#' },
-        { name: 'Jobs', href: '#' },
-        { name: 'Press', href: '#' },
-        { name: 'Partners', href: '#' },
-    ],
-    legal: [
-        { name: 'Claim', href: '#' },
-        { name: 'Privacy', href: '#' },
-        { name: 'Terms', href: '#' },
+    addons: [
+        { name: 'AWS S3', href: 'https://aws.amazon.com/pm/serv-s3/?trk=fecf68c9-3874-4ae2-a7ed-72b6d19c8034&sc_channel=ps&sc_campaign=acquisition&sc_medium=ACQ-P|PS-GO|Brand|Desktop|SU|Storage|S3|US|EN|Text&s_kwcid=AL!4422!3!488982706719!e!!g!!aws%20s3&ef_id=CjwKCAjw2rmWBhB4EiwAiJ0mtcgLyhcGwtpIQwcAd-w8P7nfD4vZPr0rEd5oekSu4ZfVUS2mhRNf7xoCuQwQAvD_BwE:G:s&s_kwcid=AL!4422!3!488982706719!e!!g!!aws%20s3' },
+        { name: 'Socket.io', href: 'https://socket.io/' },
+        { name: 'Leaflet.js', href: 'https://leafletjs.com/' },
+        { name: 'Nominatim API', href: 'https://nominatim.org/' },
+        { name: 'Docker', href: 'https://www.docker.com/' },
     ],
     social: [
         {
-            name: 'Facebook',
-            href: '#',
-            icon: (props) => (
-                <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
-                    <path
-                        fillRule="evenodd"
-                        d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
-                        clipRule="evenodd"
-                    />
-                </svg>
-            ),
-        },
-        {
             name: 'Instagram',
-            href: '#',
+            href: 'https://www.instagram.com/badtraddad/',
             icon: (props) => (
                 <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
                     <path
@@ -163,17 +92,8 @@ const footerNavigation = {
             ),
         },
         {
-            name: 'Twitter',
-            href: '#',
-            icon: (props) => (
-                <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
-                    <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
-                </svg>
-            ),
-        },
-        {
             name: 'GitHub',
-            href: '#',
+            href: 'https://www.github.com/downster',
             icon: (props) => (
                 <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
                     <path
@@ -185,15 +105,11 @@ const footerNavigation = {
             ),
         },
         {
-            name: 'Dribbble',
-            href: '#',
+            name: 'Linked In',
+            href: 'http://www.linkedin.com/in/brendan-downing',
             icon: (props) => (
-                <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
-                    <path
-                        fillRule="evenodd"
-                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c5.51 0 10-4.48 10-10S17.51 2 12 2zm6.605 4.61a8.502 8.502 0 011.93 5.314c-.281-.054-3.101-.629-5.943-.271-.065-.141-.12-.293-.184-.445a25.416 25.416 0 00-.564-1.236c3.145-1.28 4.577-3.124 4.761-3.362zM12 3.475c2.17 0 4.154.813 5.662 2.148-.152.216-1.443 1.941-4.48 3.08-1.399-2.57-2.95-4.675-3.189-5A8.687 8.687 0 0112 3.475zm-3.633.803a53.896 53.896 0 013.167 4.935c-3.992 1.063-7.517 1.04-7.896 1.04a8.581 8.581 0 014.729-5.975zM3.453 12.01v-.26c.37.01 4.512.065 8.775-1.215.25.477.477.965.694 1.453-.109.033-.228.065-.336.098-4.404 1.42-6.747 5.303-6.942 5.629a8.522 8.522 0 01-2.19-5.705zM12 20.547a8.482 8.482 0 01-5.239-1.8c.152-.315 1.888-3.656 6.703-5.337.022-.01.033-.01.054-.022a35.318 35.318 0 011.823 6.475 8.4 8.4 0 01-3.341.684zm4.761-1.465c-.086-.52-.542-3.015-1.659-6.084 2.679-.423 5.022.271 5.314.369a8.468 8.468 0 01-3.655 5.715z"
-                        clipRule="evenodd"
-                    />
+                <svg fill='currentColor' viewBox="0 0 128 128" {...props}>
+                    <path fill="#0076b2" d="M116 3H12a8.91 8.91 0 00-9 8.8v104.42a8.91 8.91 0 009 8.78h104a8.93 8.93 0 009-8.81V11.77A8.93 8.93 0 00116 3z"></path><path fill="#fff" d="M21.06 48.73h18.11V107H21.06zm9.06-29a10.5 10.5 0 11-10.5 10.49 10.5 10.5 0 0110.5-10.49M50.53 48.73h17.36v8h.24c2.42-4.58 8.32-9.41 17.13-9.41C103.6 47.28 107 59.35 107 75v32H88.89V78.65c0-6.75-.12-15.44-9.41-15.44s-10.87 7.36-10.87 15V107H50.53z"></path>
                 </svg>
             ),
         },
@@ -201,8 +117,25 @@ const footerNavigation = {
 }
 
 export default function SplashPage() {
+    const dispatch = useDispatch()
+    const history = useHistory()
+    const [showModal, setShowModal] = useState(false)
+    const demoUser = async (e) => {
+        e.preventDefault()
+        const credentials = {
+            username: 'demo@demo.com',
+            password: 'password'
+        }
+        await dispatch(sessionActions.login(credentials))
+        history.push('/')
+    }
     return (
         <div className="bg-white">
+            {showModal && (
+                <Modal onClose={() => setShowModal(false)}>
+                    <LoginForm />
+                </Modal>
+            )}
             <div className="relative overflow-hidden">
                 <Popover as="header" className="relative">
                     <div className="bg-gray-900 pt-6">
@@ -212,14 +145,8 @@ export default function SplashPage() {
                         >
                             <div className="flex items-center flex-1">
                                 <div className="flex items-center justify-between w-full md:w-auto">
-                                    <a href="#">
-                                        <span className="sr-only">Workflow</span>
-                                        <img
-                                            className="h-8 w-auto sm:h-10"
-                                            src="https://tailwindui.com/img/logos/workflow-mark-teal-200-cyan-400.svg"
-                                            alt=""
-                                        />
-                                    </a>
+
+                                    <i className="fa-duotone fa-wind-turbine splash" style={{ "--fa-primary-color": "#FFFFFF", "--fa-secondary-color": "#FFFFFF" }}></i>
                                     <div className="-mr-2 flex items-center md:hidden">
                                         <Popover.Button className="bg-gray-900 rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:bg-gray-800 focus:outline-none focus:ring-2 focus-ring-inset focus:ring-white">
                                             <span className="sr-only">Open main menu</span>
@@ -240,15 +167,17 @@ export default function SplashPage() {
                                 </div>
                             </div>
                             <div className="hidden md:flex md:items-center md:space-x-6">
-                                <a href="#" className="text-base font-medium text-white hover:text-gray-300">
+                                <button
+                                    onClick={() => setShowModal(true)}
+                                    className="text-base font-medium text-white hover:text-gray-300">
                                     Log in
-                                </a>
-                                <a
-                                    href="#"
+                                </button>
+                                <button
+                                    onClick={demoUser}
                                     className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700"
                                 >
-                                    Start free trial
-                                </a>
+                                    Demo User
+                                </button>
                             </div>
                         </nav>
                     </div>
@@ -319,24 +248,24 @@ export default function SplashPage() {
                                 <div className="mx-auto max-w-md px-4 sm:max-w-2xl sm:px-6 sm:text-center lg:px-0 lg:text-left lg:flex lg:items-center">
                                     <div className="lg:py-24">
                                         <a
-                                            href="#"
+                                            href="http://www.linkedin.com/in/brendan-downing"
                                             className="inline-flex items-center text-white bg-black rounded-full p-1 pr-2 sm:text-base lg:text-sm xl:text-base hover:text-gray-200"
                                         >
                                             <span className="px-3 py-0.5 text-white text-xs font-semibold leading-5 uppercase tracking-wide bg-gradient-to-r from-teal-500 to-cyan-600 rounded-full">
-                                                We're hiring
+                                                Hire me
                                             </span>
-                                            <span className="ml-4 text-sm">Visit our careers page</span>
+                                            <span className="ml-4 text-sm">Visit my linked-in</span>
                                             <ChevronRightIcon className="ml-2 w-5 h-5 text-gray-500" aria-hidden="true" />
                                         </a>
                                         <h1 className="mt-4 text-4xl tracking-tight font-extrabold text-white sm:mt-5 sm:text-6xl lg:mt-6 xl:text-6xl">
                                             <span className="block">A better way to</span>
                                             <span className="pb-3 block bg-clip-text text-transparent bg-gradient-to-r from-teal-200 to-cyan-400 sm:pb-5">
-                                                ship web apps
+                                                manage jobsites
                                             </span>
                                         </h1>
                                         <p className="text-base text-gray-300 sm:text-xl lg:text-lg xl:text-xl">
-                                            Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui Lorem cupidatat commodo. Elit
-                                            sunt amet fugiat veniam occaecat fugiat.
+                                            Keep your team, your jobsite, and your repairs ontrack with windVentory. No more wasted materials, or micommunications.
+
                                         </p>
                                         <div className="mt-10 sm:mt-12">
                                             <form action="#" className="sm:max-w-xl sm:mx-auto lg:mx-0">
@@ -357,25 +286,16 @@ export default function SplashPage() {
                                                             type="submit"
                                                             className="block w-full py-3 px-4 rounded-md shadow bg-gradient-to-r from-teal-500 to-cyan-600 text-white font-medium hover:from-teal-600 hover:to-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-400 focus:ring-offset-gray-900"
                                                         >
-                                                            Start free trial
+                                                            Sign up
                                                         </button>
                                                     </div>
                                                 </div>
-                                                <p className="mt-3 text-sm text-gray-300 sm:mt-4">
-                                                    Start your free 14-day trial, no credit card necessary. By providing your email, you agree to
-                                                    our{' '}
-                                                    <a href="#" className="font-medium text-white">
-                                                        terms of service
-                                                    </a>
-                                                    .
-                                                </p>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="mt-12 -mb-16 sm:-mb-48 lg:m-0 lg:relative">
                                     <div className="mx-auto max-w-md px-4 sm:max-w-2xl sm:px-6 lg:max-w-none lg:px-0">
-                                        {/* Illustration taken from Lucid Illustrations: https://lucid.pixsellz.io/ */}
                                         <img
                                             className="w-full lg:absolute lg:inset-y-0 lg:left-0 lg:h-full lg:w-auto lg:max-w-none"
                                             src="https://windventory.s3.amazonaws.com/turbine.gif"
@@ -388,162 +308,108 @@ export default function SplashPage() {
                     </div>
 
                     {/* Feature section with screenshot */}
-                    <div className="relative bg-gray-50 pt-16 sm:pt-24 lg:pt-32">
-                        <div className="mx-auto max-w-md px-4 text-center sm:px-6 sm:max-w-3xl lg:px-8 lg:max-w-7xl">
-                            <div>
-                                <h2 className="text-base font-semibold tracking-wider text-cyan-600 uppercase">Serverless</h2>
-                                <p className="mt-2 text-3xl font-extrabold text-gray-900 tracking-tight sm:text-4xl">
-                                    No server? No problem.
-                                </p>
-                                <p className="mt-5 max-w-prose mx-auto text-xl text-gray-500">
-                                    Phasellus lorem quam molestie id quisque diam aenean nulla in. Accumsan in quis quis nunc, ullamcorper
-                                    malesuada. Eleifend condimentum id viverra nulla.
-                                </p>
-                            </div>
-                            <div className="mt-12 -mb-10 sm:-mb-24 lg:-mb-80">
-                                <img
-                                    className="rounded-lg shadow-xl ring-1 ring-black ring-opacity-5"
-                                    src="https://tailwindui.com/img/component-images/green-project-app-screenshot.jpg"
-                                    alt=""
-                                />
+                    <section id='product'>
+                        <div className="relative bg-gray-50 pt-16 sm:pt-24 lg:pt-32">
+                            <div className="mx-auto max-w-md px-4 text-center sm:px-6 sm:max-w-3xl lg:px-8 lg:max-w-7xl">
+                                <div>
+                                    <h2 className="text-base font-semibold tracking-wider text-cyan-600 uppercase">Real-time updates</h2>
+                                    <p className="mt-2 text-3xl font-extrabold text-gray-900 tracking-tight sm:text-4xl">
+                                        Inventory constantly changing? No problem.
+                                    </p>
+                                    <p className="mt-5 max-w-prose mx-auto text-xl text-gray-500">
+                                        Real time inventory updates with Socket.io keep you ahead of the curve and never wondering if you'll make it through your repair.
+                                    </p>
+                                </div>
+                                <div className="mt-12 -mb-10 sm:-mb-24 lg:-mb-80">
+                                    <img
+                                        className="rounded-lg shadow-xl ring-1 ring-black ring-opacity-5"
+                                        src="https://tailwindui.com/img/component-images/green-project-app-screenshot.jpg"
+                                        alt=""
+                                    />
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </section>
 
                     {/* Feature section with grid */}
-                    <div className="relative bg-white py-16 sm:py-24 lg:py-32">
-                        <div className="mx-auto max-w-md px-4 text-center sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl">
-                            <h2 className="text-base font-semibold tracking-wider text-cyan-600 uppercase">Deploy faster</h2>
-                            <p className="mt-2 text-3xl font-extrabold text-gray-900 tracking-tight sm:text-4xl">
-                                Everything you need to deploy your app
-                            </p>
-                            <p className="mt-5 max-w-prose mx-auto text-xl text-gray-500">
-                                Phasellus lorem quam molestie id quisque diam aenean nulla in. Accumsan in quis quis nunc, ullamcorper
-                                malesuada. Eleifend condimentum id viverra nulla.
-                            </p>
-                            <div className="mt-12">
-                                <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                                    {features.map((feature) => (
-                                        <div key={feature.name} className="pt-6">
-                                            <div className="flow-root bg-gray-50 rounded-lg px-6 pb-8">
-                                                <div className="-mt-6">
-                                                    <div>
-                                                        <span className="inline-flex items-center justify-center p-3 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-md shadow-lg">
-                                                            <feature.icon className="h-6 w-6 text-white" aria-hidden="true" />
-                                                        </span>
+                    <section id="features" >
+                        <div className="relative bg-white py-16 sm:py-24 lg:py-32">
+                            <div className="mx-auto max-w-md px-4 text-center sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl">
+                                <h2 className="text-base font-semibold tracking-wider text-cyan-600 uppercase">Find things faster</h2>
+                                <p className="mt-2 text-3xl font-extrabold text-gray-900 tracking-tight sm:text-4xl">
+                                    Everything in one place
+                                </p>
+                                <p className="mt-5 max-w-prose mx-auto text-xl text-gray-500">
+                                    Need the nearest grocery store, no problem. Where's the home depot in Kansas city? We've got you covered. Whats the weather like in Texas? Look no further.
+                                </p>
+                                <div className="mt-12">
+                                    <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                                        {features.map((feature) => (
+                                            <div key={feature.name} className="pt-6">
+                                                <div className="flow-root bg-gray-50 rounded-lg px-6 pb-8">
+                                                    <div className="-mt-6">
+                                                        <div>
+                                                            <span className="inline-flex items-center justify-center p-3 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-md shadow-lg">
+                                                                <feature.icon className="h-6 w-6 text-white" aria-hidden="true" />
+                                                            </span>
+                                                        </div>
+                                                        <h3 className="mt-8 text-lg font-medium text-gray-900 tracking-tight">{feature.name}</h3>
+                                                        <p className="mt-5 text-base text-gray-500">{feature.description}</p>
                                                     </div>
-                                                    <h3 className="mt-8 text-lg font-medium text-gray-900 tracking-tight">{feature.name}</h3>
-                                                    <p className="mt-5 text-base text-gray-500">{feature.description}</p>
                                                 </div>
                                             </div>
-                                        </div>
-                                    ))}
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </section>
 
                     {/* Testimonial section */}
-                    <div className="pb-16 bg-gradient-to-r from-teal-500 to-cyan-600 lg:pb-0 lg:z-10 lg:relative">
-                        <div className="lg:mx-auto lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-3 lg:gap-8">
-                            <div className="relative lg:-my-8">
-                                <div aria-hidden="true" className="absolute inset-x-0 top-0 h-1/2 bg-white lg:hidden" />
-                                <div className="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:p-0 lg:h-full">
-                                    <div className="aspect-w-10 aspect-h-6 rounded-xl shadow-xl overflow-hidden sm:aspect-w-16 sm:aspect-h-7 lg:aspect-none lg:h-full">
-                                        <img
-                                            className="object-cover lg:h-full lg:w-full"
-                                            src="https://images.unsplash.com/photo-1520333789090-1afc82db536a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2102&q=80"
-                                            alt=""
-                                        />
+                    <section id="testimonials" >
+                        <div className="pb-16 bg-gradient-to-r from-teal-500 to-cyan-600 lg:pb-0 lg:z-10 lg:relative">
+                            <div className="lg:mx-auto lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-3 lg:gap-8">
+                                <div className="relative lg:-my-8">
+                                    <div aria-hidden="true" className="absolute inset-x-0 top-0 h-1/2 bg-white lg:hidden" />
+                                    <div className="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:p-0 lg:h-full">
+                                        <div className="aspect-w-10 aspect-h-6 rounded-xl shadow-xl overflow-hidden sm:aspect-w-16 sm:aspect-h-7 lg:aspect-none lg:h-full">
+                                            <img
+                                                className="object-cover lg:h-full lg:w-full"
+                                                src="https://windventory.s3.amazonaws.com/MeWind.jpeg"
+                                                alt=""
+                                            />
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="mt-12 lg:m-0 lg:col-span-2 lg:pl-8">
-                                <div className="mx-auto max-w-md px-4 sm:max-w-2xl sm:px-6 lg:px-0 lg:py-20 lg:max-w-none">
-                                    <blockquote>
-                                        <div>
-                                            <svg
-                                                className="h-12 w-12 text-white opacity-25"
-                                                fill="currentColor"
-                                                viewBox="0 0 32 32"
-                                                aria-hidden="true"
-                                            >
-                                                <path d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.8 3.456-8.256 9.12-8.256 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z" />
-                                            </svg>
-                                            <p className="mt-6 text-2xl font-medium text-white">
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed urna nulla vitae laoreet augue.
-                                                Amet feugiat est integer dolor auctor adipiscing nunc urna, sit.
-                                            </p>
-                                        </div>
-                                        <footer className="mt-6">
-                                            <p className="text-base font-medium text-white">Judith Black</p>
-                                            <p className="text-base font-medium text-cyan-100">CEO at PureInsights</p>
-                                        </footer>
-                                    </blockquote>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Blog section */}
-                    <div className="relative bg-gray-50 py-16 sm:py-24 lg:py-32">
-                        <div className="relative">
-                            <div className="text-center mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl">
-                                <h2 className="text-base font-semibold tracking-wider text-cyan-600 uppercase">Learn</h2>
-                                <p className="mt-2 text-3xl font-extrabold text-gray-900 tracking-tight sm:text-4xl">
-                                    Helpful Resources
-                                </p>
-                                <p className="mt-5 mx-auto max-w-prose text-xl text-gray-500">
-                                    Phasellus lorem quam molestie id quisque diam aenean nulla in. Accumsan in quis quis nunc, ullamcorper
-                                    malesuada. Eleifend condimentum id viverra nulla.
-                                </p>
-                            </div>
-                            <div className="mt-12 mx-auto max-w-md px-4 grid gap-8 sm:max-w-lg sm:px-6 lg:px-8 lg:grid-cols-3 lg:max-w-7xl">
-                                {blogPosts.map((post) => (
-                                    <div key={post.id} className="flex flex-col rounded-lg shadow-lg overflow-hidden">
-                                        <div className="flex-shrink-0">
-                                            <img className="h-48 w-full object-cover" src={post.imageUrl} alt="" />
-                                        </div>
-                                        <div className="flex-1 bg-white p-6 flex flex-col justify-between">
-                                            <div className="flex-1">
-                                                <p className="text-sm font-medium text-cyan-600">
-                                                    <a href={post.category.href} className="hover:underline">
-                                                        {post.category.name}
-                                                    </a>
+                                <div className="mt-12 lg:m-0 lg:col-span-2 lg:pl-8">
+                                    <div className="mx-auto max-w-md px-4 sm:max-w-2xl sm:px-6 lg:px-0 lg:py-20 lg:max-w-none">
+                                        <blockquote>
+                                            <div>
+                                                <svg
+                                                    className="h-12 w-12 text-white opacity-25"
+                                                    fill="currentColor"
+                                                    viewBox="0 0 32 32"
+                                                    aria-hidden="true"
+                                                >
+                                                    <path d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.8 3.456-8.256 9.12-8.256 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z" />
+                                                </svg>
+                                                <p className="mt-6 text-2xl font-medium text-white">
+                                                    windVentory is the app I wish I had while working in the Wind Industry. I made it, so theres no way that I am biased about how amazing and functional it is.
+                                                    This app would have saved me so much time on those long days hanging from a rope.
                                                 </p>
-                                                <a href={post.href} className="block mt-2">
-                                                    <p className="text-xl font-semibold text-gray-900">{post.title}</p>
-                                                    <p className="mt-3 text-base text-gray-500">{post.preview}</p>
-                                                </a>
                                             </div>
-                                            <div className="mt-6 flex items-center">
-                                                <div className="flex-shrink-0">
-                                                    <a href={post.author.href}>
-                                                        <img className="h-10 w-10 rounded-full" src={post.author.imageUrl} alt={post.author.name} />
-                                                    </a>
-                                                </div>
-                                                <div className="ml-3">
-                                                    <p className="text-sm font-medium text-gray-900">
-                                                        <a href={post.author.href} className="hover:underline">
-                                                            {post.author.name}
-                                                        </a>
-                                                    </p>
-                                                    <div className="flex space-x-1 text-sm text-gray-500">
-                                                        <time dateTime={post.datetime}>{post.date}</time>
-                                                        <span aria-hidden="true">&middot;</span>
-                                                        <span>{post.readingLength} read</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                            <footer className="mt-6">
+                                                <p className="text-base font-medium text-white">Brendan Downing</p>
+                                                <p className="text-base font-medium text-cyan-100">Creator of this application</p>
+                                            </footer>
+                                        </blockquote>
                                     </div>
-                                ))}
+                                </div>
                             </div>
                         </div>
-                    </div>
-
+                    </section>
                     {/* CTA Section */}
-                    <div className="relative bg-gray-900">
+                    {/* <div className="relative bg-gray-900">
                         <div className="relative h-56 bg-indigo-600 sm:h-72 md:absolute md:left-0 md:h-full md:w-1/2">
                             <img
                                 className="w-full h-full object-cover"
@@ -579,7 +445,7 @@ export default function SplashPage() {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                 </main>
                 <footer className="bg-gray-50" aria-labelledby="footer-heading">
                     <h2 id="footer-heading" className="sr-only">
@@ -588,13 +454,9 @@ export default function SplashPage() {
                     <div className="max-w-md mx-auto pt-12 px-4 sm:max-w-7xl sm:px-6 lg:pt-16 lg:px-8">
                         <div className="xl:grid xl:grid-cols-3 xl:gap-8">
                             <div className="space-y-8 xl:col-span-1">
-                                <img
-                                    className="h-10"
-                                    src="https://tailwindui.com/img/logos/workflow-mark-gray-300.svg"
-                                    alt="Company name"
-                                />
+                                <i className="fa-duotone fa-wind-turbine splash" style={{ "--fa-primary-color": "#7efff5", "--fa-secondary-color": "#808080" }}></i>
                                 <p className="text-gray-500 text-base">
-                                    Making the world a better place through constructing elegant hierarchies.
+                                    Making the world a better place one line at a time.
                                 </p>
                                 <div className="flex space-x-6">
                                     {footerNavigation.social.map((item) => (
@@ -608,9 +470,9 @@ export default function SplashPage() {
                             <div className="mt-12 grid grid-cols-2 gap-8 xl:mt-0 xl:col-span-2">
                                 <div className="md:grid md:grid-cols-2 md:gap-8">
                                     <div>
-                                        <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">Solutions</h3>
+                                        <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">Frontend</h3>
                                         <ul role="list" className="mt-4 space-y-4">
-                                            {footerNavigation.solutions.map((item) => (
+                                            {footerNavigation.frontend.map((item) => (
                                                 <li key={item.name}>
                                                     <a href={item.href} className="text-base text-gray-500 hover:text-gray-900">
                                                         {item.name}
@@ -620,9 +482,9 @@ export default function SplashPage() {
                                         </ul>
                                     </div>
                                     <div className="mt-12 md:mt-0">
-                                        <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">Support</h3>
+                                        <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">Backend</h3>
                                         <ul role="list" className="mt-4 space-y-4">
-                                            {footerNavigation.support.map((item) => (
+                                            {footerNavigation.backend.map((item) => (
                                                 <li key={item.name}>
                                                     <a href={item.href} className="text-base text-gray-500 hover:text-gray-900">
                                                         {item.name}
@@ -634,9 +496,9 @@ export default function SplashPage() {
                                 </div>
                                 <div className="md:grid md:grid-cols-2 md:gap-8">
                                     <div>
-                                        <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">Company</h3>
+                                        <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">Add ons</h3>
                                         <ul role="list" className="mt-4 space-y-4">
-                                            {footerNavigation.company.map((item) => (
+                                            {footerNavigation.addons.map((item) => (
                                                 <li key={item.name}>
                                                     <a href={item.href} className="text-base text-gray-500 hover:text-gray-900">
                                                         {item.name}
@@ -645,23 +507,12 @@ export default function SplashPage() {
                                             ))}
                                         </ul>
                                     </div>
-                                    <div className="mt-12 md:mt-0">
-                                        <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">Legal</h3>
-                                        <ul role="list" className="mt-4 space-y-4">
-                                            {footerNavigation.legal.map((item) => (
-                                                <li key={item.name}>
-                                                    <a href={item.href} className="text-base text-gray-500 hover:text-gray-900">
-                                                        {item.name}
-                                                    </a>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>
                         <div className="mt-12 border-t border-gray-200 py-8">
-                            <p className="text-base text-gray-400 xl:text-center">&copy; 2020 Workflow, Inc. All rights reserved.</p>
+                            <p className="text-base text-gray-400 xl:text-center">&copy; 2022 Brendan Downing, All rights reserved.</p>
                         </div>
                     </div>
                 </footer>
