@@ -28,33 +28,33 @@ const navigation = [
 const features = [
     {
         name: 'Location Services',
-        description: 'Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi vitae lobortis.',
+        description: 'Sweating in the summer Illinois heat and want to go ice skating? Worry not, and search for the closest ice rink to your hotel.',
         icon: LocationMarkerIcon,
     },
     {
         name: 'Live Chat',
-        description: 'Qui aut temporibus nesciunt vitae dicta repellat sit dolores pariatur. Temporibus qui illum aut.',
+        description: 'Worried your teammate is going to forget to fill the cooler with ice? Send them a message on windVentory to be sure they don\'t forget.',
         icon: ChatAlt2Icon,
     },
     {
         name: 'Inventory Management',
-        description: 'Rerum quas incidunt deleniti quaerat suscipit mollitia. Amet repellendus ut odit dolores qui.',
+        description: 'Manage and view your job site and team inventory in real time. No more worrying about running out of fiberglass when you\'re about to head into laminations.',
         icon: CollectionIcon,
     },
     {
         name: 'Weather',
-        description: 'Ullam laboriosam est voluptatem maxime ut mollitia commodi. Et dignissimos suscipit perspiciatis.',
+        description: 'Get your jobsites humidity, windspeed, temperature and more. No more messing with multiple weather apps to see the weather conditions.',
         icon: LightningBoltIcon,
     },
     {
-        name: 'Online/offline Notifications',
+        name: 'Online/Offline Notifications',
         description:
-            'Ab a facere voluptatem in quia corrupti veritatis aliquam. Veritatis labore quaerat ipsum quaerat id.',
+            'Know when users are online and offline, so you can text them and tell them to get online and look at your message',
         icon: StatusOnlineIcon,
     },
     {
         name: 'Image Uploads',
-        description: 'Quia qui et est officia cupiditate qui consectetur. Ratione similique et impedit ea ipsum et.',
+        description: 'Keep your inventory organized, and teammates on their toes with AWS S3 image uploading',
         icon: CloudUploadIcon,
     },
 ]
@@ -409,8 +409,10 @@ export default function SplashPage() {
                                                     <path d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.8 3.456-8.256 9.12-8.256 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z" />
                                                 </svg>
                                                 <p className="mt-6 text-2xl font-medium text-white">
-                                                    windVentory is the app I wish I had while working in the Wind Industry. I made it, so theres no way that I am biased about how amazing and functional it is.
+                                                    windVentory is the app I wish I had while working in the Wind Industry.
                                                     This app would have saved me so much time on those long days hanging from a rope.
+                                                    I made it, so there's no way that I am biased about how amazing and functional it is.
+                                                    I love dragon fruit berry seltzer waters from Wegmann's.
                                                 </p>
                                             </div>
                                             <footer className="mt-6">

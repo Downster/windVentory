@@ -26,14 +26,14 @@ const AllSites = ({ adminPanel }) => {
                     <img src='https://windventory.s3.amazonaws.com/turbine.gif'>
                     </img>
                 </>}
-            {!loading && < div className="app-body" >
-                <div className='jobsite-container'>
+            {!loading &&
+                <>
                     {jobSiteObject && jobSiteObject.map((jobsite) => (
                         <JobSiteCard key={jobsite.id} jobsite={jobsite} adminPanel={adminPanel} />
                     )
                     )}
-                </div>
-            </div >}
+                </>
+            }
         </>
     )
 }

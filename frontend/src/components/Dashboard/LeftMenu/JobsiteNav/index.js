@@ -10,6 +10,19 @@ import CreateTeamModal from "../../CreateTeamModal"
 import checkPermissions from "../../../../utils/checkPermissions"
 import { clearRooms, clearTeamRooms } from "../../../../store/chatRoom"
 import { useState } from "react"
+import {
+    BellIcon,
+    CalendarIcon,
+    ChartBarIcon,
+    ChatAlt2Icon,
+    FolderIcon,
+    HomeIcon,
+    InboxIcon,
+    LightningBoltIcon,
+    MenuAlt2Icon,
+    UsersIcon,
+    XIcon,
+} from '@heroicons/react/outline'
 
 
 
@@ -36,23 +49,57 @@ const JobSiteNav = ({ isMember, isAdmin, siteChats, siteId }) => {
         await dispatch(leaveCurrentTeam())
         await dispatch(clearTeamRooms())
     }
+    function classNames(...classes) {
+        return classes.filter(Boolean).join(' ')
+    }
+
+    const navigation = [
+        { name: 'Inventory', to: `/jobsite/${siteId}/inventory`, icon: FolderIcon, current: false },
+        { name: 'Teams', to: `/jobsite/${siteId}/teams`, icon: UsersIcon, current: false },
+        { name: 'Weather', to: `/jobsite/${siteId}/weather`, icon: LightningBoltIcon, current: false },
+        { name: 'Chatrooms', to: `/jobsite/${siteId}/chats`, icon: ChatAlt2Icon, current: false },
+        { name: 'Leave Jobsite', to: `/leave`, icon: XIcon, onClick: leaveJobsite, current: false }
+    ]
+
 
 
     return (
         <>
             {isMember ?
-                <NavLink to={`/jobsite/${siteId}`} ><ul className="jobsite-nav-title">My Jobsite</ul></NavLink> : <ul className="jobsite-nav-title">Jobsites</ul>}
+                <NavLink to={`/jobsite/${siteId}`} className={classNames('text-gray-300 hover:bg-gray-700 hover:text-white',
+                    'group flex items-center px-2 py-2 text-lg font-large rounded-md')} activeClassName='text-white'>My Jobsite</NavLink> : <ul className="jobsite-nav-title">Jobsites</ul>}
             {isMember &&
                 <>
+                    {navigation.map((item) => (
+                        <NavLink
+                            key={item.name}
+                            to={item.to}
+                            onClick={item.onClick}
+                            className={classNames('text-gray-300 hover:bg-gray-700 hover:text-white',
+                                'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
+                            )}
+                            activeClassName='bg-gray-900 text-white'
 
-                    <ChatsNav siteId={siteId} siteChats={siteChats} />
+                        >
+                            <item.icon
+                                className={classNames(
+                                    item.current ? 'text-gray-300' : 'text-gray-400 group-hover:text-gray-300',
+                                    'mr-3 flex-shrink-0 h-6 w-6'
+                                )}
+                                aria-hidden="true"
+                            />
+                            {item.name}
+                        </NavLink>
+                    ))}
+
+                    {/* <ChatsNav siteId={siteId} siteChats={siteChats} />
                     <li className="inventory-nav-item"><NavLink to={`/jobsite/${siteId}/inventory`}><i className="fa-solid fa-boxes-stacked"></i>Inventory</NavLink><CreateMaterialModal /></li>
                     <li className="nav-item"><NavLink to={`/jobsite/${siteId}/weather`}><i class="fa-duotone fa-cloud-bolt-sun"></i>Weather</NavLink></li>
                     <li className="nav-item"><NavLink to={`/jobsite/${siteId}/teams`}><i class="fa-duotone fa-people-group"></i>Teams</NavLink>{hasTeam && canCreate && <CreateTeamModal jobsite={true} />}</li>
                     {/* <li><NavLink to={`/jobsite/${siteId}/towers`}><i class="fa-duotone fa-wind-turbine"></i>Towers</NavLink></li> */}
                     {/* <li className="nav-item"><NavLink to={`/jobsite/${siteId}/members`}><i class="fa-duotone fa-user-cowboy"></i>Members</NavLink></li>
                     <li className="nav-item"><NavLink to={`/jobsite/${siteId}/hotel`}><i class="fa-duotone fa-hotel"></i>My Hotel</NavLink></li> */}
-                    <li className="nav-item-person"><i class="fa-duotone fa-person-to-door"></i>Leave Jobsite <i className="fas fa-minus" onClick={leaveJobsite}></i></li>
+                    {/* <li className="nav-item-person"><i class="fa-duotone fa-person-to-door"></i>Leave Jobsite <i className="fas fa-minus" onClick={leaveJobsite}></i></li> */}
                 </>
             }
         </>
