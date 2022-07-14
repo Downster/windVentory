@@ -11,6 +11,11 @@ button:hover {
     justify-content: space-around;
 }
 
+.fa-wind-turbine.splash{
+    font-size: 40px;
+    --fa-primary-color: white;
+}
+
 .windVentory-intro{
     padding-left: 40px;
 }

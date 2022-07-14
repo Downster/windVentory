@@ -22,18 +22,20 @@ const AllSites = ({ adminPanel }) => {
         <>
             {loading &&
                 <>
-                    <h1>Loading.....</h1>
                     <img src='https://windventory.s3.amazonaws.com/turbine.gif'>
                     </img>
                 </>}
-            {!loading && < div className="app-body" >
-                <div className='jobsite-container'>
-                    {jobSiteObject && jobSiteObject.map((jobsite) => (
-                        <JobSiteCard key={jobsite.id} jobsite={jobsite} adminPanel={adminPanel} />
-                    )
-                    )}
-                </div>
-            </div >}
+            {!loading &&
+                <>
+                    <h1 className="text-2xl font-semibold text-gray-900">You are not a member of a jobsite yet, join one here</h1>
+                    <div className="flex max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+                        {jobSiteObject && jobSiteObject.map((jobsite) => (
+                            <JobSiteCard key={jobsite.id} jobsite={jobsite} adminPanel={adminPanel} />
+                        )
+                        )}
+                    </div>
+                </>
+            }
         </>
     )
 }

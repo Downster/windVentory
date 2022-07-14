@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { ModalProvider } from './context/Modal';
-import './reset.css'
 import './index.css';
 import App from './App';
 
@@ -22,9 +21,7 @@ function Root() {
 
       <ModalProvider>
         <BrowserRouter>
-          <div className='whole-page-container'>
-            <App />
-          </div>
+          <App />
         </BrowserRouter>
       </ModalProvider>
     </Provider>

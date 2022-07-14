@@ -9,10 +9,10 @@ const Inventory = ({ site, team }) => {
 
     return (
         <>{
-            site && <div className="app-body"><DisplayInventory inventory={siteInventory} /></div>
+            site && <DisplayInventory inventory={siteInventory} />
         }
             {
-                team && <div className="app-body"><DisplayInventory team={team} inventory={teamInventory} /></div>
+                team && <DisplayInventory team={team} inventory={teamInventory} />
             }
         </>
     )

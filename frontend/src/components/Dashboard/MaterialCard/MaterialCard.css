@@ -55,17 +55,17 @@
     flex-direction: column;
 }
 
-.border {
+/* .border {
     width: 145px;
     height: 145px;
   background: transparent;
   border-radius: 10px;
   transition: border 1s;
   position: absolute;
-}
-  .border:hover {
+/* } */
+  /* .border:hover {
     border: 1px solid #fff;
-  }
+  } */ 
 
 .low-indicator {
     margin-left: 80px;

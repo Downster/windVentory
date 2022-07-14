@@ -1,6 +1,5 @@
 import CreateJobSiteModal from "../../CreateJobSiteModal"
 import { NavLink, useHistory } from "react-router-dom"
-
 import { useSelector } from "react-redux"
 import ChatsNav from "../ChatsNav"
 import CreateMaterialModal from "../../CreateMaterialModal"
@@ -8,6 +7,19 @@ import { useDispatch } from "react-redux"
 import { leaveUserTeam } from "../../../../store/session"
 import { leaveCurrentTeam } from "../../../../store/currentTeam"
 import { clearTeamRooms } from "../../../../store/chatRoom"
+import {
+    BellIcon,
+    CalendarIcon,
+    ChartBarIcon,
+    ChatAlt2Icon,
+    FolderIcon,
+    HomeIcon,
+    InboxIcon,
+    LightningBoltIcon,
+    MenuAlt2Icon,
+    UsersIcon,
+    XIcon,
+} from '@heroicons/react/outline'
 
 
 
@@ -24,15 +36,48 @@ const TeamsNav = ({ siteId }) => {
 
     }
 
+    function classNames(...classes) {
+        return classes.filter(Boolean).join(' ')
+    }
+
+    const navigation = [
+        { name: 'Inventory', to: `/team/${userTeam?.id}/inventory`, icon: FolderIcon, current: false },
+        { name: 'Chatrooms', to: `/team/${userTeam?.id}/chats`, icon: ChatAlt2Icon, current: false },
+        { name: 'Leave Team', to: `/leave`, icon: XIcon, onClick: leaveTeam, current: false }
+    ]
+
 
     return (
         <>
-            {(userTeam) ? <NavLink to={`/team/${userTeam?.id}`}><ul className="teams-nav-title"> My Team</ul></NavLink> : <NavLink to={`/jobsite/${siteId}/teams`}><ul className="teams-nav-title">Teams</ul></NavLink>}
+            {(userTeam) ? <NavLink to={`/team/${userTeam?.id}`} className={classNames('text-gray-300 hover:bg-gray-700 hover:text-white',
+                'group flex items-center px-2 py-2 text-lg font-large rounded-md')} activeClassName='bg-gray-400 text-white'> My Team</NavLink> : <NavLink to={`/jobsite/${siteId}/teams`} className={classNames('text-gray-300 hover:bg-gray-700 hover:text-white',
+                    'group flex items-center px-2 py-2 text-lg font-large rounded-md')} activeClassName='bg-gray-400 text-white'>Teams</NavLink>}
             {userTeam && <>
-                <ChatsNav siteId={siteId} teamId={userTeam?.id} team={true} />
+                {navigation.map((item) => (
+                    <NavLink
+                        key={item.name}
+                        to={item.to}
+                        onClick={item.onClick}
+                        className={classNames('text-gray-300 hover:bg-gray-700 hover:text-white',
+                            'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
+                        )}
+                        activeClassName='bg-gray-900 text-white'
+
+                    >
+                        <item.icon
+                            className={classNames(
+                                item.current ? 'text-gray-300' : 'text-gray-400 group-hover:text-gray-300',
+                                'mr-3 flex-shrink-0 h-6 w-6'
+                            )}
+                            aria-hidden="true"
+                        />
+                        {item.name}
+                    </NavLink>
+                ))}
+                {/* <ChatsNav siteId={siteId} teamId={userTeam?.id} team={true} />
                 <li><NavLink to={`/team/${userTeam?.id}/inventory`}><i className="fa-solid fa-boxes-stacked"></i>Inventory</NavLink><CreateMaterialModal team={true} /></li>
                 {/* <li className="nav-item"><i class="fa-duotone fa-user-cowboy"></i>Members</li> */}
-                <li className="nav-item-person"><i class="fa-duotone fa-person-to-door"></i>Leave Team <i className="fas fa-minus" onClick={leaveTeam}></i></li>
+                {/* <li className="nav-item-person"><i class="fa-duotone fa-person-to-door"></i>Leave Team <i className="fas fa-minus" onClick={leaveTeam}></i></li> */}
             </>
             }
         </>
