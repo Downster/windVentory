@@ -33,11 +33,13 @@ const JobSiteNav = ({ isMember, isAdmin, siteChats, siteId }) => {
     const userRole = useSelector(state => state.session.user.role[0])
     const user = useSelector(state => state?.session?.user)
     const canCreate = checkPermissions(userRole, 'team')
+    const [showChats, setShowChats] = useState(true)
+    const [showModal, setShowModal] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false)
     const siteTeams = useSelector(state => state.currentSite.teams)
     const teamCreated = Object.values(siteTeams).filter((team) => {
         return (team.lead_id === user.id)
     })
-    const [hasTeam, setHasTeam] = useState(teamCreated.length > 0 ? false : true)
 
     const leaveJobsite = async () => {
         await dispatch(leaveUserJobsite(siteId))
@@ -67,30 +69,82 @@ const JobSiteNav = ({ isMember, isAdmin, siteChats, siteId }) => {
         <>
             {isMember ?
                 <NavLink to={`/jobsite/${siteId}`} className={classNames('text-gray-300 hover:bg-gray-700 hover:text-white',
-                    'group flex items-center px-2 py-2 text-lg font-large rounded-md')} activeClassName='text-white'>My Jobsite</NavLink> : <ul className="jobsite-nav-title">Jobsites</ul>}
+                    'group flex items-center px-2 py-2 text-lg font-large rounded-md')} activeClassName='bg-gray-400 text-white'>My Jobsite</NavLink> : <NavLink to='/' className={classNames('text-gray-300 hover:bg-gray-700 hover:text-white',
+                        'group flex items-center px-2 py-2 text-lg font-large rounded-md')} activeClassName='bg-gray-400 text-white'>Jobsites</NavLink>}
             {isMember &&
                 <>
-                    {navigation.map((item) => (
-                        <NavLink
-                            key={item.name}
-                            to={item.to}
-                            onClick={item.onClick}
-                            className={classNames('text-gray-300 hover:bg-gray-700 hover:text-white',
-                                'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
-                            )}
-                            activeClassName='bg-gray-900 text-white'
+                    {navigation.map((item) => {
+                        if (item.name === 'Chatrooms') {
+                            return (
+                                <>
 
-                        >
-                            <item.icon
-                                className={classNames(
-                                    item.current ? 'text-gray-300' : 'text-gray-400 group-hover:text-gray-300',
-                                    'mr-3 flex-shrink-0 h-6 w-6'
-                                )}
-                                aria-hidden="true"
-                            />
-                            {item.name}
-                        </NavLink>
-                    ))}
+                                    <li>< NavLink
+                                        key={item.name}
+                                        to={item.to}
+                                        onClick={item.onClick}
+                                        className={
+                                            classNames('text-gray-300 hover:bg-gray-700 hover:text-white',
+                                                'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
+                                            )}
+                                        activeClassName='bg-gray-900 text-white'
+
+                                    >
+                                        <i className="fa-solid fa-caret-down" onClick={e => showChats ? setShowChats(false) : setShowChats(true)} style={showChats ? null : { transform: "rotate(270deg)" }}></i>
+                                        <item.icon
+                                            className={classNames(
+                                                item.current ? 'text-gray-300' : 'text-gray-400 group-hover:text-gray-300',
+                                                'mr-3 flex-shrink-0 h-6 w-6'
+                                            )}
+                                            aria-hidden="true"
+                                        />
+                                        {item.name}
+                                    </NavLink>
+                                    </li>
+                                    {siteChats && showChats && Object.values(siteChats).map((room, idx) => (
+                                        <li>
+                                            <NavLink to={`/jobsite/${user.jobsite_id}/chat/${room.id}`}
+                                                className={classNames('text-gray-300 hover:bg-gray-700 hover:text-white',
+                                                    'group flex items-center px-10 py-2 text-xs font-medium rounded-md')}
+                                                activeClassName='bg-gray-900 text-white'
+                                            >{room.room_name}</NavLink>
+                                        </li>
+
+                                    ))}
+
+
+
+                                </>
+                            )
+
+                        } else {
+                            return (
+                                <li>
+                                    < NavLink
+                                        key={item.name}
+                                        to={item.to}
+                                        onClick={item.onClick}
+                                        className={
+                                            classNames('text-gray-300 hover:bg-gray-700 hover:text-white',
+                                                'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
+                                            )}
+                                        activeClassName='bg-gray-900 text-white'
+
+                                    >
+                                        <item.icon
+                                            className={classNames(
+                                                item.current ? 'text-gray-300' : 'text-gray-400 group-hover:text-gray-300',
+                                                'mr-3 flex-shrink-0 h-6 w-6'
+                                            )}
+                                            aria-hidden="true"
+                                        />
+                                        {item.name}
+                                    </NavLink>
+                                </li>
+                            )
+                        }
+                    }
+                    )
+                    }
 
                     {/* <ChatsNav siteId={siteId} siteChats={siteChats} />
                     <li className="inventory-nav-item"><NavLink to={`/jobsite/${siteId}/inventory`}><i className="fa-solid fa-boxes-stacked"></i>Inventory</NavLink><CreateMaterialModal /></li>

@@ -1,6 +1,7 @@
 import { Fragment, useState } from 'react'
 import { Dialog, Menu, Transition } from '@headlessui/react'
 import * as sessionActions from '../../store/session';
+import filterMaterials from '../../utils/filterMaterials';
 import {
     BellIcon,
     LightningBoltIcon,
@@ -21,7 +22,7 @@ import AllUsers from './AllUsers'
 import AllTeams from './AllTeams'
 import Hotel from './Hotel'
 import Team from './Team'
-import { Switch, Route, NavLink, useHistory } from 'react-router-dom'
+import { Switch, Route, NavLink, useHistory, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import './Dashboard.css'
 import { fetchWeather, loadUserJobsite } from '../../store/currentSite'
@@ -42,10 +43,12 @@ import { io } from 'socket.io-client'
 import checkPermissions from '../../utils/checkPermissions'
 import Navigation from './Navigation'
 import ChatsNav from './LeftMenu/ChatsNav'
+import MaterialCard from './MaterialCard'
 
 
 let socket;
 const Dashboard = () => {
+    let siteMaterials, siteChemicals, siteMisc;
     const history = useHistory()
     const dispatch = useDispatch()
     const user = useSelector(state => state.session.user)
@@ -66,6 +69,7 @@ const Dashboard = () => {
         }
         await dispatch(flipLoading())
     }
+
 
     useEffect(() => {
         if (user) {
@@ -116,8 +120,8 @@ const Dashboard = () => {
     const admin = { name: 'Admin Panel', href: '#', onClick: adminPanel }
 
     const userNavigation = [
-        { name: 'Your Profile', href: '#', onClick: null },
-        { name: 'Settings', href: '#', onClick: null },
+        // { name: 'Your Profile', href: '#', onClick: null },
+        // { name: 'Settings', href: '#', onClick: null },
         { name: 'Sign out', href: '#', onClick: logout },
     ]
     if (canAccess) {
@@ -347,11 +351,8 @@ const Dashboard = () => {
                     </div>
 
                     <main className="flex-1 flex-col">
-                        <div className="py-6">
-                            <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-                                <h1 className="text-2xl font-semibold text-gray-900">{hasJobsite ? 'Jobsite Details' : 'You are not a member of a jobsite yet, join one here'}</h1>
-                            </div>
-                            <div className="flex max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+                        <div className="flex py-6">
+                            <div className="flex flex-col max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
                                 <Switch>
                                     <Route exact path='/'>
                                         <Jobsite />
@@ -374,17 +375,23 @@ const Dashboard = () => {
                                     <Route exact path='/jobsite/:jobsiteId/members'>
                                         <h1>Site members</h1>
                                     </Route>
+                                    <Route exact path='/jobsite/:siteId/chat/:roomId'>
+                                        <Chat jobsite={true} />
+                                    </Route>
                                     <Route exact path='/team/:teamId'>
                                         <Team />
                                     </Route>
                                     <Route exact path='/team/:teamId/inventory'>
                                         <Inventory team={true} />
                                     </Route>
-                                    <Route exact path='/team/:teamId/chat/:roomId'>
-                                        <Chat />
+                                    <Route exact path='/team/:teamId/chats'>
+                                        <ChatsNav siteId={user.jobsite_id} team={true} />
                                     </Route>
                                     <Route exact path='/jobsite/:siteId/chats'>
                                         <ChatsNav siteId={user.jobsite_id} siteChats={siteChats} />
+                                    </Route>
+                                    <Route exact path='/team/:teamId/chat/:roomId'>
+                                        <Chat />
                                     </Route>
                                     <Route path='/admin/jobsites'>
                                         {canAccess ?
