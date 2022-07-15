@@ -87,7 +87,7 @@ const Dashboard = () => {
             if ((path[5] !== 'chat' && path[6] !== data.room) || (path[5] === 'chat' && path[6] !== data.room)) {
                 if (document.getElementById(`chat${data.room}`)) {
                     const room = document.getElementById(`chat${data.room}`)
-                    room.classList.add('new-messages')
+                    room.classList.add('text-amber-300')
                 }
             }
         })
@@ -137,14 +137,6 @@ const Dashboard = () => {
 
     return (
         <>
-            {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-gray-100">
-        <body class="h-full">
-        ```
-      */}
             <div>
                 <Transition.Root show={sidebarOpen} as={Fragment}>
                     <Dialog as="div" className="relative z-40 md:hidden" onClose={setSidebarOpen}>
@@ -199,7 +191,7 @@ const Dashboard = () => {
                                         />
                                     </div>
                                     <div className="mt-5 flex-1 h-0 overflow-y-auto">
-                                        <Navigation />
+                                        <LeftMenu />
                                         {/* <nav className="px-2 space-y-1"> */}
                                         {/* {navigation.map((item) => (
                                                 <Navlink
@@ -238,7 +230,12 @@ const Dashboard = () => {
                     {/* Sidebar component, swap this element with another sidebar if you like */}
                     <div className="flex-1 flex flex-col min-h-0 bg-gray-800">
                         <div className="flex items-center h-16 flex-shrink-0 px-4 bg-gray-900">
-                            <i className="fa-duotone fa-wind-turbine splash" style={{ "--fa-primary-color": "#FFFFFF", "--fa-secondary-color": "#FFFFFF" }}></i>
+                            <i className="fa-duotone fa-wind-turbine splash" style={{ "--fa-primary-color": "#FFFFFF", "--fa-secondary-color": "#FFFFFF" }}>
+                            </i>
+                            <p
+                                onClick={() => history.push('/')}
+                                className='cursor-pointer text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-2 py-2 text-base font-medium rounded-md'
+                            >windVentory</p>
                         </div>
                         <div className="flex-1 flex flex-col overflow-y-auto">
                             <nav className="flex-1 px-2 py-4 space-y-1">
@@ -352,7 +349,7 @@ const Dashboard = () => {
 
                     <main className="flex-1 flex-col">
                         <div className="flex py-6">
-                            <div className="flex flex-col max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+                            <div className="flex flex-col w-10/12 m-auto max-w-7xl px-4 sm:px-6 md:px-8">
                                 <Switch>
                                     <Route exact path='/'>
                                         <Jobsite />
