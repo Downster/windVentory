@@ -47,7 +47,6 @@ const DisplayInventory = ({ inventory, team }) => {
 
     return (
         <>
-            {console.log(tabs)}
             {!loading &&
                 <>
                     <div className="sm:hidden">
@@ -59,12 +58,12 @@ const DisplayInventory = ({ inventory, team }) => {
                             id="tabs"
                             name="tabs"
                             className="block w-full focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
-
+                            onChange={({ target: { value } }) => setCategory(value)}
                             defaultValue={tabs.current.find((tab) => tab.current).name}
 
                         >
                             {tabs.current.map((tab) => (
-                                <option key={tab.name}>{tab.name}</option>
+                                <option key={tab.name} value={tab.name}>{tab.name}</option>
                             ))}
                         </select>
                     </div>
@@ -118,7 +117,6 @@ const DisplayInventory = ({ inventory, team }) => {
             {
                 loading &&
                 <>
-                    <h1>Loading.....</h1>
                     <img src='https://windventory.s3.amazonaws.com/turbine.gif'>
                     </img>
                 </>

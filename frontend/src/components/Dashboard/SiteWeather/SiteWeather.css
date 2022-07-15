@@ -1,21 +1,21 @@
-.weather-container{
+/* .weather-container{
     display: flex;
     flex-direction: column;
     width: 90%;
     overflow-y: auto; 
-}
+} */
 
-.weather-div{
+/* .weather-div{
     padding: 20px;
-}
+} */
 
-.weather-data{
+/* .weather-data{
     display: flex;
     padding: 20px;
     height: 60%;
-}
+} */
 
-.weather-data > canvas{
+/* .weather-data > canvas{
     display: flex !important;
     background-color: #e6e7e9;
     height: 90% !important;
@@ -25,9 +25,9 @@
     box-shadow: rgb(50 50 50 / 50%) 0px 3px 6px 0px;
     margin-bottom: 40px;
     
-}
+} */
 
-@media screen and (max-width:1300px) {
+/* @media screen and (max-width:1300px) {
     .weather-data > canvas{
         display: flex !important;
         justify-content: center !important;
@@ -35,13 +35,13 @@
         width: 80% !important;
     }
 
-}
+} */
 
-@media screen and (max-width:1600px) {
+/* @media screen and (max-width:1600px) {
     .weather-data > canvas{
         display: flex !important;
         justify-content: center !important;
         height: 90% !important;
         width: 80% !important;
     }
-}
+} */

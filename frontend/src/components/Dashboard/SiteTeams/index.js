@@ -16,10 +16,11 @@ const SiteTeams = () => {
 
 
     return (
-        < div className="app-body" >
+        <>
             {(teamsObject.length) ? teamsObject.map((team) => (
                 <TeamCard key={team.id} team={team} />)) : <h1>This site has no teams, create one?</h1>}
-        </div>
+
+        </>
     )
 }
 

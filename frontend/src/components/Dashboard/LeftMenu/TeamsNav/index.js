@@ -50,7 +50,7 @@ const TeamsNav = ({ siteId }) => {
     return (
         <>
             {(userTeam) ? <NavLink to={`/team/${userTeam?.id}`} className={classNames('text-gray-300 hover:bg-gray-700 hover:text-white',
-                'group flex items-center px-2 py-2 text-lg font-large rounded-md')} activeClassName='bg-gray-400 text-white'> My Team</NavLink> : <NavLink to={`/jobsite/${siteId}/teams`} className={classNames('text-gray-300 hover:bg-gray-700 hover:text-white',
+                'group flex items-center px-2 py-2 text-lg font-large rounded-md')} activeClassName='bg-gray-400 text-white'> My Team</NavLink> : <NavLink to={`/team/${userTeam?.id}`} className={classNames('text-gray-300 hover:bg-gray-700 hover:text-white',
                     'group flex items-center px-2 py-2 text-lg font-large rounded-md')} activeClassName='bg-gray-400 text-white'>Teams</NavLink>}
             {userTeam && <>
                 {navigation.map((item) => (

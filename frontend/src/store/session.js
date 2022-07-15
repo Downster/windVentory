@@ -274,7 +274,7 @@ const sessionReducer = (state = initialState, action) => {
             newState.user.jobsite_id = null
             return newState
         case SET_TEAM:
-            newState.user.teams = action.team.team
+            newState.user.teams = [action.team.team]
             return newState
         case LEAVE_TEAM:
             newState.user.teams = []
