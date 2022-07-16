@@ -5,6 +5,8 @@ from ..extensions import db
 from ..models.user import User, Role, Team
 from ..forms import CreateUserForm, EditUserForm
 from ..utils import form_validation_errors
+import requests
+import os
 
 user_routes = Blueprint('users', __name__)
 
@@ -107,3 +109,17 @@ def set_hotel(current_user, id):
     user.hotel_longitude = data['hotel_longitude']
     db.session.commit()
     return data, 200
+
+
+@user_routes.route('/nearby/<string:type>', methods=['GET'])
+@token_required
+def get_nearby(current_user, type):
+    lat = current_user.hotel_latitude
+    lng = current_user.hotel_longitude
+    key = os.environ.get('GOOGLE_API')
+    payload={}
+    headers = {}
+    url = f"https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={lat},{lng}&radius=6000&type={type}&key={key}"
+
+    response = requests.request("GET", url, headers=headers, data=payload)
+    return response.json(), 200

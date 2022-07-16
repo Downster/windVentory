@@ -7,7 +7,7 @@ import markerIconPng from "leaflet/dist/images/marker-icon.png"
 import { Icon } from 'leaflet'
 import { GeoSearchControl, OpenStreetMapProvider } from "leaflet-geosearch";
 
-function LeafletSearch({ onPositionChanged, admin }) {
+function LeafletSearch({ onPositionChanged, admin, location }) {
     const map = useMap();
     useEffect(() => {
         const handlePositionChange = (e) => {
@@ -21,7 +21,7 @@ function LeafletSearch({ onPositionChanged, admin }) {
             showMarker: false,
             style: "bar",
             keepResult: true,
-            searchLabel: (admin) ? "Enter jobsite address" : 'Enter your hotels address'
+            searchLabel: (admin) ? "Enter jobsite address" : (location) ? 'Search for a specific location' : 'Enter your hotels address'
         });
         map.addControl(searchControl);
         map.on("geosearch/showlocation", handlePositionChange);
@@ -31,20 +31,27 @@ function LeafletSearch({ onPositionChanged, admin }) {
     return null;
 }
 
-export default function MiniMap({ position, onPositionChanged, popup, admin }) {
+export default function MiniMap({ position, onPositionChanged, result, location, popup, admin }) {
     return (
         <>
-            <MapContainer center={position} zoom={12} scrollWheelZoom={false} className={(admin) ? 'jobsite-map' : 'hotel-map'}>
+            <MapContainer center={position} zoom={12} scrollWheelZoom={false} className={'rounded-lg h-100 w-100'}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
+                {result && result.map((place) => (
+                    <Marker key={place.place_id} position={{ lat: place.geometry.location.lat, lng: place.geometry.location.lng }} icon={new Icon({ iconUrl: (place?.icon) ? place.icon : markerIconPng, iconSize: [25, 41], iconAnchor: [12, 41] })} >
+                        <Popup>
+                            {place.vicinity}
+                        </Popup>
+                    </Marker>
+                ))}
                 <Marker position={position} icon={new Icon({ iconUrl: markerIconPng, iconSize: [25, 41], iconAnchor: [12, 41] })} >
                     <Popup>
                         {popup}
                     </Popup>
                 </Marker>
-                <LeafletSearch onPositionChanged={onPositionChanged} admin={admin} />
+                <LeafletSearch onPositionChanged={onPositionChanged} admin={admin} location={location} />
             </MapContainer>
         </>
     );

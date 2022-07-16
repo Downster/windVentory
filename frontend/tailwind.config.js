@@ -14,6 +14,12 @@ module.exports = {
         teal: colors.teal,
         cyan: colors.cyan,
       },
+      height: {
+        '100': '50.25rem',
+      },
+      width: {
+        '100': '50.25rem',
+      }
     },
     plugins: [],
   }
