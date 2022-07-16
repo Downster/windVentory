@@ -53,7 +53,7 @@ const JobSiteNav = ({ isMember, isAdmin, siteChats, siteId }) => {
     }
 
     const navigation = [
-        // { name: 'Hotel', to: `/jobsite/${siteId}/hotel`, icon: HomeIcon, current: false },
+        { name: 'Near my Hotel', to: `/jobsite/${siteId}/hotel`, icon: HomeIcon, current: false },
         { name: 'Inventory', to: `/jobsite/${siteId}/inventory`, icon: FolderIcon, current: false },
         { name: 'Teams', to: `/jobsite/${siteId}/teams`, icon: UsersIcon, current: false },
         { name: 'Weather', to: `/jobsite/${siteId}/weather`, icon: LightningBoltIcon, current: false },
