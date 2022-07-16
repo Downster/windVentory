@@ -1,57 +1,65 @@
 import { Fragment, useState } from 'react'
-import { Transition } from '@headlessui/react'
-import { CheckCircleIcon } from '@heroicons/react/outline'
-import { XIcon } from '@heroicons/react/solid'
+import { Dialog, Transition } from '@headlessui/react'
+import { CheckIcon } from '@heroicons/react/outline'
 
 export default function DetailModal({ open, setOpen }) {
 
     return (
-        <>
-            {/* Global notification live region, render this permanently at the end of the document */}
-            <div
-                aria-live="assertive"
-                className="fixed inset-0 flex items-end px-4 py-6 pointer-events-none sm:p-6 sm:items-start"
-            >
-                <div className="w-full flex flex-col items-center space-y-4 sm:items-end">
-                    {/* Notification panel, dynamically insert this into the live region when it needs to be displayed */}
-                    <Transition
-                        show={open}
-                        as={Fragment}
-                        enter="transform ease-out duration-300 transition"
-                        enterFrom="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
-                        enterTo="translate-y-0 opacity-100 sm:translate-x-0"
-                        leave="transition ease-in duration-100"
-                        leaveFrom="opacity-100"
-                        leaveTo="opacity-0"
-                    >
-                        <div className="max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden">
-                            <div className="p-4">
-                                <div className="flex items-start">
-                                    <div className="flex-shrink-0">
-                                        <CheckCircleIcon className="h-6 w-6 text-green-400" aria-hidden="true" />
+        <Transition.Root show={open} as={Fragment}>
+            <Dialog as="div" className="relative z-1100" onClose={setOpen}>
+                <Transition.Child
+                    as={Fragment}
+                    enter="ease-out duration-300"
+                    enterFrom="opacity-0"
+                    enterTo="opacity-100"
+                    leave="ease-in duration-200"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
+                >
+                    <div className="fixed inset-0 bg-gray-500 z-1100 bg-opacity-75 transition-opacity" />
+                </Transition.Child>
+
+                <div className="fixed z-10 inset-0 z-1100 overflow-y-auto">
+                    <div className="flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
+                        <Transition.Child
+                            as={Fragment}
+                            enter="ease-out duration-300"
+                            enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                            enterTo="opacity-100 translate-y-0 sm:scale-100"
+                            leave="ease-in duration-200"
+                            leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                            leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                        >
+                            <Dialog.Panel className="relative z-1100 bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-sm sm:w-full sm:p-6">
+                                <div>
+                                    <div className="mx-auto flex z-1100 items-center justify-center h-12 w-12 rounded-full bg-green-100">
+                                        <CheckIcon className="h-6 w-6 text-green-600" aria-hidden="true" />
                                     </div>
-                                    <div className="ml-3 w-0 flex-1 pt-0.5">
-                                        <p className="text-sm font-medium text-gray-900">Successfully saved!</p>
-                                        <p className="mt-1 text-sm text-gray-500">Anyone with a link can now view this file.</p>
-                                    </div>
-                                    <div className="ml-4 flex-shrink-0 flex">
-                                        <button
-                                            type="button"
-                                            className="bg-white rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                            onClick={() => {
-                                                setOpen(false)
-                                            }}
-                                        >
-                                            <span className="sr-only">Close</span>
-                                            <XIcon className="h-5 w-5" aria-hidden="true" />
-                                        </button>
+                                    <div className="mt-3 text-center z-1100sm:mt-5">
+                                        <Dialog.Title as="h3" className="text-lg leading-6 font-medium text-gray-900">
+                                            Payment successful
+                                        </Dialog.Title>
+                                        <div className="mt-2">
+                                            <p className="text-sm text-gray-500">
+                                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur amet labore.
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </Transition>
+                                <div className="mt-5 sm:mt-6">
+                                    <button
+                                        type="button"
+                                        className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"
+                                        onClick={() => setOpen(false)}
+                                    >
+                                        Go back to dashboard
+                                    </button>
+                                </div>
+                            </Dialog.Panel>
+                        </Transition.Child>
+                    </div>
                 </div>
-            </div>
-        </>
+            </Dialog>
+        </Transition.Root>
     )
 }

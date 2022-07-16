@@ -31,16 +31,16 @@ function LeafletSearch({ onPositionChanged, admin, location }) {
     return null;
 }
 
-export default function MiniMap({ position, onPositionChanged, result, location, popup, admin }) {
+export default function MiniMap({ center, position, onPositionChanged, result, location, popup, admin }) {
     return (
         <>
-            <MapContainer center={position} zoom={12} scrollWheelZoom={false} className={'rounded-lg h-100 w-100'}>
+            <MapContainer center={center} zoom={12} scrollWheelZoom={false} className={'rounded-lg h-100 w-100'}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
                 {result && result.map((place) => (
-                    <Marker key={place.place_id} position={{ lat: place.geometry.location.lat, lng: place.geometry.location.lng }} icon={new Icon({ iconUrl: (place?.icon) ? place.icon : markerIconPng, iconSize: [25, 41], iconAnchor: [12, 41] })} >
+                    <Marker key={place.place_id} id={place.place_id} position={{ lat: place.geometry.location.lat, lng: place.geometry.location.lng }} icon={new Icon({ iconUrl: (place?.icon) ? place.icon : markerIconPng, iconSize: [25, 41], iconAnchor: [12, 41] })} >
                         <Popup>
                             {place.vicinity}
                         </Popup>
@@ -51,7 +51,7 @@ export default function MiniMap({ position, onPositionChanged, result, location,
                         {popup}
                     </Popup>
                 </Marker>
-                <LeafletSearch onPositionChanged={onPositionChanged} admin={admin} location={location} />
+                {!location && <LeafletSearch onPositionChanged={onPositionChanged} admin={admin} location={location} />}
             </MapContainer>
         </>
     );

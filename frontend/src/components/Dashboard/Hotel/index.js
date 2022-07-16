@@ -16,10 +16,12 @@ const Hotel = () => {
     const user = useSelector(state => state.session.user)
     const [position, setPosition] = useState((user?.hotel?.lat) ? { lat: user.hotel.lat, lng: user.hotel.lon } : null)
     const [isLoaded, setIsLoaded] = useState((user?.hotel?.lat) ? true : false)
+    const [loading, setLoading] = useState((user?.hotel?.lat) ? false : true)
     const [open, setOpen] = useState(user?.hotel?.lat ? true : false)
     const [location, setLocation] = useState(user?.hotel?.lat ? true : false)
     const [query, setQuery] = useState('')
     const [result, setResult] = useState([])
+    const [center, setCenter] = useState((user?.hotel?.lat) ? { lat: user.hotel.lat, lng: user.hotel.lon } : null)
     const [detail, showDetail] = useState(false)
     const [selectedAmenity, setSelecetedAmenity] = useState('Airport')
     const city = useRef('')
@@ -157,7 +159,6 @@ const Hotel = () => {
         state.current = userState
         const res2 = await tokenFetch('/users/nearby/airport')
         const { results } = await res2.json()
-        console.log(results)
         setResult(results)
     }
     async function getThings(e) {
@@ -175,6 +176,7 @@ const Hotel = () => {
             'lng': crd.longitude
         }
         setPosition({ lat: newPosition.lat, lng: newPosition.lng })
+        setLoading(false)
         setIsLoaded(true)
     }
 
@@ -213,8 +215,15 @@ const Hotel = () => {
         <>
             <div>
                 <div className="flex h-full w-full ml-5 my-5">
+                    {
+                        loading &&
+                        <>
+                            <img src='https://windventory.s3.amazonaws.com/turbine.gif'>
+                            </img>
+                        </>
+                    }
                     {isLoaded &&
-                        <MiniMap position={position} popup={popupText} onPositionChanged={(latlng) => updatePosition(latlng)} location={location} result={result} />
+                        <MiniMap center={center} position={position} popup={popupText} onPositionChanged={(latlng) => updatePosition(latlng)} location={location} result={result} />
                     }
                 </div>
 
@@ -307,7 +316,10 @@ const Hotel = () => {
                                             {result.map((place) => (
                                                 <li key={place.place_id}>
                                                     <div className="group relative flex items-center py-6 px-5">
-                                                        <a className="-m-1 block flex-1 p-1">
+                                                        <button
+                                                            className="-m-1 block flex-1 p-1"
+                                                            onClick={() => setCenter({ lat: place.geometry.location.lat, lng: place.geometry.location.lng })}
+                                                        >
                                                             <div className="absolute inset-0 group-hover:bg-gray-50" aria-hidden="true" />
                                                             <div className="relative flex min-w-0 flex-1 items-center">
                                                                 <span className="relative inline-block flex-shrink-0">
@@ -319,7 +331,7 @@ const Hotel = () => {
                                                                     <p className="truncate text-sm text-gray-500">{place.vicinity}</p>
                                                                 </div>
                                                             </div>
-                                                        </a>
+                                                        </button>
                                                         <Menu as="div" className="relative ml-2 inline-block flex-shrink-0 text-left">
                                                             <Menu.Button className="group relative inline-flex h-8 w-8 items-center justify-center rounded-full bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                                                                 <span className="sr-only">Open options menu</span>
@@ -371,9 +383,9 @@ const Hotel = () => {
                         </div> */}
                     </Dialog>
                 </Transition.Root>
-                <DetailModal open={detail} setOpen={showDetail} />
             </div>
 
+            <DetailModal open={detail} setOpen={showDetail} />
 
         </>
     )
