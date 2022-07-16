@@ -47,9 +47,9 @@ const features = [
         icon: LightningBoltIcon,
     },
     {
-        name: 'Online/Offline Notifications',
+        name: 'Admin Management',
         description:
-            'Know when users are online and offline, so you can text them and tell them to get online and look at your message',
+            'Setup and manage all the jobsites, users and teams for your company',
         icon: StatusOnlineIcon,
     },
     {

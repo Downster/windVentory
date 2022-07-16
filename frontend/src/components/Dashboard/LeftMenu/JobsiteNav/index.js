@@ -11,13 +11,10 @@ import checkPermissions from "../../../../utils/checkPermissions"
 import { clearRooms, clearTeamRooms } from "../../../../store/chatRoom"
 import { useState } from "react"
 import {
-    BellIcon,
-    CalendarIcon,
-    ChartBarIcon,
+
     ChatAlt2Icon,
     FolderIcon,
     HomeIcon,
-    InboxIcon,
     LightningBoltIcon,
     MenuAlt2Icon,
     UsersIcon,
@@ -56,6 +53,7 @@ const JobSiteNav = ({ isMember, isAdmin, siteChats, siteId }) => {
     }
 
     const navigation = [
+        // { name: 'Hotel', to: `/jobsite/${siteId}/hotel`, icon: HomeIcon, current: false },
         { name: 'Inventory', to: `/jobsite/${siteId}/inventory`, icon: FolderIcon, current: false },
         { name: 'Teams', to: `/jobsite/${siteId}/teams`, icon: UsersIcon, current: false },
         { name: 'Weather', to: `/jobsite/${siteId}/weather`, icon: LightningBoltIcon, current: false },

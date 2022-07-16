@@ -10,3 +10,7 @@
 .fa-wind-turbine.splash{
     font-size: 40px;
 }
+
+#root{
+    height: 100vh
+}
