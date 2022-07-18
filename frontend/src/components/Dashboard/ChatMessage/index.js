@@ -5,8 +5,9 @@ import DeleteMessagePrompt from "../DeleteMessagePrompt";
 import { editChatMessage } from "../../../store/messages";
 import Parser from 'html-react-parser';
 import EditChatInput from "../EditChatInput";
+import OnlineAvatar from "../OnlineAvatar";
 
-const ChatMessage = ({ msg, socket, sameUser }) => {
+const ChatMessage = ({ msg, socket, sameUser, lastUser }) => {
     const dispatch = useDispatch()
     const user = useSelector(state => state.session.user);
     const [edit, setEdit] = useState(false)
@@ -56,10 +57,7 @@ const ChatMessage = ({ msg, socket, sameUser }) => {
                         {errors && errors.map((error, idx) => <li className='errors' key={idx}>{error}</li>)}
                         <div className={msg.user_id === user.id ? "chat-message-info owner" : "chat-message-info"}>
                             {!sameUser && <p className='chat-username'>{msg.user.firstName + " " + msg.user.lastName} <span className='created-at-msg'>{" at " + (new Date(msg.created_at)).toLocaleTimeString()}</span></p>}
-                            {!sameUser && <img className="chat-user-image"
-                                src={msg.user.image}
-                                alt='Chat-message owner'>
-                            </img>
+                            {!sameUser && <OnlineAvatar image={msg.user.image} />
                             }
                         </div>
                         {edit ? <EditChatInput value={message} onChange={(e) => setMessage(e)} send={() => editMessage(msg, message)} /> : <span className={msg.user_id === user.id ? 'chat-text owner1' : 'chat-text'} > {Parser(msg.message)}</span>}

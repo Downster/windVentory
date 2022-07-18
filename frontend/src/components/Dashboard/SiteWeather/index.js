@@ -40,7 +40,7 @@ const SiteWeather = () => {
             return hour
         }
     }).map((hour) => new Date(hour.dt_txt).toLocaleTimeString("en-US"))
-    const options = {
+    const options1 = {
         responsive: true,
         plugins: {
             legend: {
@@ -52,12 +52,24 @@ const SiteWeather = () => {
             },
         },
     };
+    const options2 = {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: "bottom",
+            },
+            title: {
+                display: true,
+                text: `Forecasted Humidity for ${new Date(forecast.list[0].dt_txt).toLocaleDateString('en-US')} (percentage)`,
+            },
+        },
+    };
 
-    const graphData = {
+    const graphData1 = {
         labels,
         datasets: [
             {
-                label: "Average",
+                label: "Average Wind Speed",
                 data: forecast?.list.filter((hour, idx) => {
                     if (idx < 12) {
                         return hour
@@ -76,6 +88,23 @@ const SiteWeather = () => {
                 backgroundColor: ["#fff"],
                 borderColor: ["#4F5B73"],
             },
+        ],
+    };
+
+    console.log(forecast)
+    const graphData2 = {
+        labels,
+        datasets: [
+            {
+                label: "Average humidiy",
+                data: forecast?.list.filter((hour, idx) => {
+                    if (idx < 12) {
+                        return hour
+                    }
+                }).map((hour) => hour.main.humidity),
+                backgroundColor: ["#fff"],
+                borderColor: ["#A9C2F4"],
+            }
         ],
     };
 
@@ -161,7 +190,12 @@ const SiteWeather = () => {
                 />}
                 {category === 'Wind Speed' &&
                     <div className="weather-data">
-                        <Line options={options} data={graphData} />
+                        <Line options={options1} data={graphData1} />
+                    </div>
+                }
+                {category === 'Humidity' &&
+                    <div className="weather-data">
+                        <Line options={options2} data={graphData2} />
                     </div>
                 }
             </div>
