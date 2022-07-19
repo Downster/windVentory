@@ -42,8 +42,7 @@ const TeamForm = ({ setShowModal, edit, team, jobsite }) => {
             }
         } else {
             newTeam = await dispatch(createNewTeam(formData));
-            if (newTeam) {
-                console.log(newTeam)
+            if (newTeam.errors) {
                 setErrors(newTeam.errors)
             } else {
                 jobsite && await dispatch(setUserTeam(newTeam.id))

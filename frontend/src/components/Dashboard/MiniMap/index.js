@@ -1,5 +1,5 @@
 import 'leaflet/dist/leaflet.css';
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
 // import DraggableMarker from "../DraggableMarkerComponent/DraggableMarker";
 import "leaflet-geosearch/dist/geosearch.css";
@@ -7,6 +7,7 @@ import L from 'leaflet'
 import markerIconPng from "leaflet/dist/images/marker-icon.png"
 import { Icon } from 'leaflet'
 import { GeoSearchControl, OpenStreetMapProvider } from "leaflet-geosearch";
+
 
 function LeafletSearch({ onPositionChanged, admin, location }) {
     const map = useMap();
@@ -33,8 +34,9 @@ function LeafletSearch({ onPositionChanged, admin, location }) {
 }
 
 function GenerateMarkers({ result }) {
-    let group = L.layerGroup()
     const map = useMap();
+    let group = useRef(L.layerGroup())
+    group.current.clearLayers()
     Object.values(result).forEach((place) => {
         let myIcon = new Icon({ iconUrl: (place?.icon) ? place.icon : markerIconPng, iconSize: [25, 41], iconAnchor: [12, 41] })
         let marker = L.marker({ lat: place.geometry.location.lat, lng: place.geometry.location.lng }, {
@@ -46,11 +48,11 @@ function GenerateMarkers({ result }) {
             .setContent(place.name + '</br>' + place.vicinity)
         marker.bindPopup(popup).openPopup();
 
-        group.addLayer(marker);
+        group.current.addLayer(marker);
 
-        place.marker_id = group.getLayerId(marker);
+        place.marker_id = group.current.getLayerId(marker);
     })
-    group.addTo(map)
+    group.current.addTo(map)
 }
 
 function PanTo({ pan, place }) {

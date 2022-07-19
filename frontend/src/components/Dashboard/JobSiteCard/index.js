@@ -61,9 +61,8 @@ const JobSiteCard = ({ jobsite, adminPanel, single }) => {
     return (
         <>
             {showDeleteModal && (
-                <Modal onClose={() => setShowModal(false)}>
-                    <DeleteSitePrompt site={jobsite} setShowModal={setShowDeleteModal} />
-                </Modal>
+                <DeleteSitePrompt site={jobsite} setShowModal={setShowDeleteModal} />
+
             )}
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>

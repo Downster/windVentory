@@ -9,14 +9,13 @@ import { removeTeam } from '../../../store/allTeams';
 import { Modal } from "../../../context/Modal";
 import TeamForm from '../TeamForm';
 import { getTeamChatRoom, clearTeamRooms } from '../../../store/chatRoom';
-import { DotsVerticalIcon } from '@heroicons/react/solid'
+import { DotsVerticalIcon, PencilAltIcon, TrashIcon } from '@heroicons/react/solid'
 import DeleteTeamPrompt from '../DeleteTeamPrompt';
 import randomItem from "random-item";
 import { fetchTeams } from '../../../store/currentSite';
 
 
 const TeamCard = ({ team, admin }) => {
-    console.log(team)
     const history = useHistory()
     const dispatch = useDispatch()
     const user = useSelector(state => state.session.user)
@@ -85,34 +84,59 @@ const TeamCard = ({ team, admin }) => {
     return (
         <>
             <div className='my-2'>
-                <li className="col-span-1 flex shadow-sm rounded-md">
-                    <div
-                        className={classNames(
-                            randomColor(),
-                            'flex-shrink-0 flex items-center justify-center w-1/4 text-white text-sm font-medium rounded-l-md'
-                        )}
-                    >
-                        {team.job_type}
-                    </div>
-                    <div className="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md truncate">
-                        <div className="flex-1 px-4 py-2 text-sm truncate">
-                            <button
-                                className="text-gray-900 font-medium hover:text-gray-600"
-                                onClick={joinTeam}
-                            >
-                                {team.team_lead.firstName + " " + team.team_lead.lastName}'s Team
-                            </button>
-                            <p className="text-gray-500">{team.team_members.length} Members</p>
+                <li className="col-span-1 flex flex-col shadow-sm rounded-md">
+                    <div className='flex'>
+                        <div
+                            className={classNames(
+                                randomColor(),
+                                'flex-shrink-0 flex items-center justify-center w-1/4 text-white text-sm font-medium rounded-l-md'
+                            )}
+                        >
+                            {team.job_type}
                         </div>
-                        <div className="flex-shrink-0 pr-2">
-                            <button
-                                type="button"
-                                className="w-8 h-8 bg-white inline-flex items-center justify-center text-gray-400 rounded-full bg-transparent hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                            >
-                                <span className="sr-only">Open options</span>
-                                {admin ? null : (currentTeam?.id !== team?.id) ? <><i class="fa-duotone fa-right-to-bracket" onClick={joinTeam}></i></> : (user.teams[0].lead_id === user.id) ? <i class="fa-duotone fa-ban team" onClick={() => setLeadOpen(true)}></i> : <i class="fa-duotone fa-person-to-door display" onClick={leaveTeam}></i>}
+                        <div className="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md truncate">
+                            <div className="flex-1 px-4 py-2 text-sm truncate">
+                                <button
+                                    className="text-gray-900 font-medium hover:text-gray-600"
+                                    onClick={!currentTeam.length > 0 ? null : joinTeam}
+                                >
+                                    {team.team_lead.firstName + " " + team.team_lead.lastName}'s Team
+                                </button>
+                                <p className="text-gray-500">{team.team_members.length} Members</p>
+                            </div>
+                            {admin &&
+                                <>
+                                    <div className="w-0 flex-1 flex">
+                                        <button
+                                            onClick={modifyTeam}
+                                            className="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500"
+                                        >
+                                            <PencilAltIcon className="w-5 h-5 text-gray-400" aria-hidden="true" />
+                                            <span className="ml-3">Edit</span>
+                                        </button>
+                                    </div>
 
-                            </button>
+
+                                    <div className="-ml-px w-0 flex-1 flex">
+                                        <button
+                                            onClick={() => setShowDeleteModal(true)}
+                                            className="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500"
+                                        >
+                                            <TrashIcon className="w-5 h-5 text-gray-400" aria-hidden="true" />
+                                            <span className="ml-3">Delete</span>
+                                        </button>
+                                    </div>
+                                </>}
+                            {!admin && <div className="flex-shrink-0 pr-2">
+                                <button
+                                    type="button"
+                                    className="w-8 h-8 bg-white inline-flex items-center justify-center text-gray-400 rounded-full bg-transparent hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                >
+                                    <span className="sr-only">Open options</span>
+                                    {admin ? null : (currentTeam?.id !== team?.id) ? <><i class="fa-duotone fa-right-to-bracket" onClick={joinTeam}></i></> : (user.teams[0].lead_id === user.id) ? <i class="fa-duotone fa-ban team" onClick={() => setLeadOpen(true)}></i> : <i class="fa-duotone fa-person-to-door display" onClick={leaveTeam}></i>}
+
+                                </button>
+                            </div>}
                         </div>
                     </div>
                 </li>
@@ -141,7 +165,7 @@ const TeamCard = ({ team, admin }) => {
 
         //     </div>
         // </div> */}
-            </div>
+            </div >
             <Transition.Root show={open} as={Fragment}>
                 <Dialog as="div" className="relative z-10" onClose={setOpen}>
                     <Transition.Child
@@ -245,7 +269,7 @@ const TeamCard = ({ team, admin }) => {
                                         <button
                                             type="button"
                                             className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                            onClick={() => setOpen(false)}
+                                            onClick={() => setLeadOpen(false)}
                                         >
                                             <span className="sr-only">Close</span>
                                             <XIcon className="h-6 w-6" aria-hidden="true" />
@@ -290,11 +314,14 @@ const TeamCard = ({ team, admin }) => {
             </Transition.Root>
             {
                 showDeleteModal && (
-                    <Modal onClose={() => setShowModal(false)}>
-                        <DeleteTeamPrompt team={team} setShowModal={setShowDeleteModal} />
-                    </Modal>
+                    <DeleteTeamPrompt team={team} setShowModal={setShowDeleteModal} />
                 )
             }
+            {showModal && (
+                <Modal onClose={() => setShowModal(false)}>
+                    <TeamForm setShowModal={setShowModal} edit={true} team={team} />
+                </Modal>
+            )}
         </>
     )
 }

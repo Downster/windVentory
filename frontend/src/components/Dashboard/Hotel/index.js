@@ -323,7 +323,7 @@ const Hotel = () => {
                                                         )}
                                                     </div>
                                                 </Combobox>
-                                                <div className="ml-3 flex h-7 items-center">
+                                                {/* <div className="ml-3 flex h-7 items-center">
                                                     <button
                                                         type="button"
                                                         className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:ring-2 focus:ring-indigo-500"
@@ -332,7 +332,7 @@ const Hotel = () => {
                                                         <span className="sr-only">Close panel</span>
                                                         <XIcon className="h-6 w-6" aria-hidden="true" />
                                                     </button>
-                                                </div>
+                                                </div> */}
                                             </div>
                                         </div>
                                         <div className="border-b border-gray-200">
