@@ -89,9 +89,8 @@ const UserCard = ({ user, admin }) => {
             }
             {
                 showDeleteModal && (
-                    <Modal onClose={() => setShowModal(false)}>
-                        <DeleteUserPrompt user={user} setShowModal={setShowDeleteModal} setErrors={setErrors} />
-                    </Modal>
+                    <DeleteUserPrompt user={user} setShowModal={setShowDeleteModal} setErrors={setErrors} />
+
                 )
             }
         </>
