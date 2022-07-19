@@ -39,8 +39,9 @@ const TeamCard = ({ team, admin }) => {
 
             await dispatch(setUserTeam(team.id))
             await dispatch(setTeam(user?.teams))
-            await dispatch(loadTeamInventory(user.teams.location))
+            await dispatch(loadTeamInventory(user.teams[0].location))
             await dispatch(getTeamChatRoom(team.id))
+            await dispatch(fetchTeams(user.jobsite_id))
 
             history.push(`/team/${team.id}`)
         }
@@ -62,7 +63,7 @@ const TeamCard = ({ team, admin }) => {
         if (user.teams[0].lead_id === user.id) {
             setLeadOpen(true)
         } else {
-            await dispatch(leaveUserTeam(user.teams.id))
+            await dispatch(leaveUserTeam(user.teams[0].id))
             await dispatch(leaveCurrentTeam())
             await dispatch(clearTeamRooms())
             await dispatch(fetchTeams(user.jobsite_id))

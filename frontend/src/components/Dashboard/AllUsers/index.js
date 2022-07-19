@@ -1,6 +1,7 @@
 import { useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { loadAllUsers } from "../../../store/allUsers"
+import CreateUserModal from "../CreateUserModal"
 import UserCard from "../UserCard"
 
 
@@ -18,11 +19,14 @@ const AllUsers = () => {
 
 
     return (
-        < div className="app-body" >
-            {(usersObject.length) && usersObject.map((user) => (
-                <UserCard user={user} admin={true} />
-            ))}
-        </div>
+        <>
+            <ul role="list" className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                {(usersObject.length) && usersObject.map((user) => (
+                    <UserCard user={user} admin={true} />
+                ))}
+            </ul>
+            <CreateUserModal />
+        </>
     )
 }
 

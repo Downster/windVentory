@@ -80,6 +80,7 @@ class User(db.Model):
             'firstName': self.first_name,
             'lastName' : self.last_name,
             'image': self.image,
+            'online': self.online,
         }
 
 

@@ -44,7 +44,10 @@ const ChatMessage = ({ msg, socket, sameUser, lastUser }) => {
     }
 
     return (
+
         <>
+
+
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>
                     <DeleteMessagePrompt msg={msg} setShowModal={setShowModal} socket={socket} />
@@ -57,7 +60,7 @@ const ChatMessage = ({ msg, socket, sameUser, lastUser }) => {
                         {errors && errors.map((error, idx) => <li className='errors' key={idx}>{error}</li>)}
                         <div className={msg.user_id === user.id ? "chat-message-info owner" : "chat-message-info"}>
                             {!sameUser && <p className='chat-username'>{msg.user.firstName + " " + msg.user.lastName} <span className='created-at-msg'>{" at " + (new Date(msg.created_at)).toLocaleTimeString()}</span></p>}
-                            {!sameUser && <OnlineAvatar image={msg.user.image} />
+                            {!sameUser && <OnlineAvatar online={msg.user.online} image={msg.user.image} />
                             }
                         </div>
                         {edit ? <EditChatInput value={message} onChange={(e) => setMessage(e)} send={() => editMessage(msg, message)} /> : <span className={msg.user_id === user.id ? 'chat-text owner1' : 'chat-text'} > {Parser(msg.message)}</span>}

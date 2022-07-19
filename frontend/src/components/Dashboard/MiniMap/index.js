@@ -67,13 +67,13 @@ export default function MiniMap({ place, pan, center, position, onPositionChange
 
     return (
         <>
-            <MapContainer center={center} zoom={12} scrollWheelZoom={false} className={'rounded-lg h-100 w-100'}>
+            <MapContainer center={center} zoom={12} scrollWheelZoom={false} className={admin ? 'rounded-lg h-80 w-80' : 'rounded-lg h-100 w-100'}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-                <GenerateMarkers result={result} />
-                {loading && <PanTo pan={pan} place={place} />}
+                {!admin && <GenerateMarkers result={result} />}
+                {!admin && loading && <PanTo pan={pan} place={place} />}
                 <Marker position={position} icon={new Icon({ iconUrl: markerIconPng, iconSize: [25, 41], iconAnchor: [12, 41] })} >
                     <Popup>
                         {popup}

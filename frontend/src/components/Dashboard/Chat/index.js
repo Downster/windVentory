@@ -123,7 +123,6 @@ const Chat = ({ jobsite }) => {
 
             socket.on('delete-room', async (data) => {
                 const path = window.location.href.split('/')
-                console.log(path)
             })
 
 

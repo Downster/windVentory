@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { getJobsites } from "../../../store/jobsites"
 import { useHistory } from 'react-router-dom'
 import JobSiteCard from "../JobSiteCard"
+import CreateJobSiteModal from "../CreateJobSiteModal"
 
 const AllSites = ({ adminPanel }) => {
     const dispatch = useDispatch()
@@ -27,13 +28,16 @@ const AllSites = ({ adminPanel }) => {
                 </>}
             {!loading &&
                 <>
-                    <h1 className="text-2xl font-semibold text-gray-900">You are not a member of a jobsite yet, join one here</h1>
+                    {!adminPanel && <h1 className="text-2xl font-semibold text-gray-900">You are not a member of a jobsite yet, join one here</h1>}
                     <div className="flex max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-                        {jobSiteObject && jobSiteObject.map((jobsite) => (
-                            <JobSiteCard key={jobsite.id} jobsite={jobsite} adminPanel={adminPanel} />
-                        )
-                        )}
+                        <ul role="list" className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                            {jobSiteObject && jobSiteObject.map((jobsite) => (
+                                <JobSiteCard key={jobsite.id} jobsite={jobsite} adminPanel={adminPanel} />
+                            )
+                            )}
+                        </ul>
                     </div>
+                    {adminPanel && <CreateJobSiteModal />}
                 </>
             }
         </>

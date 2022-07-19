@@ -10,6 +10,7 @@ import { getSiteChatRooms } from '../../../store/chatRoom';
 import ReactTooltip from 'react-tooltip';
 import ReactWeather, { useOpenWeather } from 'react-open-weather';
 import DeleteSitePrompt from '../DeleteSitePrompt';
+import { PencilAltIcon, TrashIcon } from '@heroicons/react/solid'
 
 
 const JobSiteCard = ({ jobsite, adminPanel, single }) => {
@@ -64,30 +65,78 @@ const JobSiteCard = ({ jobsite, adminPanel, single }) => {
                     <DeleteSitePrompt site={jobsite} setShowModal={setShowDeleteModal} />
                 </Modal>
             )}
-            {!single && <div className="jobSite-card" onClick={(adminPanel) ? null : setJobsite} onMouseEnter={(e) => setShow(true)} onMouseLeave={(e) => setShow(false)} >
-                <img alt='jobsite' className='jobsite-image' src={jobsite.image} data-tip={'State: ' + jobsite.state}></img>
-                <ReactTooltip
-                    className="tool-tip-cls"
-                    place="right"
-                    type="dark"
-                    effect="solid"
-                />
-                <h1 className="jobsite-name">{jobsite.name}</h1>
-                <h1 className="jobsite-client">Client: {jobsite.client}</h1>
-                {/* <h1 className="jobsite-state">{jobsite.state}</h1> */}
-                {!adminPanel && <><i class="fa-duotone fa-right-to-bracket"></i></>}
-                <div className='jobsite-buttons'>
-                    {show && adminPanel && <i class="fa-duotone fa-user-pen site" onClick={modifyJobsite}></i>}
-                    {show && adminPanel && <i class="fa-duotone fa-ban site" onClick={destroyJobsite}></i>}
-                </div>
-                {showModal && (
-                    <Modal onClose={() => setShowModal(false)}>
-                        <CreateJobsiteForm setShowModal={setShowModal} edit={true} siteId={jobsite.id} />
-                    </Modal>
-                )}
+            {showModal && (
+                <Modal onClose={() => setShowModal(false)}>
+                    <CreateJobsiteForm setShowModal={setShowModal} edit={true} siteId={jobsite.id} />
+                </Modal>
+            )}
+            {!single &&
+                <li
+                    className="col-span-1 flex flex-col text-center bg-white rounded-lg shadow divide-y divide-gray-200"
+                    onClick={(adminPanel) ? null : setJobsite}
+                >
+                    <div className="flex-1 flex flex-col p-8">
+                        <img className="w-32 h-32 flex-shrink-0 mx-auto rounded-full" src={jobsite.image} alt="" />
+                        <h3 className="mt-6 text-gray-900 text-sm font-medium">{jobsite.name}</h3>
+                        <dl className="mt-1 flex-grow flex flex-col justify-between">
+                            <dt className="sr-only">Title</dt>
+                            <dd className="text-gray-500 text-sm">{jobsite.state}</dd>
+                            <dt className="sr-only">Role</dt>
+                            <dd className="mt-3">
+                                <span className="px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full">
+                                    {jobsite.client}
+                                </span>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div>
+                        <div className="-mt-px flex divide-x divide-gray-200">
+                            <div className="w-0 flex-1 flex">
+                                {adminPanel && <button
+                                    onClick={modifyJobsite}
+                                    className="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500"
+                                >
+                                    <PencilAltIcon className="w-5 h-5 text-gray-400" aria-hidden="true" />
+                                    <span className="ml-3">Edit</span>
+                                </button>}
+                            </div>
+                            <div className="-ml-px w-0 flex-1 flex">
+                                {adminPanel && <button
+                                    onClick={destroyJobsite}
+                                    className="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500"
+                                >
+                                    <TrashIcon className="w-5 h-5 text-gray-400" aria-hidden="true" />
+                                    <span className="ml-3">Delete</span>
+                                </button>}
+                            </div>
+                        </div>
+                    </div>
+                </li>}
 
-            </div>
-            }
+            {/* //     <div className="jobSite-card" onClick={(adminPanel) ? null : setJobsite} onMouseEnter={(e) => setShow(true)} onMouseLeave={(e) => setShow(false)} >
+            //     <img alt='jobsite' className='jobsite-image' src={jobsite.image} data-tip={'State: ' + jobsite.state}></img>
+            //     <ReactTooltip
+                    //         className="tool-tip-cls"
+                    //         place="right"
+                    //         type="dark"
+                    //         effect="solid"
+                    //     />
+                    //     <h1 className="jobsite-name">{jobsite.name}</h1>
+                    //     <h1 className="jobsite-client">Client: {jobsite.client}</h1>
+                    //     {/* <h1 className="jobsite-state">{jobsite.state}</h1> */}
+            {/* //     {!adminPanel && <><i class="fa-duotone fa-right-to-bracket"></i></>}
+                    //     <div className='jobsite-buttons'>
+                    //         {show && adminPanel && <i class="fa-duotone fa-user-pen site" onClick={modifyJobsite}></i>}
+                    //         {show && adminPanel && <i class="fa-duotone fa-ban site" onClick={destroyJobsite}></i>}
+                    //     </div>
+                //         {showModal && ( */}
+            {/* //         <Modal onClose={() => setShowModal(false)}>
+                //             <CreateJobsiteForm setShowModal={setShowModal} edit={true} siteId={jobsite.id} />
+                //         </Modal>
+                //     )}
+
+                // </div>
+                // } */}
             {
                 single && userSite && < div className='single-user-site'>
                     <div className='jobsite-data'>
