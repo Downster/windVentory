@@ -121,19 +121,19 @@ function MaterialForm({ team, setShowModal, material, edit }) {
                     value={name}
                     name="name"
                     id="name"
-                    className={"block w-full pr-10 border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm rounded-md"}
+                    className={"block w-full pr-10 border-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm rounded-md"}
                     aria-invalid="true"
                     onChange={(e) => setName(e.target.value)}
                     aria-describedby="email-error"
                 />
                 <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                    {errors.length > 0 && errors.filter((err) => err.name) && <ExclamationCircleIcon className="h-5 w-5 text-red-500" aria-hidden="true" />}
+                    {errors.length > 0 && errors.filter((err) => err.name).length > 0 && <ExclamationCircleIcon className="h-5 w-5 text-red-500" aria-hidden="true" />}
                 </div>
             </div>
             <Listbox value={materialClass} onChange={setMaterialClass}>
                 {({ open }) => (
                     <>
-                        <Listbox.Label className="block text-sm font-medium text-gray-700">Material Class</Listbox.Label>
+                        <Listbox.Label className="block mt-2 text-sm font-medium text-gray-700">Material Class</Listbox.Label>
                         <div className="mt-1 relative">
                             <Listbox.Button className="relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                 <span className="block truncate">{toName(materialClass)}</span>
@@ -187,7 +187,7 @@ function MaterialForm({ team, setShowModal, material, edit }) {
                     </>
                 )}
             </Listbox>
-            <label htmlFor="quantity" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="quantity" className="block text-sm mt-2 font-medium text-gray-700">
                 Quantity
             </label>
             <p className="mt-2 text-sm text-red-600" id="quantity-error">
@@ -202,13 +202,13 @@ function MaterialForm({ team, setShowModal, material, edit }) {
                     id="quantity"
                     value={quantity}
                     onChange={((e) => setQuantity(e.target.value))}
-                    className="block w-full pr-10 border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm rounded-md"
+                    className="block w-full pr-10 border-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm rounded-md"
                     defaultValue='1'
                     aria-invalid="true"
                     aria-describedby="email-error"
                 />
                 <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                    {errors.length > 0 && errors.filter((err) => err.quantity) && < ExclamationCircleIcon className="h-5 w-5 text-red-500" aria-hidden="true" />}
+                    {errors.length > 0 && errors.filter((err) => err.quantity).length > 0 && < ExclamationCircleIcon className="h-5 w-5 text-red-500" aria-hidden="true" />}
                 </div>
             </div>
             <input

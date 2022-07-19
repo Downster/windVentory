@@ -98,7 +98,7 @@ const TeamCard = ({ team, admin }) => {
                             <div className="flex-1 px-4 py-2 text-sm truncate">
                                 <button
                                     className="text-gray-900 font-medium hover:text-gray-600"
-                                    onClick={!currentTeam.length > 0 ? null : joinTeam}
+                                    onClick={!currentTeam?.length > 0 ? null : joinTeam}
                                 >
                                     {team.team_lead.firstName + " " + team.team_lead.lastName}'s Team
                                 </button>

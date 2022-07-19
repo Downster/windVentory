@@ -69,7 +69,7 @@ export default function MiniMap({ place, pan, center, position, onPositionChange
 
     return (
         <>
-            <MapContainer center={center} zoom={12} scrollWheelZoom={false} className={admin ? 'rounded-lg h-80 w-80' : 'rounded-lg h-100 w-100'}>
+            <MapContainer center={(center) ? center : position} zoom={12} scrollWheelZoom={false} className={admin ? 'rounded-lg h-80 w-80' : 'rounded-lg h-100 w-100'}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

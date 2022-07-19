@@ -53,7 +53,7 @@ const DisplayInventory = ({ inventory, team }) => {
                         <label htmlFor="tabs" className="sr-only">
                             Select a tab
                         </label>
-                        {/* Use an "onChange" listener to redirect the user to the selected tab URL. */}
+
                         <select
                             id="tabs"
                             name="tabs"
@@ -93,17 +93,17 @@ const DisplayInventory = ({ inventory, team }) => {
                             ))}
                         </nav>
                     </div>
-                    <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                    <ul className="grid grid-cols-1 mt-4 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                         {category === 'Materials' && materials.map((mat) => {
                             return <MaterialCard team={team} key={mat.id} material={mat} />
                         })}
                     </ul>
-                    <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                    <ul className="grid grid-cols-1 mt-4 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                         {category === 'Chemicals' && chemicals?.map((mat) => {
                             return <MaterialCard team={team} key={mat.id} material={mat} />
                         })}
                     </ul>
-                    <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                    <ul className="grid grid-cols-1 mt-4 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                         {category === 'Misc' && misc.map((mat) => {
                             return <MaterialCard team={team} key={mat.id} material={mat} />
                         })}
