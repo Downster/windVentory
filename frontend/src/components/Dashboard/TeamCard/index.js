@@ -35,9 +35,8 @@ const TeamCard = ({ team, admin }) => {
         if (user.teams?.id) {
             setOpen(true)
         } else {
-
             await dispatch(setUserTeam(team.id))
-            await dispatch(setTeam(user?.teams))
+            await dispatch(setTeam(user?.teams[0]))
             await dispatch(loadTeamInventory(user.teams[0].location))
             await dispatch(getTeamChatRoom(team.id))
             await dispatch(fetchTeams(user.jobsite_id))
