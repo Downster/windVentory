@@ -93,11 +93,6 @@ function MaterialForm({ team, setShowModal, material, edit }) {
 
     };
 
-    function hasErrors(name) {
-        const error = errors.filter((err) => err[name])
-        return error ? true : false
-    }
-
     const updateImage = (e) => {
         const file = e.target.files[0];
         setImage(file);
@@ -116,26 +111,25 @@ function MaterialForm({ team, setShowModal, material, edit }) {
             <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                 Material Name
             </label>
-            <div className="mt-1 relative rounded-md shadow-sm">
-                <input
-                    value={name}
-                    name="name"
-                    id="name"
-                    className={hasErrors('name') ? "block w-full pr-10 border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm rounded-md" : "block w-full pr-10 border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm rounded-md"}
-                    placeholder="Material Name"
-                    aria-invalid="true"
-                    onChange={(e) => setName(e.target.value)}
-                    aria-describedby="email-error"
-                />
-                <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                    <ExclamationCircleIcon className="h-5 w-5 text-red-500" aria-hidden="true" />
-                </div>
-            </div>
             <p className="mt-2 text-sm text-red-600" id="name-error">
                 {errors && errors.filter((err) => err.name).map((err) => <p className="mt-2 text-sm text-red-600" id="email-error">
                     {err.name}
                 </p>)}
             </p>
+            <div className="mt-1 relative rounded-md shadow-sm">
+                <input
+                    value={name}
+                    name="name"
+                    id="name"
+                    className={"block w-full pr-10 border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm rounded-md"}
+                    aria-invalid="true"
+                    onChange={(e) => setName(e.target.value)}
+                    aria-describedby="email-error"
+                />
+                <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                    {errors.length > 0 && errors.filter((err) => err.name) && <ExclamationCircleIcon className="h-5 w-5 text-red-500" aria-hidden="true" />}
+                </div>
+            </div>
             <Listbox value={materialClass} onChange={setMaterialClass}>
                 {({ open }) => (
                     <>
@@ -196,6 +190,11 @@ function MaterialForm({ team, setShowModal, material, edit }) {
             <label htmlFor="quantity" className="block text-sm font-medium text-gray-700">
                 Quantity
             </label>
+            <p className="mt-2 text-sm text-red-600" id="quantity-error">
+                {errors && errors.filter((err) => err.quantity).map((err) => <p className="mt-2 text-sm text-red-600" id="email-error">
+                    {err.quantity}
+                </p>)}
+            </p>
             <div className="mt-1 relative rounded-md shadow-sm">
                 <input
                     type="number"
@@ -203,21 +202,15 @@ function MaterialForm({ team, setShowModal, material, edit }) {
                     id="quantity"
                     value={quantity}
                     onChange={((e) => setQuantity(e.target.value))}
-                    className="block w-full pr-10 border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm rounded-md"
-                    placeholder="Quantity"
+                    className="block w-full pr-10 border-red-300 text-red-900 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm rounded-md"
                     defaultValue='1'
                     aria-invalid="true"
                     aria-describedby="email-error"
                 />
                 <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                    <ExclamationCircleIcon className="h-5 w-5 text-red-500" aria-hidden="true" />
+                    {errors.length > 0 && errors.filter((err) => err.quantity) && < ExclamationCircleIcon className="h-5 w-5 text-red-500" aria-hidden="true" />}
                 </div>
             </div>
-            <p className="mt-2 text-sm text-red-600" id="quantity-error">
-                {errors && errors.filter((err) => err.quantity).map((err) => <p className="mt-2 text-sm text-red-600" id="email-error">
-                    {err.quantity}
-                </p>)}
-            </p>
             <input
                 className="material-image-input"
                 type='file'
@@ -230,13 +223,13 @@ function MaterialForm({ team, setShowModal, material, edit }) {
                 <label htmlFor="material-photo" className="block text-sm font-medium text-gray-700">
                     Material Image
                 </label>
+                <p className="mt-2 text-sm text-red-600" id="quantity-error">
+                    {errors && errors.filter((err) => err.image).map((err) => <p className="mt-2 text-sm text-red-600" id="email-error">
+                        {err.image}
+                    </p>)}
+                </p>
                 <ImageUpload image={image} showImageInput={showImageInput} />
             </div>
-            <p className="mt-2 text-sm text-red-600" id="quantity-error">
-                {errors && errors.filter((err) => err.image).map((err) => <p className="mt-2 text-sm text-red-600" id="email-error">
-                    {err.image}
-                </p>)}
-            </p>
             <div className="preview-container site">
                 {imageLoading && (
                     <>
@@ -251,7 +244,7 @@ function MaterialForm({ team, setShowModal, material, edit }) {
             <button
                 type="button"
                 onClick={handleSubmit}
-                className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="mt-3 inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
                 {(edit) ? 'Edit Material' : 'Add Material'}
             </button>
