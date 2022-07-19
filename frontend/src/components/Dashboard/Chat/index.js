@@ -123,7 +123,6 @@ const Chat = ({ jobsite }) => {
 
             socket.on('delete-room', async (data) => {
                 const path = window.location.href.split('/')
-                console.log(path)
             })
 
 
@@ -145,38 +144,38 @@ const Chat = ({ jobsite }) => {
 
     return (
         <>
-            <div className='whole-chat-container'>
-                <div className='outer-chat-container'>
-                    <div className='chat-container'>
-                        <h2 className='chat-room-name'>Welcome to #{chatRoom?.room_name}!</h2>
-                    </div>
-                    <div className='chat-room-container'>
-                        <div className='chat-messages-container'>
-                            {chatMessages?.map((msg, idx) => {
-                                if (idx !== 0 && chatMessages[idx - 1].user_id === msg.user_id) {
-                                    return <ChatMessage key={msg.id + 'M'} msg={msg} socket={socket} sameUser={true} />
-                                } else {
-                                    return (
-                                        <>
-                                            <ChatMessage key={msg.id + 'M'} msg={msg} socket={socket} />
-                                        </>
-                                    )
-                                }
 
-                            })}
-                        </div>
-                    </div>
-                </div>
-                <div className='chat-input-container'>
-                    {errors && errors.map((error, idx) => <li className='errors' key={idx + 'e'}>{error}</li>)}
-                    <ChatInput
-                        value={messageBody}
-                        onChange={(e) => setMessageBody(e)}
-                        room={chatRoom}
-                        send={sendChat}
-                    />
-                </div>
+            <h2 className='chat-room-name'>Welcome to #{chatRoom?.room_name}!</h2>
+
+            <div>
+                {chatMessages?.map((msg, idx) => {
+                    if (idx !== 0 && chatMessages[idx - 1].user_id === msg.user_id) {
+                        return <ChatMessage key={msg.id + 'M'} msg={msg} socket={socket} sameUser={true} />
+                    } else {
+                        return (
+                            <>
+                                <div className="relative py-5">
+                                    <div className="absolute inset-0 flex items-center" aria-hidden="true">
+                                        <div className="w-full border-t border-gray-300" />
+                                    </div>
+                                </div>
+                                <ChatMessage key={msg.id + 'M'} msg={msg} socket={socket} />
+                            </>
+                        )
+                    }
+
+                })}
             </div>
+
+
+
+            {errors && errors.map((error, idx) => <li className='errors' key={idx + 'e'}>{error}</li>)}
+            <ChatInput
+                value={messageBody}
+                onChange={(e) => setMessageBody(e)}
+                room={chatRoom}
+                send={sendChat}
+            />
         </>
     )
 }

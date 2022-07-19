@@ -27,6 +27,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import './Dashboard.css'
 import { fetchWeather, loadUserJobsite } from '../../store/currentSite'
 import { loadAllTeams } from '../../store/allTeams'
+import { loadAllUsers } from '../../store/allUsers';
 import { useEffect } from 'react'
 import { getJobsites } from '../../store/jobsites'
 import { fetchTeams, loadSiteInventory } from '../../store/currentSite'
@@ -90,6 +91,13 @@ const Dashboard = () => {
                     room.classList.add('text-amber-300')
                 }
             }
+        })
+        socket.on('sign-in', async (data) => {
+            await dispatch(loadAllUsers())
+        });
+
+        socket.on('log-out', async (data) => {
+            await dispatch(loadAllUsers())
         })
 
         socket.on('create-site-room', (data) => {

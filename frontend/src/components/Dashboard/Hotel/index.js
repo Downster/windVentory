@@ -11,21 +11,23 @@ import { Combobox } from '@headlessui/react'
 import DetailModal from "./DetailModal";
 
 
+
 const Hotel = () => {
     const dispatch = useDispatch()
     const user = useSelector(state => state.session.user)
     const [position, setPosition] = useState((user?.hotel?.lat) ? { lat: user.hotel.lat, lng: user.hotel.lon } : null)
+    const [currentLocation, setCurrentLocation] = useState(null)
     const [isLoaded, setIsLoaded] = useState((user?.hotel?.lat) ? true : false)
     const [loading, setLoading] = useState((user?.hotel?.lat) ? false : true)
     const [open, setOpen] = useState(user?.hotel?.lat ? true : false)
     const [location, setLocation] = useState(user?.hotel?.lat ? true : false)
     const [query, setQuery] = useState('')
+    const [firstLoad, setFirstLoad] = useState(false)
     const [result, setResult] = useState([])
     const [center, setCenter] = useState((user?.hotel?.lat) ? { lat: user.hotel.lat, lng: user.hotel.lon } : null)
-    const [detail, showDetail] = useState(false)
+    const [pan, setPan] = useState(null)
+    const [place, setPlace] = useState(null)
     const [selectedAmenity, setSelecetedAmenity] = useState('Airport')
-    const city = useRef('')
-    const state = useRef('')
     const amenity = useRef([])
 
 
@@ -134,6 +136,12 @@ const Hotel = () => {
 
     ]
 
+    const options = {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0
+    };
+
 
 
     const filteredPeople =
@@ -150,23 +158,24 @@ const Hotel = () => {
         setLocation(true)
     }
 
-    async function getCity() {
-        const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=geojson&lat=${position.lat}&lon=${position.lng}`)
-        const { features } = await res.json()
-        const userCity = features[0].properties.address.city
-        const userState = features[0].properties.address.state
-        city.current = userCity
-        state.current = userState
+    async function getAirports() {
         const res2 = await tokenFetch('/users/nearby/airport')
         const { results } = await res2.json()
-        setResult(results)
+        const places = {}
+        results.forEach(place => {
+            places[place.place_id] = place;
+        });
+        setResult(places)
     }
     async function getThings(e) {
         amenity.current = e
         const res = await tokenFetch(`/users/nearby/${amenity.current.type}`)
         const { results } = await res.json()
-        setResult(results)
-
+        const places = {}
+        results.forEach(place => {
+            places[place.place_id] = place;
+        });
+        setResult(places)
     }
 
     function success(pos) {
@@ -193,22 +202,39 @@ const Hotel = () => {
     //     }
     // }
 
+    function currentSuccess(pos) {
+        const crd = pos.coords;
+        const newPosition = {
+            'lat': crd.latitude,
+            'lng': crd.longitude
+        }
+        setCurrentLocation({ lat: newPosition.lat, lng: newPosition.lng })
+    }
+
+    function getCurrentLocation() {
+        navigator.geolocation.getCurrentPosition(currentSuccess, error, options)
+    }
+
 
     useEffect(() => {
-        const options = {
-            enableHighAccuracy: true,
-            timeout: 5000,
-            maximumAge: 0
-        };
         if (!position) {
             navigator.geolocation.getCurrentPosition(success, error, options)
         }
-        getCity()
+        getAirports()
+        getCurrentLocation()
     }, [position])
 
     function classNames(...classes) {
         return classes.filter(Boolean).join(' ')
     }
+
+    function PanTo(place) {
+        setPlace(place)
+        setPan({ lat: place.geometry.location.lat, lng: place.geometry.location.lng })
+        setFirstLoad(true)
+    }
+
+
 
 
     return (
@@ -223,7 +249,7 @@ const Hotel = () => {
                         </>
                     }
                     {isLoaded &&
-                        <MiniMap center={center} position={position} popup={popupText} onPositionChanged={(latlng) => updatePosition(latlng)} location={location} result={result} />
+                        <MiniMap loading={firstLoad} place={place} pan={pan} center={center} position={position} popup={popupText} onPositionChanged={(latlng) => updatePosition(latlng)} location={location} result={result} />
                     }
                 </div>
 
@@ -313,12 +339,12 @@ const Hotel = () => {
                                         </div>
 
                                         <ul className="flex-1 divide-y divide-gray-200 overflow-y-auto overflow-x-hidden mb-16">
-                                            {result.map((place) => (
+                                            {Object.values(result).map((place) => (
                                                 <li key={place.place_id}>
                                                     <div className="group relative flex items-center py-6 px-5">
                                                         <button
                                                             className="-m-1 block flex-1 p-1"
-                                                            onClick={() => setCenter({ lat: place.geometry.location.lat, lng: place.geometry.location.lng })}
+                                                            onClick={() => PanTo(place)}
                                                         >
                                                             <div className="absolute inset-0 group-hover:bg-gray-50" aria-hidden="true" />
                                                             <div className="relative flex min-w-0 flex-1 items-center">
@@ -355,15 +381,17 @@ const Hotel = () => {
                                                                     <div className="py-1">
                                                                         <Menu.Item>
                                                                             {({ active }) => (
-                                                                                <button
-                                                                                    onClick={() => showDetail(true)}
+                                                                                <a
+                                                                                    href={`https://maps.google.com/maps?saddr=${currentLocation.lat},${currentLocation.lng}&daddr=${place.geometry.location.lat},${place.geometry.location.lng}`}
                                                                                     className={classNames(
                                                                                         active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                                                                                         'block px-4 py-2 text-sm'
                                                                                     )}
+                                                                                    target="_blank"
+                                                                                    rel="noopener noreferrer"
                                                                                 >
-                                                                                    View Details
-                                                                                </button>
+                                                                                    Navigate here
+                                                                                </a>
                                                                             )}
                                                                         </Menu.Item>
                                                                     </div>
@@ -384,8 +412,6 @@ const Hotel = () => {
                     </Dialog>
                 </Transition.Root>
             </div>
-
-            <DetailModal open={detail} setOpen={showDetail} />
 
         </>
     )

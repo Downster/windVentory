@@ -45,19 +45,17 @@ def on_leave(data):
     send(username + ' has left the room.', to=room)
 
 
-
-@socketio.on('login')
-def on_active(data):
-    emit('login', data, broadcast=True)
-
 @socketio.on('delete-room')
 def on_delete(data):
     emit('delete-room', data, broadcast=True)
 
+@socketio.on('sign-in')
+def on_sign_in(data):
+    emit('sign-in', data, broadcast=True)
 
-@socketio.on('logout')
-def on_inactive(data):
-    emit('logout', data, broadcast=True)
+@socketio.on('log-out')
+def on_sign_in(data):
+    emit('log-out', data, broadcast=True)
 
 
 @socketio.on('join_team_room')
