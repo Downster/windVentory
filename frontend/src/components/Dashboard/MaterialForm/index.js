@@ -17,10 +17,11 @@ function MaterialForm({ team, setShowModal, material, edit }) {
     const hiddenImageInput = useRef(null);
     const [materialClass, setMaterialClass] = useState((edit) ? material.class_id : 1)
     const [name, setName] = useState((edit) ? material.name : '')
-    const [quantity, setQuantity] = useState(edit ? material.quantity : '')
+    const [quantity, setQuantity] = useState(edit ? material.quantity : 1)
     const [image, setImage] = useState(null)
     const [imageLoading, setImageLoading] = useState(false)
     const [errors, setErrors] = useState([]);
+    console.log(team)
 
     const types = [
         { value: 1, name: 'Fiberglass' },
@@ -203,7 +204,6 @@ function MaterialForm({ team, setShowModal, material, edit }) {
                     value={quantity}
                     onChange={((e) => setQuantity(e.target.value))}
                     className="block w-full pr-10 border-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm rounded-md"
-                    defaultValue='1'
                     aria-invalid="true"
                     aria-describedby="email-error"
                 />
