@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useHistory } from "react-router-dom";
 import * as sessionActions from "../../../store/session";
+import { ExclamationCircleIcon } from '@heroicons/react/solid'
+import ImageUpload from "../../Dashboard/ImageUpload";
 import './SignUpForm.css';
 
 function SignupForm({ inputEmail }) {
     const dispatch = useDispatch();
+    const hiddenImageInput = useRef(null);
     const history = useHistory();
     const sessionUser = useSelector((state) => state.session.user);
     const [email, setEmail] = useState(inputEmail ? inputEmail : "");
@@ -33,10 +36,11 @@ function SignupForm({ inputEmail }) {
             setErrors([]);
             const errors = await dispatch(sessionActions.signup(formData))
             if (errors) {
+                console.log(errors)
                 setErrors(errors.errors)
             }
         } else {
-            return setErrors(['Confirm Password field must be the same as the Password field']);
+            return setErrors([{ confirmPassword: 'Confirm Password field must be the same as the Password field' }]);
         }
     };
 
@@ -56,94 +60,164 @@ function SignupForm({ inputEmail }) {
         setImage(file);
     };
 
+    const showImageInput = event => {
+        hiddenImageInput.current.click();
+    };
+
     return (
         <>
-            <div className="signup-container">
-                <h3 className="sign-up-header">Sign up for windVentory</h3>
-                <form onSubmit={handleSubmit} className='sign-up-form'>
-                    <ul>
-                        {errors.map((error, idx) => <li className='errors' key={idx}>{error}</li>)}
-                    </ul>
-                    <div className="form-label-container">
-                        <label className="form-label">Email *</label>
-                    </div>
+            <form onSubmit={handleSubmit} className='pt-5 pb-5 pl-5 pr-5'>
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                    Email
+                </label>
+
+                {errors && errors.filter((err) => err.email).map((err) => <p className="mt-2 text-sm text-red-600" id="email-error">
+                    {err.email}
+                </p>)}
+
+                <div className="mt-1 relative rounded-md shadow-sm">
                     <input
-                        type="text"
-                        className="input-field"
                         value={email}
-                        placeholder='Email'
+                        name="name"
+                        id="name"
+                        className={"block w-full pr-10 border-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm rounded-md"}
+                        aria-invalid="true"
                         onChange={(e) => setEmail(e.target.value)}
-
+                        aria-describedby="email-error"
                     />
-                    <div className="form-label-container">
-                        <label className="form-label">First name *</label>
+                    <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                        {errors && errors.length > 0 && errors.filter((err) => err.email).length > 0 && <ExclamationCircleIcon className="h-5 w-5 text-red-500" aria-hidden="true" />}
                     </div>
+                </div>
+                <label htmlFor="name" className="block text-sm mt-3 font-medium text-gray-700">
+                    First Name
+                </label>
+                <p className="mt-2 text-sm text-red-600" id="name-error">
+                    {errors && errors.filter((err) => err.firstName).map((err) => <p className="mt-2 text-sm text-red-600" id="email-error">
+                        {err.firstName}
+                    </p>)}
+                </p>
+                <div className="mt-1 relative rounded-md shadow-sm">
                     <input
-                        type="text"
-                        className="input-field"
                         value={firstName}
-                        placeholder='First Name'
+                        name="name"
+                        id="name"
+                        className={"block w-full pr-10 border-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm rounded-md"}
+                        aria-invalid="true"
                         onChange={(e) => setFirstName(e.target.value)}
-
+                        aria-describedby="email-error"
                     />
-                    <div className="form-label-container">
-                        <label className="form-label">Last name *</label>
+                    <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                        {errors && errors.length > 0 && errors.filter((err) => err.firstName).length > 0 && <ExclamationCircleIcon className="h-5 w-5 text-red-500" aria-hidden="true" />}
                     </div>
+                </div>
+                <label htmlFor="name" className="block text-sm mt-3 font-medium text-gray-700">
+                    Last Name
+                </label>
+                <p className="mt-2 text-sm text-red-600" id="name-error">
+                    {errors && errors.filter((err) => err.lastName).map((err) => <p className="mt-2 text-sm text-red-600" id="email-error">
+                        {err.lastName}
+                    </p>)}
+                </p>
+                <div className="mt-1 relative rounded-md shadow-sm">
                     <input
-                        type="text"
-                        className="input-field"
                         value={lastName}
-                        placeholder='Last Name'
+                        name="name"
+                        id="name"
+                        className={"block w-full pr-10 border-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm rounded-md"}
+                        aria-invalid="true"
                         onChange={(e) => setLastName(e.target.value)}
-
+                        aria-describedby="email-error"
                     />
-                    <div className="form-label-container">
-                        <label className="form-label">Phone number *</label>
+                    <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                        {errors && errors.length > 0 && errors.filter((err) => err.lastName).length > 0 && <ExclamationCircleIcon className="h-5 w-5 text-red-500" aria-hidden="true" />}
                     </div>
+                </div>
+                <label htmlFor="name" className="block text-sm mt-3 font-medium text-gray-700">
+                    Phone Number
+                </label>
+                <p className="mt-2 text-sm text-red-600" id="name-error">
+                    {errors && errors.filter((err) => err.phoneNumber).map((err) => <p className="mt-2 text-sm text-red-600" id="email-error">
+                        {err.phoneNumber}
+                    </p>)}
+                </p>
+                <div className="mt-1 relative rounded-md shadow-sm">
                     <input
-                        type="text"
-                        className="input-field"
                         value={phoneNumber}
-                        placeholder='Phone Number'
+                        name="name"
+                        id="name"
+                        className={"block w-full pr-10 border-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm rounded-md"}
+                        aria-invalid="true"
                         onChange={(e) => setPhoneNumber(e.target.value)}
-
+                        aria-describedby="email-error"
                     />
-                    <div className="form-label-container">
-                        <label className="form-label">Password *</label>
+                    <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                        {errors && errors.length > 0 && errors.filter((err) => err.phoneNumber).length > 0 && <ExclamationCircleIcon className="h-5 w-5 text-red-500" aria-hidden="true" />}
                     </div>
+                </div>
+                <label htmlFor="name" className="block text-sm mt-3 font-medium text-gray-700">
+                    Password
+                </label>
+                <p className="mt-2 text-sm text-red-600" id="name-error">
+                    {errors && errors.filter((err) => err.password).map((err) => <p className="mt-2 text-sm text-red-600" id="email-error">
+                        {err.password}
+                    </p>)}
+                </p>
+                <div className="mt-1 relative rounded-md shadow-sm">
                     <input
-                        className="input-field"
-                        type="password"
                         value={password}
-                        placeholder='Password'
+                        name="name"
+                        id="name"
+                        type='password'
+                        className={"block w-full pr-10 border-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm rounded-md"}
+                        aria-invalid="true"
                         onChange={(e) => setPassword(e.target.value)}
+                        aria-describedby="email-error"
 
                     />
-                    <div className="form-label-container">
-                        <label className="form-label">Confirm password *</label>
+                    <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                        {errors && errors.length > 0 && errors.filter((err) => err.password).length > 0 && <ExclamationCircleIcon className="h-5 w-5 text-red-500" aria-hidden="true" />}
                     </div>
+                </div>
+                <label htmlFor="name" className="block text-sm mt-3 font-medium text-gray-700">
+                    Confirm Password
+                </label>
+                <p className="mt-2 text-sm text-red-600" id="name-error">
+                    {errors && errors.filter((err) => err.confirmPassword).map((err) => <p className="mt-2 text-sm text-red-600" id="email-error">
+                        {err.confirmPassword}
+                    </p>)}
+                </p>
+                <div className="mt-1 relative rounded-md shadow-sm">
                     <input
-                        className="input-field"
-                        type="password"
-                        placeholder="Confirm Password"
                         value={confirmPassword}
+                        name="name"
+                        id="name"
+                        type='password'
+                        className={"block w-full pr-10 border-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm rounded-md"}
+                        aria-invalid="true"
                         onChange={(e) => setConfirmPassword(e.target.value)}
+                        aria-describedby="email-error"
+                        password
+                    />
+                    <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                        {errors && errors.length > 0 && errors.filter((err) => err.confirmPassword).length > 0 && <ExclamationCircleIcon className="h-5 w-5 text-red-500" aria-hidden="true" />}
+                    </div>
+                </div>
+                <div className="form-label-container">
+                    <label className="form-label">Profile image</label>
+                </div>
+                <input
+                    className="site-image-input"
+                    type='file'
+                    ref={hiddenImageInput}
+                    accept="image/*"
+                    onChange={updateImage}
+                    hidden
+                />
+                <ImageUpload image={image} showImageInput={showImageInput} site={true} />
+                <button type="submit" className="mt-3 inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Sign Up</button>
 
-                    />
-                    <div className="form-label-container">
-                        <label className="form-label">Profile image</label>
-                    </div>
-                    <input
-                        type='file'
-                        onChange={updateImage}
-                    />
-                    <p className="form-label-required">* Required fields</p>
-                    <div className="button-div">
-                        <button type="submit" className='signup-button'>Sign Up</button>
-                        <button onClick={demoUser} className='demo-button'>Demo User</button>
-                    </div>
-                </form>
-            </div >
+            </form>
         </>
 
 

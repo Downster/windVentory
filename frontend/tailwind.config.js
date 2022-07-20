@@ -15,11 +15,13 @@ module.exports = {
         cyan: colors.cyan,
       },
       height: {
-        '100': '50.25rem',
+        '80': '20.25rem',
+        '100': '40.25rem',
         'most': '98%'
       },
       width: {
-        '100': '50.25rem',
+        '80': '20.25rem',
+        '100': '40.25rem',
       }
     },
     plugins: [],

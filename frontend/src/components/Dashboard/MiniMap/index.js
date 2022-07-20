@@ -23,7 +23,7 @@ function LeafletSearch({ onPositionChanged, admin, location }) {
             showMarker: false,
             style: "bar",
             keepResult: true,
-            searchLabel: (admin) ? "Enter jobsite address" : (location) ? 'Search for a specific location' : 'Enter your hotels address'
+            searchLabel: (admin) ? "Enter jobsite address" : (location) ? 'Search for a specific location' : 'Enter your hotels address to continue'
         });
         map.addControl(searchControl);
         map.on("geosearch/showlocation", handlePositionChange);
@@ -69,7 +69,7 @@ export default function MiniMap({ place, pan, center, position, onPositionChange
 
     return (
         <>
-            <MapContainer center={(center) ? center : position} zoom={12} scrollWheelZoom={false} className={admin ? 'rounded-lg h-80 w-80' : 'rounded-lg h-100 w-100'}>
+            <MapContainer center={(center) ? center : position} zoom={12} scrollWheelZoom={false} className={admin ? 'rounded-lg h-80 w-80' : 'rounded-lg h-100 w-100 sm:h-80 sm:w-80'}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

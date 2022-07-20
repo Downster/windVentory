@@ -107,8 +107,8 @@ const DisplayInventory = ({ inventory, team }) => {
                         {category === 'Misc' && misc.map((mat) => {
                             return <MaterialCard team={team} key={mat.id} material={mat} />
                         })}
-                        <CreateMaterialModal />
                     </ul>
+                    <CreateMaterialModal team={team} />
                 </>
             }
 

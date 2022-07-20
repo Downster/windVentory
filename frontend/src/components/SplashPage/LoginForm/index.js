@@ -140,7 +140,7 @@ function LoginForm({ setSignup }) {
                                 </div>
                             </div>
 
-                            <div className="flex items-center justify-between">
+                            {/* <div className="flex items-center justify-between">
                                 <div className="flex items-center">
                                     <input
                                         id="remember-me"
@@ -152,7 +152,7 @@ function LoginForm({ setSignup }) {
                                         Remember me
                                     </label>
                                 </div>
-                            </div>
+                            </div> */}
 
                             <div>
                                 <button

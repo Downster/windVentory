@@ -8,7 +8,7 @@ import {
     MenuIcon,
     ChatAlt2Icon,
     LightningBoltIcon,
-    StatusOnlineIcon,
+    UserGroupIcon,
     CollectionIcon,
     XIcon,
 } from '@heroicons/react/outline'
@@ -50,7 +50,7 @@ const features = [
         name: 'Admin Management',
         description:
             'Setup and manage all the jobsites, users and teams for your company',
-        icon: StatusOnlineIcon,
+        icon: UserGroupIcon,
     },
     {
         name: 'Image Uploads',

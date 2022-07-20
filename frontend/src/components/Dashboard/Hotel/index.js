@@ -240,7 +240,7 @@ const Hotel = () => {
     return (
         <>
             <div>
-                <div className="flex h-full w-full ml-5 my-5">
+                <div className="flex md:h-80 md:w-80 lg:w-80 lg:h-80 xl:w-100 xl:h-100 ml-5 my-5 sm:w-32">
                     {
                         loading &&
                         <>
