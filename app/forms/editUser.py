@@ -17,9 +17,9 @@ def user_exists(form, field):
 
 
 class EditUserForm(FlaskForm):
-    email = StringField('email', validators=[DataRequired(), user_exists, Length(min=3, max=255, message='Email must be between 3 and 255 characters.')])
-    firstName = StringField('firstName', validators=[DataRequired(), Length(min=3, max=50, message='First name must be between 3 and 50 characters.')])
-    lastName = StringField('lastName', validators=[DataRequired(), Length(min=3, max=50, message='Last name must be between 3 and 50 characters.')])
-    phoneNumber = StringField('phoneNumber', validators=[DataRequired(), Length(min=11, max=14, message='Please input a valid phone number.')])
-    roleId = IntegerField('roleId', validators=[DataRequired()])
+    email = StringField('email', validators=[DataRequired(message='Email is required'), user_exists, Length(min=3, max=255, message='Email must be between 3 and 255 characters.')])
+    firstName = StringField('firstName', validators=[DataRequired(message='First name is required'), Length(min=3, max=50, message='First name must be between 3 and 50 characters.')])
+    lastName = StringField('lastName', validators=[DataRequired(message='Last name is required'), Length(min=3, max=50, message='Last name must be between 3 and 50 characters.')])
+    phoneNumber = StringField('phoneNumber', validators=[DataRequired(message='Phone number is required'), Length(min=11, max=14, message='Please input a valid phone number.')])
+    roleId = IntegerField('roleId', validators=[DataRequired(message='Role is required')])
     userId = IntegerField('userId')

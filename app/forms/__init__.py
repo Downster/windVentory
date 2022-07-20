@@ -11,3 +11,4 @@ from .edit_material import EditMaterialForm
 from .edit_jobsite import EditSiteForm
 from .edit_site_room import EditSiteRoomForm
 from .edit_team_room import EditTeamRoomForm
+from .edit_team import EditTeamForm

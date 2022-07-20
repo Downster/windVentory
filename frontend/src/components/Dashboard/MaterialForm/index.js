@@ -104,7 +104,7 @@ function MaterialForm({ team, setShowModal, material, edit }) {
 
 
     return (
-        <form onSubmit={handleSubmit} className='material-form'>
+        <form className='material-form'>
             {/* <ul>
                 {errors && errors.map((error, idx) => <li className='errors' key={idx}>{error}</li>)}
             </ul> */}

@@ -5,7 +5,7 @@ from app.models import storageLocation
 from .auth_routes import token_required
 from ..extensions import db
 from ..models import Team, User, StorageLocation, Material
-from ..forms import CreateTeamForm
+from ..forms import CreateTeamForm, EditTeamForm
 from ..utils import form_validation_errors
 
 team_routes = Blueprint('teams', __name__)
@@ -84,7 +84,7 @@ def delete_team(current_user, teamId):
 @team_routes.route('/<int:teamId>', methods=['PUT'])
 @token_required
 def edit_team(current_user, teamId):
-    form = CreateTeamForm()
+    form = EditTeamForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if current_user.to_role() == {'Admin'} or current_user.to_role() =={'Lead'} or current_user.to_role() == {'Supervisor'}:
         if form.validate_on_submit():
