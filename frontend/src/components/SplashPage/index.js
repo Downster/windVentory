@@ -338,7 +338,7 @@ export default function SplashPage() {
                                 <div className="mt-12 -mb-10 sm:-mb-24 lg:-mb-80">
                                     <img
                                         className="rounded-lg shadow-xl ring-1 ring-black ring-opacity-5"
-                                        src="https://tailwindui.com/img/component-images/green-project-app-screenshot.jpg"
+                                        src="https://windventory.s3.amazonaws.com/Screen+Shot+2022-07-19+at+2.06.54+PM.png"
                                         alt=""
                                     />
                                 </div>

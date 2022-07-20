@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { createSiteChatRoom, createTeamChatRoom, editRoom } from "../../../store/chatRoom";
 import ImageUpload from "../ImageUpload";
 import { io } from 'socket.io-client'
+import { ExclamationCircleIcon } from '@heroicons/react/solid'
 
 function ChatRoomForm({ setShowModal, siteId, room, teamId, edit, type }) {
     const dispatch = useDispatch();
@@ -26,6 +27,9 @@ function ChatRoomForm({ setShowModal, siteId, room, teamId, edit, type }) {
         } else {
             formData.append('jobsite_id', siteId)
         }
+        if (edit) {
+            formData.append('room_id', room.id)
+        }
         if (image) {
             formData.append('image', image)
             setImageLoading(true)
@@ -47,6 +51,7 @@ function ChatRoomForm({ setShowModal, siteId, room, teamId, edit, type }) {
         }
         if (errors) {
             if (errors.errors) {
+                console.log(errors.errors)
                 setErrors(errors.errors)
             } else if (errors.image_errors) {
                 setErrors([errors.image_errors])
@@ -89,31 +94,34 @@ function ChatRoomForm({ setShowModal, siteId, room, teamId, edit, type }) {
 
 
     return (
-        <form onSubmit={handleSubmit} className='chat-room-form'>
+        <form className='chat-room-form'>
             <div className="chat-form-input-container">
-                <div className="form-errors">
-                    <ul>
-                        {errors.map((error, idx) => <li className='errors' key={idx}>{error}</li>)}
-                    </ul>
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                    Chatroom Name
+                </label>
+                <p className="mt-2 text-sm text-red-600" id="name-error">
+                    {errors && errors.filter((err) => err.room_name).map((err) => <p className="mt-2 text-sm text-red-600" id="email-error">
+                        {err.room_name}
+                    </p>)}
+                </p>
+                <div className="mt-1 relative rounded-md shadow-sm">
+                    <input
+                        value={name}
+                        name="name"
+                        id="name"
+                        className={"block w-full pr-10 border-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm rounded-md"}
+                        aria-invalid="true"
+                        onChange={(e) => setName(e.target.value)}
+                        aria-describedby="email-error"
+                    />
+                    <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                        {errors.length > 0 && errors.filter((err) => err.room_name).length > 0 && <ExclamationCircleIcon className="h-5 w-5 text-red-500" aria-hidden="true" />}
+                    </div>
                 </div>
                 <div className="form-label-container">
                     <label className="form-label">Room image</label>
                 </div>
                 <ImageUpload image={image} showImageInput={showImageInput} />
-                <div className="form-label-container">
-                    <label className="form-label">Room name</label>
-                    <p className="form-label-required">Required</p>
-                </div>
-                <div className="form-element-container">
-                    <input
-                        type="text"
-                        className="input-field"
-                        value={name}
-                        placeholder='Room Name'
-                        onChange={(e) => setName(e.target.value)}
-                        required
-                    />
-                </div>
                 <div className="chat-room-add-image-container">
                     <input
                         className="material-image-input"
@@ -135,7 +143,13 @@ function ChatRoomForm({ setShowModal, siteId, room, teamId, edit, type }) {
                         )}
                     </div>
                 </div>
-                <button type="submit">{(edit) ? 'Edit Chatroom' : 'Create Chat Room'}</button>
+                <button
+                    type="button"
+                    onClick={handleSubmit}
+                    className="mt-3 inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                    {(edit) ? 'Edit Chatroom' : 'Create Chatroom'}
+                </button>
             </div>
         </form>
     );

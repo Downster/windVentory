@@ -35,9 +35,8 @@ const TeamCard = ({ team, admin }) => {
         if (user.teams?.id) {
             setOpen(true)
         } else {
-
             await dispatch(setUserTeam(team.id))
-            await dispatch(setTeam(user?.teams))
+            await dispatch(setTeam(user?.teams[0]))
             await dispatch(loadTeamInventory(user.teams[0].location))
             await dispatch(getTeamChatRoom(team.id))
             await dispatch(fetchTeams(user.jobsite_id))
@@ -98,7 +97,7 @@ const TeamCard = ({ team, admin }) => {
                             <div className="flex-1 px-4 py-2 text-sm truncate">
                                 <button
                                     className="text-gray-900 font-medium hover:text-gray-600"
-                                    onClick={!currentTeam.length > 0 ? null : joinTeam}
+                                    onClick={!currentTeam?.length > 0 ? null : joinTeam}
                                 >
                                     {team.team_lead.firstName + " " + team.team_lead.lastName}'s Team
                                 </button>
@@ -106,7 +105,7 @@ const TeamCard = ({ team, admin }) => {
                             </div>
                             {admin &&
                                 <>
-                                    <div className="w-0 flex-1 flex">
+                                    <div className="-ml-px w-0 flex-1 flex">
                                         <button
                                             onClick={modifyTeam}
                                             className="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500"
@@ -165,6 +164,7 @@ const TeamCard = ({ team, admin }) => {
 
         //     </div>
         // </div> */}
+
             </div >
             <Transition.Root show={open} as={Fragment}>
                 <Dialog as="div" className="relative z-10" onClose={setOpen}>

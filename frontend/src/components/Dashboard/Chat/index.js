@@ -37,10 +37,11 @@ const Chat = ({ jobsite }) => {
     }
 
     const scroll = () => {
-        const container = document.querySelector('.outer-chat-container');
+        const container = document.getElementById('main-div');
         if (container) {
             container.scrollTop = container.scrollHeight
         }
+
     }
 
 
@@ -71,12 +72,14 @@ const Chat = ({ jobsite }) => {
     };
 
     useEffect(() => {
-        dispatch(loadChatMessages(roomId))
-        jobsite && dispatch(joinChatRoom(roomId, 'site'));
-        !jobsite && dispatch(joinChatRoom(roomId, 'team'));
+        (async () => {
+            await dispatch(loadChatMessages(roomId))
+            jobsite && await dispatch(joinChatRoom(roomId, 'site'));
+            !jobsite && await dispatch(joinChatRoom(roomId, 'team'));
+            scroll()
+        })();
     }, [roomId, dispatch])
 
-    scroll()
 
 
 
@@ -147,7 +150,7 @@ const Chat = ({ jobsite }) => {
 
             <h2 className='chat-room-name'>Welcome to #{chatRoom?.room_name}!</h2>
 
-            <div>
+            <div id='chat-div'>
                 {chatMessages?.map((msg, idx) => {
                     if (idx !== 0 && chatMessages[idx - 1].user_id === msg.user_id) {
                         return <ChatMessage key={msg.id + 'M'} msg={msg} socket={socket} sameUser={true} />

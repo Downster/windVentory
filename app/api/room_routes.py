@@ -1,7 +1,7 @@
 from flask import Blueprint, request
 from ..extensions import db
 from ..models import ChatRoom, Message, User
-from ..forms import TeamRoomForm, SiteRoomForm
+from ..forms import TeamRoomForm, SiteRoomForm, EditSiteRoomForm, EditTeamRoomForm
 from .auth_routes import token_required
 from ..utils import form_validation_errors
 from ..awsS3 import (
@@ -78,7 +78,7 @@ def create_site_room(current_user):
 @room_routes.route('/team/<int:roomId>', methods=['PATCH'])
 @token_required
 def edit_team_room(current_user, roomId):
-    form = TeamRoomForm()
+    form = EditTeamRoomForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         room = ChatRoom.query.get(int(roomId))
@@ -87,17 +87,6 @@ def edit_team_room(current_user, roomId):
         return room.to_dict()
     return {'errors': form_validation_errors(form.errors)}, 401
 
-@room_routes.route('/site/<int:roomId>', methods=['PATCH'])
-@token_required
-def edit_site_room(current_user, roomId):
-    form = SiteRoomForm()
-    form['csrf_token'].data = request.cookies['csrf_token']
-    if form.validate_on_submit():
-        room = ChatRoom.query.get(int(roomId))
-        room.room_name = form.data['room_name']
-        db.session.commit()
-        return room.to_dict()
-    return {'errors': form_validation_errors(form.errors)}, 401
 
 
 @room_routes.route('/<int:roomId>', methods=['DELETE'])
@@ -128,7 +117,7 @@ def join_chatroom(current_user, roomId):
 @room_routes.route('/site/<int:roomId>', methods=['PATCH'])
 @token_required
 def edit_chatroom(current_user, roomId):
-    form = SiteRoomForm()
+    form = EditSiteRoomForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     image = form.data["image"]
     if image:

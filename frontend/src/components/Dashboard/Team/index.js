@@ -8,8 +8,9 @@ const Team = () => {
     const history = useHistory();
     const dispatch = useDispatch();
     const sessionUser = useSelector(state => state.session.user)
-    const team = useSelector(state => state.currentTeam)
+    const team = useSelector(state => state.currentTeam.team)
     const currentTeam = useSelector(state => state.currentTeam.team)
+
 
 
     useEffect(() => {
