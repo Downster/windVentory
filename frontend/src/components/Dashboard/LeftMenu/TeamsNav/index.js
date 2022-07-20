@@ -26,7 +26,7 @@ import { useState } from "react"
 
 const TeamsNav = ({ siteId }) => {
     const teamChats = useSelector(state => state.chatRooms.teamRooms)
-    const teamId = useSelector(state => state.currentTeam.team.id)
+    const teamId = useSelector(state => state.currentTeam?.team?.id)
     const [showChats, setShowChats] = useState(true)
     const dispatch = useDispatch()
     const history = useHistory()

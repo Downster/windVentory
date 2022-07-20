@@ -336,71 +336,96 @@ const Dashboard = () => {
                 </div>
 
                 <main className="flex-1">
-                    <div className="py-6" >
-                        <div id='main-div' className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-                            <Switch>
-                                <Route exact path='/'>
-                                    <Jobsite />
-                                </Route>
-                                <Route exact path='/jobsite/:jobsiteId/inventory'>
-                                    <Inventory site={true} />
-                                </Route>
-                                <Route exact path='/jobsite/:jobsiteId/'>
-                                    <JobSiteCard single={true} />
-                                </Route>
-                                <Route exact path='/jobsite/:jobsiteId/teams'>
-                                    <SiteTeams />
-                                </Route>
-                                <Route exact path='/jobsite/:jobsiteId/weather'>
-                                    <SiteWeather />
-                                </Route>
-                                <Route exact path='/jobsite/:jobsiteId/hotel'>
-                                    <Hotel />
-                                </Route>
-                                <Route exact path='/jobsite/:jobsiteId/members'>
-                                    <h1>Site members</h1>
-                                </Route>
-                                <Route exact path='/jobsite/:siteId/chat/:roomId'>
-                                    <Chat jobsite={true} />
-                                </Route>
-                                <Route exact path='/team/:teamId'>
-                                    <Team />
-                                </Route>
-                                <Route exact path='/team/:teamId/inventory'>
-                                    <Inventory team={true} />
-                                </Route>
-                                <Route exact path='/team/:teamId/chats'>
-                                    <ChatsNav siteId={user.jobsite_id} team={true} />
-                                </Route>
-                                <Route exact path='/jobsite/:siteId/chats'>
-                                    <ChatsNav siteId={user.jobsite_id} siteChats={siteChats} />
-                                </Route>
-                                <Route exact path='/team/:teamId/chat/:roomId'>
-                                    <Chat />
-                                </Route>
-                                <Route path='/admin/jobsites'>
-                                    {canAccess ?
-                                        <AllSites adminPanel={true} /> : <h1>Unauthorized</h1>
-                                    }
-                                </Route>
-                                <Route path='/admin/teams'>
-                                    {canAccess ?
-                                        <AllTeams /> :
-                                        <h1>Unauthorized</h1>}
-                                </Route>
-                                <Route path='/admin/users'>
-                                    {canAccess ?
-                                        <AllUsers /> :
-                                        <h1>Unauthorized</h1>
-                                    }
-                                </Route>
-                                <Route>
-                                    <h1>Sorry, an error occured. Url not found</h1>
-                                </Route>
-                            </Switch>
-                            {/* /End replace */}
-                        </div>
-                    </div>
+                    <Switch>
+                        <Route exact path='/'>
+                            <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 md:px-8">
+                                <Jobsite />
+                            </div>
+                        </Route>
+                        <Route exact path='/jobsite/:jobsiteId/inventory'>
+                            <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 md:px-8">
+                                <Inventory site={true} />
+                            </div>
+                        </Route>
+                        <Route exact path='/jobsite/:jobsiteId/'>
+                            <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 md:px-8">
+                                <JobSiteCard single={true} />
+                            </div>
+                        </Route>
+                        <Route exact path='/jobsite/:jobsiteId/teams'>
+                            <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 md:px-8">
+                                <SiteTeams />
+                            </div>
+                        </Route>
+                        <Route exact path='/jobsite/:jobsiteId/weather'>
+                            <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 md:px-8">
+                                <SiteWeather />
+                            </div>
+                        </Route>
+                        <Route exact path='/jobsite/:jobsiteId/hotel'>
+                            <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 md:px-8">
+                                <Hotel />
+                            </div>
+                        </Route>
+                        <Route exact path='/jobsite/:siteId/chat/:roomId'>
+                            <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 md:px-8 h-full w-full">
+                                <Chat jobsite={true} />
+                            </div>
+                        </Route>
+                        <Route exact path='/team/:teamId'>
+                            <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 md:px-8">
+                                <Team />
+                            </div>
+                        </Route>
+                        <Route exact path='/team/:teamId/inventory'>
+                            <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 md:px-8">
+                                <Inventory team={true} />
+                            </div>
+                        </Route>
+                        <Route exact path='/team/:teamId/chats'>
+                            <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 md:px-8">
+                                <ChatsNav siteId={user.jobsite_id} team={true} />
+                            </div>
+                        </Route>
+                        <Route exact path='/jobsite/:siteId/chats'>
+                            <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 md:px-8">
+                                <ChatsNav siteId={user.jobsite_id} siteChats={siteChats} />
+                            </div>
+                        </Route>
+                        <Route exact path='/team/:teamId/chat/:roomId'>
+                            <div id='chat-div' className="flex max-w-7xl mx-auto py-6 px-4 sm:px-6 md:px-8 h-most w-full">
+                                <Chat />
+                            </div>
+                        </Route>
+                        <Route path='/admin/jobsites'>
+                            <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 md:px-8">
+                                {canAccess ?
+                                    <AllSites adminPanel={true} /> : <h1>Unauthorized</h1>
+                                }
+                            </div>
+                        </Route>
+                        <Route path='/admin/teams'>
+                            <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 md:px-8">
+                                {canAccess ?
+                                    <AllTeams /> :
+                                    <h1>Unauthorized</h1>}
+                            </div>
+                        </Route>
+                        <Route path='/admin/users'>
+                            <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 md:px-8">
+                                {canAccess ?
+                                    <AllUsers /> :
+                                    <h1>Unauthorized</h1>
+                                }
+                            </div>
+                        </Route>
+                        <Route>
+                            <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 md:px-8">
+                                <h1>Sorry, an error occured. Url not found</h1>
+                            </div>
+                        </Route>
+                    </Switch>
+
                 </main>
             </div>
 

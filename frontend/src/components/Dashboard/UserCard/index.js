@@ -28,13 +28,23 @@ const UserCard = ({ user, admin }) => {
 
     function roleColor(role) {
         let className;
-        if (role === 'Admin' || 'Supervisor') {
-            className = "px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full"
-        } else if (role === 'Lead') {
-            className = "px-2 py-1 text-green-800 text-xs font-medium bg-yellow-100 rounded-full"
-        } else if (role === 'Worker') {
-            className = "px-2 py-1 text-green-800 text-xs font-medium bg-red-100 rounded-full"
+        switch (role) {
+            case 'Admin':
+                className = "px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full"
+                break;
+            case 'Supervisor':
+                className = "px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full"
+                break;
+            case 'Lead':
+                className = "px-2 py-1 text-xs font-medium bg-yellow-100 rounded-full"
+                break;
+            case 'Worker':
+                className = "px-2 py-1 text-xs font-medium bg-red-100 rounded-full"
+                break;
+            default:
+                className = "px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full"
         }
+        console.log(className)
         return className
     }
 

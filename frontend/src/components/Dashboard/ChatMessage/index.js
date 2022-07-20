@@ -49,9 +49,8 @@ const ChatMessage = ({ msg, socket, sameUser, lastUser }) => {
 
 
             {showModal && (
-                <Modal onClose={() => setShowModal(false)}>
-                    <DeleteMessagePrompt msg={msg} setShowModal={setShowModal} socket={socket} />
-                </Modal>
+                <DeleteMessagePrompt msg={msg} setShowModal={setShowModal} socket={socket} />
+
             )}
             <div className={msg.user_id === user.id ? "chat-message-inner-container owner" : 'chat-message-inner-container'} onMouseEnter={() => setMouse(true)} onMouseLeave={() => setMouse(false)}>
                 <div className={msg.user_id === user.id ? 'chat-message owner' : 'chat-message'} id={msg.id}>
@@ -63,11 +62,11 @@ const ChatMessage = ({ msg, socket, sameUser, lastUser }) => {
                             {!sameUser && <OnlineAvatar online={msg.user.online} image={msg.user.image} />
                             }
                         </div>
-                        {edit ? <EditChatInput value={message} onChange={(e) => setMessage(e)} send={() => editMessage(msg, message)} /> : <span className={msg.user_id === user.id ? 'chat-text owner1' : 'chat-text'} > {Parser(msg.message)}</span>}
+                        {edit ? <EditChatInput value={message} onChange={(e) => setMessage(e)} send={() => editMessage(msg, message)} /> : <span className={msg.user_id === user.id ? 'chat-text owner1 text-base font-medium' : 'chat-text text-base font-medium '} > {Parser(msg.message)}</span>}
                         {mouse && msg.user_id === user.id && <div className='message-buttons'>
-                            {!edit && <button className='message-button' onClick={(e) => setEdit(true)}>Edit</button>}
-                            {!edit && <button className='message-button' onClick={deleteMessage}>Delete</button>}
-                            {edit && <button className="message-button" onClick={cancelAndClear}>Cancel</button>}
+                            {!edit && <button className="mt-3 inline-flex items-center ml-5 px-6 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" onClick={(e) => setEdit(true)}>Edit</button>}
+                            {!edit && <button className="mt-3 inline-flex items-center px-6 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" onClick={deleteMessage}>Delete</button>}
+                            {edit && <button className="mt-3 inline-flex items-center px-6 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" onClick={cancelAndClear}>Cancel</button>}
                         </div>
                         }
                     </div>

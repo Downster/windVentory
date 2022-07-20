@@ -147,38 +147,45 @@ const Chat = ({ jobsite }) => {
 
     return (
         <>
+            <div className='flex flex-col w-full justify-between'>
+                <div className='flex flex-col'>
+                    <h2 className='chat-room-name'>Welcome to #{chatRoom?.room_name}!</h2>
 
-            <h2 className='chat-room-name'>Welcome to #{chatRoom?.room_name}!</h2>
+                    <div id='chat-div'>
+                        {chatMessages?.map((msg, idx) => {
+                            if (idx !== 0 && chatMessages[idx - 1].user_id === msg.user_id) {
+                                return <ChatMessage key={msg.id + 'M'} msg={msg} socket={socket} sameUser={true} />
+                            } else {
+                                return (
+                                    <>
+                                        <div className="relative py-5">
+                                            <div className="absolute inset-0 flex items-center" aria-hidden="true">
+                                                <div className="w-full border-t border-gray-300" />
+                                            </div>
+                                        </div>
+                                        <ChatMessage key={msg.id + 'M'} msg={msg} socket={socket} />
+                                    </>
+                                )
+                            }
 
-            <div id='chat-div'>
-                {chatMessages?.map((msg, idx) => {
-                    if (idx !== 0 && chatMessages[idx - 1].user_id === msg.user_id) {
-                        return <ChatMessage key={msg.id + 'M'} msg={msg} socket={socket} sameUser={true} />
-                    } else {
-                        return (
-                            <>
-                                <div className="relative py-5">
-                                    <div className="absolute inset-0 flex items-center" aria-hidden="true">
-                                        <div className="w-full border-t border-gray-300" />
-                                    </div>
-                                </div>
-                                <ChatMessage key={msg.id + 'M'} msg={msg} socket={socket} />
-                            </>
-                        )
-                    }
+                        })}
+                    </div>
+                </div>
 
-                })}
+
+
+                {errors && errors.map((error, idx) => <li className='errors' key={idx + 'e'}>{error}</li>)}
+                <div class="flex">
+
+                    <ChatInput
+                        value={messageBody}
+                        onChange={(e) => setMessageBody(e)}
+                        room={chatRoom}
+                        send={sendChat}
+                    />
+                </div>
             </div>
 
-
-
-            {errors && errors.map((error, idx) => <li className='errors' key={idx + 'e'}>{error}</li>)}
-            <ChatInput
-                value={messageBody}
-                onChange={(e) => setMessageBody(e)}
-                room={chatRoom}
-                send={sendChat}
-            />
         </>
     )
 }

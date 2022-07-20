@@ -126,7 +126,7 @@ const JobSiteCard = ({ jobsite, adminPanel, single }) => {
                         showForecast={false}
                     />
                 </div>
-                <div className="flex-1 flex flex-col p-8">
+                <div className="flex-1 flex mt-5 flex-col p-8">
                     <img className="w-32 h-32 flex-shrink-0 mx-auto rounded-full" src={userSite.image} alt="" />
                     <h3 className="mt-6 text-gray-900 text-sm font-medium">{userSite.name}</h3>
                     <dl className="mt-1 flex-grow flex flex-col justify-between">
@@ -163,31 +163,6 @@ const JobSiteCard = ({ jobsite, adminPanel, single }) => {
                     </div>
                 </div>
             </li>}
-            {/* {
-                single && userSite && < div className='single-user-site'>
-                    <div className='jobsite-data'>
-
-                        <img alt='jobsite' className='jobsite-image' src={userSite.image}></img>
-
-                        <h1 className="jobsite-name">{userSite.name}</h1>
-                        <h1 className="jobsite-client">Client: {userSite.client}</h1>
-                        <h1 className="jobsite-state">State: {userSite.state}</h1>
-                    </div>
-                    <div className='weather-div'>
-                        <ReactWeather
-                            isLoading={isLoading}
-                            errorMessage={errorMessage}
-                            data={data}
-                            lang="en"
-                            locationLabel={currentWeather.name}
-                            unitsLabels={{ temperature: 'C', windSpeed: 'Km/h' }}
-                            showForecast={false}
-                        />
-                    </div>
-                </div>
-            } */}
-
-
         </>
     )
 }
