@@ -44,7 +44,6 @@ const UserCard = ({ user, admin }) => {
             default:
                 className = "px-2 py-1 text-green-800 text-xs font-medium bg-green-100 rounded-full"
         }
-        console.log(className)
         return className
     }
 
