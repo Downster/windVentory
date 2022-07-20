@@ -49,7 +49,6 @@ import MaterialCard from './MaterialCard'
 
 let socket;
 const Dashboard = () => {
-    let siteMaterials, siteChemicals, siteMisc;
     const history = useHistory()
     const dispatch = useDispatch()
     const user = useSelector(state => state.session.user)
