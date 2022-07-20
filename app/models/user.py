@@ -69,6 +69,7 @@ class User(db.Model):
             'email': self.email,
             'image': self.image,
             'jobsite_id': self.jobsite_id,
+            'role': [role.to_name() for role in self.roles]
         }
     def to_role(self):
         return {

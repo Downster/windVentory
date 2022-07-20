@@ -105,7 +105,7 @@ const TeamCard = ({ team, admin }) => {
                             </div>
                             {admin &&
                                 <>
-                                    <div className="w-0 flex-1 flex">
+                                    <div className="-ml-px w-0 flex-1 flex">
                                         <button
                                             onClick={modifyTeam}
                                             className="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500"
@@ -164,6 +164,7 @@ const TeamCard = ({ team, admin }) => {
 
         //     </div>
         // </div> */}
+
             </div >
             <Transition.Root show={open} as={Fragment}>
                 <Dialog as="div" className="relative z-10" onClose={setOpen}>
