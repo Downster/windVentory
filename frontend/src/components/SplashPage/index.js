@@ -205,11 +205,7 @@ export default function SplashPage() {
                             <div className="rounded-lg shadow-md bg-white ring-1 ring-black ring-opacity-5 overflow-hidden">
                                 <div className="px-5 pt-4 flex items-center justify-between">
                                     <div>
-                                        <img
-                                            className="h-8 w-auto"
-                                            src="https://tailwindui.com/img/logos/workflow-mark-teal-500-cyan-600.svg"
-                                            alt=""
-                                        />
+                                        <i className="fa-duotone fa-wind-turbine splash" style={{ "--fa-primary-color": "#FFFFFF", "--fa-secondary-color": "#FFFFFF" }}></i>
                                     </div>
                                     <div className="-mr-2">
                                         <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-600">
@@ -231,19 +227,19 @@ export default function SplashPage() {
                                         ))}
                                     </div>
                                     <div className="mt-6 px-5">
-                                        <a
-                                            href="#"
+                                        <button
+                                            onClick={demoUser}
                                             className="block text-center w-full py-3 px-4 rounded-md shadow bg-gradient-to-r from-teal-500 to-cyan-600 text-white font-medium hover:from-teal-600 hover:to-cyan-700"
                                         >
-                                            Start free trial
-                                        </a>
+                                            Try a demo
+                                        </button>
                                     </div>
                                     <div className="mt-6 px-5">
                                         <p className="text-center text-base font-medium text-gray-500">
                                             Existing customer?{' '}
-                                            <a href="#" className="text-gray-900 hover:underline">
+                                            <button onClick={() => setShowModal(true)} className="text-gray-900 hover:underline">
                                                 Login
-                                            </a>
+                                            </button>
                                         </p>
                                     </div>
                                 </div>

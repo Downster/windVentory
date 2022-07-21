@@ -22,6 +22,9 @@ module.exports = {
       width: {
         '80': '20.25rem',
         '100': '40.25rem',
+      },
+      zIndex: {
+        '100': '3000',
       }
     },
     plugins: [],

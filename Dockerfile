@@ -1,17 +1,12 @@
 FROM node:12 AS build-stage
-<<<<<<< HEAD
-ARG NPM_TOKEN
-=======
->>>>>>> b7043ba (Fixed?)
 WORKDIR /frontend
-ARG FATOKEN
 COPY frontend/. .
 
 ENV REACT_APP_BASE_URL=https://windventory.herokuapp.com
 
 # Build our React App
 RUN npm config set "@fortawesome:registry" https://npm.fontawesome.com/
-RUN npm config set "//npm.fontawesome.com/:_authToken" ${FATOKEN}
+RUN npm config set "//npm.fontawesome.com/:_authToken" $TOKENHERE
 RUN npm install
 RUN npm run build
 
@@ -27,7 +22,7 @@ EXPOSE 8000
 
 WORKDIR /var/www
 COPY . .
-COPY --from=build-stage /frontend/build/* /app/static/
+COPY --from=build-stage /frontend/build/* app/static/
 
 # Install Python Dependencies
 RUN pip install -r requirements.txt

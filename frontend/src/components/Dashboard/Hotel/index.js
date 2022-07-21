@@ -239,19 +239,19 @@ const Hotel = () => {
 
     return (
         <>
-            <div>
-                <div className="flex md:h-80 md:w-80 lg:w-80 lg:h-80 xl:w-100 xl:h-100 ml-5 my-5 sm:w-32">
-                    {
-                        loading &&
-                        <>
-                            <img src='https://windventory.s3.amazonaws.com/turbine.gif'>
-                            </img>
-                        </>
-                    }
-                    {isLoaded &&
-                        <MiniMap loading={firstLoad} place={place} pan={pan} center={center} position={position} popup={popupText} onPositionChanged={(latlng) => updatePosition(latlng)} location={location} result={result} />
-                    }
-                </div>
+            <div className="h-full w-1/2 xl:w-7/12 2xl:w-8/12">
+
+                {
+                    loading &&
+                    <>
+                        <img src='https://windventory.s3.amazonaws.com/turbine.gif'>
+                        </img>
+                    </>
+                }
+                {isLoaded &&
+                    <MiniMap loading={firstLoad} place={place} pan={pan} center={center} position={position} popup={popupText} onPositionChanged={(latlng) => updatePosition(latlng)} location={location} result={result} />
+                }
+
 
                 <Transition.Root show={open} as={Fragment}>
                     <Dialog as="div" className="relative" onClose={(e) => setOpen(true)}>
@@ -270,7 +270,7 @@ const Hotel = () => {
                                 leaveTo="translate-x-full"
                             >
                                 <Dialog.Panel className="pointer-events-auto w-screen max-w-md">
-                                    <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl mt-16">
+                                    <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl z-100 mt-16">
                                         <div className="p-6">
                                             <div className="flex items-start justify-between">
                                                 <Combobox as="div" value={selectedAmenity} onChange={(e) => getThings(e)}>

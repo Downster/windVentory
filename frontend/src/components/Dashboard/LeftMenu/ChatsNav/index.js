@@ -9,13 +9,15 @@ import checkPermissions from "../../../../utils/checkPermissions"
 
 const ChatsNav = ({ siteId, siteChats, team }) => {
     const [showChats, setShowChats] = useState(true)
-    const teamId = useSelector(state => state.currentTeam.team.id)
+    const teamId = useSelector(state => state.currentTeam?.team?.id)
     const teamChats = useSelector(state => state.chatRooms.teamRooms)
     const userRole = useSelector(state => state.session.user.role[0])
     const canCreate = checkPermissions(userRole, team ? 'team' : 'site')
 
     return (
         <>
+            {Object.values(siteChats).length === 0 && <h1>There are no chat rooms at this site, please contact your supervisor.</h1>}
+            {team && Object.values(teamChats).length === 0 && <h1>There are no chat rooms for this team, create one?</h1>}
 
             {
                 siteChats && showChats && Object.values(siteChats).map((room, idx) => (
