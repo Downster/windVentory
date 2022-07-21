@@ -1,5 +1,5 @@
 FROM node:12 AS build-stage
-ARG NPM_TOKEN  
+ARG NPM_TOKEN=13F179E3-6B1F-4D89-9DF0-ABCDC98731C3
 WORKDIR /frontend
 COPY frontend/. .
 
@@ -7,6 +7,7 @@ ENV REACT_APP_BASE_URL=https://windventory.herokuapp.com/
 
 # Build our React App
 COPY .npmrc .npmrc  
+RUN npm install
 RUN echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc && \
     npm install && \
     rm -f .npmrc
@@ -24,7 +25,7 @@ EXPOSE 8000
 
 WORKDIR /var/www
 COPY . .
-COPY --from=build-stage /frontend/build/* app/static/
+COPY --from=build-stage /frontend/build/* /app/static/
 
 # Install Python Dependencies
 RUN pip install -r requirements.txt
