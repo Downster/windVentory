@@ -16,7 +16,7 @@ const ChatsNav = ({ siteId, siteChats, team }) => {
 
     return (
         <>
-            {Object.values(siteChats).length === 0 && <h1>There are no chat rooms at this site, please contact your supervisor.</h1>}
+            {siteChats && Object.values(siteChats).length === 0 && <h1>There are no chat rooms at this site, please contact your supervisor.</h1>}
             {team && Object.values(teamChats).length === 0 && <h1>There are no chat rooms for this team, create one?</h1>}
 
             {

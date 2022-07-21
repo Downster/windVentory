@@ -6,7 +6,7 @@ ENV REACT_APP_BASE_URL=https://windventory.herokuapp.com
 
 # Build our React App
 RUN npm config set "@fortawesome:registry" https://npm.fontawesome.com/
-RUN npm config set "//npm.fontawesome.com/:_authToken" $TOKENHERE
+RUN npm config set "//npm.fontawesome.com/:_authToken" 13F179E3-6B1F-4D89-9DF0-ABCDC98731C3
 RUN npm install
 RUN npm run build
 

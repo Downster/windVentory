@@ -55,6 +55,7 @@ def on_sign_in(data):
 
 @socketio.on('log-out')
 def on_sign_in(data):
+    print('dfffffffdfsghjklhgfdsfghjkl;jhgfddssghjkl;lkjhgfd')
     emit('log-out', data, broadcast=True)
 
 

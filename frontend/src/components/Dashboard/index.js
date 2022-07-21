@@ -82,6 +82,7 @@ const Dashboard = () => {
             dispatch(fetchUserTeam(user))
         }
         socket = io()
+        socket.emit('sign-in', { 'id': user.id, 'username': user.firstName, 'online': true })
         socket.on('chat-global', (data) => {
             const path = window.location.href.split('/')
             if ((path[5] !== 'chat' && path[6] !== data.room) || (path[5] === 'chat' && path[6] !== data.room)) {
@@ -96,6 +97,7 @@ const Dashboard = () => {
         });
 
         socket.on('log-out', async (data) => {
+            console.log('loggedOut')
             await dispatch(loadAllUsers())
         })
 
@@ -107,6 +109,7 @@ const Dashboard = () => {
             dispatch(getTeamChatRoom(user.teams[0].id))
         })
         return (() => {
+            socket.emit('log-out', { 'id': user.id, 'room': 'chatter', 'online': false })
             socket.disconnect()
         })
 
@@ -117,7 +120,7 @@ const Dashboard = () => {
     //if they aren't on that chatrooms path and belong to the chatroom
     //change the style of the chatroom
     const logout = async () => {
-        const done = await dispatch(sessionActions.logout());
+        await dispatch(sessionActions.logout());
         history.push('/')
     };
 
