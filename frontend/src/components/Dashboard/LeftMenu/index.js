@@ -35,12 +35,6 @@ const LeftMenu = ({ capstone }) => {
 
     return (
         <>
-            {/* {capstone &&
-                < div className="left-menu" >
-                    <InventoryNav />
-                    <ChatsNav siteId={1} siteChats={siteChats} />
-                </div>
-            } */}
 
             {!adminPanel &&
                 < div className="left-menu" >
