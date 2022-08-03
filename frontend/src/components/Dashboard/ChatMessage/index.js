@@ -60,7 +60,7 @@ const ChatMessage = ({ msg, socket, sameUser, lastUser }) => {
                         {errors && errors.map((error, idx) => <li className='errors' key={idx}>{error}</li>)}
                         <div className={msg.user_id === user.id ? "chat-message-info owner" : "chat-message-info"}>
                             {!sameUser && <p className='chat-username'>{msg.user.firstName + " " + msg.user.lastName} <span className='created-at-msg'>{" at " + (new Date(msg.created_at)).toLocaleTimeString()}</span></p>}
-                            {!sameUser && <OnlineAvatar online={msgUser.online} image={msg.user.image} />
+                            {!sameUser && <OnlineAvatar online={msgUser?.online} image={msg.user.image} />
                             }
                         </div>
                         {edit ? <EditChatInput value={message} onChange={(e) => setMessage(e)} send={() => editMessage(msg, message)} /> : <span className={msg.user_id === user.id ? 'chat-text owner1 text-base font-medium' : 'chat-text text-base font-medium '} > {Parser(msg.message)}</span>}

@@ -85,9 +85,10 @@ const Dashboard = () => {
         socket.emit('sign-in', { 'id': user.id, 'username': user.firstName, 'online': true })
         socket.on('chat-global', (data) => {
             const path = window.location.href.split('/')
-            if ((path[5] !== 'chat' && path[6] !== data.room) || (path[5] === 'chat' && path[6] !== data.room)) {
+            if (!path.includes('chat') || (path[5] === 'chat' && path[6] !== data.room)) {
                 if (document.getElementById(`chat${data.room}`)) {
                     const room = document.getElementById(`chat${data.room}`)
+                    room.classList.remove('text-gray-300')
                     room.classList.add('text-amber-300')
                 }
             }
