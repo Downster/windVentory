@@ -6,7 +6,6 @@ import { Transition, Dialog } from '@headlessui/react'
 import { Fragment } from 'react'
 import { XIcon, ExclamationIcon } from '@heroicons/react/outline'
 
-let socket;
 const DeleteRoomPrompt = ({ room, setShowModal, type }) => {
     const dispatch = useDispatch()
     const history = useHistory();
